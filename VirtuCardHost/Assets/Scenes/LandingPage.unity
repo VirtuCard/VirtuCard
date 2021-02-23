@@ -458,8 +458,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6da9fc560cea7644bbb97f7dbf51d1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropdown: {fileID: 586785249}
-  createGameBtn: {fileID: 2018427758}
+  gameChoiceDropdown: {fileID: 586785249}
 --- !u!4 &384114003
 Transform:
   m_ObjectHideFlags: 0
