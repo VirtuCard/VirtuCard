@@ -1,66 +1,88 @@
 ﻿using System;
-using Firebase.Auth;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 namespace FirebaseScripts
 {
     public class User
     {
-        private static FirebaseAuth auth;
-        static FirebaseUser user;
+        private string username;
+        private string name;
+        private string avatar;
+        private string email;
+        private string _userId;
 
-        public static void SetAuth(FirebaseAuth value)
+        //Should be as strings
+        private List<string> friends;
+
+        public User(string username, string email, string userId)
         {
-            auth = value;
-            auth.StateChanged += AuthStateChanged;
-            AuthStateChanged(null, null);
+            this.username = username;
+            this.email = email;
+            this._userId = userId;
+            this.friends = new List<string>();
         }
 
-        public static void RegisterAccount(String email, String password, Action<bool> callback)
+        public User(string json)
         {
-            auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
-            {
-                if (task.IsCanceled)
-                {
-                    //Throw error for cancellation here 
-                    Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
-                    callback(false);
-                    return;
-                }
-
-                if (task.IsFaulted)
-                {
-                    //Throw error for other error here
-                    Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
-                    callback(false);
-                    return;
-                }
-
-                // Firebase user has been created.
-                user = task.Result;
-                //Put callback here to return to when done. 
-                callback(true);
-                Debug.LogFormat("Firebase user created successfully: {0} ({1})",
-                    user.DisplayName, user.UserId);
-            });
+            var dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+            this.username = (string) dict["username"];
+            this.email = (string) dict["email"];
+            this.name = (string) dict["name"];
+            this.avatar = (string) dict["avatar"];
+            this._userId = (string) dict["userid"];
+            JArray array = (JArray) dict["friends"];
+            this.friends = array.ToObject<List<string>>();
         }
 
-        private static void AuthStateChanged(object sender, System.EventArgs eventArgs)
+        public string Name
         {
-            if (auth.CurrentUser != user)
-            {
-                bool signedIn = user != auth.CurrentUser && auth.CurrentUser != null;
-                if (!signedIn && user != null)
-                {
-                    Debug.Log("Signed out " + user.UserId);
-                }
+            get => name;
+            set => name = value;
+        }
 
-                user = auth.CurrentUser;
-                if (signedIn)
-                {
-                    Debug.Log("Signed in " + user.UserId);
-                }
-            }
+        public string Username
+        {
+            get => username;
+            set => username = value;
+        }
+
+        public string Avatar
+        {
+            get => avatar;
+            set => avatar = value;
+        }
+
+        public string Email
+        {
+            get => email;
+            set => email = value;
+        }
+
+        public string UserId
+        {
+            get => _userId;
+            set => _userId = value;
+        }
+
+        public List<string> Friends
+        {
+            get => friends;
+            set => friends = value;
+        }
+
+        public override string ToString()
+        {
+            return $"username: {username}, " +
+                   $"userid: {_userId}, " +
+                   $"avatar: {avatar}, " +
+                   $"name: {name}, " +
+                   $"email: {email}, " +
+                   $"friends: {friends.ToArray()}";
         }
     }
 }
