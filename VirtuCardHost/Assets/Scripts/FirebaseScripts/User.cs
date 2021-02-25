@@ -51,6 +51,7 @@ namespace FirebaseScripts
             set => username = value;
         }
 
+
         public string Avatar
         {
             get => avatar;
