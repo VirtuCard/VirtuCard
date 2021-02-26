@@ -16,7 +16,7 @@ namespace FirebaseScripts
             auth.StateChanged += AuthStateChanged;
             AuthStateChanged(null, null);
         }
-        
+
         /// <summary>
         /// This method creates a TEMPORARY testing account. It just creates the account and then immediately deletes it for testing purposes.
         /// </summary>

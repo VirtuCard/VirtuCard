@@ -18,17 +18,12 @@ public class LandingPageManager : MonoBehaviour
         gameChoiceDropdown.options.Add(new Dropdown.OptionData("Uno"));
         gameChoiceDropdown.options.Add(new Dropdown.OptionData("Go Fish"));
 
-        /*
-         Demoing Firebase Stuff
+
         FirebaseInit.InitializeFirebase(task =>
         {
-            DatabaseUtils.getUser("userId", user =>
-            {
-                Debug.Log(user);
-                User copy = new User(user );
-                Debug.Log(copy.ToString());
-            });
-        });*/
+            AuthUser.RegisterAccount("testing", "hello@ohio.edu", "topsecret",
+                task => { Debug.Log("Hi " + task); });
+        });
     }
 
     // Update is called once per frame
