@@ -24,19 +24,28 @@ namespace FirebaseScripts
             this.username = username;
             this.email = email;
             this._userId = userId;
+            this.avatar = "";
+            this.name = "";
             this.friends = new List<string>();
         }
 
         public User(string json)
         {
             var dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-            this.username = (string) dict["username"];
-            this.email = (string) dict["email"];
-            this.name = (string) dict["name"];
-            this.avatar = (string) dict["avatar"];
-            this._userId = (string) dict["userid"];
-            JArray array = (JArray) dict["friends"];
-            this.friends = array.ToObject<List<string>>();
+            this.username = (string) dict["Username"];
+            this.email = (string) dict["Email"];
+            this.name = (string) dict["Name"];
+            this.avatar = (string) dict["Avatar"];
+            this._userId = (string) dict["UserId"];
+            JArray array = (JArray) dict["Friends"];
+            if (array == null)
+            {
+                this.friends = new List<string>();
+            }
+            else
+            {
+                this.friends = array.ToObject<List<string>>();
+            }
         }
 
         public string Name
@@ -78,12 +87,7 @@ namespace FirebaseScripts
 
         public override string ToString()
         {
-            return $"username: {username}, " +
-                   $"userid: {_userId}, " +
-                   $"avatar: {avatar}, " +
-                   $"name: {name}, " +
-                   $"email: {email}, " +
-                   $"friends: {friends.ToArray()}";
+            return JsonConvert.SerializeObject(this);
         }
     }
 }
