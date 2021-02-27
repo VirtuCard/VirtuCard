@@ -12,7 +12,6 @@ namespace FirebaseScripts
         public static void SetAuth(FirebaseAuth value)
         {
             auth = value;
-            auth.SignOut();
             auth.StateChanged += AuthStateChanged;
             AuthStateChanged(null, null);
         }
@@ -44,7 +43,8 @@ namespace FirebaseScripts
                 }
 
                 // Firebase user has been created.
-                firebaseUser = task.Result;
+                // Not sure if this is required. firebaseUser = task.Result;
+                
                 //Put callback here to return to when done. 
                 callback(true);
                 Debug.LogFormat("Firebase user created successfully: {0} ({1})",
@@ -82,13 +82,21 @@ namespace FirebaseScripts
                 }
 
                 // Firebase user has been created.
-                firebaseUser = task.Result;
+                // Not sure if this is required. firebaseUser = task.Result;
                 User user = new User(username, email, firebaseUser.UserId);
 
                 //Put callback here to return to when done.
                 Debug.LogFormat("Firebase user created successfully: {0} ({1})",
                     firebaseUser.DisplayName, firebaseUser.UserId);
-                DatabaseUtils.addUser(user, callback);
+                DatabaseUtils.addUser(user, c =>
+                {
+                    if (!c)
+                    {
+                        firebaseUser.DeleteAsync();
+                    }
+
+                    callback(c);
+                });
             });
         }
 
