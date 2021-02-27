@@ -110,7 +110,6 @@ namespace FirebaseScripts
                 {
                     firebaseUser = auth.CurrentUser;
                 }
-
                 callback(c);
             });
         }
