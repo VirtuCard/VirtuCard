@@ -157,10 +157,10 @@ RectTransform:
   m_Father: {fileID: 818116664}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -430}
-  m_SizeDelta: {x: -415.9382, y: -1982.9492}
+  m_SizeDelta: {x: 664.06177, y: 177.05078}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &152758369
 MonoBehaviour:
@@ -277,10 +277,10 @@ RectTransform:
   m_Father: {fileID: 818116664}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -435, y: 973}
-  m_SizeDelta: {x: -916.0867, y: -1998.6774}
+  m_SizeDelta: {x: 163.91333, y: 161.32263}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &310702124
 MonoBehaviour:
@@ -397,10 +397,10 @@ RectTransform:
   m_Father: {fileID: 818116664}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 432, y: 973}
-  m_SizeDelta: {x: -916.0867, y: -1998.6774}
+  m_SizeDelta: {x: 163.91333, y: 161.32263}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &415855230
 MonoBehaviour:
@@ -516,10 +516,10 @@ RectTransform:
   m_Father: {fileID: 818116664}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 665.1903}
-  m_SizeDelta: {x: -716.9399, y: -2053.5576}
+  m_SizeDelta: {x: 363.06012, y: 106.44238}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &560124661
 MonoBehaviour:
@@ -602,10 +602,10 @@ RectTransform:
   m_Father: {fileID: 1233198703}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 1080, y: 2160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &818116665
 MonoBehaviour:
@@ -680,10 +680,10 @@ RectTransform:
   m_Father: {fileID: 818116664}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -226}
-  m_SizeDelta: {x: -376.91, y: -2018.6829}
+  m_SizeDelta: {x: 703.08997, y: 141.31714}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1023352171
 MonoBehaviour:
@@ -902,10 +902,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1080, y: 2160}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -987,10 +987,10 @@ RectTransform:
   m_Father: {fileID: 818116664}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -407.34946, y: -954.92163}
-  m_SizeDelta: {x: -860.7874, y: -1990.7157}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -407.3495, y: -954.92163}
+  m_SizeDelta: {x: 219.21259, y: 169.2843}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1417356924
 MonoBehaviour:
@@ -1106,10 +1106,10 @@ RectTransform:
   m_Father: {fileID: 818116664}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 323}
-  m_SizeDelta: {x: -571.2511, y: -1651.2511}
+  m_SizeDelta: {x: 508.7489, y: 508.7489}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1418443747
 MonoBehaviour:
