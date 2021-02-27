@@ -26,19 +26,16 @@ namespace FirebaseScripts
         /// <param name="password"></param>
         public static void Login(String email, String username, String password)
         {
-            /// checks password/email/username is incorrect
-            if () 
-            {
-                /// error message
-                MessageBox.Show("Invalid username/email or incorrect password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            /// password/email is correct
-            else 
-            {
+            /// checks if the credentials are correct
+            auth.SignInWithEmailandPasswordAsync(email, password).then((userCredential) => {
                 MessageBox.Show("Login Successful", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return true;
-            }
+            })
+            /// thwos this if the credentials do not match
+            .catch((error) => {
+                MessageBox.Show("Invalid username/email or incorrect password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            });
         }
         
         
@@ -77,8 +74,8 @@ namespace FirebaseScripts
                     firebaseUser.DisplayName, firebaseUser.UserId);
                 firebaseUser.DeleteAsync();
             });
-        }
 
+        }        
 
         public static void RegisterAccount(String username, String email, String password, Action<bool> callback)
         {
