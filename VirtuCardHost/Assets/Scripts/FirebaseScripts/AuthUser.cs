@@ -26,20 +26,19 @@ namespace FirebaseScripts
         /// <param name="password"></param>
         public static void Login(String email, String username, String password)
         {
-
             /// checks password/email/username is incorrect
             if () 
             {
                 /// error message
+                MessageBox.Show("Invalid username/email or incorrect password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
             /// password/email is correct
             else 
             {
-
+                MessageBox.Show("Login Successful", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return true;
             }
-
-
-
         }
         
         
@@ -51,6 +50,7 @@ namespace FirebaseScripts
         /// <param name="callback"></param>
         public static void RegisterTestingAccount(String email, String password, Action<bool> callback)
         {
+            
             auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
             {
                 if (task.IsCanceled)
@@ -80,7 +80,7 @@ namespace FirebaseScripts
         }
 
 
-        public static void d(String username, String email, String password, Action<bool> callback)
+        public static void RegisterAccount(String username, String email, String password, Action<bool> callback)
         {
             if (!FirebaseInit.IsInitialized())
             {
