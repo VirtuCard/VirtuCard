@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -25,12 +26,34 @@ public class LandingPageManager : MonoBehaviour
         gameChoiceDropdown.options.Add(new Dropdown.OptionData("Freeplay"));
         gameChoiceDropdown.options.Add(new Dropdown.OptionData("Uno"));
         gameChoiceDropdown.options.Add(new Dropdown.OptionData("Go Fish"));
+        //Console.WriteLine("HELLLLLOOOOO");
+
 
 
         FirebaseInit.InitializeFirebase(task =>
         {
             AuthUser.RegisterAccount("testing", "hello@ohio.edu", "topsecret",
-                task => { Debug.Log("Hi " + task); });
+                task => { Debug.Log("Hi " + task); 
+                if (AuthUser.Login("testing", "topsecret")) {
+                        Console.WriteLine("True");
+                    }
+                    else {
+                        Console.WriteLine("False");
+                    }
+                });
+        });
+
+        FirebaseInit.InitializeFirebase(task =>
+        {
+            AuthUser.RegisterAccount("juniebear", "seodongjune00@gmail.com", "chicken",
+                task => { 
+                    if (AuthUser.Login("juniebear27", "chicken")) {
+                        Console.WriteLine("True");
+                    }
+                    else {
+                        Console.WriteLine("False");
+                    }
+                 });
         });
     }
 

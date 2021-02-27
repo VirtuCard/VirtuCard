@@ -2,6 +2,7 @@
 using Firebase.Auth;
 using UnityEngine;
 
+
 namespace FirebaseScripts
 {
     public class AuthUser
@@ -24,18 +25,32 @@ namespace FirebaseScripts
         /// <param name="email"></param>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        public static void Login(String email, String username, String password)
+        public static bool Login(String email, String password)
         {
             /// checks if the credentials are correct
-            auth.SignInWithEmailandPasswordAsync(email, password).then((userCredential) => {
-                MessageBox.Show("Login Successful", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return true;
-            })
-            /// throws this if the credentials do not match
-            .catch((error) => {
-                MessageBox.Show("Invalid username/email or incorrect password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+            auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
+            {
+                if (task.IsCanceled)
+                {
+                    //Throw error for cancellation here 
+                    //MessageBox.Show("Invalid username/email or incorrect password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+
+                if (task.IsFaulted)
+                {
+                    //Throw error for other error here
+                    //MessageBox.Show("Invalid username/email or incorrect password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+
+                // Firebase user has been created.
+                //firebaseUser = task.Result;
+                //Put callback here to return to when done.
+                //MessageBox.Show("Login Successful", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return true; 
             });
+            return true;
         }
         
         
@@ -113,7 +128,7 @@ namespace FirebaseScripts
             });
         }
 
-        private static void AuthStateChanged(object sender, System.EventArgs eventArgs)
+        public static void AuthStateChanged(object sender, System.EventArgs eventArgs)
         {
             if (auth.CurrentUser != firebaseUser)
             {
