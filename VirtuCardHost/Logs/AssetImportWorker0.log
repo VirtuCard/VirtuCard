@@ -1,0 +1,125 @@
+Using pre-set license
+
+ COMMAND LINE ARGUMENTS:
+/Applications/Unity/Hub/Editor/2020.2.5f1/Unity.app/Contents/MacOS/Unity
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker0
+-projectPath
+/Users/juniebear27/Documents/GitHub/VirtuCard/VirtuCardHost
+-logFile
+Logs/AssetImportWorker0.log
+-srvPort
+64035
+Successfully changed project path to: /Users/juniebear27/Documents/GitHub/VirtuCard/VirtuCardHost
+/Users/juniebear27/Documents/GitHub/VirtuCard/VirtuCardHost
+Using Asset Import Pipeline V2.
+Refreshing native plugins compatible for Editor in 39.11 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2020.2.5f1 (e2c53f129de5)
+[Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/2020.2.5f1/Unity.app/Contents/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path /Users/juniebear27/Documents/GitHub/VirtuCard/VirtuCardHost/Assets
+GfxDevice: creating device client; threaded=0
+2021-02-25 22:29:44.983 Unity[37519:1564523] Color LCD preferred device: Intel(R) Iris(TM) Plus Graphics 655 (low power)
+2021-02-25 22:29:44.983 Unity[37519:1564523] Metal devices available: 1
+2021-02-25 22:29:44.983 Unity[37519:1564523] 0: Intel(R) Iris(TM) Plus Graphics 655 (low power)
+2021-02-25 22:29:44.984 Unity[37519:1564523] Using device Intel(R) Iris(TM) Plus Graphics 655 (low power)
+Initializing Metal device caps: Intel(R) Iris(TM) Plus Graphics 655
+Initialize mono
+Mono path[0] = '/Applications/Unity/Hub/Editor/2020.2.5f1/Unity.app/Contents/Managed'
+Mono path[1] = '/Applications/Unity/Hub/Editor/2020.2.5f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/unityjit'
+Mono config path = '/Applications/Unity/Hub/Editor/2020.2.5f1/Unity.app/Contents/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56519
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: /Applications/Unity/Hub/Editor/2020.2.5f1/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/2020.2.5f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/2020.2.5f1/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.003430 seconds.
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 40.67 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  3.710 seconds
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.024001 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.50 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.895 seconds
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launching external process: /Applications/Unity/Hub/Editor/2020.2.5f1/Unity.app/Contents/Tools/UnityShaderCompiler
+Launched and connected shader compiler UnityShaderCompiler after 0.02 seconds
+Refreshing native plugins compatible for Editor in 1.02 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1792 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 126.7 MB.
+System memory in use after: 126.8 MB.
+
+Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 2230.
+Total: 1.873820 ms (FindLiveObjects: 0.253080 ms CreateObjectMapping: 0.062291 ms MarkObjects: 1.495441 ms  DeleteObjects: 0.062163 ms)
+
+========================================================================
+Received Import Request.
+  path: Packages/com.unity.2d.animation/Editor/Analytics.cs
+  artifactKey: Guid(783ca490d14f68c4891dfa4ca54364fc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.unity.2d.animation/Editor/Analytics.cs using Guid(783ca490d14f68c4891dfa4ca54364fc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ff0bd9bdef2c6852ebdcfe8253865279') in 0.363041 seconds
+  Import took 0.366050 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 15645.028831 seconds.
+  path: Packages/com.unity.2d.animation/Editor/Unity.2D.Animation.Editor.asmdef
+  artifactKey: Guid(7e93558c536f24149a3181fbe0a14523) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.unity.2d.animation/Editor/Unity.2D.Animation.Editor.asmdef using Guid(7e93558c536f24149a3181fbe0a14523) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '40b6bbaf320658c225ebc54a0480202f') in 0.484900 seconds
+  Import took 0.613663 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.208953 seconds.
+  path: Assets/Scripts/ScriptsAssembly.asmdef
+  artifactKey: Guid(cb73bc46bcd4a7149aec2ca97fc62b4a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/ScriptsAssembly.asmdef using Guid(cb73bc46bcd4a7149aec2ca97fc62b4a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3b6f7bcb15f4212cd50e67c482c28066') in 0.003584 seconds
+  Import took 0.007995 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.522858 seconds.
+  path: Assets/Scripts/FirebaseScripts
+  artifactKey: Guid(2ab637e52affba44d8dada4bf54e4305) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts using Guid(2ab637e52affba44d8dada4bf54e4305) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '30161b5c67824fa2425834e8310cfa5d') in 0.002951 seconds
+  Import took 0.006577 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004503 seconds.
+  path: Assets/Scripts/FirebaseScripts
+  artifactKey: Guid(2ab637e52affba44d8dada4bf54e4305) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts using Guid(2ab637e52affba44d8dada4bf54e4305) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '30161b5c67824fa2425834e8310cfa5d') in 0.000761 seconds
+  Import took 0.003731 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.184103 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6298d3aedc53e007fb9f4fd64283736d') in 0.012590 seconds
+  Import took 0.016468 seconds .
+

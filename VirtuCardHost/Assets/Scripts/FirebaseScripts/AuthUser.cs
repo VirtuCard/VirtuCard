@@ -16,6 +16,32 @@ namespace FirebaseScripts
             auth.StateChanged += AuthStateChanged;
             AuthStateChanged(null, null);
         }
+
+        /// <summary>
+        /// This method is for logging in to an account assuming that the account is in the firebase.
+        /// If the account is not in the firebase, you will not be able to log in.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        public static void Login(String email, String username, String password)
+        {
+
+            /// checks password/email/username is incorrect
+            if () 
+            {
+                /// error message
+            }
+            /// password/email is correct
+            else 
+            {
+
+            }
+
+
+
+        }
+        
         
         /// <summary>
         /// This method creates a TEMPORARY testing account. It just creates the account and then immediately deletes it for testing purposes.
@@ -54,7 +80,7 @@ namespace FirebaseScripts
         }
 
 
-        public static void RegisterAccount(String username, String email, String password, Action<bool> callback)
+        public static void d(String username, String email, String password, Action<bool> callback)
         {
             if (!FirebaseInit.IsInitialized())
             {
@@ -62,7 +88,6 @@ namespace FirebaseScripts
                 callback(false);
                 return;
             }
-
             auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
             {
                 if (task.IsCanceled)
