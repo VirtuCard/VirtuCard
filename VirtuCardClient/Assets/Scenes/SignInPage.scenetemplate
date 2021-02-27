@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 13966, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: SignInPage
+  m_EditorClassIdentifier: 
+  templateScene: {fileID: 102900000, guid: 92a3c705227b5b842820c7912fef17cf, type: 3}
+  templateName: 
+  description: 
+  preview: {fileID: 0}
+  dependencies:
+  - dependency: {fileID: 12800000, guid: f4c99a340a6e6504aa6e992b7a253612, type: 3}
+    instantiationMode: 1
+  - dependency: {fileID: 2800000, guid: faa670519ed86fc4ca657a59bc3b5d58, type: 3}
+    instantiationMode: 0
+  - dependency: {fileID: 2800000, guid: c5674c6305843a046beddbb645e3259c, type: 3}
+    instantiationMode: 0
+  - dependency: {fileID: 2800000, guid: b5917fd39bb8e1e4b9fd4c2ead85ea5d, type: 3}
+    instantiationMode: 0
+  - dependency: {fileID: 2800000, guid: 8cc82fbf0f474ab48bfb20a15c315e44, type: 3}
+    instantiationMode: 0
+  - dependency: {fileID: 12800000, guid: d1fe0bc1ac9782f4c8f875e1a7cea6d7, type: 3}
+    instantiationMode: 1
+  templatePipeline: {fileID: 0}
+  addToDefaults: 0
