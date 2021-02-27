@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Firebase;
 using Firebase.Database;
-using Firebase.Firestore;
 using UnityEngine;
 
 namespace FirebaseScripts
@@ -22,17 +18,40 @@ namespace FirebaseScripts
         {
             string json = user.ToString();
             string userId = user.UserId;
+            string username = user.Username;
             DatabaseReference usersRef = realtime.GetReference("users/");
-            usersRef.Child(userId).SetRawJsonValueAsync(json).ContinueWith(task =>
+            DatabaseReference namesRef = realtime.GetReference("usernames/");
+            findUsername(username, b =>
             {
-                if (task.IsFaulted)
+                if (b)
                 {
-                    Debug.LogError("Failed to Add User");
                     callback(false);
                 }
-                else if (task.IsCompleted)
+                else
                 {
-                    callback(true);
+                    usersRef.Child(userId).SetRawJsonValueAsync(json).ContinueWith(task =>
+                    {
+                        if (task.IsFaulted)
+                        {
+                            Debug.LogError("Failed to Add User");
+                            callback(false);
+                        }
+                        else if (task.IsCompleted)
+                        {
+                            namesRef.Child(username).Child("userId").SetValueAsync(userId).ContinueWith(task =>
+                            {
+                                if (task.IsFaulted)
+                                {
+                                    Debug.LogError("Failed to Add User");
+                                    callback(false);
+                                }
+                                else if (task.IsCompleted)
+                                {
+                                    callback(true);
+                                }
+                            });
+                        }
+                    });
                 }
             });
         }
@@ -64,6 +83,26 @@ namespace FirebaseScripts
                         }
                     });
                 }
+            });
+        }
+
+        /// <summary>
+        /// Returns true if username is present. Returns false if not.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="callback"></param>
+        public static void findUsername(string username, Action<bool> callback)
+        {
+            DatabaseReference namesRef = realtime.GetReference("usernames/" + username);
+            namesRef.GetValueAsync().ContinueWith(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogError("Failed to Connect to Firebase Database");
+                    callback(false);
+                }
+
+                callback(task.Result.Exists);
             });
         }
 
