@@ -34,6 +34,7 @@ namespace FirebaseScripts
                     {
                         if (!c)
                         {
+                            Debug.LogError("Error updating Database!");
                             task.Result.DeleteAsync();
                         }
 

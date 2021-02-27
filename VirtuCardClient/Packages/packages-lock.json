@@ -1,11 +1,5 @@
 {
   "dependencies": {
-    "com.needle.auto-installer": {
-      "version": "file:installer.jillejr.newtonsoft.json-for-unity",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
     "com.unity.2d.animation": {
       "version": "5.0.4",
       "depth": 0,

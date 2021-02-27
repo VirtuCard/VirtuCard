@@ -13,18 +13,10 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637500583882898244
-    m_Hash: 47166506
+      ticks: 637500585223553140
+    m_Hash: 1099407875
 m_EmbeddedPackageManifests:
-  m_ManifestsStatus:
-    C:/Users/Aryan Wadhwani/Documents/VirtuCard/VirtuCardClient/Packages/installer.jillejr.newtonsoft.json-for-unity/package.json:
-      m_FilePath: C:/Users/Aryan Wadhwani/Documents/VirtuCard/VirtuCardClient/Packages/installer.jillejr.newtonsoft.json-for-unity/package.json
-      m_PathExists: 1
-      m_ContentTrackingEnabled: 1
-      m_ModificationDate:
-        serializedVersion: 2
-        ticks: 637345482660000000
-      m_Hash: 4053487878
+  m_ManifestsStatus: {}
 m_PackageAssets:
   m_Packages:
     m_ResolvedPackages:
@@ -3078,51 +3070,6 @@ m_PackageAssets:
       repository:
         type: git
         url: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.git
-        revision: 
-        path: 
-    - packageId: com.needle.auto-installer@file:C:\Users\Aryan Wadhwani\Documents\VirtuCard\VirtuCardClient\Packages\installer.jillejr.newtonsoft.json-for-unity
-      testable: 1
-      isDirectDependency: 1
-      version: 0.2.0
-      source: 3
-      resolvedPath: C:\Users\Aryan Wadhwani\Documents\VirtuCard\VirtuCardClient\Packages\installer.jillejr.newtonsoft.json-for-unity
-      assetPath: Packages/com.needle.auto-installer
-      name: com.needle.auto-installer
-      displayName: Auto Installer
-      author:
-        name: Needle
-        email: hi@needle.tools
-        url: https://needle.tools
-      category: 
-      type: 
-      description: Creates automatic, drop-in installers for Unity packages.
-      status: 4
-      errors: []
-      versions:
-        all: []
-        compatible: []
-        verified: 
-      dependencies: []
-      resolvedDependencies: []
-      keywords: []
-      registry:
-        id: 
-        name: 
-        url: 
-        scopes: []
-        isDefault: 0
-        capabilities: 0
-      hasRegistry: 0
-      hideInEditor: 1
-      entitlements:
-        isAllowed: 1
-      isAssetStorePackage: 0
-      datePublishedTicks: 0
-      documentationUrl: 
-      hasRepository: 0
-      repository:
-        type: 
-        url: 
         revision: 
         path: 
     - packageId: com.unity.modules.subsystems@1.0.0
