@@ -11658,3 +11658,1308 @@ Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3
   ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
   Import took 0.004085 seconds .
 
+========================================================================
+Received Import Request.
+  Time since last request: 5.209636 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000938 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004233 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.668685 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001032 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004946 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.073996 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001240 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.006251 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.898544 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001213 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005182 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.190767 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000874 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003891 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 10.084699 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001276 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.006366 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 10.049846 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000915 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004172 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 10.110652 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001128 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.006010 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.425869 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001133 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004357 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.943649 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000975 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004388 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.940501 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000882 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003976 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.467174 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000991 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005329 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.249813 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001016 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004828 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.241433 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000803 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003530 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.165646 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000930 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004492 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.662815 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000920 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004138 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.241088 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001803 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.007160 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 8.532276 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001360 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005768 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.512099 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001967 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.006144 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.249704 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001099 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005148 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.739063 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001012 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004773 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.356076 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001219 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005643 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 6.497315 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000930 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004168 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.245296 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000866 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003751 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 7.443601 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001521 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005794 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.106350 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000956 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004240 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.165711 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001174 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005454 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.379935 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001477 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005248 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.230909 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000829 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003675 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 10.091462 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001100 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005176 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 10.096633 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001046 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005363 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.526427 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.002468 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.006887 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.074990 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000900 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004660 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.129938 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001657 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.006916 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.079606 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.002886 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.008132 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.104227 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001157 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005078 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.095071 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000926 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004637 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.094563 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001003 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005110 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.087164 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000900 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003657 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.113741 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000932 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004263 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.040087 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001287 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004602 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.100019 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000782 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003718 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.092459 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000966 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004536 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.100913 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001418 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005816 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.099325 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000927 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004077 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.089814 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001122 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005457 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.091755 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001002 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004492 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.100919 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001299 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004997 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.094005 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000864 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003944 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.096399 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001042 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005085 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.097579 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000819 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005358 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.089013 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000957 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004972 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.097244 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000895 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004761 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.819985 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000827 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004452 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.021770 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000789 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003913 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.071605 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000912 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005204 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.095048 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001775 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.007496 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.029265 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001215 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.006705 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.029085 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001298 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.006513 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.025787 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001030 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004625 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.018454 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000995 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004327 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.019730 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001007 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004447 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.019401 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001201 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004357 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.026404 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000874 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004440 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.013882 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000867 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003843 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.018135 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001115 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004271 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.019709 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001252 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004436 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.014820 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000933 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004142 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.015576 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001214 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004543 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.023878 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000800 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003663 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.017257 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001224 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004599 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.014520 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000945 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004033 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.019080 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000851 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003817 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.017498 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000937 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004125 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.014230 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000950 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004230 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.016955 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001047 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004324 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.019799 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000917 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003992 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.014664 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000928 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004014 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.016442 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001418 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004646 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.018124 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000961 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004266 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.017166 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000985 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004005 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.014907 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001112 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004401 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.016269 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000982 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004066 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.020411 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000823 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003881 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.015463 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001071 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004316 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.015600 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001004 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004015 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.019416 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001004 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004145 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.016615 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001235 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004092 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.015592 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001006 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004275 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.016249 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000906 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003956 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.020248 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000985 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004250 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.014972 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001398 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004901 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.015092 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001241 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004709 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.018354 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000989 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004312 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.016788 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000845 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004210 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.015004 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001330 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005207 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.015119 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001048 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004468 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.020752 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000883 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004282 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.021236 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001384 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005014 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.017554 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001369 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005081 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.022664 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000762 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003286 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.019631 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000847 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004140 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.014872 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001280 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005061 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.014346 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000940 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004796 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.021144 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001562 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005759 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.018085 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001073 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004885 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.018288 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000990 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004716 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.020427 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001132 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004545 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.035063 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000899 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004477 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.025460 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001221 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004883 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.028108 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000961 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004440 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.015641 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000940 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004233 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.016520 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001058 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004257 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.012612 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000987 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004407 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.016265 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001085 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004376 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.018833 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000864 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004033 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.028456 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000856 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004115 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.026133 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000965 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004642 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.020232 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000952 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003927 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.016994 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001125 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004328 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.015828 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000828 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003909 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.019377 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000829 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004008 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.016198 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000981 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004230 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.016049 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000860 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003918 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.018002 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000910 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003978 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.013094 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000903 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004178 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.015958 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001147 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004356 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.016233 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001147 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004343 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.019723 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000853 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003984 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.015407 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001145 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004121 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.016419 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000936 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004218 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.019425 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000973 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004223 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.015822 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000920 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003946 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.016231 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000908 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004093 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.020352 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000939 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004313 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.014296 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001414 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.005595 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.020458 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000846 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004211 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.021541 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000922 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004179 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.017923 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000783 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003411 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.022464 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001012 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004562 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.018426 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000943 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004089 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.017292 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000935 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004252 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.014841 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.000723 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.003320 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.019308 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001178 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004861 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.019617 seconds.
+  path: Assets/Scripts/FirebaseScripts/AuthUser.cs
+  artifactKey: Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/FirebaseScripts/AuthUser.cs using Guid(78214873c3524ba6abc32e124474e870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00000000000000000000000000000000') in 0.001018 seconds
+  ERROR: Build asset version error: assets/scripts/firebasescripts/authuser.cs in SourceAssetDB has modification time of '2021-02-26T04:03:50Z' while content on disk has modification time of '2021-02-27T19:55:05Z'
+  Import took 0.004180 seconds .
+
