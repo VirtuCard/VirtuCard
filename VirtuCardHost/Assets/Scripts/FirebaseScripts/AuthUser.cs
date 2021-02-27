@@ -31,7 +31,7 @@ namespace FirebaseScripts
                 MessageBox.Show("Login Successful", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return true;
             })
-            /// thwos this if the credentials do not match
+            /// throws this if the credentials do not match
             .catch((error) => {
                 MessageBox.Show("Invalid username/email or incorrect password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -94,7 +94,6 @@ namespace FirebaseScripts
                     callback(false);
                     return;
                 }
-
                 if (task.IsFaulted)
                 {
                     //Throw error for other error here
