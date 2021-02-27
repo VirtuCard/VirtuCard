@@ -16,6 +16,7 @@ namespace FirebaseScripts
         {
             if (isConfigured)
             {
+                action(true);
                 return;
             }
 

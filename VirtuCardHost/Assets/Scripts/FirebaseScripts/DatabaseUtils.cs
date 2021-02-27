@@ -86,6 +86,7 @@ namespace FirebaseScripts
             });
         }
 
+
         /// <summary>
         /// Returns true if username is present. Returns false if not.
         /// </summary>

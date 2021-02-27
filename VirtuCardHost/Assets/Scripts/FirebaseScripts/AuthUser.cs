@@ -12,6 +12,7 @@ namespace FirebaseScripts
         public static void SetAuth(FirebaseAuth value)
         {
             auth = value;
+            auth.SignOut();
             auth.StateChanged += AuthStateChanged;
             AuthStateChanged(null, null);
         }
@@ -43,8 +44,8 @@ namespace FirebaseScripts
                 }
 
                 // Firebase user has been created.
-                // Not sure if this is required. firebaseUser = task.Result;
-                
+                firebaseUser = task.Result;
+
                 //Put callback here to return to when done. 
                 callback(true);
                 Debug.LogFormat("Firebase user created successfully: {0} ({1})",
@@ -82,8 +83,8 @@ namespace FirebaseScripts
                 }
 
                 // Firebase user has been created.
-                // Not sure if this is required. firebaseUser = task.Result;
-                User user = new User(username, email, firebaseUser.UserId);
+                firebaseUser = task.Result;
+                User user = new User(username, email, task.Result.UserId);
 
                 //Put callback here to return to when done.
                 Debug.LogFormat("Firebase user created successfully: {0} ({1})",
@@ -100,11 +101,24 @@ namespace FirebaseScripts
             });
         }
 
+        public static void PlayAnonymously(Action<bool> callback)
+        {
+            AnonymousAuth.CreateAnonymousAccount(auth, c =>
+            {
+                if (c)
+                {
+                    firebaseUser = auth.CurrentUser;
+                }
+
+                callback(c);
+            });
+        }
+
         private static void AuthStateChanged(object sender, System.EventArgs eventArgs)
         {
             if (auth.CurrentUser != firebaseUser)
             {
-                bool signedIn = firebaseUser != auth.CurrentUser && auth.CurrentUser != null;
+                bool signedIn = auth.CurrentUser != null && firebaseUser != auth.CurrentUser;
                 if (!signedIn && firebaseUser != null)
                 {
                     Debug.Log("Signed out " + firebaseUser.UserId);

@@ -24,8 +24,7 @@ public class LandingPageManager : MonoBehaviour
 
         FirebaseInit.InitializeFirebase(task =>
         {
-            AuthUser.RegisterAccount("testing1", "indiana@ohio.edu", "topsecret",
-                ret => { Debug.Log("Hi " + ret); });
+            // AuthUser.PlayAnonymously(ret => { Debug.Log("Hi " + ret); });
         });
     }
 

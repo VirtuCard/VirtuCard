@@ -27,6 +27,19 @@ namespace FirebaseScripts
             this.isAnonymous = false;
         }
 
+
+        public User(string username, string name, string userId, bool isAnonymous)
+        {
+            this.username = username;
+            this.email = "";
+            this._userId = userId;
+            this.avatar = "";
+            this.name = name;
+            this.friends = new List<string>();
+            this.isAnonymous = isAnonymous;
+        }
+
+
         public User(string json)
         {
             var dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
