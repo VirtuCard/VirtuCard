@@ -14,6 +14,9 @@ public class LandingPageManager : MonoBehaviour
     // this is the UI toggle component that allows the host to join or not
     public Toggle canHostJoinToggle;
 
+    // this is the button that is pressed when a user wants to create a game
+    public Button createGameBtn;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,12 +29,13 @@ public class LandingPageManager : MonoBehaviour
         gameChoiceDropdown.options.Add(new Dropdown.OptionData("Uno"));
         gameChoiceDropdown.options.Add(new Dropdown.OptionData("Go Fish"));
 
-
+        /*
         FirebaseInit.InitializeFirebase(task =>
         {
             AuthUser.RegisterAccount("testing", "hello@ohio.edu", "topsecret",
                 task => { Debug.Log("Hi " + task); });
         });
+        */
     }
 
     // Update is called once per frame
@@ -46,6 +50,6 @@ public class LandingPageManager : MonoBehaviour
     /// <param name="state"></param>
     private void CanHostJoinToggleValueChanged(bool state)
     {
-        HostData.canHostJoinGame = state;
+        HostData.setCanHostJoinGame(state);
     }
 }
