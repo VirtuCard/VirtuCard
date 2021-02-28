@@ -1,5 +1,0 @@
-sceneSetups:
-- path: Assets/InitTestScene637497899739274002.unity
-  isLoaded: 1
-  isActive: 1
-  isSubScene: 0
