@@ -12,26 +12,36 @@ public class LoginPageManager : MonoBehaviour
     // this is the button that is pressed to submit the username and password
     public Button loginBtn;
 
+
+    //Error Dialog
+    public GameObject failedPanel;
+    public Text errorTitle;
+    public Text errorMessage;
+
     // this controls what scene to go to
     private LoadDifferentScene sceneLoader;
 
     // Start is called before the first frame update
     void Start()
     {
+        failedPanel.SetActive(false);
         // initialize sceneLoader
         sceneLoader = gameObject.AddComponent<LoadDifferentScene>();
 
         // add an event listner for when the login button is clicked
-        loginBtn.onClick.AddListener(delegate {
-            loginBtnClicked();
-        });
-
+        loginBtn.onClick.AddListener(delegate { loginBtnClicked(); });
     }
 
     // Update is called once per frame
     void Update()
     {
+    }
 
+    void CreateErrorMessage(string title, string message)
+    {
+        errorTitle.GetComponent<Text>().text = title;
+        errorMessage.GetComponent<Text>().text = message;
+        failedPanel.SetActive(true);
     }
 
     /// <summary>
