@@ -12,7 +12,7 @@ public class NetworkController : MonoBehaviourPunCallbacks
     private string RoomCode = "";
     //Field to store the name of the file
     // that holds the RoomCode for testing purposes
-    private string RoomCodeFileName = "RoomCode.txt";
+    private string RoomCodeFileName = "Tests/RoomCode.txt";
 
     // Start is called before the first frame update
     void Start()
