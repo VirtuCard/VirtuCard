@@ -34,6 +34,7 @@ namespace FirebaseScripts
                     {
                         if (!c)
                         {
+                            Debug.LogError("Error updating Database!");
                             task.Result.DeleteAsync();
                         }
 
@@ -54,7 +55,7 @@ namespace FirebaseScripts
 
             DatabaseUtils.findUsername(username, b =>
             {
-                if (b)
+                if (b == null)
                 {
                     GenerateFirebaseUsername(returnVal);
                 }

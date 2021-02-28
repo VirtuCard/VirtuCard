@@ -84,6 +84,7 @@ namespace FirebaseScripts
 
                 // Firebase user has been created.
                 firebaseUser = task.Result;
+
                 User user = new User(username, email, task.Result.UserId);
 
                 //Put callback here to return to when done.
@@ -93,6 +94,7 @@ namespace FirebaseScripts
                 {
                     if (!c)
                     {
+                        Debug.Log("Failed to Add into Realtime Database");
                         firebaseUser.DeleteAsync();
                     }
 
@@ -103,6 +105,13 @@ namespace FirebaseScripts
 
         public static void PlayAnonymously(Action<bool> callback)
         {
+            if (!FirebaseInit.IsInitialized())
+            {
+                Debug.LogError("Firebase not initialized!");
+                callback(false);
+                return;
+            }
+
             AnonymousAuth.CreateAnonymousAccount(auth, c =>
             {
                 if (c)
