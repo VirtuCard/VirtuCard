@@ -2,12 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fc86d062-fe66-4f56-920e-607ea8530b5a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/LandingPage/AnonButton.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VirtuCardClient/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VirtuCardClient/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/FirebaseScripts/AnonymousAuth.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/FirebaseScripts/AnonymousAuth.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/FirebaseScripts/DatabaseUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/FirebaseScripts/DatabaseUtils.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SignInPage/AnonButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SignInPage/AnonButton.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/JoinGameScreen.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/JoinGameScreen.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SignInPage.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SignInPage.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SceneNames.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SceneNames.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SignInPage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SignInPage/AnonButton.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SignInPage/AnonButton.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Library/SceneVisibilityState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Library/SceneVisibilityState.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Library/StateCache/MainStageHierarchy/5b/5bf4a5b9f255730439936e720bd85076.json" beforeDir="false" afterPath="$PROJECT_DIR$/Library/StateCache/MainStageHierarchy/5b/5bf4a5b9f255730439936e720bd85076.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/StateCache/SceneView/b3/b30d05a30aa10557bdb8b74444e5a40b.json" beforeDir="false" afterPath="$PROJECT_DIR$/Library/StateCache/SceneView/b3/b30d05a30aa10557bdb8b74444e5a40b.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,13 +35,14 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Assets/Scripts/SceneNames.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/LoadDifferentScene.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/SignInPage/PlayAnonymously.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/FirebaseScripts/AuthUser.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/FirebaseScripts/DatabaseUtils.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/FirebaseScripts/AnonymousAuth.cs" />
       <option value="$PROJECT_DIR$/Assets/Scripts/SignInPage/AnonButton.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/SceneNames.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/LandingPage/AnonButton.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1p3LRiEokfVFhBjav7kCfVHBbZr" />
@@ -82,7 +93,7 @@
       <workItem from="1614461901546" duration="542000" />
       <workItem from="1614462630578" duration="561000" />
       <workItem from="1614463227530" duration="1321000" />
-      <workItem from="1614472692378" duration="2260000" />
+      <workItem from="1614472692378" duration="3424000" />
     </task>
     <servers />
   </component>

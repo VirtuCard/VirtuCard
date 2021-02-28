@@ -36,11 +36,11 @@
             <e p="FirebaseInit.cs" t="Include" />
             <e p="User.cs" t="Include" />
           </e>
-          <e p="LoadDifferentScene.cs" t="Include" />
-          <e p="SceneNames.cs" t="Include" />
-          <e p="SignInPage" t="Include">
+          <e p="LandingPage" t="Include">
             <e p="AnonButton.cs" t="Include" />
           </e>
+          <e p="LoadDifferentScene.cs" t="Include" />
+          <e p="SceneNames.cs" t="Include" />
         </e>
         <e p="TextMesh Pro" t="Include">
           <e p="Fonts" t="Include">
