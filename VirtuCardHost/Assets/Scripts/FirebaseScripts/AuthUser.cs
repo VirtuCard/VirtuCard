@@ -177,5 +177,27 @@ namespace FirebaseScripts
                 }
             }
         }
+
+
+        private static void ResetPassword(String username, String email)
+        {
+            if (username != null)
+            {
+                auth.SendPasswordResetEmailAsync(email).ContinueWith(task => {
+                    if (task.IsCanceled)
+                    {
+                        Debug.LogError("SendPasswordResetEmailAsync was canceled.");
+                        return;
+                    }
+                    if (task.IsFaulted)
+                    {
+                        Debug.LogError("SendPasswordResetEmailAsync encountered an error: " + task.Exception);
+                        return;
+                    }
+
+                    Debug.Log("Password reset email sent successfully.");
+                });
+            }
+        }
     }
 }
