@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using Firebase.Auth;
 using FirebaseScripts;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,9 +17,8 @@ public class LandingPageManager : MonoBehaviour
     void Start()
     {
         // add event listener for the value changing
-        canHostJoinToggle.onValueChanged.AddListener(delegate {
-            CanHostJoinToggleValueChanged(canHostJoinToggle.isOn);
-        });
+        canHostJoinToggle.onValueChanged.AddListener(
+            delegate { CanHostJoinToggleValueChanged(canHostJoinToggle.isOn); });
 
         gameChoiceDropdown.options.Add(new Dropdown.OptionData("Freeplay"));
         gameChoiceDropdown.options.Add(new Dropdown.OptionData("Uno"));
@@ -32,8 +27,7 @@ public class LandingPageManager : MonoBehaviour
         /*
         FirebaseInit.InitializeFirebase(task =>
         {
-            AuthUser.RegisterAccount("testing", "hello@ohio.edu", "topsecret",
-                task => { Debug.Log("Hi " + task); });
+            // AuthUser.PlayAnonymously(ret => { Debug.Log("Hi " + ret); });
         });
         */
     }
