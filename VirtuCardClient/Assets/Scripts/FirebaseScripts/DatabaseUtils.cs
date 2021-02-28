@@ -39,14 +39,14 @@ namespace FirebaseScripts
                         }
                         else if (task.IsCompleted)
                         {
-                            namesRef.Child(username).Child("userId").SetValueAsync(userId).ContinueWith(task =>
+                            namesRef.Child(username).Child("userId").SetValueAsync(userId).ContinueWith(copy =>
                             {
-                                if (task.IsFaulted)
+                                if (copy.IsFaulted)
                                 {
                                     Debug.LogError("Failed to Add User");
                                     callback(false);
                                 }
-                                else if (task.IsCompleted)
+                                else if (copy.IsCompleted)
                                 {
                                     callback(true);
                                 }
