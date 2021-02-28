@@ -23,8 +23,9 @@ namespace FirebaseScripts
             DatabaseReference namesRef = realtime.GetReference("usernames/");
             findUsername(username, b =>
             {
-                if (b == null)
+                if (b != null)
                 {
+                    Debug.Log("Username already present in Firebase!");
                     callback(false);
                 }
                 else

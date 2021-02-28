@@ -23,8 +23,9 @@ namespace FirebaseScripts
             DatabaseReference namesRef = realtime.GetReference("usernames/");
             findUsername(username, b =>
             {
-                if (b)
+                if (b != null)
                 {
+                    Debug.Log("Username already present in Firebase!");
                     callback(false);
                 }
                 else
@@ -92,18 +93,18 @@ namespace FirebaseScripts
         /// </summary>
         /// <param name="username"></param>
         /// <param name="callback"></param>
-        public static void findUsername(string username, Action<bool> callback)
+        public static void findUsername(string username, Action<string> callback)
         {
-            DatabaseReference namesRef = realtime.GetReference("usernames/" + username);
+            DatabaseReference namesRef = realtime.GetReference("usernames/" + username).Child("userId");
             namesRef.GetValueAsync().ContinueWith(task =>
             {
                 if (task.IsFaulted)
                 {
                     Debug.LogError("Failed to Connect to Firebase Database");
-                    callback(false);
+                    callback(null);
                 }
 
-                callback(task.Result.Exists);
+                callback((string) task.Result.Value);
             });
         }
 

@@ -94,6 +94,7 @@ namespace FirebaseScripts
                 {
                     if (!c)
                     {
+                        Debug.Log("Failed to Add into Realtime Database");
                         firebaseUser.DeleteAsync();
                     }
 
@@ -104,12 +105,20 @@ namespace FirebaseScripts
 
         public static void PlayAnonymously(Action<bool> callback)
         {
+            if (!FirebaseInit.IsInitialized())
+            {
+                Debug.LogError("Firebase not initialized!");
+                callback(false);
+                return;
+            }
+
             AnonymousAuth.CreateAnonymousAccount(auth, c =>
             {
                 if (c)
                 {
                     firebaseUser = auth.CurrentUser;
                 }
+
                 callback(c);
             });
         }

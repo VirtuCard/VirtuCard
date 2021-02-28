@@ -1,4 +1,5 @@
 using System;
+using Firebase.Auth;
 using FirebaseScripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,6 +8,13 @@ namespace SignInPage
 {
     public class AnonButton : MonoBehaviour
     {
+        private void Start()
+        {
+            FirebaseInit.InitializeFirebase(ret => AuthUser.RegisterAccount("MrBrightside", "illinois@indiana.edu",
+                "password!",
+                cb => { Debug.Log("Hi!" + cb); }));
+        }
+
         public void AttemptCreateAccount()
         {
             Debug.Log("Hi");
