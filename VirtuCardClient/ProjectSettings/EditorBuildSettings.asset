@@ -9,9 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/SignInPage.unity
+    path: Assets/Scenes/LandingPage.unity
     guid: 92a3c705227b5b842820c7912fef17cf
   - enabled: 1
-    path: Assets/Scenes/JoinGameScreen.unity
+    path: Assets/Scenes/JoinGamePage.unity
     guid: 5fc0224aa81470644afc55772f777a42
   m_configObjects: {}
