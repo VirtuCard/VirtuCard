@@ -176,6 +176,9 @@ MonoBehaviour:
   emailField: {fileID: 792396795}
   passwordField: {fileID: 697107751}
   confirmPasswordField: {fileID: 1115034968}
+  errorPanel: {fileID: 2009534588}
+  errorTitle: {fileID: 2050374266}
+  errorMessage: {fileID: 1565171869}
 --- !u!1 &152758367
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,7 +401,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 235007087}
-  - component: {fileID: 235007088}
   m_Layer: 5
   m_Name: CallFunction
   m_TagString: Untagged
@@ -425,23 +427,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &235007088
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 235007086}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b57fe27633881148a819a314c12f2ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  successful: 0
-  usernameField: {fileID: 1722418765}
-  emailField: {fileID: 792396795}
-  passwordField: {fileID: 697107751}
-  confirmPasswordField: {fileID: 1115034968}
 --- !u!1 &255247552
 GameObject:
   m_ObjectHideFlags: 0
@@ -1051,10 +1036,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 235007088}
-        m_TargetAssemblyTypeName: RegisterButton, Assembly-CSharp
-        m_MethodName: AttemptCreateAccount
-        m_Mode: 1
+      - m_Target: {fileID: 2009534588}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1504,8 +1489,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.000015258789, y: 0.0000076293945}
+  m_SizeDelta: {x: -100.2693, y: -37.517}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &907563034
 MonoBehaviour:
@@ -1529,7 +1514,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: f4c99a340a6e6504aa6e992b7a253612, type: 3}
-    m_FontSize: 70
+    m_FontSize: 65
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 0
@@ -1540,7 +1525,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Register
+  m_Text: Try Again
 --- !u!222 &907563035
 CanvasRenderer:
   m_ObjectHideFlags: 0
