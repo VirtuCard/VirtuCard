@@ -146,7 +146,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.cs307.virtucard
+    Android: com.cs307.virtucardClient
   buildNumber:
     Standalone: 0
     iPhone: 0

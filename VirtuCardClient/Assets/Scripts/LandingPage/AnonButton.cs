@@ -4,7 +4,7 @@ using FirebaseScripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace SignInPage
+namespace LandingPage
 {
     public class AnonButton : MonoBehaviour
     {

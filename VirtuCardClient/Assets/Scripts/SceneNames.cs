@@ -4,13 +4,13 @@ using UnityEngine;
 
 public static class SceneNames
 {
-    public static string SignInPage
+    public static string LandingPage
     {
-        get { return "SignInPage"; }
+        get { return "LandingPage"; }
     }
 
     public static string JoinGamePage
     {
-        get { return "JoinGameScreen"; }
+        get { return "JoinGamePage"; }
     }
 }
