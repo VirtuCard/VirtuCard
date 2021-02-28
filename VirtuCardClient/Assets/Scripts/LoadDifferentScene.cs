@@ -11,13 +11,11 @@ public class LoadDifferentScene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     /// <summary>
@@ -30,6 +28,7 @@ public class LoadDifferentScene : MonoBehaviour
         {
             throw new System.Exception("The attribute sceneName is null in LoadDifferentScene");
         }
+
         // load the new scene
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
