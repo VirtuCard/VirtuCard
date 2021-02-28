@@ -9,6 +9,13 @@ using UnityEngine.UIElements;
 
 public class RegisterButton : MonoBehaviour
 {
+    /// <summary>
+    /// `successful` is an int describing various states for the Register page
+    /// 0: Default state (Show nothing)
+    /// 1: Successful state (Go to Main Page)
+    /// -1: Invalid Username
+    /// -2
+    /// </summary>
     public int successful = 0;
     public GameObject usernameField;
     public GameObject emailField;
@@ -68,6 +75,7 @@ public class RegisterButton : MonoBehaviour
         errorTitle.GetComponent<Text>().text = title;
         errorMessage.GetComponent<Text>().text = message;
         errorPanel.SetActive(true);
+        successful = 0;
     }
 
     // Update is called once per frame
@@ -80,11 +88,9 @@ public class RegisterButton : MonoBehaviour
                 break;
             case -1:
                 CreateErrorMessage("Invalid Username", "Sorry! Username is already taken.");
-                successful = 0;
                 break;
             case -2:
                 CreateErrorMessage("Email Already Exists", "This email is already taken. Try another email.");
-                successful = 0;
                 break;
             case -3:
                 CreateErrorMessage("Error", "Something Unexpected Happened");
