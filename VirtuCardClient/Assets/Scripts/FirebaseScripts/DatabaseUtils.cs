@@ -102,6 +102,13 @@ namespace FirebaseScripts
                 {
                     Debug.LogError("Failed to Connect to Firebase Database");
                     callback(null);
+                    return;
+                }
+
+                if (task.Result.Value == null)
+                {
+                    callback(null);
+                    return;
                 }
 
                 callback((string) task.Result.Value);
