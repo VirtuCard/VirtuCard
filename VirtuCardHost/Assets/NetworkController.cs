@@ -5,7 +5,6 @@ using Photon.Pun;
 
 public class NetworkController : MonoBehaviourPunCallbacks
 {
-
     private int RoomCodeLength = 6;
     //Field for Host's RoomCode. In the format of ABCDEF
     public string RoomCode = "";
@@ -15,19 +14,12 @@ public class NetworkController : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.ConnectUsingSettings(); //Connects to Photon Master Servers
         generateCode();
-        
     }
 
     public override void OnConnectedToMaster()
     {
         Debug.Log("The Host is now connected to the " + PhotonNetwork.CloudRegion + " server.");
         Debug.Log("Generated Room Code is " + RoomCode);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     // Generate Room Code Function
@@ -46,18 +38,19 @@ public class NetworkController : MonoBehaviourPunCallbacks
         string roomCodeBuffer = "";
         for (int i = 0; i < RoomCodeLength; i++)
         {
-            roomCodeBuffer += (char) (RoomCodeNum[i] + 65);
+            roomCodeBuffer += (char)(RoomCodeNum[i] + 65);
         }
         //Setting Host's RoomCode field to generated roomCodeBuffer
         RoomCode = roomCodeBuffer;
     }
 
- 
+
     // Function to Create and Join a Room with associated Room Code
     void CreateAndJoinRoom()
     {
-        
         PhotonNetwork.CreateRoom(RoomCode);
     }
 
 }
+
+
