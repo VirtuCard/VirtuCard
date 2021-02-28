@@ -38,6 +38,7 @@
           </e>
           <e p="LandingPage" t="Include">
             <e p="AnonButton.cs" t="Include" />
+            <e p="RegisterButton.cs" t="Include" />
           </e>
           <e p="LoadDifferentScene.cs" t="Include" />
           <e p="SceneNames.cs" t="Include" />
