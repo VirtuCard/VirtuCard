@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using FirebaseScripts;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class RegistrationPageManager : MonoBehaviour
@@ -12,7 +14,11 @@ public class RegistrationPageManager : MonoBehaviour
     public InputField confirmPasswordInput;
 
     // these are the failure texts that popup on user error
-    public Text failedText;
+    public GameObject failedPanel;
+    private int _successful = 0;
+
+    public Text errorTitle;
+    public Text errorMessage;
     public Text failedPasswordText;
 
     // this is the button that is pressed to submit the username and password
@@ -24,28 +30,37 @@ public class RegistrationPageManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        failedText.enabled = false;
+        _successful = 0;
+        failedPanel.SetActive(false);
         failedPasswordText.enabled = false;
 
         // initialize sceneLoader
         sceneLoader = gameObject.AddComponent<LoadDifferentScene>();
 
         // add an event listner for when the create button is clicked
-        createBtn.onClick.AddListener(delegate {
-            onCreateBtnClick();
-        });
+        createBtn.onClick.AddListener(delegate { onCreateBtnClick(); });
 
-        confirmPasswordInput.onValueChanged.AddListener(delegate
-        {
-            onPasswordInputValueChanged();
-        });
-
+        confirmPasswordInput.onValueChanged.AddListener(delegate { onPasswordInputValueChanged(); });
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        switch (_successful)
+        {
+            case 1:
+                sceneLoader.ChangeScene(SceneNames.LandingPage);
+                break;
+            case -1:
+                CreateErrorMessage("Invalid Username", "Sorry! Username is already taken.");
+                break;
+            case -2:
+                CreateErrorMessage("Email Already Exists", "This email is already taken. Try another email.");
+                break;
+            case -3:
+                CreateErrorMessage("Error", "Something Unexpected Happened");
+                break;
+        }
     }
 
     private void onPasswordInputValueChanged()
@@ -57,10 +72,21 @@ public class RegistrationPageManager : MonoBehaviour
         {
             failedPasswordText.enabled = false;
         }
-        else {
+        else
+        {
             failedPasswordText.enabled = true;
         }
     }
+
+    // ReSharper disable Unity.PerformanceAnalysis
+    void CreateErrorMessage(string title, string message)
+    {
+        errorTitle.GetComponent<Text>().text = title;
+        errorMessage.GetComponent<Text>().text = message;
+        failedPanel.SetActive(true);
+        _successful = 0;
+    }
+
 
     /// <summary>
     /// This is the even handler for the create button. It handles the registration of the new account to firebase
@@ -76,23 +102,48 @@ public class RegistrationPageManager : MonoBehaviour
         {
             if (string.IsNullOrWhiteSpace(userName) == false && string.IsNullOrWhiteSpace(email) == false)
             {
-                failedText.enabled = false;
+                failedPanel.SetActive(false);
+                // verifiy email is valid and actually register account on firebase.
+                // registers the user and then change the scene to landing page
+                FirebaseInit.InitializeFirebase(isInit =>
+                {
+                    if (!isInit)
+                    {
+                        _successful = -3;
+                        return;
+                    }
 
-                // TODO verifiy email is valid and actually register account on firebase.
+                    DatabaseUtils.findUsername(userName, val =>
+                    {
+                        if (val != null)
+                        {
+                            _successful = -1;
+                            return;
+                        }
 
-                // TODO sign in the user and then change the scene to landing page
-                sceneLoader.ChangeScene(SceneNames.LandingPage);
+                        AuthUser.RegisterAccount(userName, email, password, ret =>
+                        {
+                            if (ret)
+                            {
+                                _successful = 1;
+                            }
+                            else
+                            {
+                                _successful = -2;
+                            }
+                        });
+                    });
+                });
             }
             else
             {
-                failedText.enabled = true;
-                failedText.text = "Must input valid username";
+                CreateErrorMessage("Error: Invalid Username", "Must input valid username");
             }
         }
         else
+
         {
-            failedText.enabled = true;
-            failedText.text = "Must input a valid password";
+            CreateErrorMessage("Error: Invalid Password", "Must input a valid password");
         }
     }
 }

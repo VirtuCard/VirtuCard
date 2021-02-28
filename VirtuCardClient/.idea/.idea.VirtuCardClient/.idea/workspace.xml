@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fc86d062-fe66-4f56-920e-607ea8530b5a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LandingPage/RegisterButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LandingPage/RegisterButton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/SceneVisibilityState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Library/SceneVisibilityState.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/StateCache/MainStageHierarchy/5b/5bf4a5b9f255730439936e720bd85076.json" beforeDir="false" afterPath="$PROJECT_DIR$/Library/StateCache/MainStageHierarchy/5b/5bf4a5b9f255730439936e720bd85076.json" afterDir="false" />
-    </list>
+    <list default="true" id="fc86d062-fe66-4f56-920e-607ea8530b5a" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -82,7 +78,7 @@
       <workItem from="1614461901546" duration="542000" />
       <workItem from="1614462630578" duration="561000" />
       <workItem from="1614463227530" duration="1321000" />
-      <workItem from="1614472692378" duration="10560000" />
+      <workItem from="1614472692378" duration="11155000" />
     </task>
     <servers />
   </component>

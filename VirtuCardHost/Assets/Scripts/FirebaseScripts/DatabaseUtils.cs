@@ -1,11 +1,12 @@
 ﻿using System;
 using Firebase;
 using Firebase.Database;
+using FirebaseScripts;
 using UnityEngine;
 
 namespace FirebaseScripts
 {
-    public class DatabaseUtils
+    public static class DatabaseUtils
     {
         private static FirebaseDatabase realtime;
 
@@ -14,7 +15,7 @@ namespace FirebaseScripts
             realtime = FirebaseDatabase.GetInstance(firebaseApp);
         }
 
-        public static void addUser(User user, Action<bool> callback)
+        public static void addUser(FirebaseScripts.User user, Action<bool> callback)
         {
             string json = user.ToString();
             string userId = user.UserId;
@@ -128,4 +129,5 @@ namespace FirebaseScripts
             });
         }
     }
+
 }
