@@ -178,7 +178,11 @@ namespace FirebaseScripts
             }
         }
 
-
+        /// <summary>
+        /// This method is used to send a given user a password reset email for their account
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="email"></param>
         private static void ResetPassword(String username, String email)
         {
             if (username != null)
