@@ -1,5 +1,6 @@
 using FirebaseScripts;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LandingPageManager : MonoBehaviour
@@ -16,6 +17,7 @@ public class LandingPageManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        canHostJoinToggle.SetIsOnWithoutNotify(HostData.CanHostJoinGame());
         // add event listener for the value changing
         canHostJoinToggle.onValueChanged.AddListener(
             delegate { CanHostJoinToggleValueChanged(canHostJoinToggle.isOn); });
@@ -24,17 +26,23 @@ public class LandingPageManager : MonoBehaviour
         gameChoiceDropdown.options.Add(new Dropdown.OptionData("Uno"));
         gameChoiceDropdown.options.Add(new Dropdown.OptionData("Go Fish"));
 
-        /*
-        FirebaseInit.InitializeFirebase(task =>
-        {
-            // AuthUser.PlayAnonymously(ret => { Debug.Log("Hi " + ret); });
-        });
-        */
+        gameChoiceDropdown.onValueChanged.AddListener(GameChoiceValueChanged);
     }
 
     // Update is called once per frame
     void Update()
     {
+    }
+
+    public void OnCreateButtonClick()
+    {
+        HostData.setJoinCode("EFADDS");
+        SceneManager.LoadScene(SceneNames.WaitingRoomScreen, LoadSceneMode.Single);
+    }
+
+    private void GameChoiceValueChanged(int state)
+    {
+        HostData.setSelectedGame(state);
     }
 
     /// <summary>
