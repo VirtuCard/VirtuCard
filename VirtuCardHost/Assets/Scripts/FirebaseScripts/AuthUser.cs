@@ -18,6 +18,7 @@ namespace FirebaseScripts
             AuthStateChanged(null, null);
         }
 
+
         /// <summary>
         /// This method is for logging in to an account assuming that the account is in the firebase.
         /// If the account is not in the firebase, you will not be able to log in.

@@ -15,3 +15,4 @@ public static class SceneNames
     public static string SettingsPage { get { return "SettingsPage"; } }
     public static string WaitingRoomScreen { get { return "WaitingRoomScreen"; } }
 }
+ 

@@ -7,7 +7,7 @@ using Firebase.Database;
 using Firebase.Firestore;
 using UnityEngine;
 
-namespace FirebaseScripts
+namespace FirebaseScripts 
 {
     public class DatabaseUtils
     {
