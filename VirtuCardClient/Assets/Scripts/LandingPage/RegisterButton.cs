@@ -16,7 +16,7 @@ public class RegisterButton : MonoBehaviour
     /// -1: Invalid Username
     /// -2
     /// </summary>
-    public int successful = 0;
+    public static int successful = 0;
     public GameObject usernameField;
     public GameObject emailField;
     public GameObject passwordField;
@@ -36,6 +36,15 @@ public class RegisterButton : MonoBehaviour
         string email = emailField.GetComponent<InputField>().text;
         string password = passwordField.GetComponent<InputField>().text;
 
+        CreateUserAccount(username, email, password);
+    }
+
+    /// <summary>
+    /// This method creates a user account on firebase with the given email username and password
+    /// It sets the boolean successful with its return state. (less than 0 for failure)
+    /// </summary>
+    public static void CreateUserAccount(string username, string email, string password)
+    {
         FirebaseInit.InitializeFirebase(isInit =>
         {
             if (!isInit)
