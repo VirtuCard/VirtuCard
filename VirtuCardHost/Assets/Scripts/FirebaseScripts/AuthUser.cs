@@ -34,6 +34,7 @@ namespace FirebaseScripts
                 {
                     //Throw error for cancellation here 
                     //MessageBox.Show("Invalid username/email or incorrect password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
                     return false;
                 }
 
@@ -41,6 +42,8 @@ namespace FirebaseScripts
                 {
                     //Throw error for other error here
                     //MessageBox.Show("Invalid username/email or incorrect password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " );//+ task.Exception);
+                    Debug.Log("task.isfaulted");
                     return false;
                 }
 
@@ -48,6 +51,9 @@ namespace FirebaseScripts
                 //firebaseUser = task.Result;
                 //Put callback here to return to when done.
                 //MessageBox.Show("Login Successful", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Firebase.Auth.FirebaseUser newUser = task.Result;
+                 Debug.LogFormat("User signed in successfully: {0} ({1})",
+                     newUser.DisplayName, newUser.UserId);
                 return true; 
             });
             return true;
