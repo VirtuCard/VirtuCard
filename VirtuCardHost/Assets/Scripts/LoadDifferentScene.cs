@@ -18,7 +18,7 @@ public class LoadDifferentScene : MonoBehaviour
     void Update()
     {
         
-    }
+    } 
 
     /// <summary>
     /// This method changes to the scene name

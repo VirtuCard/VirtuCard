@@ -12,4 +12,4 @@ public static class HostData
         get { return canHostJoinGame; }
         set { canHostJoinGame = value; }
     }
-}
+} 
