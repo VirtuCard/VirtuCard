@@ -40,30 +40,22 @@ public class LandingPageManager : MonoBehaviour
         //         });
         // });
 
-        FirebaseInit.InitializeFirebase(task =>
-        {
-            bool check = AuthUser.Login("seodongjune00@gmail.com", "chicken");
-            if (check) {
-                Debug.Log("TRUE JUNIBEAR");
-                //Console.WriteLine("TRUE JUNIBEAR");
-            }
-            else {
-                Debug.Log("FALSE JUNIEBEAR poopie");
-                //Console.WriteLine("FALSE JUNIBEAR");
+        // FirebaseInit.InitializeFirebase(task =>
+        // {
+        //     AuthUser.Login("seodongjune00@gmail.com", "poop",
+        //         task => {
+        //         Debug.Log("hello " + task);
+        //         if (task) {
+        //             Debug.Log("TRUE JUNIBEAR");
+        //             //Console.WriteLine("TRUE JUNIBEAR");
+        //         }
+        //         else {
+        //             Debug.Log("FALSE JUNIEBEAR invalid credentials");
+        //             //Console.WriteLine("FALSE JUNIBEAR");
+        //         }
+        //     });
 
-            }
-
-            // AuthUser.RegisterAccount("juniebear", "seodongjune00@gmail.com", "chicken",
-            //     task => { 
-            //         Debug.Log("Checking juniebear");
-            //         if (AuthUser.Login("seodongjune00@gmail.com", "chicken")) {
-            //             Debug.Log("True");
-            //         }
-            //         else {
-            //             Debug.Log("False");
-            //         }
-            //      });
-        });
+        // });
         
     }
 

@@ -25,9 +25,11 @@ namespace FirebaseScripts
         /// </summary>
         /// <param name="email"></param>
         /// <param name="password"></param>
-        public static bool Login(String email, String password)
+        public static void Login(String email, String password, Action<bool> callback)
         {
             /// checks if the credentials are correct
+            bool check = false;
+
             auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
             {
                 if (task.IsCanceled)
@@ -35,16 +37,18 @@ namespace FirebaseScripts
                     //Throw error for cancellation here 
                     //MessageBox.Show("Invalid username/email or incorrect password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
-                    return false;
+                    callback(false);
+                    return ;
                 }
 
                 if (task.IsFaulted)
                 {
                     //Throw error for other error here
                     //MessageBox.Show("Invalid username/email or incorrect password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    //Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " );//+ task.Exception);
-                    Debug.Log("task.isfaulted");
-                    return false;
+                    Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+                    //Debug.Log("task.isfaulted");
+                    callback(false);
+                    return;
                 }
 
                 // Firebase user has been created.
@@ -52,11 +56,12 @@ namespace FirebaseScripts
                 //Put callback here to return to when done.
                 //MessageBox.Show("Login Successful", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Firebase.Auth.FirebaseUser newUser = task.Result;
-                 Debug.LogFormat("User signed in successfully: {0} ({1})",
+                 Debug.LogFormat("User logged in successfully: {0} ({1})",
                      newUser.DisplayName, newUser.UserId);
-                return true; 
+                callback(true);
+                return; 
             });
-            return true;
+
         }
 
 
