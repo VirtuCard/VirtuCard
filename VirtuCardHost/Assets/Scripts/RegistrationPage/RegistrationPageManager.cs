@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using FirebaseScripts;
@@ -15,7 +16,7 @@ public class RegistrationPageManager : MonoBehaviour
 
     // these are the failure texts that popup on user error
     public GameObject failedPanel;
-    private int _successful = 0;
+    private static int _successful = 0;
 
     public Text errorTitle;
     public Text errorMessage;
@@ -105,35 +106,8 @@ public class RegistrationPageManager : MonoBehaviour
                 failedPanel.SetActive(false);
                 // verifiy email is valid and actually register account on firebase.
                 // registers the user and then change the scene to landing page
-                FirebaseInit.InitializeFirebase(isInit =>
-                {
-                    if (!isInit)
-                    {
-                        _successful = -3;
-                        return;
-                    }
-
-                    DatabaseUtils.findUsername(userName, val =>
-                    {
-                        if (val != null)
-                        {
-                            _successful = -1;
-                            return;
-                        }
-
-                        AuthUser.RegisterAccount(userName, email, password, ret =>
-                        {
-                            if (ret)
-                            {
-                                _successful = 1;
-                            }
-                            else
-                            {
-                                _successful = -2;
-                            }
-                        });
-                    });
-                });
+                bool didSucceed = false; ;
+                CreateUserAccount(userName, email, password, result => didSucceed = result);
             }
             else
             {
@@ -145,5 +119,46 @@ public class RegistrationPageManager : MonoBehaviour
         {
             CreateErrorMessage("Error: Invalid Password", "Must input a valid password");
         }
+    }
+
+    /// <summary>
+    /// This method creates a user account on firebase with the given email username and password
+    /// It sets the boolean successful with its return state. (less than 0 for failure)
+    /// </summary>
+    public static void CreateUserAccount(string userName, string email, string password, Action<bool> callback)
+    {
+        FirebaseInit.InitializeFirebase(isInit =>
+        {
+            if (!isInit)
+            {
+                _successful = -3;
+                callback(false);
+                return;
+            }
+
+            DatabaseUtils.findUsername(userName, val =>
+            {
+                if (val != null)
+                {
+                    _successful = -1;
+                    callback(false);
+                    return;
+                }
+
+                AuthUser.RegisterAccount(userName, email, password, ret =>
+                {
+                    if (ret)
+                    {
+                        _successful = 1;
+                        callback(true);
+                    }
+                    else
+                    {
+                        _successful = -2;
+                        callback(false);
+                    }
+                });
+            });
+        });
     }
 }
