@@ -7,6 +7,7 @@ using FirebaseScripts;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class LandingPageManager : MonoBehaviour
 {
     // this dropdown should be populated with all the game names
