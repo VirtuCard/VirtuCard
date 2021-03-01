@@ -1,8 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using Firebase.Auth;
 using FirebaseScripts;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,13 +11,15 @@ public class LandingPageManager : MonoBehaviour
     // this is the UI toggle component that allows the host to join or not
     public Toggle canHostJoinToggle;
 
+    // this is the button that is pressed when a user wants to create a game
+    public Button createGameBtn;
+
     // Start is called before the first frame update
     void Start()
     {
         // add event listener for the value changing
-        canHostJoinToggle.onValueChanged.AddListener(delegate {
-            CanHostJoinToggleValueChanged(canHostJoinToggle.isOn);
-        });
+        canHostJoinToggle.onValueChanged.AddListener(
+            delegate { CanHostJoinToggleValueChanged(canHostJoinToggle.isOn); });
 
         gameChoiceDropdown.options.Add(new Dropdown.OptionData("Freeplay"));
         gameChoiceDropdown.options.Add(new Dropdown.OptionData("Uno"));
@@ -30,7 +27,7 @@ public class LandingPageManager : MonoBehaviour
         //Console.WriteLine("HELLLLLOOOOO");
 
 
-
+        /*
         FirebaseInit.InitializeFirebase(task =>
         {
             AuthUser.RegisterAccount("testing", "hello@ohio.edu", "topsecret",
@@ -56,6 +53,7 @@ public class LandingPageManager : MonoBehaviour
                     }
                  });
         });
+        */
     }
 
     // Update is called once per frame
@@ -70,6 +68,6 @@ public class LandingPageManager : MonoBehaviour
     /// <param name="state"></param>
     private void CanHostJoinToggleValueChanged(bool state)
     {
-        HostData.canHostJoinGame = state;
+        HostData.setCanHostJoinGame(state);
     }
 }

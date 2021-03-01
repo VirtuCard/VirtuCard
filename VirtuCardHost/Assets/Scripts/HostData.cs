@@ -7,9 +7,13 @@ using UnityEngine;
 /// </summary>
 public static class HostData
 {
-    public static bool canHostJoinGame
+    private static bool canHostJoinGame;
+    public static bool CanHostJoinGame()
     {
-        get { return canHostJoinGame; }
-        set { canHostJoinGame = value; }
+        return canHostJoinGame;
+    }
+    public static void setCanHostJoinGame(bool state)
+    {
+        canHostJoinGame = state;
     }
 } 
