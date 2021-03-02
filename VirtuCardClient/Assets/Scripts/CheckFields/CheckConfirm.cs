@@ -11,15 +11,15 @@ public class CheckConfirm : MonoBehaviour
 {
    public string toCheck;
    public string confirmField;
-   public GameObject toCheckField;
-   public GameObject inputField;
    public GameObject textDisplay;
+   public InputField passwordInput;
+   public InputField checkPasswordInput;
    
    public void updateText()
    {
 
-       toCheck = toCheckField.GetComponent<Text>().text;
-       confirmField = inputField.GetComponent<Text>().text;
+       toCheck = passwordInput.text;
+       confirmField = checkPasswordInput.text;
 
        if (toCheck != confirmField && confirmField != "")
        {
@@ -29,7 +29,8 @@ public class CheckConfirm : MonoBehaviour
        {
           textDisplay.GetComponent<Text>().text = "";
        }
-       else if (toCheck == "" || confirmField == "")
+       
+       if (toCheck == "" || confirmField == "")
        {
           textDisplay.GetComponent<Text>().text = "";
        }
