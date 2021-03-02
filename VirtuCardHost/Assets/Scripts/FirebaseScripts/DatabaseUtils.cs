@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Firebase;
 using Firebase.Database;
-using FirebaseScripts;
+using Firebase.Firestore;
 using UnityEngine;
 
 namespace FirebaseScripts
 {
-    public static class DatabaseUtils
+    public class DatabaseUtils
     {
         private static FirebaseDatabase realtime;
 
@@ -15,45 +18,21 @@ namespace FirebaseScripts
             realtime = FirebaseDatabase.GetInstance(firebaseApp);
         }
 
-        public static void addUser(FirebaseScripts.User user, Action<bool> callback)
+        public static void addUser(User user, Action<bool> callback)
         {
             string json = user.ToString();
             string userId = user.UserId;
-            string username = user.Username;
             DatabaseReference usersRef = realtime.GetReference("users/");
-            DatabaseReference namesRef = realtime.GetReference("usernames/");
-            findUsername(username, b =>
+            usersRef.Child(userId).SetRawJsonValueAsync(json).ContinueWith(task =>
             {
-                if (b != null)
+                if (task.IsFaulted)
                 {
-                    Debug.Log("Username already present in Firebase!");
+                    Debug.LogError("Failed to Add User");
                     callback(false);
                 }
-                else
+                else if (task.IsCompleted)
                 {
-                    usersRef.Child(userId).SetRawJsonValueAsync(json).ContinueWith(task =>
-                    {
-                        if (task.IsFaulted)
-                        {
-                            Debug.LogError("Failed to Add User");
-                            callback(false);
-                        }
-                        else if (task.IsCompleted)
-                        {
-                            namesRef.Child(username).Child("userId").SetValueAsync(userId).ContinueWith(task =>
-                            {
-                                if (task.IsFaulted)
-                                {
-                                    Debug.LogError("Failed to Add User");
-                                    callback(false);
-                                }
-                                else if (task.IsCompleted)
-                                {
-                                    callback(true);
-                                }
-                            });
-                        }
-                    });
+                    callback(true);
                 }
             });
         }
@@ -88,27 +67,6 @@ namespace FirebaseScripts
             });
         }
 
-
-        /// <summary>
-        /// Returns true if username is present. Returns false if not.
-        /// </summary>
-        /// <param name="username"></param>
-        /// <param name="callback"></param>
-        public static void findUsername(string username, Action<string> callback)
-        {
-            DatabaseReference namesRef = realtime.GetReference("usernames/" + username).Child("userId");
-            namesRef.GetValueAsync().ContinueWith(task =>
-            {
-                if (task.IsFaulted)
-                {
-                    Debug.LogError("Failed to Connect to Firebase Database");
-                    callback(null);
-                }
-
-                callback((string) task.Result.Value);
-            });
-        }
-
         public static void getUser(string userId, Action<string> callback)
         {
             DatabaseReference usersList = realtime.GetReference("users/" + userId);
@@ -128,96 +86,5 @@ namespace FirebaseScripts
                 }
             });
         }
-
-        /// <summary>
-        /// Removes a user from the realtime database that has a specific id
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="callback"></param>
-        public static void RemoveUserWithID(string userId, Action<bool> callback)
-        {
-            DatabaseReference usersRef = realtime.GetReference("users/");
-            DatabaseReference usernamesRef = realtime.GetReference("usernames/");
-
-            usersRef.Child(userId).Child("Username").GetValueAsync().ContinueWith(task =>
-            {
-                if (task.IsFaulted)
-                {
-                    Debug.LogError("Failed to get username value from Firebase Database");
-                }
-                else if (task.IsCompleted)
-                {
-                    usernamesRef.Child(task.Result.Value.ToString()).RemoveValueAsync().ContinueWith(task =>
-                    {
-                        if (task.IsFaulted)
-                        {
-                            Debug.LogError("Failed to delete username from usernames/ in Firebase Database");
-                            callback(false);
-                        }
-                        else if (task.IsCompleted)
-                        {
-                            usersRef.Child(userId).RemoveValueAsync().ContinueWith(task =>
-                            {
-                                if (task.IsFaulted)
-                                {
-                                    Debug.LogError("Failed to delete userId from users/ in Firebase Database");
-                                    callback(false);
-                                }
-                                else if (task.IsCompleted)
-                                {
-                                    callback(true);
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-        }
-
-        /// <summary>
-        /// removes a user from the realtime database that has a specific username
-        /// </summary>
-        /// <param name="username"></param>
-        /// <param name="callback"></param>
-        public static void RemoveUserWithName(string username, Action<bool> callback)
-        {
-            DatabaseReference usersRef = realtime.GetReference("users/");
-            DatabaseReference usernamesRef = realtime.GetReference("usernames/");
-
-            usernamesRef.Child(username).Child("userId").GetValueAsync().ContinueWith(task =>
-            {
-                if (task.IsFaulted)
-                {
-                    Debug.LogError("Failed to get username value from Firebase Database");
-                }
-                else if (task.IsCompleted)
-                {
-                    usersRef.Child(task.Result.Value.ToString()).RemoveValueAsync().ContinueWith(task =>
-                    {
-                        if (task.IsFaulted)
-                        {
-                            Debug.LogError("Failed to delete usuerId from users/ in Firebase Database");
-                            callback(false);
-                        }
-                        else if (task.IsCompleted)
-                        {
-                            usernamesRef.Child(username).RemoveValueAsync().ContinueWith(task =>
-                            {
-                                if (task.IsFaulted)
-                                {
-                                    Debug.LogError("Failed to delete username from usernames/ in Firebase Database");
-                                    callback(false);
-                                }
-                                else if (task.IsCompleted)
-                                {
-                                    callback(true);
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-        }
     }
-
 }

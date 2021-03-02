@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using UnityEngine;
 
 namespace FirebaseScripts
 {
@@ -11,7 +15,6 @@ namespace FirebaseScripts
         private string avatar;
         private string email;
         private string _userId;
-        private bool isAnonymous;
 
         //Should be as strings
         private List<string> friends;
@@ -24,21 +27,7 @@ namespace FirebaseScripts
             this.avatar = "";
             this.name = "";
             this.friends = new List<string>();
-            this.isAnonymous = false;
         }
-
-
-        public User(string username, string name, string userId, bool isAnonymous)
-        {
-            this.username = username;
-            this.email = "";
-            this._userId = userId;
-            this.avatar = "";
-            this.name = name;
-            this.friends = new List<string>();
-            this.isAnonymous = isAnonymous;
-        }
-
 
         public User(string json)
         {
@@ -48,7 +37,6 @@ namespace FirebaseScripts
             this.name = (string) dict["Name"];
             this.avatar = (string) dict["Avatar"];
             this._userId = (string) dict["UserId"];
-            this.isAnonymous = (bool) dict["IsAnonymous"];
             JArray array = (JArray) dict["Friends"];
             if (array == null)
             {
@@ -95,12 +83,6 @@ namespace FirebaseScripts
         {
             get => friends;
             set => friends = value;
-        }
-
-        public bool IsAnonymous
-        {
-            get => isAnonymous;
-            set => isAnonymous = value;
         }
 
         public override string ToString()

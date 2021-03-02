@@ -1,6 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using Firebase.Auth;
 using FirebaseScripts;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LandingPageManager : MonoBehaviour
@@ -11,38 +14,29 @@ public class LandingPageManager : MonoBehaviour
     // this is the UI toggle component that allows the host to join or not
     public Toggle canHostJoinToggle;
 
-    // this is the button that is pressed when a user wants to create a game
-    public Button createGameBtn;
-
     // Start is called before the first frame update
     void Start()
     {
-        canHostJoinToggle.SetIsOnWithoutNotify(HostData.CanHostJoinGame());
         // add event listener for the value changing
-        canHostJoinToggle.onValueChanged.AddListener(
-            delegate { CanHostJoinToggleValueChanged(canHostJoinToggle.isOn); });
+        canHostJoinToggle.onValueChanged.AddListener(delegate {
+            CanHostJoinToggleValueChanged(canHostJoinToggle.isOn);
+        });
 
         gameChoiceDropdown.options.Add(new Dropdown.OptionData("Freeplay"));
         gameChoiceDropdown.options.Add(new Dropdown.OptionData("Uno"));
         gameChoiceDropdown.options.Add(new Dropdown.OptionData("Go Fish"));
 
-        gameChoiceDropdown.onValueChanged.AddListener(GameChoiceValueChanged);
+
+        FirebaseInit.InitializeFirebase(task =>
+        {
+            AuthUser.RegisterAccount("testing", "hello@ohio.edu", "topsecret",
+                task => { Debug.Log("Hi " + task); });
+        });
     }
 
     // Update is called once per frame
     void Update()
     {
-    }
-
-    public void OnCreateButtonClick()
-    {
-        HostData.setJoinCode("EFADDS");
-        SceneManager.LoadScene(SceneNames.WaitingRoomScreen, LoadSceneMode.Single);
-    }
-
-    private void GameChoiceValueChanged(int state)
-    {
-        HostData.setSelectedGame(state);
     }
 
     /// <summary>
@@ -52,6 +46,6 @@ public class LandingPageManager : MonoBehaviour
     /// <param name="state"></param>
     private void CanHostJoinToggleValueChanged(bool state)
     {
-        HostData.setCanHostJoinGame(state);
+        HostData.canHostJoinGame = state;
     }
 }

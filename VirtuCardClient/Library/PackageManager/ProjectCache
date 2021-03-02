@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637501473780625767
-    m_Hash: 567471780
+      ticks: 637497084051874744
+    m_Hash: 2838798205
   m_LockFileStatus:
     m_FilePath: C:/Users/Kade/source/CS307/VirtuCard/VirtuCardClient/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637502333827514029
-    m_Hash: 1099407875
+      ticks: 637497084107742695
+    m_Hash: 3198298308
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_PackageAssets:
@@ -3001,77 +3001,6 @@ m_PackageAssets:
         url: 
         revision: 
         path: 
-    - packageId: jillejr.newtonsoft.json-for-unity@12.0.302
-      testable: 0
-      isDirectDependency: 1
-      version: 12.0.302
-      source: 1
-      resolvedPath: C:\Users\Kade\source\CS307\VirtuCard\VirtuCardClient\Library\PackageCache\jillejr.newtonsoft.json-for-unity@12.0.302
-      assetPath: Packages/jillejr.newtonsoft.json-for-unity
-      name: jillejr.newtonsoft.json-for-unity
-      displayName: Json.NET 12.0.3 for Unity
-      author:
-        name: jilleJr
-        email: 
-        url: 
-      category: Utility
-      type: library
-      description: "Json.NET is a popular high-performance JSON framework for .NET\n\nThis
-        package is a fork of Newtonsoft.Json containing custom builds targeting standalone,
-        portable (UWP, WP8), and AOT targets such as all IL2CPP builds (iOS, WebGL,
-        Android, Windows, Mac OS X, et.al).\n\nThis package is licensed under The
-        MIT License (MIT)\n\nCopyright \xA9 2019 Kalle Jillheden (jilleJr)\nhttps://github.com/jilleJr/Newtonsoft.Json-for-Unity\n\nCopyright
-        \xA9 2016 SaladLab\nhttps://github.com/SaladLab/Json.Net.Unity3D\n\nCopyright
-        \xA9 2007 James Newton-King\nhttps://github.com/JamesNK/Newtonsoft.Json\n\nSee
-        full copyrights in LICENSE.md inside package"
-      status: 4
-      errors: []
-      versions:
-        all:
-        - 11.0.202
-        - 12.0.101
-        - 12.0.102
-        - 12.0.201
-        - 12.0.301
-        - 12.0.302
-        compatible:
-        - 11.0.202
-        - 12.0.101
-        - 12.0.102
-        - 12.0.201
-        - 12.0.301
-        - 12.0.302
-        verified: 
-      dependencies: []
-      resolvedDependencies: []
-      keywords:
-      - json
-      - json.net
-      - newtonsoft
-      - newtonsoft.json
-      - unity
-      - upm
-      registry:
-        id: scoped:jilleJr
-        name: jilleJr
-        url: https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity
-        scopes:
-        - jillejr.newtonsoft.json-for-unity
-        isDefault: 0
-        capabilities: 0
-      hasRegistry: 1
-      hideInEditor: 1
-      entitlements:
-        isAllowed: 1
-      isAssetStorePackage: 0
-      datePublishedTicks: 637493531366625350
-      documentationUrl: 
-      hasRepository: 1
-      repository:
-        type: git
-        url: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.git
-        revision: 
-        path: 
     - packageId: com.unity.modules.subsystems@1.0.0
       testable: 0
       isDirectDependency: 0
@@ -3208,14 +3137,12 @@ m_PackageAssets:
         - 0.1.6-preview
         - 0.1.9-preview
         - 1.0.0
-        - 1.0.5
         - 1.0.6
         compatible:
         - 0.1.5-preview
         - 0.1.6-preview
         - 0.1.9-preview
         - 1.0.0
-        - 1.0.5
         - 1.0.6
         verified: 1.0.6
       dependencies: []
@@ -3236,7 +3163,7 @@ m_PackageAssets:
       entitlements:
         isAllowed: 1
       isAssetStorePackage: 0
-      datePublishedTicks: 637429759280000000
+      datePublishedTicks: 0
       documentationUrl: 
       hasRepository: 1
       repository:
@@ -3349,15 +3276,9 @@ m_PackageAssets:
         - 1.2.0-preview.1
         - 2.0.1
         - 2.0.2
-        - 2.1.0
         - 3.0.0
-        - 3.0.1
-        - 4.0.0
-        - 4.0.1
         - 4.0.2
         - 4.0.3
-        - 5.0.0-pre.1
-        - 5.0.0-pre.2
         compatible:
         - 4.0.2
         - 4.0.3
@@ -3394,7 +3315,7 @@ m_PackageAssets:
       entitlements:
         isAllowed: 1
       isAssetStorePackage: 0
-      datePublishedTicks: 637408843940000000
+      datePublishedTicks: 0
       documentationUrl: 
       hasRepository: 1
       repository:
@@ -3429,16 +3350,8 @@ m_PackageAssets:
         - 2.0.2
         - 2.0.3
         - 2.0.4
-        - 2.0.5
-        - 2.0.6
-        - 2.1.0
         - 3.0.0
-        - 3.0.1
-        - 3.0.2
-        - 4.0.0
         - 4.0.1
-        - 5.0.0-pre.1
-        - 5.0.0-pre.2
         compatible:
         - 4.0.1
         verified: 4.0.1
@@ -3459,7 +3372,7 @@ m_PackageAssets:
       entitlements:
         isAllowed: 1
       isAssetStorePackage: 0
-      datePublishedTicks: 637328350450000000
+      datePublishedTicks: 0
       documentationUrl: 
       hasRepository: 1
       repository:
