@@ -19,9 +19,15 @@ MonoBehaviour:
     width: 1536
     height: 782
   m_ShowMode: 4
+<<<<<<< HEAD
   m_Title: Project
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 300}
+=======
+  m_Title: Scene
+  m_RootView: {fileID: 6}
+  m_MinSize: {x: 875, y: 542}
+>>>>>>> main
   m_MaxSize: {x: 10000, y: 10000}
   m_Maximized: 1
 --- !u!114 &2
@@ -43,12 +49,21 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 30
+<<<<<<< HEAD
     width: 1536
     height: 732
   m_MinSize: {x: 679, y: 492}
   m_MaxSize: {x: 14002, y: 14042}
   vertical: 0
   controlID: 71
+=======
+    width: 1920
+    height: 947
+  m_MinSize: {x: 502, y: 342}
+  m_MaxSize: {x: 12002, y: 8042}
+  vertical: 0
+  controlID: 37
+>>>>>>> main
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -59,23 +74,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: InspectorWindow
+  m_Name: TestRunnerWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
+<<<<<<< HEAD
     x: 1108
     y: 0
     width: 428
     height: 732
   m_MinSize: {x: 275, y: 50}
+=======
+    x: 1499
+    y: 0
+    width: 421
+    height: 947
+  m_MinSize: {x: 100, y: 100}
+>>>>>>> main
   m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 15}
+  m_ActualView: {fileID: 13}
   m_Panes:
-  - {fileID: 15}
   - {fileID: 12}
-  m_Selected: 0
-  m_LastSelected: 1
+  - {fileID: 15}
+  - {fileID: 13}
+  m_Selected: 2
+  m_LastSelected: 0
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -86,20 +110,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
+  m_Name: SceneHierarchyWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
+<<<<<<< HEAD
     width: 326
     height: 441
   m_MinSize: {x: 201, y: 221}
   m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 16}
+=======
+    width: 456
+    height: 573
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_ActualView: {fileID: 15}
+>>>>>>> main
   m_Panes:
-  - {fileID: 16}
+  - {fileID: 15}
   m_Selected: 0
   m_LastSelected: 0
 --- !u!114 &5
@@ -118,6 +150,7 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
+<<<<<<< HEAD
     y: 441
     width: 1108
     height: 291
@@ -129,6 +162,19 @@ MonoBehaviour:
   - {fileID: 19}
   m_Selected: 0
   m_LastSelected: 1
+=======
+    y: 573
+    width: 1499
+    height: 374
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
+  m_ActualView: {fileID: 18}
+  m_Panes:
+  - {fileID: 14}
+  - {fileID: 18}
+  m_Selected: 1
+  m_LastSelected: 0
+>>>>>>> main
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -149,9 +195,15 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
+<<<<<<< HEAD
     width: 1536
     height: 782
   m_MinSize: {x: 875, y: 300}
+=======
+    width: 1920
+    height: 997
+  m_MinSize: {x: 875, y: 542}
+>>>>>>> main
   m_MaxSize: {x: 10000, y: 10000}
   m_UseTopView: 1
   m_TopViewHeight: 30
@@ -179,8 +231,8 @@ MonoBehaviour:
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
   m_LoadedToolbars:
-  - {fileID: 20}
-  m_MainToolbar: {fileID: 20}
+  - {fileID: 19}
+  m_MainToolbar: {fileID: 19}
   m_LastLoadedLayoutName: 
 --- !u!114 &8
 MonoBehaviour:
@@ -222,12 +274,21 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
+<<<<<<< HEAD
     width: 1108
     height: 732
   m_MinSize: {x: 403, y: 492}
   m_MaxSize: {x: 10001, y: 14042}
   vertical: 1
   controlID: 17
+=======
+    width: 1499
+    height: 947
+  m_MinSize: {x: 402, y: 342}
+  m_MaxSize: {x: 8002, y: 8042}
+  vertical: 1
+  controlID: 66
+>>>>>>> main
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -247,12 +308,21 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
+<<<<<<< HEAD
     width: 1108
     height: 441
   m_MinSize: {x: 403, y: 221}
   m_MaxSize: {x: 8003, y: 4021}
   vertical: 0
   controlID: 101
+=======
+    width: 1499
+    height: 573
+  m_MinSize: {x: 402, y: 221}
+  m_MaxSize: {x: 8002, y: 4021}
+  vertical: 0
+  controlID: 67
+>>>>>>> main
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -268,6 +338,7 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
+<<<<<<< HEAD
     x: 326
     y: 0
     width: 782
@@ -275,13 +346,66 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 18}
+=======
+    x: 456
+    y: 0
+    width: 1043
+    height: 573
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
+  m_ActualView: {fileID: 16}
+>>>>>>> main
   m_Panes:
+  - {fileID: 16}
   - {fileID: 17}
   - {fileID: 18}
+<<<<<<< HEAD
   - {fileID: 13}
   m_Selected: 1
   m_LastSelected: 0
+=======
+  - {fileID: 14}
+  m_Selected: 0
+  m_LastSelected: 1
+>>>>>>> main
 --- !u!114 &12
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 12019, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 275, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: Inspector
+    m_Image: {fileID: -2667387946076563598, guid: 0000000000000000d000000000000000, type: 0}
+    m_Tooltip: 
+  m_Pos:
+    serializedVersion: 2
+    x: 1499
+    y: 73
+    width: 420
+    height: 926
+  m_ViewDataDictionary: {fileID: 0}
+  m_ObjectsLockedBeforeSerialization: []
+  m_InstanceIDsLockedBeforeSerialization: 
+  m_PreviewResizer:
+    m_CachedPref: 151
+    m_ControlHash: 1412526313
+    m_PrefName: Preview_InspectorPreview
+  m_LastInspectedObjectInstanceID: -1
+  m_LastVerticalScrollValue: 0
+  m_GlobalObjectId: 
+  m_LockTracker:
+    m_IsLocked: 0
+  m_PreviewWindow: {fileID: 0}
+--- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -301,6 +425,7 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
+<<<<<<< HEAD
     x: 1108
     y: 72
     width: 427
@@ -308,6 +433,15 @@ MonoBehaviour:
   m_ViewDataDictionary: {fileID: 0}
   m_Spl:
     ID: 163
+=======
+    x: 1499
+    y: 73
+    width: 420
+    height: 926
+  m_ViewDataDictionary: {fileID: 0}
+  m_Spl:
+    ID: 332
+>>>>>>> main
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
@@ -332,14 +466,14 @@ MonoBehaviour:
     oldSplitSize: 0
   m_TestTypeToolbarIndex: 0
   m_PlayModeTestListGUI:
-    m_Window: {fileID: 12}
+    m_Window: {fileID: 13}
     newResultList:
     - id: 1003
       uniqueId: '[New Unity Project][suite]'
       name: New Unity Project
       fullName: New Unity Project
       resultStatus: 1
-      duration: 7.0679297
+      duration: 15.086218
       messages: 
       output: 
       stacktrace: 
@@ -353,9 +487,15 @@ MonoBehaviour:
     - id: 1003
       uniqueId: '[PlaymodeTests][C:/Users/umang/Documents/GitHub/VirtuCard/VirtuCardHost/Library/ScriptAssemblies/PlaymodeTests.dll][suite]'
       name: PlaymodeTests.dll
+<<<<<<< HEAD
       fullName: C:/Users/umang/Documents/GitHub/VirtuCard/VirtuCardHost/Library/ScriptAssemblies/PlaymodeTests.dll
       resultStatus: 0
       duration: 0
+=======
+      fullName: C:/Users/Kade/source/CS307/VirtuCard/VirtuCardHost/Library/ScriptAssemblies/PlaymodeTests.dll
+      resultStatus: 1
+      duration: 15.04506
+>>>>>>> main
       messages: 
       output: 
       stacktrace: 
@@ -371,7 +511,7 @@ MonoBehaviour:
       name: FirebaseTests
       fullName: FirebaseTests
       resultStatus: 1
-      duration: 7.031745
+      duration: 7.033033
       messages: 
       output: 
       stacktrace: 
@@ -387,10 +527,10 @@ MonoBehaviour:
       name: FirebaseRegistrationTest
       fullName: FirebaseTests.FirebaseRegistrationTest
       resultStatus: 1
-      duration: 7.0159183
+      duration: 7.0165095
       messages: 
-      output: "Signed in yrXxwKvuxpUDTN9tweeu7qQZo9o2\r\nFirebase user created successfully: 
-        (yrXxwKvuxpUDTN9tweeu7qQZo9o2)\r\nSigned out \r\n"
+      output: "Signed in 5V7RvHn55ldwafzbphUszC0t7Yl1\r\nFirebase user created successfully: 
+        (5V7RvHn55ldwafzbphUszC0t7Yl1)\r\nSigned out \r\n"
       stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
@@ -401,11 +541,19 @@ MonoBehaviour:
       parentId: 1004
       parentUniqueId: PlaymodeTests.dll/[PlaymodeTests][FirebaseTests][suite]
     - id: 1003
+<<<<<<< HEAD
       uniqueId: PlaymodeTests.dll/[PlaymodeTests][RoomCodeTest][suite]
       name: RoomCodeTest
       fullName: RoomCodeTest
       resultStatus: 0
       duration: 0
+=======
+      uniqueId: PlaymodeTests.dll/[PlaymodeTests][UserRegistrationTests][suite]
+      name: UserRegistrationTests
+      fullName: UserRegistrationTests
+      resultStatus: 1
+      duration: 8.006954
+>>>>>>> main
       messages: 
       output: 
       stacktrace: 
@@ -415,6 +563,7 @@ MonoBehaviour:
       isSuite: 1
       categories: []
       parentId: 1006
+<<<<<<< HEAD
       parentUniqueId: '[PlaymodeTests][C:/Users/umang/Documents/GitHub/VirtuCard/VirtuCardHost/Library/ScriptAssemblies/PlaymodeTests.dll][suite]'
     - id: 1004
       uniqueId: PlaymodeTests.dll/RoomCodeTest/[PlaymodeTests][RoomCodeTest.RoomCodeTestSimplePasses]
@@ -441,6 +590,18 @@ MonoBehaviour:
       duration: 0
       messages: 
       output: 
+=======
+      parentUniqueId: '[PlaymodeTests][C:/Users/Kade/source/CS307/VirtuCard/VirtuCardHost/Library/ScriptAssemblies/PlaymodeTests.dll][suite]'
+    - id: 1004
+      uniqueId: PlaymodeTests.dll/UserRegistrationTests/[PlaymodeTests][UserRegistrationTests.UserRegistrationTest]
+      name: UserRegistrationTest
+      fullName: UserRegistrationTests.UserRegistrationTest
+      resultStatus: 1
+      duration: 8.004497
+      messages: 
+      output: "Signed in MZWP6qe3n5X6CGll2oVZN308cAh2\r\nFirebase user created successfully: 
+        (MZWP6qe3n5X6CGll2oVZN308cAh2)\r\nSigned out \r\n"
+>>>>>>> main
       stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
@@ -449,6 +610,7 @@ MonoBehaviour:
       categories:
       - Uncategorized
       parentId: 1003
+<<<<<<< HEAD
       parentUniqueId: PlaymodeTests.dll/[PlaymodeTests][RoomCodeTest][suite]
     m_ResultText: 'FirebaseRegistrationTest (7.016s)
 
@@ -461,12 +623,16 @@ MonoBehaviour:
 
       Signed
       out'
+=======
+      parentUniqueId: PlaymodeTests.dll/[PlaymodeTests][UserRegistrationTests][suite]
+    m_ResultText: New Unity Project (15.086s)
+>>>>>>> main
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 4c5492c1
-      m_LastClickedID: -1047374772
-      m_ExpandedIDs: 1e00f1c6313fe0dd28c00b42ffffff7f
+      m_SelectedIDs: 28c00b42
+      m_LastClickedID: 1108066344
+      m_ExpandedIDs: 1e00f1c6313fe0ddd60bde0828c00b42ffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -494,7 +660,7 @@ MonoBehaviour:
       - Uncategorized
     m_SelectedOption: 0
   m_EditModeTestListGUI:
-    m_Window: {fileID: 12}
+    m_Window: {fileID: 13}
     newResultList:
     - id: 1000
       uniqueId: '[New Unity Project][suite]'
@@ -544,6 +710,7 @@ MonoBehaviour:
       selectedCategoryMask: 0
       availableCategories:
       - Uncategorized
+<<<<<<< HEAD
 --- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -569,6 +736,8 @@ MonoBehaviour:
     width: 968
     height: 542
   m_ViewDataDictionary: {fileID: 0}
+=======
+>>>>>>> main
 --- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -590,9 +759,15 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
+<<<<<<< HEAD
     y: 513.2
     width: 1107
     height: 270
+=======
+    y: 646
+    width: 1498
+    height: 353
+>>>>>>> main
   m_ViewDataDictionary: {fileID: 0}
   m_SearchFilter:
     m_NameFilter: 
@@ -607,22 +782,37 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
+<<<<<<< HEAD
     - Assets/Tests
+=======
+    - Assets/Scripts/FirebaseScripts
+>>>>>>> main
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
+<<<<<<< HEAD
   - Assets/Tests
+=======
+  - Assets/Scripts/FirebaseScripts
+>>>>>>> main
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\umang\Documents\GitHub\VirtuCard\VirtuCardHost
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
+<<<<<<< HEAD
     scrollPos: {x: 0, y: 42}
     m_SelectedIDs: 94420000
     m_LastClickedID: 17044
     m_ExpandedIDs: 000000007c42000000ca9a3b
+=======
+    scrollPos: {x: 0, y: 147}
+    m_SelectedIDs: c4430000
+    m_LastClickedID: 17348
+    m_ExpandedIDs: 00000000924300009443000096430000984300009a4300009c430000d043000000ca9a3b
+>>>>>>> main
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -638,7 +828,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 0}
+      m_ClientGUIView: {fileID: 5}
     m_SearchString: 
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
@@ -650,7 +840,11 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
+<<<<<<< HEAD
     m_ExpandedIDs: 000000007c420000
+=======
+    m_ExpandedIDs: 00000000924300009443000096430000984300009a4300009c430000
+>>>>>>> main
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -715,6 +909,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 1
+<<<<<<< HEAD
   m_Script: {fileID: 12019, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: 
@@ -752,6 +947,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 1
+=======
+>>>>>>> main
   m_Script: {fileID: 12061, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: 
@@ -764,16 +961,26 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
+<<<<<<< HEAD
     y: 72
     width: 325
     height: 420
+=======
+    y: 73
+    width: 455
+    height: 552
+>>>>>>> main
   m_ViewDataDictionary: {fileID: 0}
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 94420000
       m_LastClickedID: 0
+<<<<<<< HEAD
       m_ExpandedIDs: eefaffff
+=======
+      m_ExpandedIDs: cef8ffffe8f8ffff82f9ffffeaf9ffff02faffff22faffff42fbffff
+>>>>>>> main
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -797,7 +1004,7 @@ MonoBehaviour:
       m_IsLocked: 0
     m_CurrentSortingName: TransformSorting
   m_WindowGUID: 41934a68286648041bb49d24da150bf4
---- !u!114 &17
+--- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -817,10 +1024,17 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
+<<<<<<< HEAD
     x: 326
     y: 72
     width: 780
     height: 420
+=======
+    x: 456
+    y: 73
+    width: 1041
+    height: 552
+>>>>>>> main
   m_ViewDataDictionary: {fileID: 0}
   m_ShowContextualTools: 0
   m_WindowGUID: 8723811bee811f24081e6e2bcb715ddd
@@ -833,9 +1047,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 522.728, y: 259.6298, z: -144.12877}
+    m_Target: {x: 1253.4902, y: 539.3305, z: -287.6503}
     speed: 2
-    m_Value: {x: 522.728, y: 259.6298, z: -144.12877}
+    m_Value: {x: 1253.4902, y: 539.3305, z: -287.6503}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -886,9 +1100,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 303.76825
+    m_Target: 699.2068
     speed: 2
-    m_Value: 303.76825
+    m_Value: 699.2068
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -913,7 +1127,7 @@ MonoBehaviour:
   m_SceneVisActive: 1
   m_LastLockedObject: {fileID: 0}
   m_ViewIsLockedToObject: 0
---- !u!114 &18
+--- !u!114 &17
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -933,10 +1147,17 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
+<<<<<<< HEAD
     x: 326
     y: 72
     width: 780
     height: 420
+=======
+    x: 456
+    y: 73
+    width: 1041
+    height: 552
+>>>>>>> main
   m_ViewDataDictionary: {fileID: 0}
   m_SerializedViewNames: []
   m_SerializedViewValues: []
@@ -944,7 +1165,11 @@ MonoBehaviour:
   m_ShowGizmos: 0
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
+<<<<<<< HEAD
   m_TargetSize: {x: 780, y: 399}
+=======
+  m_TargetSize: {x: 1920, y: 1080}
+>>>>>>> main
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
@@ -953,16 +1178,23 @@ MonoBehaviour:
   m_VSyncEnabled: 0
   m_Gizmos: 0
   m_Stats: 0
-  m_SelectedSizes: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+  m_SelectedSizes: 03000000000000000000000000000000000000000000000000000000000000000000000000000000
   m_ZoomArea:
     m_HRangeLocked: 0
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
+<<<<<<< HEAD
     m_HBaseRangeMin: -156
     m_HBaseRangeMax: 156
     m_VBaseRangeMin: -79.8
     m_VBaseRangeMax: 79.8
+=======
+    m_HBaseRangeMin: -960
+    m_HBaseRangeMax: 960
+    m_VBaseRangeMin: -540
+    m_VBaseRangeMax: 540
+>>>>>>> main
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -980,16 +1212,24 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
+<<<<<<< HEAD
       width: 780
       height: 399
     m_Scale: {x: 2, y: 2}
     m_Translation: {x: 390, y: 199.5}
+=======
+      width: 1041
+      height: 531
+    m_Scale: {x: 0.49166667, y: 0.49166667}
+    m_Translation: {x: 520.5, y: 265.5}
+>>>>>>> main
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
+<<<<<<< HEAD
       x: -195
       y: -99.75
       width: 390
@@ -997,12 +1237,21 @@ MonoBehaviour:
     m_MinimalGUI: 1
   m_defaultScale: 2
   m_LastWindowPixelSize: {x: 1950, y: 1050}
+=======
+      x: -1058.644
+      y: -540
+      width: 2117.288
+      height: 1080
+    m_MinimalGUI: 1
+  m_defaultScale: 0.49166667
+  m_LastWindowPixelSize: {x: 1041, y: 552}
+>>>>>>> main
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
   m_XRRenderMode: 0
   m_RenderTexture: {fileID: 0}
---- !u!114 &19
+--- !u!114 &18
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1023,11 +1272,17 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
+<<<<<<< HEAD
     y: 513.2
     width: 1107
     height: 270
+=======
+    y: 646
+    width: 1498
+    height: 353
+>>>>>>> main
   m_ViewDataDictionary: {fileID: 0}
---- !u!114 &20
+--- !u!114 &19
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
