@@ -10,51 +10,41 @@ using System.Linq;
 public class CheckPassword : MonoBehaviour
 {
    public string fixedPassword;
-   public GameObject password;
-   public GameObject inputField;
    public GameObject textDisplay;
+   public InputField passwordInputField;
    
    public void updateText()
    {
 
-      fixedPassword = inputField.GetComponent<Text>().text;
-      
-      if (fixedPassword.Length < 6)
-      {
-         textDisplay.GetComponent<Text>().text = "Please use at least six characters.";
-      }
-      else 
-      {
-        textDisplay.GetComponent<Text>().text = "";
-      }
-      if (fixedPassword == "")
-      {
-         textDisplay.GetComponent<Text>().text = "";
-      }
+      //fixedPassword = inputField.GetComponent<Text>().text;
 
-      /* This is for if we get the password field working. As of now 
-      Unity returns astericks when retrieving text from a password text
-      field.
+      fixedPassword = passwordInputField.text;
+
        if (fixedPassword.Length < 6)
        {
          textDisplay.GetComponent<Text>().text = "Please use at least six characters.";
        }
        else if (!fixedPassword.Any(char.IsUpper) && !fixedPassword.Any(char.IsDigit))
        {
-          textDisplay.GetComponent<Text>().text = "Please use an upper case digit and a number.";
+          textDisplay.GetComponent<Text>().text = "Add an upper case digit and a number.";
        }
        else if (!fixedPassword.Any(char.IsDigit))
        {
-           textDisplay.GetComponent<Text>().text = "Please use at least one number.";
+           textDisplay.GetComponent<Text>().text = "Add at least one number.";
        }
        else if (!fixedPassword.Any(char.IsUpper))
        {
-          textDisplay.GetComponent<Text>().text = "Please use at least one upper case letter.";
+          textDisplay.GetComponent<Text>().text = "Add at least one upper case letter.";
        }
        else
        {
           textDisplay.GetComponent<Text>().text = "";
        }
-      */
+
+       if (fixedPassword == "")
+       {
+          textDisplay.GetComponent<Text>().text = "";
+       }
+
    }
 }

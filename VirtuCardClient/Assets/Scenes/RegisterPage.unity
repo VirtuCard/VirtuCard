@@ -199,7 +199,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -98.883}
+  m_AnchoredPosition: {x: 0, y: -111}
   m_SizeDelta: {x: 931.33, y: 61.0647}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &119351504
@@ -673,8 +673,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0000038146973, y: -98.883}
-  m_SizeDelta: {x: 931.33, y: 61.0647}
+  m_AnchoredPosition: {x: -0.9247, y: -98.883}
+  m_SizeDelta: {x: 1033.0527, y: 61.0647}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &299229619
 MonoBehaviour:
@@ -2633,9 +2633,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   toCheck: 
   confirmField: 
-  toCheckField: {fileID: 231660133}
-  inputField: {fileID: 1372925564}
   textDisplay: {fileID: 28648449}
+  passwordInput: {fileID: 697107753}
+  checkPasswordInput: {fileID: 1115034970}
 --- !u!114 &1315455526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2649,9 +2649,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fixedPassword: 
-  password: {fileID: 0}
-  inputField: {fileID: 231660133}
   textDisplay: {fileID: 299229617}
+  passwordInputField: {fileID: 697107753}
 --- !u!1 &1372925564
 GameObject:
   m_ObjectHideFlags: 0
