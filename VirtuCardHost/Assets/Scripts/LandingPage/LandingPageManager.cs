@@ -27,6 +27,8 @@ public class LandingPageManager : MonoBehaviour
         gameChoiceDropdown.options.Add(new Dropdown.OptionData("Go Fish"));
 
         gameChoiceDropdown.onValueChanged.AddListener(GameChoiceValueChanged);
+
+    
     }
 
     // Update is called once per frame
