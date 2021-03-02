@@ -9,33 +9,52 @@ using System.Linq;
 
 public class CheckPassword : MonoBehaviour
 {
-
-   public string passwordInput;
+   public string fixedPassword;
+   public GameObject password;
    public GameObject inputField;
    public GameObject textDisplay;
    
    public void updateText()
    {
 
-      passwordInput = inputField.GetComponent<Text>().text;
-      Debug.Log(passwordInput);
-       if (passwordInput.Length < 6 || !passwordInput.Any(char.IsUpper))
+      fixedPassword = inputField.GetComponent<Text>().text;
+      
+      if (fixedPassword.Length < 6)
+      {
+         textDisplay.GetComponent<Text>().text = "Please use at least six characters.";
+      }
+      else 
+      {
+        textDisplay.GetComponent<Text>().text = "";
+      }
+      if (fixedPassword == "")
+      {
+         textDisplay.GetComponent<Text>().text = "";
+      }
+
+      /* This is for if we get the password field working. As of now 
+      Unity returns astericks when retrieving text from a password text
+      field.
+       if (fixedPassword.Length < 6)
        {
-         textDisplay.GetComponent<Text>().text = "Please use at least six characters!";
+         textDisplay.GetComponent<Text>().text = "Please use at least six characters.";
        }
-       else if (passwordInput.Length > 6 && passwordInput.Any(char.IsUpper)
-       && passwordInput.Any(char.IsDigit))
+       else if (!fixedPassword.Any(char.IsUpper) && !fixedPassword.Any(char.IsDigit))
        {
-          textDisplay.GetComponent<Text>().text = "";
+          textDisplay.GetComponent<Text>().text = "Please use an upper case digit and a number.";
+       }
+       else if (!fixedPassword.Any(char.IsDigit))
+       {
+           textDisplay.GetComponent<Text>().text = "Please use at least one number.";
+       }
+       else if (!fixedPassword.Any(char.IsUpper))
+       {
+          textDisplay.GetComponent<Text>().text = "Please use at least one upper case letter.";
        }
        else
        {
-           textDisplay.GetComponent<Text>().text = "";
-       }
-       
-       if (passwordInput == "")
-       {
           textDisplay.GetComponent<Text>().text = "";
        }
+      */
    }
 }

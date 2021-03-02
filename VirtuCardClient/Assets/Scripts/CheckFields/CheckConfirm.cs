@@ -17,20 +17,22 @@ public class CheckConfirm : MonoBehaviour
    
    public void updateText()
    {
+
        toCheck = toCheckField.GetComponent<Text>().text;
        confirmField = inputField.GetComponent<Text>().text;
 
-       if (toCheck != confirmField)
+       if (toCheck != confirmField && confirmField != "")
        {
          textDisplay.GetComponent<Text>().text = "Make sure your passwords match!";
        }
-       else
+       else if (toCheck == confirmField)
        {
           textDisplay.GetComponent<Text>().text = "";
        }
-       if (toCheck == "")
+       else if (toCheck == "" || confirmField == "")
        {
           textDisplay.GetComponent<Text>().text = "";
        }
+       
    }
 }

@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Collections;
 using System.IO;
 
-public class CheckFields : MonoBehaviour
+public class CheckEmail : MonoBehaviour
 {
 
    public string emailInput;

@@ -164,7 +164,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 54
-    m_FontStyle: 2
+    m_FontStyle: 3
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 60
@@ -200,7 +200,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -98.883}
-  m_SizeDelta: {x: 911.33, y: 61.0647}
+  m_SizeDelta: {x: 931.33, y: 61.0647}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &119351504
 GameObject:
@@ -674,7 +674,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.0000038146973, y: -98.883}
-  m_SizeDelta: {x: 911.33, y: 61.0647}
+  m_SizeDelta: {x: 931.33, y: 61.0647}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &299229619
 MonoBehaviour:
@@ -699,7 +699,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 54
-    m_FontStyle: 2
+    m_FontStyle: 3
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 60
@@ -876,54 +876,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 560124659}
   m_CullTransparentMesh: 1
---- !u!1 &571160030
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 571160032}
-  - component: {fileID: 571160031}
-  m_Layer: 0
-  m_Name: CheckConfirmField
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &571160031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 571160030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93a91684ab719c246b817b046f9cb27b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  toCheck: 
-  confirmField: 
-  toCheckField: {fileID: 231660133}
-  inputField: {fileID: 1372925564}
-  textDisplay: {fileID: 28648449}
---- !u!4 &571160032
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 571160030}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 829.20013, y: 1131.5374, z: -167.6476}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &629804068
 GameObject:
   m_ObjectHideFlags: 0
@@ -1386,8 +1338,20 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1579656934}
+      - m_Target: {fileID: 1315455526}
         m_TargetAssemblyTypeName: CheckPassword, ScriptsAssembly
+        m_MethodName: updateText
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1315455525}
+        m_TargetAssemblyTypeName: CheckConfirm, ScriptsAssembly
         m_MethodName: updateText
         m_Mode: 1
         m_Arguments:
@@ -1720,8 +1684,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000015259, y: -104.3762}
-  m_SizeDelta: {x: 663.8497, y: 61.0647}
+  m_AnchoredPosition: {x: 0.000045776, y: -104.3762}
+  m_SizeDelta: {x: 931.33, y: 61.0647}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &897427712
 MonoBehaviour:
@@ -1746,7 +1710,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 54
-    m_FontStyle: 2
+    m_FontStyle: 3
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 60
@@ -2159,7 +2123,7 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 571160031}
+      - m_Target: {fileID: 1315455525}
         m_TargetAssemblyTypeName: CheckConfirm, ScriptsAssembly
         m_MethodName: updateText
         m_Mode: 1
@@ -2617,8 +2581,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1315455524}
   - component: {fileID: 1315455523}
+  - component: {fileID: 1315455526}
+  - component: {fileID: 1315455525}
   m_Layer: 0
-  m_Name: CheckField
+  m_Name: CheckRegistrationFields
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2653,6 +2619,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1315455525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315455522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93a91684ab719c246b817b046f9cb27b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toCheck: 
+  confirmField: 
+  toCheckField: {fileID: 231660133}
+  inputField: {fileID: 1372925564}
+  textDisplay: {fileID: 28648449}
+--- !u!114 &1315455526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315455522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c4fa6baa697c4a4a83bad826e163f44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fixedPassword: 
+  password: {fileID: 0}
+  inputField: {fileID: 231660133}
+  textDisplay: {fileID: 299229617}
 --- !u!1 &1372925564
 GameObject:
   m_ObjectHideFlags: 0
@@ -2811,52 +2810,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1565171869}
   m_CullTransparentMesh: 1
---- !u!1 &1579656933
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1579656935}
-  - component: {fileID: 1579656934}
-  m_Layer: 0
-  m_Name: CheckPassword
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1579656934
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1579656933}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c4fa6baa697c4a4a83bad826e163f44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  passwordInput: 
-  inputField: {fileID: 231660133}
-  textDisplay: {fileID: 299229617}
---- !u!4 &1579656935
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1579656933}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 663.49457, y: 786.17645, z: -4014.8528}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1722418765
 GameObject:
   m_ObjectHideFlags: 0
