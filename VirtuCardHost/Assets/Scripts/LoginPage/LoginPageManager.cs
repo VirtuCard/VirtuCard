@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using FirebaseScripts;
 
 public class LoginPageManager : MonoBehaviour
 {
@@ -12,7 +13,6 @@ public class LoginPageManager : MonoBehaviour
     // this is the button that is pressed to submit the username and password
     public Button loginBtn;
 
-
     //Error Dialog
     public GameObject failedPanel;
     public Text errorTitle;
@@ -20,6 +20,9 @@ public class LoginPageManager : MonoBehaviour
 
     // this controls what scene to go to
     private LoadDifferentScene sceneLoader;
+
+    public bool CorrectCred = false;
+    public bool IncorrectCred = false;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +38,18 @@ public class LoginPageManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (CorrectCred)
+        {
+            Debug.Log("login success");
+            sceneLoader.ChangeScene(SceneNames.LandingPage);
+        }
+
+        if (IncorrectCred) 
+        {
+            IncorrectCred = false;
+            CreateErrorMessage("ERROR", "Invalid email or Incorrect password!");
+            Debug.Log("login failed");
+        }
     }
 
     void CreateErrorMessage(string title, string message)
@@ -47,13 +62,29 @@ public class LoginPageManager : MonoBehaviour
     /// <summary>
     /// This is the callback for the login button. It gathers the inputs from both the username and password fields
     /// </summary>
+
     private void loginBtnClicked()
     {
-        // collect username and password
-        string username = usernameInput.text;
-        string password = passwordInput.text;
-
-        // change the scene
-        sceneLoader.ChangeScene(SceneNames.LandingPage);
+        FirebaseInit.InitializeFirebase(task =>
+        {
+            // collect username and password
+            string username = usernameInput.text;
+            string password = passwordInput.text;
+            
+            AuthUser.Login(username, password,
+                task=> {
+                if (task)
+                {
+                    Debug.Log("task bool is " + task);
+                    CorrectCred = true;
+                }
+                else
+                {
+                    Debug.Log("task bool is " + task);
+                    IncorrectCred = true;
+                }
+                
+            });
+        });
     }
 }

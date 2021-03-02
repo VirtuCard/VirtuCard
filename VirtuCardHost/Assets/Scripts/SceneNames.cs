@@ -18,3 +18,4 @@ public static class SceneNames
     public static string LoginPage { get { return "LoginPage"; } }
     public static string RegistrationPage { get { return "RegistrationPage"; } }
 }
+ 
