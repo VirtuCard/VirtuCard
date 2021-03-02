@@ -142,6 +142,39 @@ namespace FirebaseScripts
             });
         }
 
+        /// <summary>
+        /// This unregisters a user's account from the firebase authentication
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <param name="callback"></param>
+        public static void UnregisterAccount(string email, string password, Action<bool> callback)
+        {
+            if (!FirebaseInit.IsInitialized())
+            {
+                Debug.LogError("Firebase not initialized!");
+                callback(false);
+                return;
+            }
+
+            var prevUser = auth.CurrentUser;
+            auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
+            {
+                var user = auth.CurrentUser;
+                user.DeleteAsync().ContinueWith(task =>
+                {
+                    if (task.IsFaulted)
+                    {
+                        callback(false);
+                    }
+                    if (task.IsCompleted)
+                    {
+                        callback(true);
+                    }
+                });
+            });
+        }
+
         public static void PlayAnonymously(Action<bool> callback)
         {
             if (!FirebaseInit.IsInitialized())

@@ -6,6 +6,6 @@
   <string name="project_id" translatable="false">virtucard-4529f</string>
   <string name="google_api_key" translatable="false">AIzaSyAT-ozprhXfpGEEKxSrdISpGxoSgJO9suw</string>
   <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAT-ozprhXfpGEEKxSrdISpGxoSgJO9suw</string>
-  <string name="google_app_id" translatable="false">1:1071081792573:android:6c31007f85f1cb4d57f654</string>
+  <string name="google_app_id" translatable="false">1:1071081792573:android:6e67f3048bf89e4757f654</string>
   <string name="default_web_client_id" translatable="false">1071081792573-ergti17jtn58rihd8rl4a97kkiige1d4.apps.googleusercontent.com</string>
 </resources>
