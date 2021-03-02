@@ -40,6 +40,7 @@ public class LoginPageManager : MonoBehaviour
     {
         if (CorrectCred)
         {
+            Debug.Log("login success");
             sceneLoader.ChangeScene(SceneNames.LandingPage);
         }
 
@@ -47,7 +48,7 @@ public class LoginPageManager : MonoBehaviour
         {
             IncorrectCred = false;
             CreateErrorMessage("ERROR", "Invalid email or Incorrect password!");
-            Debug.Log("update failed");
+            Debug.Log("login failed");
         }
     }
 
