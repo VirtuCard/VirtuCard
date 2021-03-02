@@ -17,15 +17,17 @@ namespace FirebaseScripts
             AuthStateChanged(null, null);
         }
 
+
         /// <summary>
         /// This method is for logging in to an account assuming that the account is in the firebase.
         /// If the account is not in the firebase, you will not be able to log in.
         /// </summary>
         /// <param name="email"></param>
         /// <param name="password"></param>
-        public static void Login(string email, string password, Action<bool> callback)
+        public static void Login(String email, String password, Action<bool> callback)
         {
             /// checks if the credentials are correct
+
             auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
             {
                 if (task.IsCanceled)
@@ -33,7 +35,7 @@ namespace FirebaseScripts
                     //Throw error for cancellation here 
                     Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
                     callback(false);
-                    return;
+                    return ;
                 }
 
                 if (task.IsFaulted)
@@ -45,12 +47,12 @@ namespace FirebaseScripts
                 }
 
                 // Firebase user has been created.
-                firebaseUser = task.Result;
-
-                //Put callback here to return to when done. 
+                //Put callback here to return to when done.
+                Firebase.Auth.FirebaseUser newUser = task.Result;
+                 Debug.LogFormat("User logged in successfully: {0} ({1})",
+                     newUser.DisplayName, newUser.UserId);
                 callback(true);
-                Debug.LogFormat("Firebase user logged in successfully: {0} ({1})",
-                    firebaseUser.DisplayName, firebaseUser.UserId);
+                return; 
             });
         }
 
@@ -110,7 +112,6 @@ namespace FirebaseScripts
                     callback(false);
                     return;
                 }
-
                 if (task.IsFaulted)
                 {
                     //Throw error for other error here
@@ -160,7 +161,7 @@ namespace FirebaseScripts
             });
         }
 
-        private static void AuthStateChanged(object sender, System.EventArgs eventArgs)
+        public static void AuthStateChanged(object sender, System.EventArgs eventArgs)
         {
             if (auth.CurrentUser != firebaseUser)
             {
