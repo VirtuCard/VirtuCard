@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/RegistrationPage.unity
     guid: 1cb9af5d81b03aa4d8a5781360a0857e
+  - enabled: 1
+    path: Assets/Scenes/WaitingRoomScreen.unity
+    guid: 505c0406d962cd0488199b58697cabed
   m_configObjects: {}

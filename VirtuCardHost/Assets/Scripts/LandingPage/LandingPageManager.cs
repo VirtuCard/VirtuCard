@@ -1,5 +1,6 @@
 using FirebaseScripts;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LandingPageManager : MonoBehaviour
@@ -16,6 +17,7 @@ public class LandingPageManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        canHostJoinToggle.SetIsOnWithoutNotify(HostData.CanHostJoinGame());
         // add event listener for the value changing
         canHostJoinToggle.onValueChanged.AddListener(
             delegate { CanHostJoinToggleValueChanged(canHostJoinToggle.isOn); });
@@ -23,45 +25,24 @@ public class LandingPageManager : MonoBehaviour
         gameChoiceDropdown.options.Add(new Dropdown.OptionData("Freeplay"));
         gameChoiceDropdown.options.Add(new Dropdown.OptionData("Uno"));
         gameChoiceDropdown.options.Add(new Dropdown.OptionData("Go Fish"));
-        //Console.WriteLine("HELLLLLOOOOO");
 
-
-        
-        // FirebaseInit.InitializeFirebase(task =>
-        // {
-        //     AuthUser.RegisterAccount("testing", "hello@ohio.edu", "topsecret",
-        //         task => { Debug.Log("Hi " + task); 
-        //         if (AuthUser.Login("testing", "topsecret")) {
-        //                 Debug.Log("True");
-        //             }
-        //             else {
-        //                 Debug.Log("False");
-        //             }
-        //         });
-        // });
-
-        // FirebaseInit.InitializeFirebase(task =>
-        // {
-        //     AuthUser.Login("seodongjune00@gmail.com", "poop",
-        //         task => {
-        //         Debug.Log("hello " + task);
-        //         if (task) {
-        //             Debug.Log("TRUE JUNIBEAR");
-        //             //Console.WriteLine("TRUE JUNIBEAR");
-        //         }
-        //         else {
-        //             Debug.Log("FALSE JUNIEBEAR invalid credentials");
-        //             //Console.WriteLine("FALSE JUNIBEAR");
-        //         }
-        //     });
-
-        // });
-        
+        gameChoiceDropdown.onValueChanged.AddListener(GameChoiceValueChanged);
     }
 
     // Update is called once per frame
     void Update()
     {
+    }
+
+    public void OnCreateButtonClick()
+    {
+        HostData.setJoinCode("EFADDS");
+        SceneManager.LoadScene(SceneNames.WaitingRoomScreen, LoadSceneMode.Single);
+    }
+
+    private void GameChoiceValueChanged(int state)
+    {
+        HostData.setSelectedGame(state);
     }
 
     /// <summary>
