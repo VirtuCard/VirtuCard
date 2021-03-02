@@ -14,4 +14,7 @@ public static class SceneNames
     public static string ProfilePage { get { return "ProfilePage"; } }
     public static string SettingsPage { get { return "SettingsPage"; } }
     public static string WaitingRoomScreen { get { return "WaitingRoomScreen"; } }
+    public static string ForgotPasswordPage { get { return "ForgotPasswordPage"; } }
+    public static string LoginPage { get { return "LoginPage"; } }
+    public static string RegistrationPage { get { return "RegistrationPage"; } }
 }
