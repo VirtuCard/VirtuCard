@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ForgotPassword : MonoBehaviour
+public class ForgotPasswordPageManager : MonoBehaviour
 {
-    // these are the text boxes for the email inputs
+    // these are the text boxes for the email input
     public InputField emailInput;
 
     // this is the button that is pressed to submit the email and recieve the forgot password email
@@ -43,7 +43,7 @@ public class ForgotPassword : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void CreateErrorMessage(string title, string message)
