@@ -171,7 +171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b57fe27633881148a819a314c12f2ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  successful: 0
   usernameField: {fileID: 1722418765}
   emailField: {fileID: 792396795}
   passwordField: {fileID: 697107751}
@@ -2785,8 +2784,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 23.5407}
+  m_SizeDelta: {x: 0, y: 1534.8606}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2009534590
 MonoBehaviour:
