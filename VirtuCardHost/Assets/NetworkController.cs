@@ -54,8 +54,13 @@ public class NetworkController : MonoBehaviourPunCallbacks
     // Function to Create and Join a Room with associated Room Code
     void CreateAndJoinRoom()
     {
+        // Sets the max players that can join to 10
+        // Number will change depending on the game
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = 10;
+
+        // This will join the room depending on the roomcode
+        // If room doesn't exist, it creates the room
         PhotonNetwork.JoinOrCreateRoom(RoomCode, options, null);
     }
 
