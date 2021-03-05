@@ -11,6 +11,7 @@ public static class HostData
     private static string selectedGame = "Freeplay";
     private static int maxNumPlayers = 5;
     private static string joinCode;
+    private static bool chatAllowed;
 
     public static string GetJoinCode()
     {
@@ -75,5 +76,13 @@ public static class HostData
     {
         joinCode = code;
     }
-    
+
+    public static bool isChatAllowed()
+    {
+        return chatAllowed;
+    }
+    public static void setChatAllowed(bool isChatAllowed)
+    {
+        chatAllowed = isChatAllowed;
+    }
 }

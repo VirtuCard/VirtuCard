@@ -23,11 +23,9 @@ namespace FirebaseScripts
         /// </summary>
         /// <param name="email"></param>
         /// <param name="password"></param>
+        /// <param name="callback"></param>
         public static void Login(String email, String password, Action<bool> callback)
         {
-            /// checks if the credentials are correct
-            bool check = false;
-
             auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
             {
                 if (task.IsCanceled)
