@@ -5,7 +5,7 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637498949170000000
+      ticks: 637504147600000000
     m_Hash: 606336415
   m_LockFileStatus:
     m_FilePath: /Users/juniebear27/Downloads/VirtuCard/VirtuCardHost/Packages/packages-lock.json
@@ -13,7 +13,7 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637504137950000000
+      ticks: 637505128630000000
     m_Hash: 1099407875
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
