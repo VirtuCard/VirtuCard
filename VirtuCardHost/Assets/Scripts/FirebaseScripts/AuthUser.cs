@@ -35,7 +35,7 @@ namespace FirebaseScripts
                     //Throw error for cancellation here 
                     Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
                     callback(false);
-                    return ;
+                    return;
                 }
 
                 if (task.IsFaulted)
@@ -49,10 +49,10 @@ namespace FirebaseScripts
                 // Firebase user has been created.
                 //Put callback here to return to when done.
                 Firebase.Auth.FirebaseUser newUser = task.Result;
-                 Debug.LogFormat("User logged in successfully: {0} ({1})",
-                     newUser.DisplayName, newUser.UserId);
+                Debug.LogFormat("User logged in successfully: {0} ({1})",
+                    newUser.DisplayName, newUser.UserId);
                 callback(true);
-                return; 
+                return;
             });
         }
 
@@ -112,6 +112,7 @@ namespace FirebaseScripts
                     callback(false);
                     return;
                 }
+
                 if (task.IsFaulted)
                 {
                     //Throw error for other error here
@@ -204,25 +205,30 @@ namespace FirebaseScripts
                     {
                         callback(false);
                     }
+
                     if (task.IsCompleted)
                     {
                         callback(true);
                     }
                 });
             });
+        }
+
         /// This methods sends a confirmation email to the current user after they have registered successfully
         /// </summary>
-        private static void SendConfirmationEmail()
+        public static void SendConfirmationEmail()
         {
             Firebase.Auth.FirebaseUser user = auth.CurrentUser;
             if (user != null)
             {
-                user.SendEmailVerificationAsync().ContinueWith(task => {
+                user.SendEmailVerificationAsync().ContinueWith(task =>
+                {
                     if (task.IsCanceled)
                     {
                         Debug.LogError("SendEmailVerificationAsync was canceled.");
                         return;
                     }
+
                     if (task.IsFaulted)
                     {
                         Debug.LogError("SendEmailVerificationAsync encountered an error: " + task.Exception);
@@ -233,23 +239,25 @@ namespace FirebaseScripts
                 });
             }
         }
-        
+
         /// <summary>
         /// This method is used to send a given user a password reset email for their account
         /// </summary>
         /// <param name="username"></param>
         /// <param name="email"></param>
-        private static void ResetPassword(String email, Action<bool> callback)
+        public static void ResetPassword(String email, Action<bool> callback)
         {
             if (email != null)
             {
-                auth.SendPasswordResetEmailAsync(email).ContinueWith(task => {
+                auth.SendPasswordResetEmailAsync(email).ContinueWith(task =>
+                {
                     if (task.IsCanceled)
                     {
                         Debug.LogError("SendPasswordResetEmailAsync was canceled.");
                         callback(false);
                         return;
                     }
+
                     if (task.IsFaulted)
                     {
                         Debug.LogError("SendPasswordResetEmailAsync encountered an error: " + task.Exception);
