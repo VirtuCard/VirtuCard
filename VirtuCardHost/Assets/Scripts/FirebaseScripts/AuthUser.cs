@@ -210,6 +210,57 @@ namespace FirebaseScripts
                     }
                 });
             });
+        /// This methods sends a confirmation email to the current user after they have registered successfully
+        /// </summary>
+        private static void SendConfirmationEmail()
+        {
+            Firebase.Auth.FirebaseUser user = auth.CurrentUser;
+            if (user != null)
+            {
+                user.SendEmailVerificationAsync().ContinueWith(task => {
+                    if (task.IsCanceled)
+                    {
+                        Debug.LogError("SendEmailVerificationAsync was canceled.");
+                        return;
+                    }
+                    if (task.IsFaulted)
+                    {
+                        Debug.LogError("SendEmailVerificationAsync encountered an error: " + task.Exception);
+                        return;
+                    }
+
+                    Debug.Log("Email sent successfully.");
+                });
+            }
+        }
+        
+        /// <summary>
+        /// This method is used to send a given user a password reset email for their account
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="email"></param>
+        private static void ResetPassword(String email, Action<bool> callback)
+        {
+            if (email != null)
+            {
+                auth.SendPasswordResetEmailAsync(email).ContinueWith(task => {
+                    if (task.IsCanceled)
+                    {
+                        Debug.LogError("SendPasswordResetEmailAsync was canceled.");
+                        callback(false);
+                        return;
+                    }
+                    if (task.IsFaulted)
+                    {
+                        Debug.LogError("SendPasswordResetEmailAsync encountered an error: " + task.Exception);
+                        callback(false);
+                        return;
+                    }
+
+                    Debug.Log("Password reset email sent successfully.");
+                    callback(true);
+                });
+            }
         }
     }
 }
