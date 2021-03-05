@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PixelRect:
     serializedVersion: 2
-    x: 0
-    y: 45
+    x: 8
+    y: 51
     width: 1440
     height: 799
   m_ShowMode: 4
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 679, y: 492}
   m_MaxSize: {x: 14002, y: 14042}
   vertical: 0
-  controlID: 88
+  controlID: 117
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_MinSize: {x: 403, y: 492}
   m_MaxSize: {x: 10001, y: 14042}
   vertical: 1
-  controlID: 89
+  controlID: 118
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -251,7 +251,7 @@ MonoBehaviour:
   m_MinSize: {x: 403, y: 221}
   m_MaxSize: {x: 8003, y: 4021}
   vertical: 0
-  controlID: 90
+  controlID: 119
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -325,8 +325,8 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 528
+    x: 8
+    y: 534
     width: 1146
     height: 275
   m_ViewDataDictionary: {fileID: 0}
@@ -351,14 +351,14 @@ MonoBehaviour:
   m_LastFolders:
   - Assets
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: /Users/juniebear27/Downloads/VirtuCard/VirtuCardClient
+  m_LastProjectPath: C:\Users\Kade\source\CS307\VirtuCard\VirtuCardClient
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 79}
-    m_SelectedIDs: 1c4b0000
-    m_LastClickedID: 19228
-    m_ExpandedIDs: 000000001c4b00006c4c00006e4c0000704c0000724c0000744c0000764c0000784c00007a4c0000a04c000000ca9a3b
+    m_SelectedIDs: 46460000
+    m_LastClickedID: 17990
+    m_ExpandedIDs: 000000004646000036470000384700003a4700003c4700003e47000040470000424700004447000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -386,7 +386,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000001c4b00006c4c00006e4c0000704c0000724c0000744c0000764c0000784c00007a4c0000
+    m_ExpandedIDs: 000000004646000036470000384700003a4700003c4700003e470000404700004247000044470000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -413,7 +413,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000b240000000000000aa4c0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -458,12 +458,12 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Inspector
-    m_Image: {fileID: -440750813802333266, guid: 0000000000000000d000000000000000, type: 0}
+    m_Image: {fileID: -2667387946076563598, guid: 0000000000000000d000000000000000, type: 0}
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1147
-    y: 75
+    x: 1155
+    y: 81
     width: 292
     height: 728
   m_ViewDataDictionary: {fileID: 0}
@@ -499,17 +499,17 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 75
+    x: 8
+    y: 81
     width: 284
     height: 432
   m_ViewDataDictionary: {fileID: 0}
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 664d0000
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: c8ecffff7eedffff
+      m_ExpandedIDs: a0f4ffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -553,8 +553,8 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 285
-    y: 75
+    x: 293
+    y: 81
     width: 860
     height: 432
   m_ViewDataDictionary: {fileID: 0}
@@ -571,7 +571,7 @@ MonoBehaviour:
   m_Position:
     m_Target: {x: 1248.2913, y: 1260.6343, z: -5530.5845}
     speed: 2
-    m_Value: {x: 1322.5801, y: 1256.9567, z: -5520.709}
+    m_Value: {x: 1248.2913, y: 1260.6343, z: -5530.5845}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -624,7 +624,7 @@ MonoBehaviour:
   m_Size:
     m_Target: 1765.3076
     speed: 2
-    m_Value: 1866.0757
+    m_Value: 1765.3076
   m_Ortho:
     m_Target: 1
     speed: 2
