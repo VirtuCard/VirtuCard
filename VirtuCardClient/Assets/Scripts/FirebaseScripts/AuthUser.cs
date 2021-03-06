@@ -33,7 +33,7 @@ namespace FirebaseScripts
                     //Throw error for cancellation here 
                     Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
                     callback(false);
-                    return ;
+                    return;
                 }
 
                 if (task.IsFaulted)
@@ -47,10 +47,10 @@ namespace FirebaseScripts
                 // Firebase user has been created.
                 //Put callback here to return to when done.
                 Firebase.Auth.FirebaseUser newUser = task.Result;
-                 Debug.LogFormat("User logged in successfully: {0} ({1})",
-                     newUser.DisplayName, newUser.UserId);
+                Debug.LogFormat("User logged in successfully: {0} ({1})",
+                    newUser.DisplayName, newUser.UserId);
                 callback(true);
-                return; 
+                return;
             });
         }
 
@@ -165,6 +165,7 @@ namespace FirebaseScripts
                     {
                         callback(false);
                     }
+
                     if (task.IsCompleted)
                     {
                         callback(true);

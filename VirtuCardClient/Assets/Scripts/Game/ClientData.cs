@@ -10,6 +10,7 @@ public static class ClientData
     {
         isCurrentlyTurn = value;
     }
+
     public static bool isCurrentTurn()
     {
         return isCurrentlyTurn;
