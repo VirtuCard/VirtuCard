@@ -283,7 +283,7 @@ namespace FirebaseScripts
         /// </summary>
         /// <param name="username"></param>
         /// <param name="email"></param>
-        public static void ResetPassword(String email)
+        public static void ResetPassword(String email, Action<bool> callback)
         {
             if (!FirebaseInit.IsInitialized())
             {
@@ -293,25 +293,24 @@ namespace FirebaseScripts
             if (email != null)
             {
                 Debug.Log(email);
-                //Debug.Log(callback);
                 auth.SendPasswordResetEmailAsync(email).ContinueWith(task =>
                 {
                     if (task.IsCanceled)
                     {
                         Debug.LogError("SendPasswordResetEmailAsync was canceled.");
-                        //callback(false);
+                        callback(false);
                         return;
                     }
 
                     if (task.IsFaulted)
                     {
                         Debug.LogError("SendPasswordResetEmailAsync encountered an error: " + task.Exception);
-                        //callback(false);
+                        callback(false);
                         return;
                     }
 
                     Debug.Log("Password reset email sent successfully.");
-                    //callback(true);
+                    callback(true);
                 });
             }
         }
