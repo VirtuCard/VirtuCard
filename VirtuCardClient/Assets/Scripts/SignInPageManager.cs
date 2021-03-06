@@ -42,7 +42,7 @@ public class SignInPageManager : MonoBehaviour
         {
             Debug.Log("login success");
             // THIS IS WHERE THE NEXT PAGE CHANGE IS GOING TO GO
-
+            sceneLoader.ChangeScene(SceneNames.JoinGamePage);
         }
 
         if (IncorrectCred) 
