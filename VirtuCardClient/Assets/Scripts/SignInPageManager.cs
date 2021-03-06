@@ -22,6 +22,7 @@ public class SignInPageManager : MonoBehaviour
     public Text errorMessage;
     public Text successMessage;
 
+
     // this controls what scene to go to
     private LoadDifferentScene sceneLoader;
 
@@ -31,6 +32,7 @@ public class SignInPageManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        successPanel.SetActive(false);
         failedPanel.SetActive(false);
         // initialize sceneLoader
         sceneLoader = gameObject.AddComponent<LoadDifferentScene>();
