@@ -18,6 +18,24 @@ public class LoadDifferentScene : MonoBehaviour
     {
     }
 
+
+
+    /// <summary>
+    /// This method changes to the scene name
+    /// </summary>
+    /// <param name="sceneName">
+    /// This string takes the exact name of the scene to change to
+    /// </param>
+    public void ChangeScene(string sceneName)
+    {
+        if (string.IsNullOrEmpty(sceneName))
+        {
+            throw new System.Exception("The attribute sceneName is null in LoadDifferentScene");
+        }
+        // load the new scene
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+    }
+    
     /// <summary>
     /// This method changes the scene when it is called.
     /// It changes the scene to the name declared in the sceneName attribute.
