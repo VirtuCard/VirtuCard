@@ -278,11 +278,11 @@ public class GUITesting
         Assert.NotNull(joinGameButton, "joinGameButton != null");
 
         gameChoices.value = 0;
-        Assert.AreEqual(gameChoices.captionText.text, "Freeplay");
+        Assert.AreEqual(gameChoices.captionText.text, "Freeplay", "Game Dropdowns provided unexpected value");
         gameChoices.value = 1;
-        Assert.AreEqual(gameChoices.captionText.text, "Uno");
+        Assert.AreEqual(gameChoices.captionText.text, "Uno", "Game Dropdowns provided unexpected value");
         gameChoices.value = 2;
-        Assert.AreEqual(gameChoices.captionText.text, "Go Fish");
+        Assert.AreEqual(gameChoices.captionText.text, "Go Fish", "Game Dropdowns provided unexpected value");
 
         joinGameButton.onClick.Invoke();
         yield return new WaitForSeconds(5);
@@ -291,5 +291,26 @@ public class GUITesting
         currentScene = SceneManager.GetActiveScene();
         Assert.IsTrue(currentScene.name.Equals(SceneNames.WaitingRoomScreen),
             "currentScene.name.Equals(SceneNames.WaitingRoomScreen)");
+
+        //Check if Go Fish is selected
+        Text selectedGame = GameObject.Find("SelectedGame").GetComponent<Text>();
+        Button settingsButton = GameObject.Find("Settings").GetComponent<Button>();
+
+        Assert.NotNull(selectedGame, "selectedGame != null");
+        Assert.NotNull(settingsButton, "settingsButton != null");
+        Assert.AreEqual(selectedGame.text, "Go Fish", "Dropdown choice not shown.");
+        settingsButton.onClick.Invoke();
+        yield return new WaitForSeconds(1);
+        
+        //See if panel has opened, Exit Game then
+        Button exitGame = GameObject.Find("ExitGameButton").GetComponent<Button>();
+        Assert.IsTrue(exitGame.IsActive());
+        exitGame.onClick.Invoke();
+        yield return new WaitForSeconds(3);
+
+        //Check if it returned
+        currentScene = SceneManager.GetActiveScene();
+        Assert.IsTrue(currentScene.name.Equals(SceneNames.LandingPage),
+            "currentScene.name.Equals(SceneNames.LandingPage)");
     }
 }
