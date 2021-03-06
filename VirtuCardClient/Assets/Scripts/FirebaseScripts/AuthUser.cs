@@ -211,5 +211,10 @@ namespace FirebaseScripts
                 }
             }
         }
+
+        public static string GetUserID()
+        {
+            return auth.CurrentUser.UserId;
+        }
     }
 }

@@ -13,4 +13,34 @@ public static class SceneNames
     {
         get { return "JoinGamePage"; }
     }
+
+    public static string FriendsScene
+    {
+        get { return "FriendsScene"; }
+    }
+
+    public static string SettingsScene
+    {
+        get { return "SettingsScene"; }
+    }
+
+    public static string ProfileScene
+    {
+        get { return "ProfileScene"; }
+    }
+
+    public static string SignInPage
+    {
+        get { return "SignInPage"; }
+    }
+
+    public static string RegisterPage
+    {
+        get { return "RegisterPage"; }
+    }
+
+    public static string GameScreen
+    {
+        get { return "GameScreen"; }
+    }
 }
