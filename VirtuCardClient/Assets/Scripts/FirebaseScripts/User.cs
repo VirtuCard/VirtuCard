@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using UnityEngine;
 
 namespace FirebaseScripts
 {
@@ -49,15 +50,23 @@ namespace FirebaseScripts
             this.avatar = (string) dict["Avatar"];
             this._userId = (string) dict["UserId"];
             this.isAnonymous = (bool) dict["IsAnonymous"];
-            JArray array = (JArray) dict["Friends"];
-            if (array == null)
+            if (dict.ContainsKey("Friends"))
             {
-                this.friends = new List<string>();
+                JArray array = (JArray) dict["Friends"];
+                if (array == null)
+                {
+                    this.friends = new List<string>();
+                }
+                else
+                {
+                    this.friends = array.ToObject<List<string>>();
+                }
             }
             else
             {
-                this.friends = array.ToObject<List<string>>();
+                this.friends = new List<string>();
             }
+            
         }
 
         public string Name

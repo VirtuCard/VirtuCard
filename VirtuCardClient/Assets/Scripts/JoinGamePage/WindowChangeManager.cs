@@ -26,7 +26,7 @@ namespace JoinGamePage
             errorPanel.SetActive(true);
         }
 
-        private void Start()
+        void Start()
         {
             isAnonymous = false;
             errorPanel.SetActive(false);
@@ -37,12 +37,12 @@ namespace JoinGamePage
             });
         }
 
-        void OnSettingsButtonClick()
+        public void OnSettingsButtonClick()
         {
             SceneManager.LoadScene(SceneNames.SettingsScene, LoadSceneMode.Single);
         }
 
-        void OnProfileButtonClick()
+        public void OnProfileButtonClick()
         {
             if (isAnonymous)
             {
@@ -56,7 +56,7 @@ namespace JoinGamePage
         }
 
 
-        void OnFriendsButtonClick()
+        public void OnFriendsButtonClick()
         {
             if (isAnonymous)
             {
