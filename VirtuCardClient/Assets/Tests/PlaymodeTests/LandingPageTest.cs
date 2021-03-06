@@ -28,11 +28,27 @@ public class LandingPageTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SignInBtn.onClick.AddListener(delegate { signInClicked(); });
-        RegisterBtn.onClick.AddListener(delegate { registerClicked(); });
-        GoogleBtn.onClick.AddListener(delegate { googleClicked(); });
-        FacebookBtn.onClick.AddListener(delegate { facebookClicked(); });
-        AnonBtn.onClick.AddListener(delegate { anonClicked(); });
+        SignInBtn.onClick.AddListener(delegate {
+            signInClicked(); 
+            Assert.IsTrue(sign);
+            
+        });
+        RegisterBtn.onClick.AddListener(delegate {
+            registerClicked();
+            Assert.IsTrue(register);
+        });
+        GoogleBtn.onClick.AddListener(delegate {
+            googleClicked();
+            Assert.IsTrue(google);
+        });
+        FacebookBtn.onClick.AddListener(delegate {
+            facebookClicked();
+            Assert.IsTrue(facebook);
+        });
+        AnonBtn.onClick.AddListener(delegate {
+            anonClicked();
+            Assert.IsTrue(anon);
+        });
     }
 
     // Update is called once per frame
@@ -43,25 +59,20 @@ public class LandingPageTest : MonoBehaviour
 
     public void signInClicked() {
         sign = true;
-        Assert.IsTrue(sign);
     }
 
     public void registerClicked() {
         register = true;
-        Assert.IsTrue(register);
     }
 
     public void googleClicked() {
         google = true;
-        Assert.IsTrue(google);
     }
 
     public void facebookClicked() {
         facebook = true;
-        Assert.IsTrue(facebook);    
     }
     public void anonClicked() {
         anon = true;
-        Assert.IsTrue(anon);
     }
 }
