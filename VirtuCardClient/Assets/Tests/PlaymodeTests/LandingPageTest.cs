@@ -7,7 +7,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class LandingPageTest : MonoBehaviour
+public class LandingPageTests
 {
     // All the buttons in the page
     public Button SignInBtn;
@@ -26,37 +26,40 @@ public class LandingPageTest : MonoBehaviour
     public bool anon = false;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        SignInBtn.onClick.AddListener(delegate {
-            signInClicked(); 
-            Assert.IsTrue(sign);
-            
-        });
-        RegisterBtn.onClick.AddListener(delegate {
-            registerClicked();
-            Assert.IsTrue(register);
-        });
-        GoogleBtn.onClick.AddListener(delegate {
-            googleClicked();
-            Assert.IsTrue(google);
-        });
-        FacebookBtn.onClick.AddListener(delegate {
-            facebookClicked();
-            Assert.IsTrue(facebook);
-        });
-        AnonBtn.onClick.AddListener(delegate {
-            anonClicked();
-            Assert.IsTrue(anon);
-        });
-    }
 
-    // Update is called once per frame
-    void Update()
+    [UnityTest]
+    public IEnumerator LandingPageTest()
     {
+        // unit test for sign in
+        SignInBtn.onClick.AddListener(delegate { signInClicked(); });
+        SignInBtn.onClick.Invoke();
+        yield return new WaitForSeconds(2);
+        Assert.IsTrue(sign);
+
+        // unit test for register
+        RegisterBtn.onClick.AddListener(delegate { registerClicked(); });
+        RegisterBtn.onClick.Invoke();
+        yield return new WaitForSeconds(2);
+        Assert.IsTrue(register);
+
+        // unit test for google
+        GoogleBtn.onClick.AddListener(delegate { googleClicked(); });
+        GoogleBtn.onClick.Invoke();
+        yield return new WaitForSeconds(2);
+        Assert.IsTrue(google);
+
+        // unit test for facebook
+        FacebookBtn.onClick.AddListener(delegate { facebookClicked(); });
+        FacebookBtn.onClick.Invoke();
+        yield return new WaitForSeconds(2);
+        Assert.IsTrue(facebook);
         
+        // unit test for anon
+        AnonBtn.onClick.AddListener(delegate { anonClicked(); });
+        AnonBtn.onClick.Invoke();
+        yield return new WaitForSeconds(2);
+        Assert.IsTrue(anon);
     }
-
     public void signInClicked() {
         sign = true;
     }
