@@ -1,12 +1,11 @@
 ﻿using System;
 using Firebase;
 using Firebase.Database;
-using FirebaseScripts;
 using UnityEngine;
 
-namespace FirebaseScripts 
+namespace FirebaseScripts
 {
-    public static class DatabaseUtils
+    public class DatabaseUtils
     {
         private static FirebaseDatabase realtime;
 
@@ -15,7 +14,7 @@ namespace FirebaseScripts
             realtime = FirebaseDatabase.GetInstance(firebaseApp);
         }
 
-        public static void addUser(FirebaseScripts.User user, Action<bool> callback)
+        public static void addUser(User user, Action<bool> callback)
         {
             string json = user.ToString();
             string userId = user.UserId;
@@ -40,14 +39,14 @@ namespace FirebaseScripts
                         }
                         else if (task.IsCompleted)
                         {
-                            namesRef.Child(username).Child("userId").SetValueAsync(userId).ContinueWith(task =>
+                            namesRef.Child(username).Child("userId").SetValueAsync(userId).ContinueWith(copy =>
                             {
-                                if (task.IsFaulted)
+                                if (copy.IsFaulted)
                                 {
                                     Debug.LogError("Failed to Add User");
                                     callback(false);
                                 }
-                                else if (task.IsCompleted)
+                                else if (copy.IsCompleted)
                                 {
                                     callback(true);
                                 }
@@ -103,6 +102,13 @@ namespace FirebaseScripts
                 {
                     Debug.LogError("Failed to Connect to Firebase Database");
                     callback(null);
+                    return;
+                }
+
+                if (task.Result.Value == null)
+                {
+                    callback(null);
+                    return;
                 }
 
                 callback((string) task.Result.Value);
@@ -138,7 +144,7 @@ namespace FirebaseScripts
         {
             DatabaseReference usersRef = realtime.GetReference("users/");
             DatabaseReference usernamesRef = realtime.GetReference("usernames/");
-
+                    
             usersRef.Child(userId).Child("Username").GetValueAsync().ContinueWith(task =>
             {
                 if (task.IsFaulted)
@@ -219,5 +225,4 @@ namespace FirebaseScripts
             });
         }
     }
-
 }
