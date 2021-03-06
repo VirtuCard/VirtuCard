@@ -33,7 +33,7 @@ namespace FirebaseScripts
                     //Throw error for cancellation here 
                     Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
                     callback(false);
-                    return ;
+                    return;
                 }
 
                 if (task.IsFaulted)
@@ -47,10 +47,10 @@ namespace FirebaseScripts
                 // Firebase user has been created.
                 //Put callback here to return to when done.
                 Firebase.Auth.FirebaseUser newUser = task.Result;
-                 Debug.LogFormat("User logged in successfully: {0} ({1})",
-                     newUser.DisplayName, newUser.UserId);
+                Debug.LogFormat("User logged in successfully: {0} ({1})",
+                    newUser.DisplayName, newUser.UserId);
                 callback(true);
-                return; 
+                return;
             });
         }
 
@@ -165,6 +165,7 @@ namespace FirebaseScripts
                     {
                         callback(false);
                     }
+
                     if (task.IsCompleted)
                     {
                         callback(true);
@@ -193,6 +194,44 @@ namespace FirebaseScripts
             });
         }
 
+        public static void DeleteAnonymousAccount(Action<bool> callback)
+        {
+            if (!FirebaseInit.IsInitialized())
+            {
+                Debug.LogError("Firebase not initialized!");
+                callback(false);
+                return;
+            }
+
+            var prevUser = auth.CurrentUser;
+            DatabaseUtils.getUser(prevUser.UserId, res =>
+            {
+                User user = new User(res);
+                if (user.IsAnonymous)
+                {
+                    DatabaseUtils.RemoveUserWithID(prevUser.UserId, task =>
+                    {
+                        prevUser.DeleteAsync().ContinueWith(task =>
+                        {
+                            if (task.IsFaulted)
+                            {
+                                callback(false);
+                            }
+
+                            if (task.IsCompleted)
+                            {
+                                callback(true);
+                            }
+                        });
+                    });
+                }
+                else
+                {
+                    callback(false);
+                }
+            });
+        }
+
         private static void AuthStateChanged(object sender, System.EventArgs eventArgs)
         {
             if (auth.CurrentUser != firebaseUser)
@@ -209,6 +248,11 @@ namespace FirebaseScripts
                     Debug.Log("Signed in " + firebaseUser.UserId);
                 }
             }
+        }
+
+        public static string GetUserID()
+        {
+            return auth.CurrentUser.UserId;
         }
     }
 }
