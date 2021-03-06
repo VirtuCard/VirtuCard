@@ -13,11 +13,14 @@ public class SignInPageManager : MonoBehaviour
 
     // this is the button that is pressed to submit the username and password
     public Button loginBtn;
+    public Button successBtn;
 
     //Error Dialog
     public GameObject failedPanel;
+    public GameObject successPanel;
     public Text errorTitle;
     public Text errorMessage;
+    public Text successMessage;
 
     // this controls what scene to go to
     private LoadDifferentScene sceneLoader;
@@ -42,9 +45,9 @@ public class SignInPageManager : MonoBehaviour
         if (CorrectCred)
         {
             Debug.Log("login success");
-            SceneManager.LoadScene(SceneNames.JoinGamePage, LoadSceneMode.Single);
-            // THIS IS WHERE THE NEXT PAGE CHANGE IS GOING TO GO
-            sceneLoader.ChangeScene(SceneNames.JoinGamePage);
+            //SceneManager.LoadScene(SceneNames.JoinGamePage, LoadSceneMode.Single);
+            CreateSuccessMessage("Login Success!");
+            successBtn.onClick.AddListener(delegate { sceneLoader.ChangeScene(SceneNames.JoinGamePage); });
         }
 
         if (IncorrectCred)
@@ -53,6 +56,11 @@ public class SignInPageManager : MonoBehaviour
             CreateErrorMessage("ERROR", "Invalid email or Incorrect password!");
             Debug.Log("login failed");
         }
+    }
+
+    void CreateSuccessMessage(string title) {
+        successMessage.GetComponent<Text>().text = title;
+        successPanel.SetActive(true);
     }
 
     void CreateErrorMessage(string title, string message)
