@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using FirebaseScripts;
 
 public class ForgotPasswordPageManager : MonoBehaviour
 {
@@ -25,6 +26,9 @@ public class ForgotPasswordPageManager : MonoBehaviour
     // this controls what scene to go to
     private LoadDifferentScene sceneLoader;
 
+    public bool CorrectCred = false;
+    public bool IncorrectCred = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,14 +50,14 @@ public class ForgotPasswordPageManager : MonoBehaviour
 
     }
 
-    void CreateErrorMessage(string title, string message)
+    public void CreateErrorMessage(string title, string message)
     {
         errorTitle.GetComponent<Text>().text = title;
         errorMessage.GetComponent<Text>().text = message;
         failedPanel.SetActive(true);
     }
 
-    void CreateConfirmMessage(string title, string message)
+    public void CreateConfirmMessage(string title, string message)
     {
         confirmTitle.text = title;
         confirmMessage.text = message;
@@ -63,12 +67,17 @@ public class ForgotPasswordPageManager : MonoBehaviour
     /// <summary>
     /// This is the callback for the send email button. It gathers the inputs from the email field
     /// </summary>
-    private void sendBtnClicked()
+    public void sendBtnClicked()
     {
         // collect email
         string email = emailInput.text;
+        Debug.Log(email);
 
         // change the scene
-        sceneLoader.ChangeScene(SceneNames.LoginPage);
+        //sceneLoader.ChangeScene(SceneNames.LoginPage);
+        FirebaseInit.InitializeFirebase(task =>
+        {
+            AuthUser.ResetPassword(email);
+        });
     }
 }
