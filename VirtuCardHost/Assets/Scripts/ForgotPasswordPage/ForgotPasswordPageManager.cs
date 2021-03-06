@@ -47,6 +47,19 @@ public class ForgotPasswordPageManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (CorrectCred)
+        {
+            confirmPanel.SetActive(true);
+            emailInput.text = "";
+            CorrectCred = false;
+
+        }
+        else if (IncorrectCred)
+        {
+            failedPanel.SetActive(true);
+            emailInput.text = "";
+            IncorrectCred = false;
+        }
 
     }
 
@@ -74,10 +87,21 @@ public class ForgotPasswordPageManager : MonoBehaviour
         Debug.Log(email);
 
         // change the scene
-        //sceneLoader.ChangeScene(SceneNames.LoginPage);
         FirebaseInit.InitializeFirebase(task =>
         {
-            AuthUser.ResetPassword(email);
+            AuthUser.ResetPassword(email,
+                task => {
+                    if (task)
+                    {
+                        Debug.Log("task bool is " + task);
+                        CorrectCred = true;
+                    }
+                    else
+                    {
+                        Debug.Log("task bool is " + task);
+                        IncorrectCred = true;
+                    }
+            });
         });
     }
 }
