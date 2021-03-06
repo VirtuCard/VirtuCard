@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8607835}
   - component: {fileID: 8607834}
+  - component: {fileID: 8607836}
   m_Layer: 0
   m_Name: ButtonHandler
   m_TagString: Untagged
@@ -168,6 +169,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8607836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8607833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a702bd6b0b524eb18592698d176f02b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  errorPanel: {fileID: 1996827250}
+  errorTitle: {fileID: 1281390911}
+  errorMessage: {fileID: 1775894057}
+  profileButton: {fileID: 310702124}
+  friendsButton: {fileID: 1417356924}
+  settingsButton: {fileID: 415855230}
+  isAnonymous: 0
 --- !u!1 &152758367
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,9 +403,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LoadDifferentScene, ScriptsAssembly
-        m_MethodName: ChangeScene
+      - m_Target: {fileID: 8607836}
+        m_TargetAssemblyTypeName: JoinGamePage.WindowChangeManager, ScriptsAssembly
+        m_MethodName: OnProfileButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -549,7 +569,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 415855231}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8607836}
+        m_TargetAssemblyTypeName: JoinGamePage.WindowChangeManager, ScriptsAssembly
+        m_MethodName: OnSettingsButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &415855231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -622,8 +654,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -203.3696, y: -1557.8107}
+  m_AnchoredPosition: {x: 0, y: -65.693115}
+  m_SizeDelta: {x: -203.3696, y: -1426.4246}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &427753402
 MonoBehaviour:
@@ -894,7 +926,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Try Again
+  m_Text: Okay
 --- !u!222 &902099656
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1373,7 +1405,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1417356925}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8607836}
+        m_TargetAssemblyTypeName: JoinGamePage.WindowChangeManager, ScriptsAssembly
+        m_MethodName: OnFriendsButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1417356925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1682,8 +1726,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0, y: -185}
-  m_SizeDelta: {x: 448.5034, y: 167.8125}
+  m_AnchoredPosition: {x: 1.94, y: -310}
+  m_SizeDelta: {x: 435.6852, y: 154.9943}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1742331051
 MonoBehaviour:
@@ -1813,8 +1857,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.9392, y: 28.4464}
-  m_SizeDelta: {x: 784.9386, y: 192.6657}
+  m_AnchoredPosition: {x: 1.9392, y: -43.655773}
+  m_SizeDelta: {x: 784.9386, y: 336.8698}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1775894059
 MonoBehaviour:
@@ -2037,7 +2081,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1996827251
 RectTransform:
   m_ObjectHideFlags: 0
