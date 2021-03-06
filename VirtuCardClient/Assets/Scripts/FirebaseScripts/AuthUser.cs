@@ -194,6 +194,44 @@ namespace FirebaseScripts
             });
         }
 
+        public static void DeleteAnonymousAccount(Action<bool> callback)
+        {
+            if (!FirebaseInit.IsInitialized())
+            {
+                Debug.LogError("Firebase not initialized!");
+                callback(false);
+                return;
+            }
+
+            var prevUser = auth.CurrentUser;
+            DatabaseUtils.getUser(prevUser.UserId, res =>
+            {
+                User user = new User(res);
+                if (user.IsAnonymous)
+                {
+                    DatabaseUtils.RemoveUserWithID(prevUser.UserId, task =>
+                    {
+                        prevUser.DeleteAsync().ContinueWith(task =>
+                        {
+                            if (task.IsFaulted)
+                            {
+                                callback(false);
+                            }
+
+                            if (task.IsCompleted)
+                            {
+                                callback(true);
+                            }
+                        });
+                    });
+                }
+                else
+                {
+                    callback(false);
+                }
+            });
+        }
+
         private static void AuthStateChanged(object sender, System.EventArgs eventArgs)
         {
             if (auth.CurrentUser != firebaseUser)
