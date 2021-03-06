@@ -152,6 +152,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40188fe60e4f04b26847e5b023330e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SignInBtn: {fileID: 152758369}
+  RegisterBtn: {fileID: 1115021629}
+  GoogleBtn: {fileID: 1660989842}
+  FacebookBtn: {fileID: 215530896}
+  AnonBtn: {fileID: 701465447}
 --- !u!4 &9053523
 Transform:
   m_ObjectHideFlags: 0
