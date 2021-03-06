@@ -28,6 +28,7 @@ namespace JoinGamePage
 
         private void Start()
         {
+            isAnonymous = false;
             errorPanel.SetActive(false);
             DatabaseUtils.getUser(AuthUser.GetUserID(), json =>
             {
@@ -36,14 +37,49 @@ namespace JoinGamePage
             });
         }
 
-        void onSettingsButtonClick()
+        void OnSettingsButtonClick()
         {
             SceneManager.LoadScene(SceneNames.SettingsScene, LoadSceneMode.Single);
         }
-        
+
+        void OnProfileButtonClick()
+        {
+            if (isAnonymous)
+            {
+                CreateErrorMessage("Not allowed",
+                    "You are currently not signed in. You are required to be signed in to view your profile");
+            }
+            else
+            {
+                SceneManager.LoadScene(SceneNames.ProfileScene, LoadSceneMode.Single);
+            }
+        }
+
+
+        void OnFriendsButtonClick()
+        {
+            if (isAnonymous)
+            {
+                CreateErrorMessage("Not allowed",
+                    "You are currently not signed in. You are required to be signed in to view your friends list");
+            }
+            else
+            {
+                SceneManager.LoadScene(SceneNames.FriendsScene, LoadSceneMode.Single);
+            }
+        }
+
         // Update is called once per frame
         void Update()
         {
+        }
+
+        void OnApplicationQuit()
+        {
+            if (isAnonymous)
+            {
+                AuthUser.DeleteAnonymousAccount(task => { Debug.Log("Completed with return value " + task); });
+            }
         }
     }
 }
