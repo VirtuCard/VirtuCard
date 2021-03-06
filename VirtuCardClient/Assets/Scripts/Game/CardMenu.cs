@@ -4,6 +4,11 @@ using UnityEngine.UI;
 using UnityEngine;
 using System;
 
+
+/// <summary>
+/// This class acts as a carousel for the Cards
+/// It is based on Shushanta's implementation of a carousel from here https://sushanta1991.blogspot.com/2016/12/how-to-create-carousel-view-with-unity.html
+/// </summary>
 public class CardMenu : MonoBehaviour
 {
     public RectTransform cardTemplate;
@@ -26,11 +31,14 @@ public class CardMenu : MonoBehaviour
 
     public int swipeThrustHold = 30;
 
-    [HideInInspector]
-    /// <summary>
-    /// The index of the current image on display.
-    /// </summary>
-    public int current_index;
+    private int current_index;
+
+
+    public void GetCurrentlySelectedCard()
+    {
+        RectTransform currentCardTransform = images[current_index];
+        GameObject currentCard = currentCardTransform.gameObject;
+    }
 
     // Use this for initialization
     void Start()
@@ -94,7 +102,7 @@ public class CardMenu : MonoBehaviour
         }
     }
 
-    void OnSwipeComplete()
+    private void OnSwipeComplete()
     {
         lastScreenPosition = screenPosition;
 

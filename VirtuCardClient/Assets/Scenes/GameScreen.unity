@@ -282,7 +282,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -100.477936, y: -195.04547}
+  m_AnchoredPosition: {x: 72, y: -195.04547}
   m_SizeDelta: {x: 300.9559, y: 490.0909}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &764549023
@@ -492,10 +492,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardTemplate: {fileID: 1487859254}
   images: []
-  view_window: {fileID: 1486835435}
+  viewWindow: {fileID: 1486835435}
   imageSpacing: 20
   swipeThrustHold: 20
-  current_index: 0
 --- !u!1 &1046915786
 GameObject:
   m_ObjectHideFlags: 0
@@ -672,8 +671,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -54, y: -102}
-  m_SizeDelta: {x: 301.1895, y: 252.3734}
+  m_AnchoredPosition: {x: 73.605, y: -102}
+  m_SizeDelta: {x: 264.11, y: 252.3734}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1205684637
 MonoBehaviour:
@@ -834,7 +833,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -181.54932, y: -414}
+  m_AnchoredPosition: {x: -245, y: -427}
   m_SizeDelta: {x: 392.9162, y: 640.6347}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1486835436
@@ -910,7 +909,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1080, y: -54}
+  m_AnchoredPosition: {x: -1159, y: 79}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1790216065
@@ -947,8 +946,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2, y: -147}
-  m_SizeDelta: {x: 410.6112, y: 111.184}
+  m_AnchoredPosition: {x: 77.83, y: -147}
+  m_SizeDelta: {x: 255.66, y: 111.184}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1790216067
 MonoBehaviour:
