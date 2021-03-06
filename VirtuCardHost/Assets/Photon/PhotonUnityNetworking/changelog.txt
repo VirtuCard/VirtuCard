@@ -3,6 +3,15 @@ PUN 2 Change Log
 Exit Games GmbH - www.photonengine.com - forum.photonengine.com
 
 
+v2.28.3 (03. March 2021)
+Fixed: PhotonView.AmOwner was not updated ever.
+
+v2.28.2 (03. March 2021)
+Fixed: A potential issue with the execution order of the PhotonView component. It now sets it's own execution order to -16000 to get initialized before other scripts (especially on scene loading).
+Changed: Conditionals and logging output for Xbox builds. In the Editor, it's impossible to get a token, so PUN should not enforce this.
+Changed: PhotonView.ControllerActorNr will make sure the PhotonNetwork.LocalPlayer is not null when accessing the actorNumber through that.
+Changed: Instantiate will set PhotonView lastOnSerializeDataSent and lastOnSerializeDataReceived to null (which keeps instantiation for reused objects cleaner).
+
 v2.28.1 (25. February 2021)
 Updated: Library to v4.1.5.1. which fixes a problem with IPv6 addresses which was introduced in v4.1.5.0.
 
