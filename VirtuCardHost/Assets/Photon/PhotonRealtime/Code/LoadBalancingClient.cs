@@ -1099,30 +1099,30 @@ namespace Photon.Realtime
         [Conditional("UNITY_XBOXONE"), Conditional("UNITY_GAMECORE")]
         private void CheckConnectSetupXboxOne()
         {
-            #if UNITY_XBOXONE || UNITY_GAMECORE
+            #if (UNITY_XBOXONE || UNITY_GAMECORE) && !UNITY_EDITOR
             this.AuthMode = AuthModeOption.Auth;
             if (this.AuthValues == null)
             {
-                this.DebugReturn(DebugLevel.ERROR, "UNITY_XBOXONE builds must set AuthValues. Set this before calling any Connect method. Refer to the online docs for guidance.");
-                throw new Exception("UNITY_XBOXONE builds must set AuthValues.");
+                this.DebugReturn(DebugLevel.ERROR, "XBOX builds must set AuthValues. Set this before calling any Connect method. Refer to the online docs for guidance.");
+                throw new Exception("XBOX builds must set AuthValues.");
             }
             if (this.AuthValues.AuthPostData == null)
             {
-                this.DebugReturn(DebugLevel.ERROR,"UNITY_XBOXONE builds must use Photon's XBox Authentication and set the XSTS token by calling: PhotonNetwork.AuthValues.SetAuthPostData(xstsToken). Refer to the online docs for guidance.");
-                throw new Exception("UNITY_XBOXONE builds must use Photon's XBox Authentication.");
+                this.DebugReturn(DebugLevel.ERROR,"XBOX builds must use Photon's XBox Authentication and set the XSTS token by calling: PhotonNetwork.AuthValues.SetAuthPostData(xstsToken). Refer to the online docs for guidance.");
+                throw new Exception("XBOX builds must use Photon's XBox Authentication.");
             }
             if (this.AuthValues.AuthType != CustomAuthenticationType.Xbox)
             {
-                this.DebugReturn(DebugLevel.WARNING, "UNITY_XBOXONE builds must use AuthValues.AuthType \"CustomAuthenticationType.Xbox\". PUN sets this value now. Refer to the online docs to avoid this warning.");
+                this.DebugReturn(DebugLevel.WARNING, "XBOX builds must use AuthValues.AuthType \"CustomAuthenticationType.Xbox\". PUN sets this value now. Refer to the online docs to avoid this warning.");
                 this.AuthValues.AuthType = CustomAuthenticationType.Xbox;
             }
             if (this.LoadBalancingPeer.TransportProtocol != ConnectionProtocol.WebSocketSecure)
             {
-                this.DebugReturn(DebugLevel.INFO, "UNITY_XBOXONE builds must use WSS (Secure WebSockets) as Transport Protocol. Changing the protocol now.");
+                this.DebugReturn(DebugLevel.INFO, "XBOX builds must use WSS (Secure WebSockets) as Transport Protocol. Changing the protocol now.");
                 this.LoadBalancingPeer.TransportProtocol = ConnectionProtocol.WebSocketSecure;
             }
 
-            this.EnableProtocolFallback = false; // no fallback on Xbox One
+            this.EnableProtocolFallback = false; // no transport protocol fallback on XBOX
             #endif
         }
 
@@ -3113,7 +3113,6 @@ namespace Photon.Realtime
             {
                 case EventCode.GameList:
                 case EventCode.GameListUpdate:
-
                     List<RoomInfo> _RoomInfoList = new List<RoomInfo>();
 
                     Hashtable games = (Hashtable)photonEvent[ParameterCode.GameList];

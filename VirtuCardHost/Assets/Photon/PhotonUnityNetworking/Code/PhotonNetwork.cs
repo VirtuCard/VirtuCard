@@ -64,7 +64,7 @@ namespace Photon.Pun
     public static partial class PhotonNetwork
     {
         /// <summary>Version number of PUN. Used in the AppVersion, which separates your playerbase in matchmaking.</summary>
-        public const string PunVersion = "2.28";
+        public const string PunVersion = "2.28.3";
 
         /// <summary>Version number of your game. Setting this updates the AppVersion, which separates your playerbase in matchmaking.</summary>
         /// <remarks>
@@ -331,7 +331,7 @@ namespace Photon.Pun
             {
                 if (NetworkingClient == null)
                 {
-                    return null; // Surpress ExitApplication errors
+                    return null; // suppress ExitApplication errors
                 }
 
                 return NetworkingClient.LocalPlayer;
@@ -2535,6 +2535,8 @@ namespace Photon.Pun
                 view.ViewID = 0;
                 view.sceneViewId = 0;
                 view.isRuntimeInstantiated = true;
+                view.lastOnSerializeDataSent = null;
+                view.lastOnSerializeDataReceived = null;
                 view.Prefix = parameters.objLevelPrefix;
                 view.InstantiationId = parameters.viewIDs[0];
                 view.InstantiationData = parameters.data;
