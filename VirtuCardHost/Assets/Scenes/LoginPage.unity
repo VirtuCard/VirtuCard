@@ -584,6 +584,8 @@ MonoBehaviour:
   failedPanel: {fileID: 1494083742}
   errorTitle: {fileID: 1248849527}
   errorMessage: {fileID: 866684692}
+  CorrectCred: 0
+  IncorrectCred: 0
 --- !u!4 &467236646
 Transform:
   m_ObjectHideFlags: 0

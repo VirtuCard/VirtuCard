@@ -162,6 +162,44 @@ namespace FirebaseScripts
             });
         }
 
+        public static void DeleteAnonymousAccount(Action<bool> callback)
+        {
+            if (!FirebaseInit.IsInitialized())
+            {
+                Debug.LogError("Firebase not initialized!");
+                callback(false);
+                return;
+            }
+
+            var prevUser = auth.CurrentUser;
+            DatabaseUtils.getUser(prevUser.UserId, res =>
+            {
+                User user = new User(res);
+                if (user.IsAnonymous)
+                {
+                    DatabaseUtils.RemoveUserWithID(prevUser.UserId, task =>
+                    {
+                        prevUser.DeleteAsync().ContinueWith(task =>
+                        {
+                            if (task.IsFaulted)
+                            {
+                                callback(false);
+                            }
+
+                            if (task.IsCompleted)
+                            {
+                                callback(true);
+                            }
+                        });
+                    });
+                }
+                else
+                {
+                    callback(false);
+                }
+            });
+        }
+
         public static void AuthStateChanged(object sender, System.EventArgs eventArgs)
         {
             if (auth.CurrentUser != firebaseUser)
@@ -218,7 +256,7 @@ namespace FirebaseScripts
         /// </summary>
         public static void SendConfirmationEmail()
         {
-            Firebase.Auth.FirebaseUser user = auth.CurrentUser;
+            FirebaseUser user = auth.CurrentUser;
             if (user != null)
             {
                 user.SendEmailVerificationAsync().ContinueWith(task =>
@@ -245,30 +283,42 @@ namespace FirebaseScripts
         /// </summary>
         /// <param name="username"></param>
         /// <param name="email"></param>
-        public static void ResetPassword(String email, Action<bool> callback)
+        public static void ResetPassword(String email)
         {
+            if (!FirebaseInit.IsInitialized())
+            {
+                Debug.LogError("Firebase not initialized!");
+                return;
+            }
             if (email != null)
             {
+                Debug.Log(email);
+                //Debug.Log(callback);
                 auth.SendPasswordResetEmailAsync(email).ContinueWith(task =>
                 {
                     if (task.IsCanceled)
                     {
                         Debug.LogError("SendPasswordResetEmailAsync was canceled.");
-                        callback(false);
+                        //callback(false);
                         return;
                     }
 
                     if (task.IsFaulted)
                     {
                         Debug.LogError("SendPasswordResetEmailAsync encountered an error: " + task.Exception);
-                        callback(false);
+                        //callback(false);
                         return;
                     }
 
                     Debug.Log("Password reset email sent successfully.");
-                    callback(true);
+                    //callback(true);
                 });
             }
+        }
+
+        public static string GetUserID()
+        {
+            return auth.CurrentUser.UserId;
         }
     }
 }

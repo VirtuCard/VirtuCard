@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using FirebaseScripts;
+using UnityEngine.SceneManagement;
 
 public class SignInPageManager : MonoBehaviour
 {
     // these are the text boxes for the username and password inputs
-    public InputField usernameInput;
+    public InputField emailInput;
     public InputField passwordInput;
 
     // this is the button that is pressed to submit the username and password
@@ -41,11 +42,12 @@ public class SignInPageManager : MonoBehaviour
         if (CorrectCred)
         {
             Debug.Log("login success");
+            SceneManager.LoadScene(SceneNames.JoinGamePage, LoadSceneMode.Single);
             // THIS IS WHERE THE NEXT PAGE CHANGE IS GOING TO GO
             sceneLoader.ChangeScene(SceneNames.JoinGamePage);
         }
 
-        if (IncorrectCred) 
+        if (IncorrectCred)
         {
             IncorrectCred = false;
             CreateErrorMessage("ERROR", "Invalid email or Incorrect password!");
@@ -63,29 +65,28 @@ public class SignInPageManager : MonoBehaviour
     /// <summary>
     /// This is the callback for the login button. It gathers the inputs from both the username and password fields
     /// </summary>
-
     private void loginBtnClicked()
     {
         FirebaseInit.InitializeFirebase(task =>
         {
             // collect username and password
-            string username = usernameInput.text;
+            string email = emailInput.text;
             string password = passwordInput.text;
-            
-            AuthUser.Login(username, password,
-                task=> {
-                if (task)
+
+            AuthUser.Login(email, password,
+                task =>
                 {
-                    Debug.Log("task bool is " + task);
-                    CorrectCred = true;
-                }
-                else
-                {
-                    Debug.Log("task bool is " + task);
-                    IncorrectCred = true;
-                }
-                
-            });
+                    if (task)
+                    {
+                        Debug.Log("task bool is " + task);
+                        CorrectCred = true;
+                    }
+                    else
+                    {
+                        Debug.Log("task bool is " + task);
+                        IncorrectCred = true;
+                    }
+                });
         });
     }
 }
