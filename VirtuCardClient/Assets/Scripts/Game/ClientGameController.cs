@@ -6,6 +6,12 @@ using UnityEngine.UI;
 public class ClientGameController : MonoBehaviour
 {
     public Button skipBtn;
+    public Button playCardBtn;
+
+    private CardDeck cards = new CardDeck();
+
+    public GameObject cardCarousel;
+    private CardMenu cardMenu;
 
 
     private bool wasCurrentlyTurn = false;
@@ -16,7 +22,11 @@ public class ClientGameController : MonoBehaviour
         skipBtn.onClick.AddListener(delegate() {
             SkipBtnClicked();
         });
+        playCardBtn.onClick.AddListener(delegate () {
+            PlayCardBtnClicked();
+        });
         SetCanSkipBtn(ClientData.isCurrentTurn());
+        cardMenu = cardCarousel.GetComponent<CardMenu>();
     }
 
     // Update is called once per frame
@@ -35,6 +45,35 @@ public class ClientGameController : MonoBehaviour
         {
             wasCurrentlyTurn = false;
         }
+    }
+
+    /// <summary>
+    /// This just adds a random card, which actually is not random
+    /// </summary>
+    public void AddRandomStandardCard()
+    {
+        AddCard(new StandardCard(StandardCardRank.FOUR, StandardCardSuit.HEARTS), CardTypes.StandardCard);
+    }
+
+    /// <summary>
+    /// Adds a card to both the deck and the card carousel and reformats accordingly
+    /// </summary>
+    /// <param name="newCard"></param>
+    /// <param name="whichCardType"></param>
+    public void AddCard(Card newCard, CardTypes whichCardType)
+    {
+        cardMenu.AddCardToCarousel(newCard, whichCardType);
+        cards.AddCard(newCard);
+    }
+
+    /// <summary>
+    /// Removes the card from both the deck and the card carousel and reformats accordingly
+    /// </summary>
+    /// <param name="cardToRemove"></param>
+    public void RemoveCard(Card cardToRemove)
+    {
+        cards.RemoveCard(cardToRemove);
+        cardMenu.RemoveCardFromCarousel(cardToRemove);
     }
 
     /// <summary>
@@ -61,5 +100,13 @@ public class ClientGameController : MonoBehaviour
     private void SkipBtnClicked()
     {
         Debug.Log("Skipping...");
+        // TODO implementation
+    }
+
+    private void PlayCardBtnClicked()
+    {
+        StandardCard card = (StandardCard)cardMenu.GetCurrentlySelectedCard();
+        card.Print();
+        RemoveCard(card);
     }
 }
