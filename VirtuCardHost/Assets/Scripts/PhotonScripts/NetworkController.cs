@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using System.IO;
+using System.Text;
 
 public class NetworkController : MonoBehaviourPunCallbacks
 {
@@ -74,5 +75,17 @@ public class NetworkController : MonoBehaviourPunCallbacks
     void WriteRoomCodeToFile()
     {
         File.WriteAllText(RoomCodeFileName, RoomCode);
+    }
+
+   // Function that returns a list of all the players in a room
+   public ArrayList ListAllPlayers()
+    {
+        ArrayList playerList = new ArrayList();
+        foreach(var player in PhotonNetwork.PlayerList)
+        {
+            playerList.Add(player.NickName);
+        }
+        Debug.Log(playerList.ToString());
+        return playerList;
     }
 }
