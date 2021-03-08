@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637507556112544165
-    m_Hash: 567471780
+      ticks: 637507621169154301
+    m_Hash: 1886306664
   m_LockFileStatus:
     m_FilePath: C:/Users/umang/Documents/GitHub/VirtuCard/VirtuCardClient/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637507605759180388
-    m_Hash: 1099407875
+      ticks: 637507621177906478
+    m_Hash: 2406767048
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_PackageAssets:
@@ -989,157 +989,6 @@ m_PackageAssets:
         url: git+https://github.com/Unity-Technologies/com.unity.test-framework.git
         revision: 56c667cbc326a1cbab8dfd7ebc693a1121d0abe1
         path: 
-    - packageId: com.unity.textmeshpro@3.0.1
-      testable: 0
-      isDirectDependency: 1
-      version: 3.0.1
-      source: 1
-      resolvedPath: C:\Users\umang\Documents\GitHub\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.textmeshpro@3.0.1
-      assetPath: Packages/com.unity.textmeshpro
-      name: com.unity.textmeshpro
-      displayName: TextMeshPro
-      author:
-        name: 
-        email: 
-        url: 
-      category: Text Rendering
-      type: 
-      description: 'TextMeshPro is the ultimate text solution for Unity. It''s the
-        perfect replacement for Unity''s UI Text and the legacy Text Mesh.
-
-
-        Powerful
-        and easy to use, TextMeshPro (also known as TMP) uses Advanced Text Rendering
-        techniques along with a set of custom shaders; delivering substantial visual
-        quality improvements while giving users incredible flexibility when it comes
-        to text styling and texturing.
-
-
-        TextMeshPro provides Improved Control
-        over text formatting and layout with features like character, word, line
-        and paragraph spacing, kerning, justified text, Links, over 30 Rich Text
-        Tags available, support for Multi Font & Sprites, Custom Styles and more.
-
-
-        Great
-        performance. Since the geometry created by TextMeshPro uses two triangles
-        per character just like Unity''s text components, this improved visual quality
-        and flexibility comes at no additional performance cost.'
-      status: 4
-      errors: []
-      versions:
-        all:
-        - 0.1.2
-        - 1.0.21
-        - 1.0.23
-        - 1.0.25
-        - 1.0.26
-        - 1.1.0
-        - 1.2.0
-        - 1.2.1
-        - 1.2.2
-        - 1.2.3
-        - 1.2.4
-        - 1.3.0-preview
-        - 1.3.0
-        - 1.4.0-preview.1b
-        - 1.4.0-preview.2a
-        - 1.4.0-preview.3a
-        - 1.4.0
-        - 1.4.1-preview.1
-        - 1.4.1
-        - 1.5.0-preview.1
-        - 1.5.0-preview.2
-        - 1.5.0-preview.3
-        - 1.5.0-preview.4
-        - 1.5.0-preview.5
-        - 1.5.0-preview.6
-        - 1.5.0-preview.7
-        - 1.5.0-preview.8
-        - 1.5.0-preview.10
-        - 1.5.0-preview.11
-        - 1.5.0-preview.12
-        - 1.5.0-preview.13
-        - 1.5.0-preview.14
-        - 1.5.0
-        - 1.5.1
-        - 1.5.3
-        - 1.5.4
-        - 2.0.0
-        - 2.0.1-preview.1
-        - 2.0.1
-        - 2.1.0-preview.1
-        - 2.1.0-preview.2
-        - 2.1.0-preview.3
-        - 2.1.0-preview.4
-        - 2.1.0-preview.5
-        - 2.1.0-preview.7
-        - 2.1.0-preview.8
-        - 2.1.0-preview.10
-        - 2.1.0-preview.11
-        - 2.1.0-preview.12
-        - 2.1.0-preview.13
-        - 2.1.0-preview.14
-        - 2.1.0
-        - 2.1.1
-        - 2.1.3
-        - 2.1.4
-        - 3.0.0-preview.1
-        - 3.0.0-preview.3
-        - 3.0.0-preview.4
-        - 3.0.0-preview.5
-        - 3.0.0-preview.7
-        - 3.0.0-preview.8
-        - 3.0.0-preview.10
-        - 3.0.0-preview.11
-        - 3.0.0-preview.12
-        - 3.0.0-preview.13
-        - 3.0.0-preview.14
-        - 3.0.0
-        - 3.0.1
-        - 3.0.3
-        - 3.0.4
-        compatible:
-        - 3.0.1
-        - 3.0.3
-        - 3.0.4
-        verified: 3.0.4
-      dependencies:
-      - name: com.unity.ugui
-        version: 1.0.0
-      resolvedDependencies:
-      - name: com.unity.ugui
-        version: 1.0.0
-      - name: com.unity.modules.ui
-        version: 1.0.0
-      - name: com.unity.modules.imgui
-        version: 1.0.0
-      keywords:
-      - TextMeshPro
-      - TextMesh Pro
-      - TMP
-      - Text
-      - SDF
-      registry:
-        id: main
-        name: 
-        url: https://packages.unity.com
-        scopes: []
-        isDefault: 1
-        capabilities: 7
-      hasRegistry: 1
-      hideInEditor: 1
-      entitlements:
-        isAllowed: 1
-      isAssetStorePackage: 0
-      datePublishedTicks: 637314376320000000
-      documentationUrl: 
-      hasRepository: 1
-      repository:
-        type: git
-        url: https://github.cds.internal.unity3d.com/unity/com.unity.textmeshpro.git
-        revision: 1604b62e543216408311bcd1355a7a9ca1e65765
-        path: 
     - packageId: com.unity.timeline@1.4.6
       testable: 0
       isDirectDependency: 1
@@ -1372,6 +1221,77 @@ m_PackageAssets:
       repository:
         type: 
         url: 
+        revision: 
+        path: 
+    - packageId: jillejr.newtonsoft.json-for-unity@12.0.302
+      testable: 0
+      isDirectDependency: 1
+      version: 12.0.302
+      source: 1
+      resolvedPath: C:\Users\umang\Documents\GitHub\VirtuCard\VirtuCardClient\Library\PackageCache\jillejr.newtonsoft.json-for-unity@12.0.302
+      assetPath: Packages/jillejr.newtonsoft.json-for-unity
+      name: jillejr.newtonsoft.json-for-unity
+      displayName: Json.NET 12.0.3 for Unity
+      author:
+        name: jilleJr
+        email: 
+        url: 
+      category: Utility
+      type: library
+      description: "Json.NET is a popular high-performance JSON framework for .NET\n\nThis
+        package is a fork of Newtonsoft.Json containing custom builds targeting standalone,
+        portable (UWP, WP8), and AOT targets such as all IL2CPP builds (iOS, WebGL,
+        Android, Windows, Mac OS X, et.al).\n\nThis package is licensed under The
+        MIT License (MIT)\n\nCopyright \xA9 2019 Kalle Jillheden (jilleJr)\nhttps://github.com/jilleJr/Newtonsoft.Json-for-Unity\n\nCopyright
+        \xA9 2016 SaladLab\nhttps://github.com/SaladLab/Json.Net.Unity3D\n\nCopyright
+        \xA9 2007 James Newton-King\nhttps://github.com/JamesNK/Newtonsoft.Json\n\nSee
+        full copyrights in LICENSE.md inside package"
+      status: 4
+      errors: []
+      versions:
+        all:
+        - 11.0.202
+        - 12.0.101
+        - 12.0.102
+        - 12.0.201
+        - 12.0.301
+        - 12.0.302
+        compatible:
+        - 11.0.202
+        - 12.0.101
+        - 12.0.102
+        - 12.0.201
+        - 12.0.301
+        - 12.0.302
+        verified: 
+      dependencies: []
+      resolvedDependencies: []
+      keywords:
+      - json
+      - json.net
+      - newtonsoft
+      - newtonsoft.json
+      - unity
+      - upm
+      registry:
+        id: scoped:jilleJr
+        name: jilleJr
+        url: https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity
+        scopes:
+        - jillejr.newtonsoft.json-for-unity
+        isDefault: 0
+        capabilities: 0
+      hasRegistry: 1
+      hideInEditor: 1
+      entitlements:
+        isAllowed: 1
+      isAssetStorePackage: 0
+      datePublishedTicks: 637493531366625350
+      documentationUrl: 
+      hasRepository: 1
+      repository:
+        type: git
+        url: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.git
         revision: 
         path: 
     - packageId: com.unity.modules.ai@1.0.0
@@ -3003,77 +2923,6 @@ m_PackageAssets:
       repository:
         type: 
         url: 
-        revision: 
-        path: 
-    - packageId: jillejr.newtonsoft.json-for-unity@12.0.302
-      testable: 0
-      isDirectDependency: 1
-      version: 12.0.302
-      source: 1
-      resolvedPath: C:\Users\umang\Documents\GitHub\VirtuCard\VirtuCardClient\Library\PackageCache\jillejr.newtonsoft.json-for-unity@12.0.302
-      assetPath: Packages/jillejr.newtonsoft.json-for-unity
-      name: jillejr.newtonsoft.json-for-unity
-      displayName: Json.NET 12.0.3 for Unity
-      author:
-        name: jilleJr
-        email: 
-        url: 
-      category: Utility
-      type: library
-      description: "Json.NET is a popular high-performance JSON framework for .NET\n\nThis
-        package is a fork of Newtonsoft.Json containing custom builds targeting standalone,
-        portable (UWP, WP8), and AOT targets such as all IL2CPP builds (iOS, WebGL,
-        Android, Windows, Mac OS X, et.al).\n\nThis package is licensed under The
-        MIT License (MIT)\n\nCopyright \xA9 2019 Kalle Jillheden (jilleJr)\nhttps://github.com/jilleJr/Newtonsoft.Json-for-Unity\n\nCopyright
-        \xA9 2016 SaladLab\nhttps://github.com/SaladLab/Json.Net.Unity3D\n\nCopyright
-        \xA9 2007 James Newton-King\nhttps://github.com/JamesNK/Newtonsoft.Json\n\nSee
-        full copyrights in LICENSE.md inside package"
-      status: 4
-      errors: []
-      versions:
-        all:
-        - 11.0.202
-        - 12.0.101
-        - 12.0.102
-        - 12.0.201
-        - 12.0.301
-        - 12.0.302
-        compatible:
-        - 11.0.202
-        - 12.0.101
-        - 12.0.102
-        - 12.0.201
-        - 12.0.301
-        - 12.0.302
-        verified: 
-      dependencies: []
-      resolvedDependencies: []
-      keywords:
-      - json
-      - json.net
-      - newtonsoft
-      - newtonsoft.json
-      - unity
-      - upm
-      registry:
-        id: scoped:jilleJr
-        name: jilleJr
-        url: https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity
-        scopes:
-        - jillejr.newtonsoft.json-for-unity
-        isDefault: 0
-        capabilities: 0
-      hasRegistry: 1
-      hideInEditor: 1
-      entitlements:
-        isAllowed: 1
-      isAssetStorePackage: 0
-      datePublishedTicks: 637493531366625350
-      documentationUrl: 
-      hasRepository: 1
-      repository:
-        type: git
-        url: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.git
         revision: 
         path: 
     - packageId: com.unity.modules.subsystems@1.0.0
