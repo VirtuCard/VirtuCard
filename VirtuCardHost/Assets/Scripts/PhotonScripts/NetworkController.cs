@@ -15,15 +15,14 @@ public class NetworkController : MonoBehaviourPunCallbacks
 
     //Field to store the name of the file
     // that holds the RoomCode for testing purposes
-    private string RoomCodeFileName = "Tests/RoomCode.txt";
+    private string RoomCodeFileName = "RoomCode.txt";
 
-    // Start is called before the first frame update
-    void Start()
+    /* Start is called before the first frame update
+    public static void OnCreateButtonClick()
     {
         PhotonNetwork.ConnectUsingSettings(); //Connects to Photon Master Servers
-        generateCode();
-        WriteRoomCodeToFile();
-    }
+    
+    } */
 
     public override void OnConnectedToMaster()
     {
@@ -31,11 +30,19 @@ public class NetworkController : MonoBehaviourPunCallbacks
         Debug.Log("Generated Room Code is " + RoomCode);
     }
 
-    // Generate Room Code Function
-    void generateCode()
+    /// generateCode()
+    /// 
+    /// Method to generate Host's RoomCode.
+    /// Format: ABCDEF
+    /// 
+    /// <returns> RoomCode String </returns>
+    public static string generateCode()
     {
         //Integer Array used to create RoomCode
+
+        int RoomCodeLength = 6;
         int[] RoomCodeNum = new int[RoomCodeLength];
+
         //Placing Numbers to act as 'pseudo' letters. Each number
         // corresponds to a letter. For example, 0 is A.
         for (int i = 0; i < RoomCodeLength; i++)
@@ -51,12 +58,16 @@ public class NetworkController : MonoBehaviourPunCallbacks
             roomCodeBuffer += (char) (RoomCodeNum[i]);
         }
 
+        //Writing Room Code to file
+        WriteRoomCodeToFile(roomCodeBuffer);
+
         //Setting Host's RoomCode field to generated roomCodeBuffer
-        RoomCode = roomCodeBuffer;
+        //RoomCode = roomCodeBuffer;
+        return roomCodeBuffer;
     }
 
     // Function to Create and Join a Room with associated Room Code
-    void CreateAndJoinRoom()
+    public static void CreateAndJoinRoom(string RoomCodeString)
     {
         // Sets the max players that can join to 10
         // Number will change depending on the game
@@ -65,14 +76,14 @@ public class NetworkController : MonoBehaviourPunCallbacks
 
         // This will join the room depending on the roomcode
         // If room doesn't exist, it creates the room
-        PhotonNetwork.JoinOrCreateRoom(RoomCode, options, null);
+        PhotonNetwork.CreateRoom(RoomCodeString, options, null);
     }
 
     /// WriteRoomCodeToFile()
     /// 
     /// Function used to write the Room Code to a File
-    void WriteRoomCodeToFile()
+    static void WriteRoomCodeToFile(string RoomCode)
     {
-        File.WriteAllText(RoomCodeFileName, RoomCode);
+        File.WriteAllText("RoomCode.txt", RoomCode);
     }
 }
