@@ -9,6 +9,8 @@ public class ChatPanelController : MonoBehaviour
 
     private List<GameObject> currentMessages;
 
+    public InputField messageSend;
+    public Button sendBtn;
 
     public GameObject messageTemplate;
     public GameObject messageParent;
@@ -22,8 +24,7 @@ public class ChatPanelController : MonoBehaviour
     private class MessageUI
     {
         private Text messageText;
-        private Text username;
-        private GameObject gameObject;
+        private Text username;        private GameObject gameObject;
 
         public MessageUI(GameObject messageTemplate, GameObject messageParent)
         {
@@ -75,13 +76,18 @@ public class ChatPanelController : MonoBehaviour
         currentMessages = new List<GameObject>();
         currentMessages.AddRange(placeholders);
 
-        CreateNewMessage("Hello There", "Kade");
-        CreateNewMessage("Goodbye", "Other Person in lobby");
+        sendBtn.onClick.AddListener(delegate { sendClicked(); });
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void sendClicked() {
+        string message = messageSend.text;
+        CreateNewMessage(message, "June");
+        messageSend.text = "";
     }
 }
