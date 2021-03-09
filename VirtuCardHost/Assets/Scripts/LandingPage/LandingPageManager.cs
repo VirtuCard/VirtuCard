@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Threading;
+using PhotonScripts;
 
 public class LandingPageManager : MonoBehaviour
 {
