@@ -54,6 +54,7 @@ public class ClientGameController : MonoBehaviour
     public void AddRandomStandardCard()
     {
         AddCard(new StandardCard(StandardCardRank.FOUR, StandardCardSuit.HEARTS), CardTypes.StandardCard);
+        
     }
 
     /// <summary>
