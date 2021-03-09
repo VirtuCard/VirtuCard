@@ -6,8 +6,8 @@ using System;
 public abstract class Game
 {
     int playerTurnIndex = -1;
-    CardDeck playedCards = new CardDeck();
-    CardDeck undealtCards = new CardDeck();
+    private CardDeck playedCards = new CardDeck();
+    private CardDeck undealtCards = new CardDeck();
 
     /// <summary>
     /// This method is used to verify that the Card that the player wants to play is valid.
@@ -38,6 +38,39 @@ public abstract class Game
     }
 
     /// <summary>
+    /// Draws and removes a random card from the specified deck
+    /// </summary>
+    /// <param name="whichDeck">Which deck to draw the card from</param>
+    /// <returns></returns>
+    public Card DrawCardFromDeck(DeckChoices whichDeck)
+    {
+        CardDeck deck = GetDeck(whichDeck);
+        return deck.PopCard();
+    }
+
+    /// <summary>
+    /// It draws <paramref name="numOfCards"/> random cards from <paramref name="whichDeck"/> deck and subsequently removes them.
+    /// </summary>
+    /// <param name="numOfCards">Number of cards to draw and return</param>
+    /// <param name="whichDeck">Which deck to draw cards from</param>
+    /// <returns>A list containing all the drawn cards</returns>
+    public List<Card> DrawCardsFromDeck(int numOfCards, DeckChoices whichDeck)
+    {
+        int deckSize = GetNumOfCardsInDeck(DeckChoices.UNDEALT);
+        if (numOfCards < 0 || numOfCards > deckSize)
+        {
+            throw new Exception("Cannot draw " + numOfCards + " cards from a deck of size: " + deckSize);
+        }
+
+        List<Card> cardList = new List<Card>();
+        for (int x = 0; x < numOfCards; x++)
+        {
+            cardList.Add(DrawCardFromDeck(DeckChoices.UNDEALT));
+        }
+        return cardList;
+    }
+
+    /// <summary>
     /// Adds a card to the specific deck within the game.
     /// Note the card is NOT randomly inserted, it is appended
     /// </summary>
@@ -56,6 +89,17 @@ public abstract class Game
     public void PrintDeck(DeckChoices whichDeck)
     {
         GetDeck(whichDeck).Print();
+    }
+
+    /// <summary>
+    /// This method returns the number of cards in a specified deck
+    /// </summary>
+    /// <param name="whichDeck">Which deck to get the number of cards for</param>
+    /// <returns>The number of cards</returns>
+    public int GetNumOfCardsInDeck(DeckChoices whichDeck)
+    {
+        CardDeck deck = GetDeck(whichDeck);
+        return deck.GetCardCount();
     }
 
     /// <summary>
@@ -78,4 +122,5 @@ public abstract class Game
 
         throw new Exception("Invalid deck specified: " + (int)whichDeck + ". Game.cs:79");
     }
+
 }
