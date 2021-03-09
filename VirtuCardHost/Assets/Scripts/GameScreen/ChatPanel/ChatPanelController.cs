@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using ExitGames.Client.Photon;
 using Photon.Chat;
 using Photon.Pun;
+using PhotonScripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -87,6 +88,7 @@ namespace GameScreen.ChatPanel
             // set the currentMessages to contain the placeholders
             currentMessages = new List<GameObject>();
             currentMessages.AddRange(placeholders);
+            roomcode = HostData.GetJoinCode();
 
             _chatClient = new ChatClient(this) {ChatRegion = "US"};
             _chatClient.Connect(appId, "0.1b", new AuthenticationValues(PhotonNetwork.NickName));
