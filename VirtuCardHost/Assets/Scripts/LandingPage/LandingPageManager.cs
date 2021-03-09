@@ -2,6 +2,9 @@ using FirebaseScripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
+using System.Threading;
 
 public class LandingPageManager : MonoBehaviour
 {
@@ -27,6 +30,8 @@ public class LandingPageManager : MonoBehaviour
         gameChoiceDropdown.options.Add(new Dropdown.OptionData("Go Fish"));
 
         gameChoiceDropdown.onValueChanged.AddListener(GameChoiceValueChanged);
+
+        PhotonNetwork.ConnectUsingSettings();
     }
 
     // Update is called once per frame
@@ -34,10 +39,18 @@ public class LandingPageManager : MonoBehaviour
     {
     }
 
+    /// OnCreateButtonClick()
+    /// 
+    /// Function triggered by 'Create Button' click. Generates RoomCode string.
     public void OnCreateButtonClick()
     {
-        HostData.setJoinCode("EFADDS");
-        SceneManager.LoadScene(SceneNames.WaitingRoomScreen, LoadSceneMode.Single);
+        //PhotonNetwork.ConnectUsingSettings();    //Connecting to Photon Master Servers
+
+        string RoomCode = NetworkController.generateCode();    //Generating Room Code string and storing it
+        NetworkController.CreateAndJoinRoom(RoomCode);    //Creating Photon Room with Generated Code
+
+        HostData.setJoinCode(RoomCode);
+        SceneManager.LoadScene(SceneNames.WaitingRoomScreen, LoadSceneMode.Single);       
     }
 
     private void GameChoiceValueChanged(int state)
