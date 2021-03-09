@@ -51,8 +51,12 @@ namespace FirebaseScripts
                 Firebase.Auth.FirebaseUser newUser = task.Result;
                 Debug.LogFormat("User logged in successfully: {0} ({1})",
                     newUser.DisplayName, newUser.UserId);
-                callback(true);
-                return;
+                DatabaseUtils.getUser(newUser.UserId, s =>
+                {
+                    User user1 = new User(s);
+                    PhotonScripts.NetworkController.SetUsername(user1.Username);
+                    callback(true);
+                });
             });
         }
 
@@ -136,6 +140,8 @@ namespace FirebaseScripts
                         Debug.Log("Failed to Add into Realtime Database");
                         firebaseUser.DeleteAsync();
                     }
+                    
+                    PhotonScripts.NetworkController.SetUsername(username);
 
                     callback(c);
                 });
