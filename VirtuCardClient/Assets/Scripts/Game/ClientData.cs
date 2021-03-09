@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class ClientData
 {
-    private static bool isCurrentlyTurn = false;
+    private static bool isCurrentlyTurn = true;
 
     public static void setCurrentTurn(bool value)
     {
