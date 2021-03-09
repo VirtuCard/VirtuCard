@@ -34,26 +34,82 @@ public class CardMenu : MonoBehaviour
     private int current_index;
 
 
-    public void GetCurrentlySelectedCard()
+    public Card GetCurrentlySelectedCard()
     {
-        RectTransform currentCardTransform = images[current_index];
-        GameObject currentCard = currentCardTransform.gameObject;
+        StandardCard stdCard = images[current_index].gameObject.GetComponent<StandardCard>();
+        if (stdCard != null)
+        {
+            return stdCard;
+        }
+
+        // ------- USE THIS TEMPLATE WHEN A NEW CARD TYPE IS ADDED --------------
+
+        //OtherCard otherCard = images[current_index].gameObject.GetComponent<OtherCard>();
+        //if (otherCard != null)
+        //{
+        //    return otherCard;
+        //}
+
+        // -----------------------------------------------------------------------
+
+        throw new Exception("No Currently Selected Card");
+    }
+
+    /// <summary>
+    /// Adds a card to the rightmost side of the carousel.
+    /// It automatically reformats after adding.
+    /// </summary>
+    /// <param name="newCard"></param>
+    /// <param name="whichCardType"></param>
+    public void AddCardToCarousel(Card newCard, CardTypes whichCardType)
+    {
+        RectTransform newImage = Instantiate(cardTemplate, viewWindow);
+        if (whichCardType == 0)
+        {
+            newImage.gameObject.AddComponent<StandardCard>();
+            StandardCard cardVals = newImage.gameObject.GetComponent<StandardCard>();
+            cardVals.SetRank(((StandardCard)newCard).GetRank());
+            cardVals.SetSuit(((StandardCard)newCard).GetSuit());
+        }
+        // TODO this is where other types of cards would be implemented
+
+        images.Add(newImage);
+        ReformatCarousel();
+    }
+
+
+    public void RemoveCardFromCarousel(Card newCard)
+    {
+        for (int x = 0; x < images.Count; x++)
+        {
+            // if this image is the card we are looking for
+            if (images[x].gameObject.GetComponent<StandardCard>().Compare(newCard) == true)
+            {
+                GameObject imageToDestroy = images[x].gameObject;
+                images.RemoveAt(x);
+                Destroy(imageToDestroy);
+                break;
+            }
+        }
+        ReformatCarousel();
+    }
+
+    /// <summary>
+    /// Resets the spacing for the cards.
+    /// Call if a new card was added/removed
+    /// </summary>
+    private void ReformatCarousel()
+    {
+        for (int x = 1; x < images.Count; x++)
+        {
+            images[x].anchoredPosition = new Vector2(((imageWidth + imageSpacing) * x), 0);
+        }
     }
 
     // Use this for initialization
     void Start()
     {
-        for (int x = 0; x < 10; x++)
-        {
-            images.Add(Instantiate(cardTemplate, viewWindow));
-        }
-
-
         imageWidth = (0.75f) * viewWindow.rect.width;
-        for (int x = 1; x < images.Count; x++)
-        {
-            images[x].anchoredPosition = new Vector2(((imageWidth + imageSpacing) * x), 0);
-        }
     }
 
     // Update is called once per frame
