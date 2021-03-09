@@ -8,25 +8,23 @@ namespace PhotonScripts
 {
     public class NetworkController : MonoBehaviourPunCallbacks
     {
-        private static int RoomCodeLength = 6;
+        private int RoomCodeLength = 6;
 
         //Field for Host's RoomCode.
         //Format: ABCDEF
-        public static string RoomCode
-        {
-            get => RoomCode;
-            set => RoomCode = value;
-        }
+        private string RoomCode = "";
 
         //Field to store the name of the file
         // that holds the RoomCode for testing purposes
-        private string RoomCodeFileName = "Tests/RoomCode.txt";
+        private string RoomCodeFileName = "../Tests/RoomCode.txt";
 
         // Start is called before the first frame update
         void Start()
         {
+            SetUsername("Host");
             PhotonNetwork.ConnectUsingSettings(); //Connects to Photon Master Servers
             generateCode();
+            HostData.setJoinCode(RoomCode);
             WriteRoomCodeToFile();
         }
 
@@ -42,7 +40,7 @@ namespace PhotonScripts
         }
 
         // Generate Room Code Function
-        static void generateCode()
+        void generateCode()
         {
             //Integer Array used to create RoomCode
             int[] RoomCodeNum = new int[RoomCodeLength];
@@ -64,7 +62,6 @@ namespace PhotonScripts
             //Setting Host's RoomCode field to generated roomCodeBuffer
             RoomCode = roomCodeBuffer;
         }
-
 
         // Function to Create and Join a Room with associated Room Code
         void CreateAndJoinRoom()
@@ -91,11 +88,10 @@ namespace PhotonScripts
         public ArrayList ListAllPlayers()
         {
             ArrayList playerList = new ArrayList();
-            foreach (var player in PhotonNetwork.PlayerList)
+            foreach(var player in PhotonNetwork.PlayerList)
             {
                 playerList.Add(player.NickName);
             }
-
             Debug.Log(playerList.ToString());
             return playerList;
         }
