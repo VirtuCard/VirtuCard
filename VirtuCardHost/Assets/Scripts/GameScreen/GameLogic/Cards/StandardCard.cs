@@ -35,6 +35,20 @@ public class StandardCard : Card
     }
 
     /// <summary>
+    /// Compares the card to another. Returns a boolean whether they are equal or not
+    /// </summary>
+    /// <returns></returns>
+    public override bool Compare(Card card)
+    {
+        if (GetRank() == ((StandardCard)card).GetRank() &&
+            GetSuit() == ((StandardCard)card).GetSuit())
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /// <summary>
     /// This prints the card in a nice format e.g.
     /// "STANDARD CARD (TWO of HEARTS)"
     /// </summary>
