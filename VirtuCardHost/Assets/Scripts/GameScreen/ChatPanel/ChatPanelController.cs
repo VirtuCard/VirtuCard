@@ -8,10 +8,6 @@ public class ChatPanelController : MonoBehaviour
     private const int MESSAGE_LIMIT = 44;
 
     private List<GameObject> currentMessages;
-
-    public InputField messageSend;
-    public Button sendBtn;
-
     public GameObject messageTemplate;
     public GameObject messageParent;
 
@@ -76,18 +72,11 @@ public class ChatPanelController : MonoBehaviour
         currentMessages = new List<GameObject>();
         currentMessages.AddRange(placeholders);
 
-        sendBtn.onClick.AddListener(delegate { sendClicked(); });
     }
 
     // Update is called once per frame
     void Update()
     {
         
-    }
-
-    public void sendClicked() {
-        string message = messageSend.text;
-        CreateNewMessage(message, "June");
-        messageSend.text = "";
     }
 }

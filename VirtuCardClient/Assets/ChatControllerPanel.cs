@@ -75,7 +75,13 @@ public class ChatControllerPanel : MonoBehaviour
         currentMessages = new List<GameObject>();
         currentMessages.AddRange(placeholders);
 
-        sendBtn.onClick.AddListener(delegate { sendClicked(); });
+        sendBtn.onClick.AddListener(delegate {
+            string message = messageSend.text;
+            // does not send the message if it's blank
+            if (message != "") {
+                sendClicked();
+            }
+        });
     }
 
     // Update is called once per frame
@@ -86,9 +92,7 @@ public class ChatControllerPanel : MonoBehaviour
 
     public void sendClicked() {
         string message = messageSend.text;
-        Debug.Log("Are you in here?");
         CreateNewMessage(message, "June");
-        Debug.Log("hello?");
         messageSend.text = "";
     }
 }
