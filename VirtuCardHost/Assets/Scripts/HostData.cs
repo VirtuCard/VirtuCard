@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 /// <summary>
 /// This class is used to store host data between scenes. It allows the data to be persistent
@@ -12,6 +13,28 @@ public static class HostData
     private static int maxNumPlayers = 5;
     private static string joinCode;
     private static bool chatAllowed;
+    private static Game currentGame;
+
+    public static void SetGame(GameTypes gameType)
+    {
+        string gameName = Enum.GetName(typeof(GameTypes), gameType);
+        if (gameName == "TestGame")
+        {
+            currentGame = new TestGame();
+            return;
+        }
+        /* Here is a sample to add a new game
+        else if (gameName == "<insert_other_game>")
+        {
+            currentGame = new <other_game>();
+            return;
+        }
+        */
+    }
+    public static Game GetGame()
+    {
+        return currentGame;
+    }
 
     public static string GetJoinCode()
     {
