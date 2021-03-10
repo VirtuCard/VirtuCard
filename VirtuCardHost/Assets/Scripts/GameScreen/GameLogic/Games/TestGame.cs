@@ -26,4 +26,16 @@ public class TestGame : Game
     {
         return true;
     }
+
+    /// <summary>
+    /// This method is called when a player plays a card
+    /// </summary>
+    /// <param name="cardToPlay">Card that the player is playing</param>
+    /// <param name="playerIndex">index of the player</param>
+    /// <returns></returns>
+    public override bool DoMove(Card cardToPlay, int playerIndex)
+    {
+        Debug.Log("Player " + playerIndex + " played " + cardToPlay.ToString());
+        return true;
+    }
 }
