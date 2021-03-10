@@ -10,6 +10,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
     public GameObject settingsPanel;
     public InputField numPlayers;
     public Toggle canHostJoinToggle;
+    public Toggle toggleChat;
 
     //Displayed Codes
     public Text joinCode;
@@ -21,6 +22,10 @@ public class WaitingRoomScreenManager : MonoBehaviour
     {
         canHostJoinToggle.onValueChanged.AddListener(
             delegate { CanHostJoinToggleValueChanged(canHostJoinToggle.isOn); });
+        
+        toggleChat.onValueChanged.AddListener(
+            delegate { isChatAllowed(toggleChat.isOn); });
+
         numPlayers.onValueChanged.AddListener(OnNumPlayersFieldChange);
 
         settingsPanel.SetActive(false);
@@ -28,6 +33,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
         selectedGame.text = HostData.GetSelectedGame();
         currPlayerCount.text = "0 players";
         canHostJoinToggle.isOn = HostData.CanHostJoinGame();
+        toggleChat.isOn = HostData.isChatAllowed();
         numPlayers.SetTextWithoutNotify(HostData.GetMaxNumPlayers().ToString());
     }
 
@@ -65,6 +71,11 @@ public class WaitingRoomScreenManager : MonoBehaviour
     private void CanHostJoinToggleValueChanged(bool state)
     {
         HostData.setCanHostJoinGame(state);
+    }
+
+    private void isChatAllowed(bool state)
+    {
+        HostData.setChatAllowed(state);
     }
 
     // Update is called once per frame
