@@ -345,6 +345,7 @@ namespace Photon.Realtime
 			Debug.Log(this.GetFormattedTimestamp() + " SupportLogger OnRoomListUpdate(roomList). roomList.Count: " + roomList.Count);
         }
 
+        
         public void OnPlayerEnteredRoom(Player newPlayer)
         {
 			Debug.Log(this.GetFormattedTimestamp() + " SupportLogger OnPlayerEnteredRoom(" + newPlayer+").");

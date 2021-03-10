@@ -3,16 +3,11 @@ using System.IO;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
-using UnityEngine.UI;
-using System.IO;
 using ExitGames.Client.Photon;
-using Photon.Realtime;
-using ExitGames.Client.Photon;
-using Photon.Realtime;
 
 namespace PhotonScripts
 {
-    public class NetworkController : MonoBehaviourPunCallbacks
+    public class NetworkController : MonoBehaviourPunCallbacks, IConnectionCallbacks, IMatchmakingCallbacks, IInRoomCallbacks, ILobbyCallbacks, IErrorInfoCallback
     {
         private int RoomCodeLength = 6;
         private GameObject eventTest;
@@ -96,7 +91,16 @@ namespace PhotonScripts
 
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
-
+            Debug.Log("-----PLAYER ENTERED-----");
+            Debug.Log(newPlayer.ToString());
+            if(HostData.GetGame().AddPlayer(newPlayer))
+            {
+                Debug.Log("Added new player to game");
+            }
+            else
+            {
+                Debug.Log("Failed to add new player to game");
+            }
         }
 
 

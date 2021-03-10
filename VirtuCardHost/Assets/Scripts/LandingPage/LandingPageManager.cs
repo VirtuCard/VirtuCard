@@ -6,6 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Threading;
 using PhotonScripts;
+using System;
 
 public class LandingPageManager : MonoBehaviour
 {
@@ -26,9 +27,13 @@ public class LandingPageManager : MonoBehaviour
         canHostJoinToggle.onValueChanged.AddListener(
             delegate { CanHostJoinToggleValueChanged(canHostJoinToggle.isOn); });
 
-        gameChoiceDropdown.options.Add(new Dropdown.OptionData("Freeplay"));
-        gameChoiceDropdown.options.Add(new Dropdown.OptionData("Uno"));
-        gameChoiceDropdown.options.Add(new Dropdown.OptionData("Go Fish"));
+        string[] gameNames = Enum.GetNames(typeof(GameTypes));
+        foreach (string gameName in gameNames) {
+            gameChoiceDropdown.options.Add(new Dropdown.OptionData(gameName));
+        }
+        //gameChoiceDropdown.options.Add(new Dropdown.OptionData("Freeplay"));
+        //gameChoiceDropdown.options.Add(new Dropdown.OptionData("Uno"));
+        //gameChoiceDropdown.options.Add(new Dropdown.OptionData("Go Fish"));
 
         gameChoiceDropdown.onValueChanged.AddListener(GameChoiceValueChanged);
 
@@ -46,6 +51,7 @@ public class LandingPageManager : MonoBehaviour
     public void OnCreateButtonClick()
     {
         //PhotonNetwork.ConnectUsingSettings();    //Connecting to Photon Master Servers
+        HostData.SetGame((GameTypes)Enum.Parse(typeof(GameTypes), gameChoiceDropdown.options[gameChoiceDropdown.value].text));
 
         string RoomCode = NetworkController.generateCode();    //Generating Room Code string and storing it
         NetworkController.CreateAndJoinRoom(RoomCode);    //Creating Photon Room with Generated Code
