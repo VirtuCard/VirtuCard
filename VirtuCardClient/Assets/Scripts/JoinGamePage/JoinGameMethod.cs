@@ -73,15 +73,18 @@ public class JoinGameMethod : MonoBehaviour
     private void OnSignalSent(EventData photonEvent)
     {
        if (photonEvent.Code == 1){
-            string s = (string) photonEvent[0];
-            Debug.Log(s);
+             object[] data = (object[])photonEvent.CustomData;
+                string s = (string)data[0];
+                bool test = (bool)data[1];
+                Debug.Log(s);
+                Debug.Log(test);
         }
     }
     private void DoSomething()
     {
         object[] content = new object[] {"hello darkness"};
-        //RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(1, content, RaiseEventOptions.Default, SendOptions.SendUnreliable);
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(1, content, raiseEventOptions, SendOptions.SendUnreliable);
     }
 
 }
