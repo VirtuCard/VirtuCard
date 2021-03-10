@@ -15,6 +15,9 @@ public class GameScreenController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // THIS IS TEMPORARY
+        game = new TestGame();
+
         chatToggle.SetIsOnWithoutNotify(HostData.isChatAllowed());
         chatToggle.onValueChanged.AddListener(delegate { ChatToggleValueChanged(chatToggle.isOn); });
     }
@@ -44,6 +47,42 @@ public class GameScreenController : MonoBehaviour
     public List<Card> DrawCards(int numOfCards)
     {
         return game.DrawCardsFromDeck(numOfCards, DeckChoices.UNDEALT);
+    }
+
+    /// <summary>
+    /// TODO implementation
+    /// </summary>
+    /// <param name="card">The card to play</param>
+    /// <param name="playerIndex">The index of the player playing the card</param>
+    /// <returns>Returns true or false depending on whether the card was played</returns>
+    public bool PlayCard(Card card, int playerIndex)
+    {
+        if (VerifyIfCardIsValid(card))
+        {
+            game.AddCardToDeck(card, DeckChoices.PLAYED);
+            return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// This method verifies if a card is allowed to be played based on the selected game's rules
+    /// </summary>
+    /// <param name="card">The card to see if it is valid to play</param>
+    /// <returns></returns>
+    public bool VerifyIfCardIsValid(Card card)
+    {
+        return game.VerifyMove(card);
+    }
+
+    /// <summary>
+    /// This method returns a boolean depending on whether or not a player is allowed to skip their turn
+    /// </summary>
+    /// <param name="playerIndex"></param>
+    /// <returns></returns>
+    public bool VerifyCanSkipTurn(int playerIndex)
+    {
+        return game.VerifyCanSkip(playerIndex);
     }
 
     /// <summary>

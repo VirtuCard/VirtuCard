@@ -1,5 +1,6 @@
 ﻿using System;
 using Firebase.Auth;
+using Photon.Pun;
 using UnityEngine;
 
 namespace FirebaseScripts
@@ -17,15 +18,17 @@ namespace FirebaseScripts
             AuthStateChanged(null, null);
         }
 
+
         /// <summary>
         /// This method is for logging in to an account assuming that the account is in the firebase.
         /// If the account is not in the firebase, you will not be able to log in.
         /// </summary>
         /// <param name="email"></param>
         /// <param name="password"></param>
-        /// <param name="callback"></param>
         public static void Login(String email, String password, Action<bool> callback)
         {
+            /// checks if the credentials are correct
+
             auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
             {
                 if (task.IsCanceled)
@@ -49,10 +52,15 @@ namespace FirebaseScripts
                 Firebase.Auth.FirebaseUser newUser = task.Result;
                 Debug.LogFormat("User logged in successfully: {0} ({1})",
                     newUser.DisplayName, newUser.UserId);
-                callback(true);
-                return;
+                DatabaseUtils.getUser(newUser.UserId, s =>
+                {
+                    User user1 = new User(s);
+                    PhotonNetwork.NickName =  user1.Username;
+                    callback(true);
+                });
             });
         }
+
 
         /// <summary>
         /// This method creates a TEMPORARY testing account. It just creates the account and then immediately deletes it for testing purposes.
@@ -90,7 +98,6 @@ namespace FirebaseScripts
                 firebaseUser.DeleteAsync();
             });
         }
-
 
         public static void RegisterAccount(String username, String email, String password, Action<bool> callback)
         {
@@ -135,41 +142,9 @@ namespace FirebaseScripts
                         firebaseUser.DeleteAsync();
                     }
 
+                    PhotonNetwork.NickName = username;
+
                     callback(c);
-                });
-            });
-        }
-
-        /// <summary>
-        /// This unregisters a user's account from the firebase authentication
-        /// </summary>
-        /// <param name="email"></param>
-        /// <param name="password"></param>
-        /// <param name="callback"></param>
-        public static void UnregisterAccount(string email, string password, Action<bool> callback)
-        {
-            if (!FirebaseInit.IsInitialized())
-            {
-                Debug.LogError("Firebase not initialized!");
-                callback(false);
-                return;
-            }
-
-            var prevUser = auth.CurrentUser;
-            auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
-            {
-                var user = auth.CurrentUser;
-                user.DeleteAsync().ContinueWith(task =>
-                {
-                    if (task.IsFaulted)
-                    {
-                        callback(false);
-                    }
-
-                    if (task.IsCompleted)
-                    {
-                        callback(true);
-                    }
                 });
             });
         }
@@ -232,7 +207,7 @@ namespace FirebaseScripts
             });
         }
 
-        private static void AuthStateChanged(object sender, System.EventArgs eventArgs)
+        public static void AuthStateChanged(object sender, System.EventArgs eventArgs)
         {
             if (auth.CurrentUser != firebaseUser)
             {
@@ -247,6 +222,103 @@ namespace FirebaseScripts
                 {
                     Debug.Log("Signed in " + firebaseUser.UserId);
                 }
+            }
+        }
+
+        /// <summary>
+        /// This unregisters a user's account from the firebase authentication
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <param name="callback"></param>
+        public static void UnregisterAccount(string email, string password, Action<bool> callback)
+        {
+            if (!FirebaseInit.IsInitialized())
+            {
+                Debug.LogError("Firebase not initialized!");
+                callback(false);
+                return;
+            }
+
+            var prevUser = auth.CurrentUser;
+            auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
+            {
+                var user = auth.CurrentUser;
+                user.DeleteAsync().ContinueWith(task =>
+                {
+                    if (task.IsFaulted)
+                    {
+                        callback(false);
+                    }
+
+                    if (task.IsCompleted)
+                    {
+                        callback(true);
+                    }
+                });
+            });
+        }
+
+        /// This methods sends a confirmation email to the current user after they have registered successfully
+        /// </summary>
+        public static void SendConfirmationEmail()
+        {
+            FirebaseUser user = auth.CurrentUser;
+            if (user != null)
+            {
+                user.SendEmailVerificationAsync().ContinueWith(task =>
+                {
+                    if (task.IsCanceled)
+                    {
+                        Debug.LogError("SendEmailVerificationAsync was canceled.");
+                        return;
+                    }
+
+                    if (task.IsFaulted)
+                    {
+                        Debug.LogError("SendEmailVerificationAsync encountered an error: " + task.Exception);
+                        return;
+                    }
+
+                    Debug.Log("Email sent successfully.");
+                });
+            }
+        }
+
+        /// <summary>
+        /// This method is used to send a given user a password reset email for their account
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="email"></param>
+        public static void ResetPassword(String email, Action<bool> callback)
+        {
+            if (!FirebaseInit.IsInitialized())
+            {
+                Debug.LogError("Firebase not initialized!");
+                return;
+            }
+            if (email != null)
+            {
+                Debug.Log(email);
+                auth.SendPasswordResetEmailAsync(email).ContinueWith(task =>
+                {
+                    if (task.IsCanceled)
+                    {
+                        Debug.LogError("SendPasswordResetEmailAsync was canceled.");
+                        callback(false);
+                        return;
+                    }
+
+                    if (task.IsFaulted)
+                    {
+                        Debug.LogError("SendPasswordResetEmailAsync encountered an error: " + task.Exception);
+                        callback(false);
+                        return;
+                    }
+
+                    Debug.Log("Password reset email sent successfully.");
+                    callback(true);
+                });
             }
         }
 
