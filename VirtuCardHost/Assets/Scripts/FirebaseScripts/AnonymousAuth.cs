@@ -38,7 +38,8 @@ namespace FirebaseScripts
                             Debug.LogError("Error updating Database!");
                             task.Result.DeleteAsync();
                         }
-
+                        
+                        PhotonScripts.NetworkController.SetUsername(username);
                         callback(c);
                     });
                 });
