@@ -21,6 +21,7 @@ public class RegistrationPageManager : MonoBehaviour
     public Text errorTitle;
     public Text errorMessage;
     public Text failedPasswordText;
+    public Text invalidPasswordText;
 
     // this is the button that is pressed to submit the username and password
     public Button createBtn;
@@ -56,7 +57,14 @@ public class RegistrationPageManager : MonoBehaviour
                 CreateErrorMessage("Invalid Username", "Sorry! Username is already taken.");
                 break;
             case -2:
-                CreateErrorMessage("Email Already Exists", "This email is already taken. Try another email.");
+                if (invalidPasswordText.enabled)
+                {
+                    CreateErrorMessage("Password too short", "The password must be at least 6 characters.");
+                }
+                else
+                {
+                    CreateErrorMessage("Email Already Exists", "This email is already taken. Try another email.");
+                }
                 break;
             case -3:
                 CreateErrorMessage("Error", "Something Unexpected Happened");
