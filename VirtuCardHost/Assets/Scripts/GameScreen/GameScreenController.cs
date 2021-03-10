@@ -7,6 +7,7 @@ using System;
 public class GameScreenController : MonoBehaviour
 {
     public GameObject chatPanel;
+    public GameObject toggle; 
     public Toggle chatToggle;
 
     // the game being played
@@ -15,8 +16,15 @@ public class GameScreenController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        chatToggle.SetIsOnWithoutNotify(HostData.isChatAllowed());
-        chatToggle.onValueChanged.AddListener(delegate { ChatToggleValueChanged(chatToggle.isOn); });
+        HostData.setChatAllowed(false);
+        if (HostData.isChatAllowed()) {
+            chatToggle.SetIsOnWithoutNotify(HostData.isChatAllowed());
+            chatToggle.onValueChanged.AddListener(delegate { ChatToggleValueChanged(chatToggle.isOn); });
+        } else
+        {
+            chatPanel.SetActive(false);
+            toggle.SetActive(false);
+        }
     }
 
     // Update is called once per frame

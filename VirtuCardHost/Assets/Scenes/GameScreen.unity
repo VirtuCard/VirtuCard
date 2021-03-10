@@ -804,6 +804,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chatPanel: {fileID: 36908155}
+  toggle: {fileID: 144133671}
   chatToggle: {fileID: 144133673}
 --- !u!4 &1750642337
 Transform:
