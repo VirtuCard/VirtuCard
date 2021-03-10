@@ -728,6 +728,7 @@ C# parse time         : 255ms
 candidates check time : 80ms
 console write time    : 0ms
 
+<<<<<<< HEAD
 [api-updater (non-obsolete-error-filter)] 3/9/2021 9:13:13 PM : Starting C:/Program Files/Unity/Hub/Editor/2020.2.5f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
 [api-updater (non-obsolete-error-filter)] 
 ----------------------------------
@@ -746,5 +747,26 @@ moved types parse time: 59ms
 candidates parse time : 22ms
 C# parse time         : 328ms
 candidates check time : 181ms
+console write time    : 0ms
+=======
+[api-updater (non-obsolete-error-filter)] 3/9/2021 10:00:42 PM : Starting D:/Unity/2020.2.5f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 230.0342ms
+moved types parse time: 176ms
+candidates parse time : 3ms
+C# parse time         : 1364ms
+candidates check time : 383ms
+console write time    : 2ms
+>>>>>>> LinkingPlayerListWithUI
+
+[api-updater (non-obsolete-error-filter)] 3/10/2021 3:12:47 PM : Starting C:/Program Files/Unity/Hub/Editor/2020.2.5f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 65.0296ms
+moved types parse time: 53ms
+candidates parse time : 14ms
+C# parse time         : 237ms
+candidates check time : 159ms
 console write time    : 0ms
 

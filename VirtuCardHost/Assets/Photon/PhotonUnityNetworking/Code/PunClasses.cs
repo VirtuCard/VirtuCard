@@ -273,6 +273,7 @@ namespace Photon.Pun
         /// </remarks>
         public virtual void OnPlayerEnteredRoom(Player newPlayer)
         {
+            Debug.Log("HERE--------------");
         }
 
         /// <summary>
