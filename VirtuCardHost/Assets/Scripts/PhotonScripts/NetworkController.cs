@@ -3,12 +3,19 @@ using System.IO;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.UI;
+using System.IO;
+using ExitGames.Client.Photon;
+using Photon.Realtime;
+using ExitGames.Client.Photon;
+using Photon.Realtime;
 
 namespace PhotonScripts
 {
     public class NetworkController : MonoBehaviourPunCallbacks
     {
         private int RoomCodeLength = 6;
+        private GameObject eventTest;
 
         //Field for Host's RoomCode.
         //Format: ABCDEF
@@ -83,12 +90,6 @@ namespace PhotonScripts
              //sendData(HostData.CanHostJoinGame(), HostData.GetSelectedGame(), HostData.GetMaxNumPlayers());
         }
 
-        void OnCreatedRoom()
-        {
-            Debug.Log("OnCreatedRoom Activated!!!!!");
-            Debug.Log("Working");
-            sendData(HostData.CanHostJoinGame(), HostData.GetSelectedGame(), HostData.GetMaxNumPlayers());
-        }
        
         /// WriteRoomCodeToFile()
         /// 
@@ -115,19 +116,35 @@ namespace PhotonScripts
             PhotonNetwork.NickName = user1Username;
         }
 
-
-        private void sendData(bool canHostJoinGame, string game, int maxNumPlayers)
+        // This code acts as a way to send information to the client
+        // it passes through an array of objects and the client
+        // listens for the host call which is currently called
+        // by pressing the settings button lol
+        private void OnEnable()
         {
-            PhotonView photonView = PhotonView.Get(this);
-            photonView.RPC("RPC_MoveData", RpcTarget.AllBuffered, canHostJoinGame, game, maxNumPlayers);
+            PhotonNetwork.NetworkingClient.EventReceived += OnSignalSent;
         }
 
-        [PunRPC]
-        private void RPC_MoveData(Player player, bool canHostJoinGame, string game, int maxNumPlayers)
+        private void OnDisable()
         {
-            Debug.Log("Can host join: " + canHostJoinGame);
-            Debug.Log("Game number is: " + game);
-            Debug.Log("Max number of players is: " + maxNumPlayers);
+             PhotonNetwork.NetworkingClient.EventReceived -= OnSignalSent;
+        }
+
+         private void OnSignalSent(EventData photonEvent)
+        {
+            if (photonEvent.Code == 1){
+                string updated = (string) photonEvent[0];
+                Debug.Log(updated);
+            }
+        }
+        public void DoSomething()
+        {
+            Debug.Log("settings was clicked");
+            string s = "Hello Darkness";
+            //int test = 69;
+            object[] content = new object[] {s};
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(1, content, raiseEventOptions, SendOptions.SendReliable);
         }
     }
 }
