@@ -5,6 +5,11 @@ using System;
 
 public class TestGame : Game
 {
+    public TestGame()
+    {
+        SetGameName(Enum.GetName(typeof(GameTypes), GameTypes.TestGame));
+    }
+
     /// <summary>
     /// This method is used to verify that the Card that the player wants to play is valid.
     /// It does NOT actually play the card, it only checks if it is possible

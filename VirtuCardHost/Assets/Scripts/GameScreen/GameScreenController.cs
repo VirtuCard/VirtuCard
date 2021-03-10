@@ -9,15 +9,9 @@ public class GameScreenController : MonoBehaviour
     public GameObject chatPanel;
     public Toggle chatToggle;
 
-    // the game being played
-    private Game game;
-
     // Start is called before the first frame update
     void Start()
     {
-        // THIS IS TEMPORARY
-        game = new TestGame();
-
         chatToggle.SetIsOnWithoutNotify(HostData.isChatAllowed());
         chatToggle.onValueChanged.AddListener(delegate { ChatToggleValueChanged(chatToggle.isOn); });
     }
@@ -35,7 +29,7 @@ public class GameScreenController : MonoBehaviour
     /// <returns></returns>
     public Card DrawCard()
     {
-        return game.DrawCardFromDeck(DeckChoices.UNDEALT);
+        return HostData.GetGame().DrawCardFromDeck(DeckChoices.UNDEALT);
     }
 
     /// <summary>
@@ -46,7 +40,7 @@ public class GameScreenController : MonoBehaviour
     /// <returns>A list containing all the drawn cards</returns>
     public List<Card> DrawCards(int numOfCards)
     {
-        return game.DrawCardsFromDeck(numOfCards, DeckChoices.UNDEALT);
+        return HostData.GetGame().DrawCardsFromDeck(numOfCards, DeckChoices.UNDEALT);
     }
 
     /// <summary>
@@ -59,7 +53,7 @@ public class GameScreenController : MonoBehaviour
     {
         if (VerifyIfCardIsValid(card))
         {
-            game.AddCardToDeck(card, DeckChoices.PLAYED);
+            HostData.GetGame().AddCardToDeck(card, DeckChoices.PLAYED);
             return true;
         }
         return false;
@@ -72,7 +66,7 @@ public class GameScreenController : MonoBehaviour
     /// <returns></returns>
     public bool VerifyIfCardIsValid(Card card)
     {
-        return game.VerifyMove(card);
+        return HostData.GetGame().VerifyMove(card);
     }
 
     /// <summary>
@@ -82,7 +76,7 @@ public class GameScreenController : MonoBehaviour
     /// <returns></returns>
     public bool VerifyCanSkipTurn(int playerIndex)
     {
-        return game.VerifyCanSkip(playerIndex);
+        return HostData.GetGame().VerifyCanSkip(playerIndex);
     }
 
     /// <summary>

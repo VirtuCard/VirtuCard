@@ -9,7 +9,23 @@ public abstract class Game
     private CardDeck playedCards = new CardDeck();
     private CardDeck undealtCards = new CardDeck();
     private List<PlayerInfo> players = new List<PlayerInfo>();
+    private string gameName;
 
+    /// <summary>
+    /// This is the constructor template for all objects of type Game
+    /// </summary>
+    public Game()
+    {
+    }
+
+    /// <summary>
+    /// Returns the name of the game
+    /// </summary>
+    /// <returns></returns>
+    public string GetGameName()
+    {
+        return gameName;
+    }
 
     /// <summary>
     /// Advances the playerTurnIndex by <paramref name="skipHowMany"/> either forwards or backwards while keeping it within the bounds of the array
@@ -93,6 +109,15 @@ public abstract class Game
     }
 
     /// <summary>
+    /// Returns a list of all the playerInfos of the connected players
+    /// </summary>
+    /// <returns></returns>
+    public List<PlayerInfo> GetAllPlayers()
+    {
+        return players;
+    }
+
+    /// <summary>
     /// Gets the player index from a player's username.
     /// Returns the index on success, but -1 on failure.
     /// </summary>
@@ -110,6 +135,7 @@ public abstract class Game
         return -1;
     }
 
+    /*
     /// <summary>
     /// Adds a new player to the game logic.
     /// Does not add the player if the limit has been exceeded.
@@ -121,6 +147,27 @@ public abstract class Game
         if (players.Count >= HostData.GetMaxNumPlayers())
         {
             players.Add(player);
+            return true;
+        }
+        return false;
+    }*/
+
+    /// <summary>
+    /// Adds a new player to the game logic.
+    /// Does not add the player if the limit has been exceeded.
+    /// </summary>
+    /// <param name="player">Player to add</param>
+    /// <returns>Returns true or false depending on whether the player was added</returns>
+    public bool AddPlayer(Photon.Realtime.Player player)
+    {
+        PlayerInfo playerInfo = new PlayerInfo();
+        playerInfo.username = player.NickName;
+        playerInfo.score = 0;
+        playerInfo.photonPlayer = player;
+
+        if (players.Count >= HostData.GetMaxNumPlayers())
+        {
+            players.Add(playerInfo);
             return true;
         }
         return false;
@@ -259,6 +306,28 @@ public abstract class Game
     }
 
     /// <summary>
+    /// Prints all the connected player's information
+    /// </summary>
+    /// <param name="player"></param>
+    public void PrintAllPlayers()
+    {
+        Debug.Log("---PRINTING PLAYERS---");
+        foreach (PlayerInfo player in players)
+        {
+            Debug.Log(player.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Prints the player's information
+    /// </summary>
+    /// <param name="player"></param>
+    public void PrintPlayer(PlayerInfo player)
+    {
+        Debug.Log(player.ToString());
+    }
+
+    /// <summary>
     /// This method is used to verify that the Card that the player wants to play is valid.
     /// It does NOT actually play the card, it only checks if it is possible
     /// </summary>
@@ -281,4 +350,9 @@ public abstract class Game
     /// <param name="playerIndex">The index of the player</param>
     /// <returns>True or false depending on validity of skip</returns>
     public abstract bool VerifyCanSkip(int playerIndex);
+
+    protected void SetGameName(string gamename)
+    {
+        gameName = gamename;
+    }
 }
