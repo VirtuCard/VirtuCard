@@ -18,7 +18,7 @@ namespace Photon.Realtime
     using UnityEditor;
     using UnityEngine;
     /// <summary>
-    /// Collection of connection-relevant settings, used internally by .ConnectUsingSettings.
+    /// Collection of connection-relevant settings, used internally by PhotonNetwork.ConnectUsingSettings.
     /// </summary>
     /// <remarks>
     /// Includes the AppSettings class from the Realtime APIs plus some other, PUN-relevant, settings.</remarks>
