@@ -43,4 +43,9 @@ public static class SceneNames
     {
         get { return "GameScreen"; }
     }
+
+    public static string WaitingScreen
+    {
+        get { return "WaitingScreen"; }
+    }
 }
