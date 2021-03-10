@@ -8,6 +8,8 @@ public class ClientGameController : MonoBehaviour
     public Button skipBtn;
     public Button playCardBtn;
     public GameObject errorDisplay;
+    public GameObject turn;
+    public GameObject notTurnUI;
     
     private CardDeck cards = new CardDeck();
 
@@ -22,6 +24,18 @@ public class ClientGameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // This is for testing
+        // ClientData.setCurrentTurn(false);
+        // does not display the option to play if it isn't your turn
+        if (!ClientData.isCurrentTurn()) {
+            turn.SetActive(false);
+            notTurnUI.SetActive(true);
+        }
+        else {
+            turn.SetActive(true);
+            notTurnUI.SetActive(false);
+        }
+
         skipBtn.onClick.AddListener(delegate() {
             SkipBtnClicked();
         });
