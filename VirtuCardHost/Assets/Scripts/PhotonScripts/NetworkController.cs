@@ -79,8 +79,17 @@ namespace PhotonScripts
             // If room doesn't exist, it creates the room
             HostData.setJoinCode(RoomCodeString);
             PhotonNetwork.CreateRoom(RoomCodeString, options, null);
+
+             //sendData(HostData.CanHostJoinGame(), HostData.GetSelectedGame(), HostData.GetMaxNumPlayers());
         }
 
+        void OnCreatedRoom()
+        {
+            Debug.Log("OnCreatedRoom Activated!!!!!");
+            Debug.Log("Working");
+            sendData(HostData.CanHostJoinGame(), HostData.GetSelectedGame(), HostData.GetMaxNumPlayers());
+        }
+       
         /// WriteRoomCodeToFile()
         /// 
         /// Function used to write the Room Code to a File
@@ -104,6 +113,21 @@ namespace PhotonScripts
         public static void SetUsername(string user1Username)
         {
             PhotonNetwork.NickName = user1Username;
+        }
+
+
+        private void sendData(bool canHostJoinGame, string game, int maxNumPlayers)
+        {
+            PhotonView photonView = PhotonView.Get(this);
+            photonView.RPC("RPC_MoveData", RpcTarget.AllBuffered, canHostJoinGame, game, maxNumPlayers);
+        }
+
+        [PunRPC]
+        private void RPC_MoveData(Player player, bool canHostJoinGame, string game, int maxNumPlayers)
+        {
+            Debug.Log("Can host join: " + canHostJoinGame);
+            Debug.Log("Game number is: " + game);
+            Debug.Log("Max number of players is: " + maxNumPlayers);
         }
     }
 }
