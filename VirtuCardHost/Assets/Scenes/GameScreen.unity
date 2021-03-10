@@ -1098,12 +1098,8 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2795817757083114068, guid: 3cf453fb80752d24e9c428e944168fca, type: 3}
-      propertyPath: sendBtn
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2795817757083114068, guid: 3cf453fb80752d24e9c428e944168fca, type: 3}
-      propertyPath: messageSend
-      value: 
+      propertyPath: roomcode
+      value: ABCDEF
       objectReference: {fileID: 0}
     - target: {fileID: 2795817757083114069, guid: 3cf453fb80752d24e9c428e944168fca, type: 3}
       propertyPath: m_AnchoredPosition.x
