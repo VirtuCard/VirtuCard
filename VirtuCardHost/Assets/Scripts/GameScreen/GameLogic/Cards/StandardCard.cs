@@ -54,6 +54,15 @@ public class StandardCard : Card
     /// </summary>
     public override void Print()
     {
-        Debug.Log("STANDARD CARD (" + Enum.GetName(typeof(StandardCardRank), GetRank()) + " of " + Enum.GetName(typeof(StandardCardSuit), GetSuit()) + ")");
+        Debug.Log(ToString());
+    }
+
+    /// <summary>
+    /// This returns the card in a string format
+    /// </summary>
+    /// <returns></returns>
+    public override string ToString()
+    {
+        return "STANDARD CARD (" + Enum.GetName(typeof(StandardCardRank), GetRank()) + " of " + Enum.GetName(typeof(StandardCardSuit), GetSuit()) + ")";
     }
 }
