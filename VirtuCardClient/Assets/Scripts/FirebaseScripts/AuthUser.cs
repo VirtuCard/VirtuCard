@@ -1,5 +1,6 @@
 ﻿using System;
 using Firebase.Auth;
+using Photon.Pun;
 using UnityEngine;
 
 namespace FirebaseScripts
@@ -54,7 +55,7 @@ namespace FirebaseScripts
                 DatabaseUtils.getUser(newUser.UserId, s =>
                 {
                     User user1 = new User(s);
-                    PhotonScripts.NetworkController.SetUsername(user1.Username);
+                    PhotonNetwork.NickName =  user1.Username;
                     callback(true);
                 });
             });
@@ -140,8 +141,8 @@ namespace FirebaseScripts
                         Debug.Log("Failed to Add into Realtime Database");
                         firebaseUser.DeleteAsync();
                     }
-                    
-                    PhotonScripts.NetworkController.SetUsername(username);
+
+                    PhotonNetwork.NickName = username;
 
                     callback(c);
                 });
