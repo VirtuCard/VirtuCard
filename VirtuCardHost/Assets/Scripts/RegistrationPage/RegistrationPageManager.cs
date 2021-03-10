@@ -60,6 +60,7 @@ public class RegistrationPageManager : MonoBehaviour
                 if (invalidPasswordText.enabled)
                 {
                     CreateErrorMessage("Password too short", "The password must be at least 6 characters.");
+                    invalidPasswordText.enabled = false;
                 }
                 else
                 {
