@@ -33,19 +33,20 @@ public class WaitingRoomScreenManager : MonoBehaviour
         CreatePlayerList();
         settingsPanel.SetActive(false);
         joinCode.text = HostData.GetJoinCode();
-        selectedGame.text = HostData.GetSelectedGame();
+        selectedGame.text = HostData.GetGame().GetGameName();
         currPlayerCount.text = "0 players";
         canHostJoinToggle.isOn = HostData.CanHostJoinGame();
         numPlayers.SetTextWithoutNotify(HostData.GetMaxNumPlayers().ToString());
 
 
         startGameBtn.onClick.AddListener(delegate { StartGameBtnClicked(); });
-        startGameBtn.interactable = false;
+        //startGameBtn.interactable = false;
     }
 
     public void StartGameBtnClicked()
     {
-        SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
+        HostData.GetGame().PrintAllPlayers();
+        //SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
     }
 
     public void CreatePlayerList()
