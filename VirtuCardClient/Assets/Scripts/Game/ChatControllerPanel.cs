@@ -100,7 +100,7 @@ public class ChatControllerPanel : MonoBehaviour, IChatClientListener
             }
         });
 
-        ClientData.setJoinCode("ABCDEF"); // TODO: Remove this
+        ClientData.setJoinCode("BREGBQ"); // TODO: Remove this
 
         roomcode = ClientData.getJoinCode();
         _chatClient = new ChatClient(this) {ChatRegion = "US"};
