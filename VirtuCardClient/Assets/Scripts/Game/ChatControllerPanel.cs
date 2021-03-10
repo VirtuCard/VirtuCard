@@ -136,7 +136,7 @@ public class ChatControllerPanel : MonoBehaviour, IChatClientListener
         Debug.Log("Chat Disconnected!\n");
     }
 
-    public void OnConnected()
+    public void OnConnected() 
     {
         Debug.Log("Chat Connected!\n");
         _chatClient.Subscribe(new[] {roomcode});
