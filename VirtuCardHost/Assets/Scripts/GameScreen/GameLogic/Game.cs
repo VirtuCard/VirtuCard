@@ -165,7 +165,7 @@ public abstract class Game
         playerInfo.score = 0;
         playerInfo.photonPlayer = player;
 
-        if (players.Count >= HostData.GetMaxNumPlayers())
+        if (players.Count < HostData.GetMaxNumPlayers())
         {
             players.Add(playerInfo);
             return true;
