@@ -21,6 +21,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
     public GameObject textBoxTemplate;
     private ArrayList playerList;
     private List<GameObject> textBoxes;
+    public Button startGameBtn;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +37,15 @@ public class WaitingRoomScreenManager : MonoBehaviour
         currPlayerCount.text = "0 players";
         canHostJoinToggle.isOn = HostData.CanHostJoinGame();
         numPlayers.SetTextWithoutNotify(HostData.GetMaxNumPlayers().ToString());
+
+
+        startGameBtn.onClick.AddListener(delegate { StartGameBtnClicked(); });
+        startGameBtn.interactable = false;
+    }
+
+    public void StartGameBtnClicked()
+    {
+        SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
     }
 
     public void CreatePlayerList()
