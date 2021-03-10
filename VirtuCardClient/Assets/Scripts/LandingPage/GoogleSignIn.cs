@@ -19,9 +19,4 @@ public class GoogleSignIn : MonoBehaviour
     {
         
     }
-
-    public void GoogleSignIn()
-    {
-        
-    }
 }
