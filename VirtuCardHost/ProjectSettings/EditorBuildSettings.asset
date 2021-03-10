@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WaitingRoomScreen.unity
     guid: 505c0406d962cd0488199b58697cabed
+  - enabled: 1
+    path: Assets/Scenes/GameScreen.unity
+    guid: 13de5290233389c49bf692ef0109456e
   m_configObjects: {}
