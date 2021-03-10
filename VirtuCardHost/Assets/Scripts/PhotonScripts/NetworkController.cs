@@ -90,7 +90,7 @@ namespace PhotonScripts
         }
 
         // Function that returns a list of all the players in a room
-        public ArrayList ListAllPlayers()
+        public static ArrayList ListAllPlayers()
         {
             ArrayList playerList = new ArrayList();
             foreach(var player in PhotonNetwork.PlayerList)
