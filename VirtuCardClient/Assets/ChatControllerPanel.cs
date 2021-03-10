@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Photon.Pun;
 
 public class ChatControllerPanel : MonoBehaviour
 {
@@ -93,7 +92,7 @@ public class ChatControllerPanel : MonoBehaviour
 
     public void sendClicked() {
         string message = messageSend.text;
-        CreateNewMessage(message, PhotonNetwork.NickName);
+        CreateNewMessage(message, "June");
         messageSend.text = "";
     }
 }

@@ -386,7 +386,7 @@ namespace Photon.Chat
         /// <summary>(-1) Something went wrong in the server. Try to reproduce and contact Exit Games.</summary>
         public const int InternalServerError = -1;
 
-        // server - : 0x7FFF and down
+        // server - PhotonNetwork: 0x7FFF and down
         // logic-level error codes start with short.max
 
         /// <summary>(32767) Authentication failed. Possible cause: AppId is unknown to Photon (in cloud service).</summary>
