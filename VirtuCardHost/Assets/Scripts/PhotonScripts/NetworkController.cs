@@ -27,6 +27,11 @@ namespace PhotonScripts
     
     } */
 
+        void Start()
+        {
+            PhotonNetwork.AddCallbackTarget(this);
+        }
+
         public override void OnConnectedToMaster()
         {
             Debug.Log("The Host is now connected to the " + PhotonNetwork.CloudRegion + " server.");
