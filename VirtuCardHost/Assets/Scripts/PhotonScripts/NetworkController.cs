@@ -92,6 +92,8 @@ namespace PhotonScripts
         // Function that returns a list of all the players in a room
         public static ArrayList ListAllPlayers()
         {
+            Debug.Log("Getting list of players from Photon Server (every 5 seconds)");
+
             ArrayList playerList = new ArrayList();
             foreach(var player in PhotonNetwork.PlayerList)
             {

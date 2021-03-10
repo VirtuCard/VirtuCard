@@ -20,6 +20,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
     // GameObjects for the player list feature
     public GameObject textBoxTemplate;
     private ArrayList playerList;
+    private List<GameObject> textBoxes;
 
     // Start is called before the first frame update
     void Start()
@@ -39,21 +40,41 @@ public class WaitingRoomScreenManager : MonoBehaviour
 
     public void CreatePlayerList()
     {
-        for(int i = 0; i < 10; ++i)
+        Debug.Log("Creating player list");
+        
+        // Maintains a list of all the new text objects
+        textBoxes = new List<GameObject>();
+
+        // If the list is not empty, then the list is cleared to account for player leaving the room
+        if (textBoxes.Count > 0)
+        {
+            foreach(GameObject box in textBoxes)
+            {
+                Destroy(box);
+            }
+            textBoxes.Clear();
+        }
+
+        // Creating the list from scratch from the returned list of names (PhotonNetwork.PlayerList)
+        foreach(string name in playerList)
         {
             // Creates a text game object based on the template based as an argument
             GameObject textBox = Instantiate(textBoxTemplate) as GameObject;
             
             // Setting the text game object to active
             textBox.SetActive(true);
-            
-            // Setting the text in the text game object
-            textBox.GetComponent<Text>().text = "" + i;
+
+            // Setting the text and name in the text game object
+            textBox.name = name;
+            textBox.GetComponent<Text>().text = name;
             
             // Assigning the parent of text game object as the parent of template 
             // the second argument indicates whether the game object will be placed automatically in the game world
             // since we want it to be set to that of the parent, we pass 'false' as the second argument
             textBox.transform.SetParent(textBoxTemplate.transform.parent, false);
+
+            // Adding game object to list
+            textBoxes.Add(textBox);
         }
     }
 
