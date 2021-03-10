@@ -15,6 +15,14 @@ public class JoinGameMethod : MonoBehaviour
 
     public string joinCode;
     public GameObject inputField;
+    public GameObject errorCode;
+    bool successfulConnect = true;
+
+    void Start()
+    {
+        PhotonNetwork.ConnectUsingSettings();
+    }
+
 
     public void ConnectClientClicked()
     {
@@ -32,5 +40,19 @@ public class JoinGameMethod : MonoBehaviour
         // ----- EXAMPLE ------
         // This is an example of how you would join the room
         PhotonNetwork.JoinRoom(code);
+        if (successfulConnect)
+        {
+
+        }
+        else
+        {
+            errorCode.GetComponent<Text>().text = "Joining room failed!";
+        }
     }
+
+    void OnPhotonJoinRoomFailed(object[] codeAndMsg)
+    {
+        successfulConnect = false;
+    }
+
 }
