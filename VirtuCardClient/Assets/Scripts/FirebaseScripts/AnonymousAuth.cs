@@ -1,5 +1,6 @@
 ﻿using System;
 using Firebase.Auth;
+using Photon.Pun;
 using UnityEngine;
 using Random = System.Random;
 
@@ -39,7 +40,7 @@ namespace FirebaseScripts
                             task.Result.DeleteAsync();
                         }
                         
-                        PhotonScripts.NetworkController.SetUsername(username);
+                        PhotonNetwork.NickName = username;
                         callback(c);
                     });
                 });
