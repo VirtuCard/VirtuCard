@@ -25,16 +25,9 @@ public class ClientGameController : MonoBehaviour
     void Start()
     {
         // This is for testing
-        // ClientData.setCurrentTurn(false);
+        // ClientData.setCurrentTurn(true);
         // does not display the option to play if it isn't your turn
-        if (!ClientData.isCurrentTurn()) {
-            turn.SetActive(false);
-            notTurnUI.SetActive(true);
-        }
-        else {
-            turn.SetActive(true);
-            notTurnUI.SetActive(false);
-        }
+
 
         skipBtn.onClick.AddListener(delegate() {
             SkipBtnClicked();
@@ -60,11 +53,17 @@ public class ClientGameController : MonoBehaviour
                 wasCurrentlyTurn = true;
                 SetupTurn();
             }
+            turn.SetActive(true);
+            notTurnUI.SetActive(false);
         }
         else
         {
             wasCurrentlyTurn = false;
+
+            turn.SetActive(false);
+            notTurnUI.SetActive(true);
         }
+
     }
 
     /// <summary>
