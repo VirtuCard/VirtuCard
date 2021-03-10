@@ -156,6 +156,9 @@ MonoBehaviour:
   joinCode: 
   inputField: {fileID: 1735809050}
   errorCode: {fileID: 1057474898}
+  errorPanel: {fileID: 1996827250}
+  errorTitle: {fileID: 1281390911}
+  errorMessage: {fileID: 1775894057}
 --- !u!4 &8607835
 Transform:
   m_ObjectHideFlags: 0
