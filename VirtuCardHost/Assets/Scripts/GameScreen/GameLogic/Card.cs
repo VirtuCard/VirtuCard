@@ -6,4 +6,5 @@ public abstract class Card
 {
     public abstract void Print();
     public abstract bool Compare(Card card);
+    public override abstract string ToString();
 }
