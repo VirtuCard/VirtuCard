@@ -133,16 +133,20 @@ namespace PhotonScripts
          private void OnSignalSent(EventData photonEvent)
         {
             if (photonEvent.Code == 1){
-                string updated = (string) photonEvent[0];
-                Debug.Log(updated);
+                object[] data = (object[])photonEvent.CustomData;
+                string s = (string)data[0];
+                bool test = (bool)data[1];
+                Debug.Log(s);
+                Debug.Log(test);
             }
         }
         public void DoSomething()
         {
             Debug.Log("settings was clicked");
             string s = "Hello Darkness";
+            bool testBoolean = false;
             //int test = 69;
-            object[] content = new object[] {s};
+            object[] content = new object[] {"hello darkness", testBoolean};
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
             PhotonNetwork.RaiseEvent(1, content, raiseEventOptions, SendOptions.SendReliable);
         }
