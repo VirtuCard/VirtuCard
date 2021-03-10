@@ -94,7 +94,12 @@ namespace PhotonScripts
              //sendData(HostData.CanHostJoinGame(), HostData.GetSelectedGame(), HostData.GetMaxNumPlayers());
         }
 
-       
+        public override void OnPlayerEnteredRoom(Player newPlayer)
+        {
+
+        }
+
+
         /// WriteRoomCodeToFile()
         /// 
         /// Function used to write the Room Code to a File

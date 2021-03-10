@@ -29,6 +29,8 @@ public class SignInPageManager : MonoBehaviour
     public bool CorrectCred = false;
     public bool IncorrectCred = false;
 
+    private bool didChangeState = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,19 +46,23 @@ public class SignInPageManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (CorrectCred)
+        if (didChangeState)
         {
-            Debug.Log("login success");
-            //SceneManager.LoadScene(SceneNames.JoinGamePage, LoadSceneMode.Single);
-            CreateSuccessMessage("Login Success!");
-            successBtn.onClick.AddListener(delegate { sceneLoader.ChangeScene(SceneNames.JoinGamePage); });
-        }
+            if (CorrectCred)
+            {
+                Debug.Log("login success");
+                //SceneManager.LoadScene(SceneNames.JoinGamePage, LoadSceneMode.Single);
+                CreateSuccessMessage("Login Success!");
+                successBtn.onClick.AddListener(delegate { sceneLoader.ChangeScene(SceneNames.JoinGamePage); });
+            }
 
-        if (IncorrectCred)
-        {
-            IncorrectCred = false;
-            CreateErrorMessage("ERROR", "Invalid email or Incorrect password!");
-            Debug.Log("login failed");
+            if (IncorrectCred)
+            {
+                IncorrectCred = false;
+                CreateErrorMessage("ERROR", "Invalid email or Incorrect password!");
+                Debug.Log("login failed");
+            }
+            didChangeState = false;
         }
     }
 
@@ -97,6 +103,7 @@ public class SignInPageManager : MonoBehaviour
                         IncorrectCred = true;
                     }
                 });
+                didChangeState = true;
         });
     }
 }
