@@ -3,12 +3,19 @@ using System.IO;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.UI;
+using System.IO;
+using ExitGames.Client.Photon;
+using Photon.Realtime;
+using ExitGames.Client.Photon;
+using Photon.Realtime;
 
 namespace PhotonScripts
 {
     public class NetworkController : MonoBehaviourPunCallbacks
     {
         private int RoomCodeLength = 6;
+        private GameObject eventTest;
 
         //Field for Host's RoomCode.
         //Format: ABCDEF
@@ -31,6 +38,10 @@ namespace PhotonScripts
             Debug.Log("Generated Room Code is " + RoomCode);
         }
 
+        void OnServerConnect()
+        {
+            DoSomething();
+        }
         /// generateCode()
         /// 
         /// Method to generate Host's RoomCode.
@@ -79,7 +90,15 @@ namespace PhotonScripts
             // If room doesn't exist, it creates the room
             HostData.setJoinCode(RoomCodeString);
             PhotonNetwork.CreateRoom(RoomCodeString, options, null);
+
+             //sendData(HostData.CanHostJoinGame(), HostData.GetSelectedGame(), HostData.GetMaxNumPlayers());
         }
+
+        public override void OnPlayerEnteredRoom(Player newPlayer)
+        {
+
+        }
+
 
         /// WriteRoomCodeToFile()
         /// 
@@ -106,6 +125,42 @@ namespace PhotonScripts
         public static void SetUsername(string user1Username)
         {
             PhotonNetwork.NickName = user1Username;
+        }
+
+        // This code acts as a way to send information to the client
+        // it passes through an array of objects and the client
+        // listens for the host call which is currently called
+        // by pressing the settings button lol
+        private void OnEnable()
+        {
+            PhotonNetwork.NetworkingClient.EventReceived += OnSignalSent;
+        }
+
+        private void OnDisable()
+        {
+             PhotonNetwork.NetworkingClient.EventReceived -= OnSignalSent;
+        }
+
+         private void OnSignalSent(EventData photonEvent)
+        {
+            if (photonEvent.Code == 1){
+                object[] data = (object[])photonEvent.CustomData;
+                string s = (string)data[0];
+                bool test = (bool)data[1];
+                int players = (int)data[2];
+                Debug.Log(s);
+                Debug.Log(test);
+                Debug.Log(players);
+            }
+        }
+        public void DoSomething()
+        {
+            string gameMode = HostData.GetSelectedGame();
+            bool hostToggle = HostData.CanHostJoinGame();
+            int maxPlayers = HostData.GetMaxNumPlayers();
+            object[] content = new object[] {gameMode, hostToggle, maxPlayers};
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(1, content, raiseEventOptions, SendOptions.SendReliable);
         }
     }
 }

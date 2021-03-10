@@ -104,6 +104,7 @@ public class SignInPageManager : MonoBehaviour
                     }
                     didChangeState = true;
                 });
+                didChangeState = true;
         });
     }
 }
