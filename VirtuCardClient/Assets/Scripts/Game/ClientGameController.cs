@@ -13,6 +13,8 @@ public class ClientGameController : MonoBehaviour
 
     public GameObject cardCarousel;
     private CardMenu cardMenu;
+    public GameObject chatPanel;
+    public Toggle chatToggle;
 
 
     private bool wasCurrentlyTurn = false;
@@ -28,6 +30,9 @@ public class ClientGameController : MonoBehaviour
         });
         SetCanSkipBtn(ClientData.isCurrentTurn());
         cardMenu = cardCarousel.GetComponent<CardMenu>();
+
+        chatToggle.SetIsOnWithoutNotify(ClientData.isChatAllowed());
+        chatToggle.onValueChanged.AddListener(delegate { ChatToggleValueChanged(chatToggle.isOn); });
     }
 
     // Update is called once per frame
@@ -124,5 +129,14 @@ public class ClientGameController : MonoBehaviour
         StandardCard card = (StandardCard)cardMenu.GetCurrentlySelectedCard();
         card.Print();
         RemoveCard(card);
+    }
+
+    /// <summary>
+    /// This method is called when the chat toggle state changes
+    /// </summary>
+    /// <param name="toggleVal"></param>
+    private void ChatToggleValueChanged(bool toggleVal)
+    {
+        chatPanel.SetActive(!toggleVal);
     }
 }

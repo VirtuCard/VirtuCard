@@ -45,6 +45,10 @@ public class GUITesting
         passwordField.SetTextWithoutNotify("Password!123");
         loginButton.onClick.Invoke();
         yield return new WaitForSeconds(2);
+        
+        Button successButton = GameObject.Find("SuccessButton").GetComponent<Button>();
+        successButton.onClick.Invoke();
+        yield return new WaitForSeconds(2);
 
         //Check if reached landing page
         currentScene = SceneManager.GetActiveScene();
@@ -141,6 +145,10 @@ public class GUITesting
         loginButton.onClick.Invoke();
         yield return new WaitForSeconds(2);
 
+        Button successButton = GameObject.Find("SuccessButton").GetComponent<Button>();
+        successButton.onClick.Invoke();
+        yield return new WaitForSeconds(2);
+        
         //Check if reached landing page
         currentScene = SceneManager.GetActiveScene();
         Assert.IsTrue(currentScene.name.Equals(SceneNames.LandingPage),
@@ -203,6 +211,10 @@ public class GUITesting
         loginButton.onClick.Invoke();
         yield return new WaitForSeconds(2);
 
+        Button successButton = GameObject.Find("SuccessButton").GetComponent<Button>();
+        successButton.onClick.Invoke();
+        yield return new WaitForSeconds(2);
+        
         //Check if reached landing page
         currentScene = SceneManager.GetActiveScene();
         Assert.IsTrue(currentScene.name.Equals(SceneNames.LandingPage),
@@ -265,6 +277,10 @@ public class GUITesting
         loginButton.onClick.Invoke();
         yield return new WaitForSeconds(2);
 
+        Button successButton = GameObject.Find("SuccessButton").GetComponent<Button>();
+        successButton.onClick.Invoke();
+        yield return new WaitForSeconds(2);
+        
         //Check if reached landing page
         currentScene = SceneManager.GetActiveScene();
         Assert.IsTrue(currentScene.name.Equals(SceneNames.LandingPage),

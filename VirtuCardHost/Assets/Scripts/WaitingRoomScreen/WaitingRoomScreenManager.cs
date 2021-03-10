@@ -70,6 +70,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        joinCode.text = HostData.GetJoinCode();
         //Refresh players list here
     }
 }
