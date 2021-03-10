@@ -7,7 +7,8 @@ public class ClientGameController : MonoBehaviour
 {
     public Button skipBtn;
     public Button playCardBtn;
-
+    public GameObject errorDisplay;
+    
     private CardDeck cards = new CardDeck();
 
     public GameObject cardCarousel;
@@ -58,6 +59,7 @@ public class ClientGameController : MonoBehaviour
     public void AddRandomStandardCard()
     {
         AddCard(new StandardCard(StandardCardRank.FOUR, StandardCardSuit.HEARTS), CardTypes.StandardCard);
+        
     }
 
     /// <summary>
@@ -67,8 +69,15 @@ public class ClientGameController : MonoBehaviour
     /// <param name="whichCardType"></param>
     public void AddCard(Card newCard, CardTypes whichCardType)
     {
-        cardMenu.AddCardToCarousel(newCard, whichCardType);
-        cards.AddCard(newCard);
+        bool checkTurn = ClientData.isCurrentTurn();
+        if (checkTurn){
+          cardMenu.AddCardToCarousel(newCard, whichCardType);
+          cards.AddCard(newCard);
+        }
+        else
+        {
+            Debug.Log("It is not the player's turn!");
+        }
     }
 
     /// <summary>
@@ -106,6 +115,13 @@ public class ClientGameController : MonoBehaviour
     {
         Debug.Log("Skipping...");
         // TODO implementation
+        if (GameRules.skipAllowed())
+        {
+          ClientData.setCurrentTurn(false);
+        }
+        else {
+            errorDisplay.GetComponent<Text>().text = "You are not allowed to skip!";
+        }
     }
 
     private void PlayCardBtnClicked()
