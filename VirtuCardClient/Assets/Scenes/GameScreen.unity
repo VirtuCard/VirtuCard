@@ -156,6 +156,7 @@ MonoBehaviour:
   playCardBtn: {fileID: 1784024938}
   cardCarousel: {fileID: 881918756}
   chatPanel: {fileID: 1958468103}
+  chatDisable: {fileID: 429628847}
   chatToggle: {fileID: 1361487241}
 --- !u!4 &118907039
 Transform:
