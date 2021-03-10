@@ -3,7 +3,12 @@ using UnityEngine.UI;
 using FirebaseScripts;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
-
+using UnityEngine.UI;
+using System.IO;
+using ExitGames.Client.Photon;
+using Photon.Realtime;
+using ExitGames.Client.Photon;
+using Photon.Realtime;
 //using Photon.Pun;
 
 public class JoinGameMethod : MonoBehaviour
@@ -53,6 +58,30 @@ public class JoinGameMethod : MonoBehaviour
     void OnPhotonJoinRoomFailed(object[] codeAndMsg)
     {
         successfulConnect = false;
+    }
+
+    private void OnEnable()
+    {
+        PhotonNetwork.NetworkingClient.EventReceived += OnSignalSent;
+    }
+
+    private void OnDisable()
+    {
+        PhotonNetwork.NetworkingClient.EventReceived -= OnSignalSent;
+    }
+
+    private void OnSignalSent(EventData photonEvent)
+    {
+       if (photonEvent.Code == 1){
+            string s = (string) photonEvent[0];
+            Debug.Log(s);
+        }
+    }
+    private void DoSomething()
+    {
+        object[] content = new object[] {"hello darkness"};
+        //RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(1, content, RaiseEventOptions.Default, SendOptions.SendUnreliable);
     }
 
 }
