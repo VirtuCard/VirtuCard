@@ -11,7 +11,7 @@ using ExitGames.Client.Photon;
 using Photon.Realtime;
 //using Photon.Pun;
 
-public class JoinGameMethod : MonoBehaviour
+public class JoinGameMethod : MonoBehaviourPunCallbacks
 {
     /// <summary>
     /// This method grabs the code that the user input
@@ -45,6 +45,9 @@ public class JoinGameMethod : MonoBehaviour
         // ----- EXAMPLE ------
         // This is an example of how you would join the room
         PhotonNetwork.JoinRoom(code);
+        //object[] content = new object[] {"hello darkness"};
+        //OnPhotonJoinRoomFailed(content, "shot");
+        
         if (successfulConnect)
         {
 
@@ -55,9 +58,11 @@ public class JoinGameMethod : MonoBehaviour
         }
     }
 
-    void OnPhotonJoinRoomFailed(object[] codeAndMsg)
+    void OnPhotonJoinRoomFailed(object[] codeAndMsg, string message)
     {
+        Debug.Log("testing");
         successfulConnect = false;
+        errorCode.GetComponent<Text>().text = "Joining room failed!";
     }
 
     private void OnEnable()
@@ -72,12 +77,21 @@ public class JoinGameMethod : MonoBehaviour
 
     private void OnSignalSent(EventData photonEvent)
     {
+       // Every photon event has its own unique code, I've chosen
+       // 1 as the one to work with the initial room information return
        if (photonEvent.Code == 1){
-             object[] data = (object[])photonEvent.CustomData;
-                string s = (string)data[0];
-                bool test = (bool)data[1];
-                Debug.Log(s);
-                Debug.Log(test);
+            object[] data = (object[])photonEvent.CustomData;
+            string s = (string)data[0];
+            bool test = (bool)data[1];
+            int players = (int)data[2];
+            Debug.Log(s);
+            Debug.Log(test);
+            Debug.Log(players);
+
+            if (!test)
+            {
+                errorCode.GetComponent<Text>().text = "Host cannot join!";
+            }
         }
     }
     private void DoSomething()
@@ -86,5 +100,4 @@ public class JoinGameMethod : MonoBehaviour
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
         PhotonNetwork.RaiseEvent(1, content, raiseEventOptions, SendOptions.SendUnreliable);
     }
-
 }
