@@ -8,7 +8,7 @@ public class GameScreenController : MonoBehaviour
 {
     public GameObject chatPanel;
     public Toggle chatToggle;
-
+    public Text currentPlayer;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +19,8 @@ public class GameScreenController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        string name = Game.GetPlayerOfCurrentTurn().username;
+        currentPlayer.GetComponent<Text>().text = name + "'s Turn";
     }
 
     /// <summary>
