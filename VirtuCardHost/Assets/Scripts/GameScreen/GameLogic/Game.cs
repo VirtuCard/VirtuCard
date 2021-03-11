@@ -109,12 +109,35 @@ public abstract class Game
     }
 
     /// <summary>
+    /// Returns the PlayerInfo with the index that matches <paramref name="playerIndex"/>
+    /// </summary>
+    /// <param name="playerIndex">Index of the desired player</param>
+    /// <returns></returns>
+    public PlayerInfo GetPlayer(int playerIndex)
+    {
+        if (playerIndex < players.Count && playerIndex >= 0)
+        {
+            return players[playerIndex];
+        }
+        throw new Exception("Could not find player at index " + playerIndex);
+    }
+
+    /// <summary>
     /// Returns a list of all the playerInfos of the connected players
     /// </summary>
     /// <returns></returns>
     public List<PlayerInfo> GetAllPlayers()
     {
         return players;
+    }
+
+    /// <summary>
+    /// Returns the number of connected players
+    /// </summary>
+    /// <returns></returns>
+    public int GetNumOfPlayers()
+    {
+        return players.Count;
     }
 
     /// <summary>
@@ -189,6 +212,16 @@ public abstract class Game
     public PlayerInfo GetPlayerOfCurrentTurn()
     {
         return players[playerTurnIndex];
+    }
+
+    /// <summary>
+    /// Disconnects a player from the game and removes them from all game lists.
+    /// TODO return their hand to deck
+    /// </summary>
+    /// <param name="player">Player object of the player to disconnect</param>
+    public void DisconnectPlayerFromGame(Photon.Realtime.Player player)
+    {
+        DisconnectPlayerFromGame(player.NickName);
     }
 
     /// <summary>
