@@ -156,7 +156,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         // TODO implementation
         if (GameRules.skipAllowed())
         {
-          ClientData.setCurrentTurn(false);
+            ClientData.setCurrentTurn(false);
+            SendSkipTurnToHost();
+
         }
         else {
             errorDisplay.GetComponent<Text>().text = "You are not allowed to skip!";
@@ -272,13 +274,29 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         }
     }
 
+    /// <summary>
+    /// Sends the command to the host to skip this player's turn
+    /// </summary>
+    /// <param name="username"></param>
+    private void SendSkipTurnToHost()
+    {
+        Debug.Log("Sending Skip Command");
+        object[] content = new object[] { PhotonNetwork.NickName };
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(10, content, raiseEventOptions, SendOptions.SendUnreliable);
+    }
+
+    /// <summary>
+    /// Sends the card to the card to the host
+    /// </summary>
+    /// <param name="card"></param>
     private void SendCardToHost(Card card)
     {
         if (card.GetType().Name == "StandardCard")
         {
             Debug.Log("Sending Card: " + card.ToString());
             StandardCard cardToSend = (StandardCard)card;
-            object[] content = new object[] { "StandardCard", cardToSend.GetRank(), cardToSend.GetSuit() };
+            object[] content = new object[] { PhotonNetwork.NickName, "StandardCard", cardToSend.GetRank(), cardToSend.GetSuit() };
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
             PhotonNetwork.RaiseEvent(2, content, raiseEventOptions, SendOptions.SendUnreliable);
         }

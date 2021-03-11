@@ -56,6 +56,8 @@ public class TestGame : Game
     public override bool DoMove(Card cardToPlay, int playerIndex)
     {
         Debug.Log("Player " + playerIndex + " played " + cardToPlay.ToString());
+        AddCardToDeck(cardToPlay, DeckChoices.PLAYED);
+        AdvanceTurn(true);
         return true;
     }
 }
