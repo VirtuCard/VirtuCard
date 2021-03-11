@@ -26,7 +26,7 @@ public class ClientGameController : MonoBehaviour
     void Start()
     {
         // This is for testing
-        ClientData.setCurrentTurn(true);
+        // ClientData.setCurrentTurn(true);
         // does not display the option to play if it isn't your turn
 
 
