@@ -118,11 +118,16 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
                 SceneManager.LoadScene(SceneNames.JoinGamePage);
             }
         }
+        // this is the flag that is saying to go from waiting screen to the game screen
+        else if (photonEvent.Code == 6)
+        {
+            SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
+        }
     }
 
     private void DoSomething()
     {
-        object[] content = new object[] {"hello darkness"};
+        object[] content = new object[] {"hello darkness", true, 2};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
         PhotonNetwork.RaiseEvent(1, content, raiseEventOptions, SendOptions.SendUnreliable);
     }

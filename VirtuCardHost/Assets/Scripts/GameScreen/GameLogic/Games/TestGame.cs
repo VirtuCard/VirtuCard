@@ -11,6 +11,21 @@ public class TestGame : Game
     }
 
     /// <summary>
+    /// This method initializes the game
+    /// </summary>
+    public override void InitializeGame()
+    {
+        AdvanceTurn(true);
+        AddCardToDeck(new StandardCard(StandardCardRank.FOUR, StandardCardSuit.CLUBS), DeckChoices.UNDEALT);
+        AddCardToDeck(new StandardCard(StandardCardRank.FIVE, StandardCardSuit.CLUBS), DeckChoices.UNDEALT);
+        AddCardToDeck(new StandardCard(StandardCardRank.SIX, StandardCardSuit.CLUBS), DeckChoices.UNDEALT);
+        AddCardToDeck(new StandardCard(StandardCardRank.SEVEN, StandardCardSuit.CLUBS), DeckChoices.UNDEALT);
+        AddCardToDeck(new StandardCard(StandardCardRank.EIGHT, StandardCardSuit.CLUBS), DeckChoices.UNDEALT);
+        AddCardToDeck(new StandardCard(StandardCardRank.NINE, StandardCardSuit.CLUBS), DeckChoices.UNDEALT);
+        AddCardToDeck(new StandardCard(StandardCardRank.TEN, StandardCardSuit.CLUBS), DeckChoices.UNDEALT);
+    }
+
+    /// <summary>
     /// This method is used to verify that the Card that the player wants to play is valid.
     /// It does NOT actually play the card, it only checks if it is possible
     /// </summary>
