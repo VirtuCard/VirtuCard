@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using ExitGames.Client.Photon;
 using PhotonScripts;
+using Photon.Pun; 
+using Photon.Realtime;
 
 public class WaitingRoomScreenManager : MonoBehaviour
 {
@@ -45,8 +48,11 @@ public class WaitingRoomScreenManager : MonoBehaviour
 
     public void StartGameBtnClicked()
     {
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(6, null, raiseEventOptions, SendOptions.SendUnreliable);
         HostData.GetGame().PrintAllPlayers();
-        //SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
+        HostData.GetGame().InitializeGame();
+        SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
     }
 
     public void CreatePlayerList()

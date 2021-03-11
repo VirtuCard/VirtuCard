@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Photon.Pun;
+using Photon.Realtime;
+using ExitGames.Client.Photon;
 
 public abstract class Game
 {
@@ -17,6 +20,11 @@ public abstract class Game
     public Game()
     {
     }
+
+    /// <summary>
+    /// Initializes the game once the players have all joined
+    /// </summary>
+    public abstract void InitializeGame();
 
     /// <summary>
     /// Returns the name of the game
@@ -41,6 +49,7 @@ public abstract class Game
             {
                 playerTurnIndex -= players.Count;
             }
+            SendOutPlayerTurnIndex();
             return;
         }
         else
@@ -50,6 +59,7 @@ public abstract class Game
             {
                 playerTurnIndex += players.Count;
             }
+            SendOutPlayerTurnIndex();
             return;
         }
     }
@@ -66,6 +76,7 @@ public abstract class Game
             if (playerTurnIndex >= players.Count)
             {
                 playerTurnIndex = 0;
+                SendOutPlayerTurnIndex();
                 return;
             }
         }
@@ -75,9 +86,21 @@ public abstract class Game
             if (playerTurnIndex < 0)
             {
                 playerTurnIndex = players.Count - 1;
+                SendOutPlayerTurnIndex();
                 return;
             }
         }
+    }
+
+    /// <summary>
+    /// This sends out the playerTurnIndex to all the connected Clients
+    /// </summary>
+    private void SendOutPlayerTurnIndex()
+    {
+        PlayerInfo currentPlayer = GetPlayerOfCurrentTurn();
+        object[] content = new object[] { currentPlayer.photonPlayer.NickName };
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(9, content, raiseEventOptions, SendOptions.SendUnreliable);
     }
 
     /// <summary>
