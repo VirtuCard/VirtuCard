@@ -173,7 +173,8 @@ namespace PhotonScripts
             string gameMode = HostData.GetSelectedGame();
             bool hostToggle = HostData.CanHostJoinGame();
             int maxPlayers = HostData.GetMaxNumPlayers();
-            object[] content = new object[] {gameMode, hostToggle, maxPlayers};
+            string hostName = PhotonNetwork.NickName;
+            object[] content = new object[] {gameMode, hostToggle, maxPlayers, hostName};
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
             PhotonNetwork.RaiseEvent(1, content, raiseEventOptions, SendOptions.SendReliable);
         }
