@@ -108,6 +108,11 @@ namespace PhotonScripts
             }
         }
 
+        public override void OnPlayerLeftRoom(Player playerToDisconnect)
+        {
+            Debug.Log("-----PLAYER LEFT (" + playerToDisconnect.NickName + ")-----");
+            HostData.GetGame().DisconnectPlayerFromGame(playerToDisconnect);
+        }
 
         /// WriteRoomCodeToFile()
         /// 

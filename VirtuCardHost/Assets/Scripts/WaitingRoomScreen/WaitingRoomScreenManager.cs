@@ -40,7 +40,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
 
 
         startGameBtn.onClick.AddListener(delegate { StartGameBtnClicked(); });
-        //startGameBtn.interactable = false;
+        startGameBtn.interactable = false;
     }
 
     public void StartGameBtnClicked()
@@ -129,6 +129,10 @@ public class WaitingRoomScreenManager : MonoBehaviour
     void Update()
     {
         joinCode.text = HostData.GetJoinCode();
+        if (HostData.GetGame().GetNumOfPlayers() > 0)
+        {
+            startGameBtn.interactable = true;
+        }
         //Refresh players list here
     }
 }
