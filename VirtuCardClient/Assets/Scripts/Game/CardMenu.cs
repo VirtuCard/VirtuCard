@@ -33,9 +33,17 @@ public class CardMenu : MonoBehaviour
 
     private int current_index;
 
-
+    /// <summary>
+    /// Returns the currently selected card or NULL if there are none in the carousel
+    /// </summary>
+    /// <returns></returns>
     public Card GetCurrentlySelectedCard()
     {
+        if (images.Count == 0)
+        {
+            return null;
+        } 
+
         StandardCard stdCard = images[current_index].gameObject.GetComponent<StandardCard>();
         if (stdCard != null)
         {
@@ -53,6 +61,15 @@ public class CardMenu : MonoBehaviour
         // -----------------------------------------------------------------------
 
         throw new Exception("No Currently Selected Card");
+    }
+
+    /// <summary>
+    /// This returns the currently selected index of the card in the carousel
+    /// </summary>
+    /// <returns></returns>
+    public int GetCurrentlySelectedIndex()
+    {
+        return current_index;
     }
 
     /// <summary>
@@ -206,5 +223,16 @@ public class CardMenu : MonoBehaviour
             }
         }
         dragAmount = 0;
+    }
+
+    /// <summary>
+    /// This method goes to a certain index of the deck
+    /// </summary>
+    /// <param name="value"></param>
+    public void MoveCarouselToIndex(int value)
+    {
+        current_index = value;
+        lerpTimer = 0;
+        lerpPosition = (imageWidth + imageSpacing) * current_index;
     }
 }

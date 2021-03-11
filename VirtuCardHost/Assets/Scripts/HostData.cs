@@ -2,17 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Photon.Pun;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+
 
 /// <summary>
 /// This class is used to store host data between scenes. It allows the data to be persistent
 /// </summary>
 public static class HostData
 {
-    private static bool canHostJoinGame;
+    // just default this to true for convenience
+    private static bool canHostJoinGame = true;
+
     private static string selectedGame = "Freeplay";
     private static int maxNumPlayers = 5;
     private static string joinCode;
-    private static bool chatAllowed;
+    private static bool chatAllowed = true;
     private static Game currentGame;
     
     public static void SetGame(GameTypes gameType)
@@ -107,6 +112,16 @@ public static class HostData
     public static void setChatAllowed(bool isChatAllowed)
     {
         chatAllowed = isChatAllowed;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(ToHashtable());
+    }
+    
+    public static Hashtable ToHashtable()
+    {
+        Hashtable table = new Hashtable();
+        table.Add("ChatAllowed", chatAllowed);
+        table.Add("HostCanJoin", canHostJoinGame);
+        Debug.Log(table.ToString());
+        return table;
     }
 
 }
