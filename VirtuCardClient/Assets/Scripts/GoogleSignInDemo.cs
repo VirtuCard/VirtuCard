@@ -6,6 +6,7 @@ using Firebase;
 using Firebase.Auth;
 using Google;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GoogleSignInDemo : MonoBehaviour
@@ -16,10 +17,22 @@ public class GoogleSignInDemo : MonoBehaviour
     private FirebaseAuth auth;
     private GoogleSignInConfiguration configuration;
 
+    public GameObject errorPanel;
+    public GameObject errorTitle;
+    public GameObject errorMessage;
+
     private void Awake()
     {
         configuration = new GoogleSignInConfiguration { WebClientId = webClientId, RequestEmail = true, RequestIdToken = true };
         CheckFirebaseDependencies();
+    }
+
+    // ReSharper disable Unity.PerformanceAnalysis
+    void CreateErrorMessage(string title, string message)
+    {
+        errorTitle.GetComponent<Text>().text = title;
+        errorMessage.GetComponent<Text>().text = message;
+        errorPanel.SetActive(true);
     }
 
     private void CheckFirebaseDependencies()
@@ -106,11 +119,14 @@ public class GoogleSignInDemo : MonoBehaviour
             if (ex != null)
             {
                 if (ex.InnerExceptions[0] is FirebaseException inner && (inner.ErrorCode != 0))
+
                     AddToInformation("\nError code = " + inner.ErrorCode + " Message = " + inner.Message);
+                    
             }
             else
             {
                 AddToInformation("Sign In Successful.");
+                SceneManager.LoadScene(SceneNames.WaitingScreen);
             }
         });
     }

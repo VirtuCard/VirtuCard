@@ -13,4 +13,9 @@ public static class SceneNames
     {
         get { return "JoinGamePage"; }
     }
+
+    public static string WaitingScreen
+    {
+        get { return "WaitingScreen"; }
+    }
 }
