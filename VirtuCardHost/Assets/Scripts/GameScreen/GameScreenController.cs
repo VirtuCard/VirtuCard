@@ -14,6 +14,8 @@ public class GameScreenController : MonoBehaviour
     {
         chatToggle.SetIsOnWithoutNotify(HostData.isChatAllowed());
         chatToggle.onValueChanged.AddListener(delegate { ChatToggleValueChanged(chatToggle.isOn); });
+
+        HostData.GetGame().AdvanceTurn(true);
     }
 
     // Update is called once per frame
