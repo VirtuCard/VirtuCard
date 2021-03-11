@@ -1,20 +1,36 @@
 m_ProjectFiles:
   m_ManifestFileStatus:
+<<<<<<< HEAD
     m_FilePath: C:/Users/umang/Documents/GitHub/VirtuCard/VirtuCardClient/Packages/manifest.json
+=======
+    m_FilePath: C:/Users/rhawk/AndroidStudioProjects/VirtuCard/VirtuCardClient/Packages/manifest.json
+>>>>>>> main
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
+<<<<<<< HEAD
       ticks: 637508653402944696
     m_Hash: 662766018
   m_LockFileStatus:
     m_FilePath: C:/Users/umang/Documents/GitHub/VirtuCard/VirtuCardClient/Packages/packages-lock.json
+=======
+      ticks: 637502396620266687
+    m_Hash: 567471780
+  m_LockFileStatus:
+    m_FilePath: C:/Users/rhawk/AndroidStudioProjects/VirtuCard/VirtuCardClient/Packages/packages-lock.json
+>>>>>>> main
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
+<<<<<<< HEAD
       ticks: 637509437812434630
     m_Hash: 2406767048
+=======
+      ticks: 637510209010638257
+    m_Hash: 1099407875
+>>>>>>> main
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_PackageAssets:
@@ -25,7 +41,11 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 5.0.4
       source: 1
+<<<<<<< HEAD
       resolvedPath: C:\Users\umang\Documents\GitHub\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.2d.animation@5.0.4
+=======
+      resolvedPath: C:\Users\rhawk\AndroidStudioProjects\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.2d.animation@5.0.4
+>>>>>>> main
       assetPath: Packages/com.unity.2d.animation
       name: com.unity.2d.animation
       displayName: 2D Animation
@@ -155,7 +175,11 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 4.0.1
       source: 1
+<<<<<<< HEAD
       resolvedPath: C:\Users\umang\Documents\GitHub\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.2d.pixel-perfect@4.0.1
+=======
+      resolvedPath: C:\Users\rhawk\AndroidStudioProjects\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.2d.pixel-perfect@4.0.1
+>>>>>>> main
       assetPath: Packages/com.unity.2d.pixel-perfect
       name: com.unity.2d.pixel-perfect
       displayName: 2D Pixel Perfect
@@ -228,7 +252,11 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 4.0.2
       source: 1
+<<<<<<< HEAD
       resolvedPath: C:\Users\umang\Documents\GitHub\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.2d.psdimporter@4.0.2
+=======
+      resolvedPath: C:\Users\rhawk\AndroidStudioProjects\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.2d.psdimporter@4.0.2
+>>>>>>> main
       assetPath: Packages/com.unity.2d.psdimporter
       name: com.unity.2d.psdimporter
       displayName: 2D PSD Importer
@@ -388,7 +416,11 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 5.1.1
       source: 1
+<<<<<<< HEAD
       resolvedPath: C:\Users\umang\Documents\GitHub\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.2d.spriteshape@5.1.1
+=======
+      resolvedPath: C:\Users\rhawk\AndroidStudioProjects\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.2d.spriteshape@5.1.1
+>>>>>>> main
       assetPath: Packages/com.unity.2d.spriteshape
       name: com.unity.2d.spriteshape
       displayName: 2D SpriteShape
@@ -567,7 +599,11 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 1.3.9
       source: 1
+<<<<<<< HEAD
       resolvedPath: C:\Users\umang\Documents\GitHub\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.collab-proxy@1.3.9
+=======
+      resolvedPath: C:\Users\rhawk\AndroidStudioProjects\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.collab-proxy@1.3.9
+>>>>>>> main
       assetPath: Packages/com.unity.collab-proxy
       name: com.unity.collab-proxy
       displayName: Unity Collaborate
@@ -662,7 +698,11 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 2.0.7
       source: 1
+<<<<<<< HEAD
       resolvedPath: C:\Users\umang\Documents\GitHub\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.ide.rider@2.0.7
+=======
+      resolvedPath: C:\Users\rhawk\AndroidStudioProjects\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.ide.rider@2.0.7
+>>>>>>> main
       assetPath: Packages/com.unity.ide.rider
       name: com.unity.ide.rider
       displayName: JetBrains Rider Editor
@@ -701,7 +741,10 @@ m_PackageAssets:
         - 3.0.2
         - 3.0.3
         - 3.0.4
+<<<<<<< HEAD
         - 3.0.5
+=======
+>>>>>>> main
         compatible:
         - 1.0.2
         - 1.0.6
@@ -725,7 +768,10 @@ m_PackageAssets:
         - 3.0.2
         - 3.0.3
         - 3.0.4
+<<<<<<< HEAD
         - 3.0.5
+=======
+>>>>>>> main
         verified: 2.0.7
       dependencies:
       - name: com.unity.test-framework
@@ -765,7 +811,11 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 2.0.5
       source: 1
+<<<<<<< HEAD
       resolvedPath: C:\Users\umang\Documents\GitHub\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.ide.visualstudio@2.0.5
+=======
+      resolvedPath: C:\Users\rhawk\AndroidStudioProjects\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.ide.visualstudio@2.0.5
+>>>>>>> main
       assetPath: Packages/com.unity.ide.visualstudio
       name: com.unity.ide.visualstudio
       displayName: Visual Studio Editor
@@ -836,7 +886,11 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 1.2.3
       source: 1
+<<<<<<< HEAD
       resolvedPath: C:\Users\umang\Documents\GitHub\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.ide.vscode@1.2.3
+=======
+      resolvedPath: C:\Users\rhawk\AndroidStudioProjects\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.ide.vscode@1.2.3
+>>>>>>> main
       assetPath: Packages/com.unity.ide.vscode
       name: com.unity.ide.vscode
       displayName: Visual Studio Code Editor
@@ -905,7 +959,11 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 1.1.22
       source: 1
+<<<<<<< HEAD
       resolvedPath: C:\Users\umang\Documents\GitHub\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.test-framework@1.1.22
+=======
+      resolvedPath: C:\Users\rhawk\AndroidStudioProjects\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.test-framework@1.1.22
+>>>>>>> main
       assetPath: Packages/com.unity.test-framework
       name: com.unity.test-framework
       displayName: Test Framework
@@ -994,7 +1052,174 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 1.4.6
       source: 1
+<<<<<<< HEAD
       resolvedPath: C:\Users\umang\Documents\GitHub\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.timeline@1.4.6
+      assetPath: Packages/com.unity.timeline
+      name: com.unity.timeline
+      displayName: Timeline
+=======
+      resolvedPath: C:\Users\rhawk\AndroidStudioProjects\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.textmeshpro@3.0.1
+      assetPath: Packages/com.unity.textmeshpro
+      name: com.unity.textmeshpro
+      displayName: TextMeshPro
+>>>>>>> main
+      author:
+        name: 
+        email: 
+        url: 
+      category: 
+      type: 
+      description: Use Unity Timeline to create cinematic content, game-play sequences,
+        audio sequences, and complex particle effects.
+      status: 4
+      errors: []
+      versions:
+        all:
+        - 1.2.0
+        - 1.2.1
+        - 1.2.2
+        - 1.2.3
+        - 1.2.4
+        - 1.2.5
+        - 1.2.6
+        - 1.2.7
+        - 1.2.9
+        - 1.2.10
+        - 1.2.11
+        - 1.2.12
+        - 1.2.13
+        - 1.2.14
+        - 1.2.15
+        - 1.2.16
+        - 1.2.17
+        - 1.2.18
+        - 1.3.0-preview.2
+        - 1.3.0-preview.3
+        - 1.3.0-preview.5
+        - 1.3.0-preview.6
+        - 1.3.0-preview.7
+        - 1.3.0
+        - 1.3.1
+        - 1.3.2
+        - 1.3.3
+        - 1.3.4
+        - 1.3.5
+        - 1.3.6
+        - 1.3.7
+        - 1.4.0-preview.1
+        - 1.4.0-preview.2
+        - 1.4.0-preview.3
+        - 1.4.0-preview.5
+        - 1.4.0-preview.6
+        - 1.4.0-preview.7
+        - 1.4.0
+        - 1.4.1
+        - 1.4.2
+        - 1.4.3
+        - 1.4.4
+        - 1.4.5
+        - 1.4.6
+        - 1.5.0-pre.2
+        - 1.5.0-preview.1
+        - 1.5.0-preview.2
+        - 1.5.0-preview.3
+        - 1.5.0-preview.4
+        - 1.5.0-preview.5
+<<<<<<< HEAD
+=======
+        - 1.5.0-preview.6
+        - 1.5.0-preview.7
+        - 1.5.0-preview.8
+        - 1.5.0-preview.10
+        - 1.5.0-preview.11
+        - 1.5.0-preview.12
+        - 1.5.0-preview.13
+        - 1.5.0-preview.14
+        - 1.5.0
+        - 1.5.1
+        - 1.5.3
+        - 1.5.4
+        - 2.0.0
+        - 2.0.1-preview.1
+        - 2.0.1
+        - 2.1.0-preview.1
+        - 2.1.0-preview.2
+        - 2.1.0-preview.3
+        - 2.1.0-preview.4
+        - 2.1.0-preview.5
+        - 2.1.0-preview.7
+        - 2.1.0-preview.8
+        - 2.1.0-preview.10
+        - 2.1.0-preview.11
+        - 2.1.0-preview.12
+        - 2.1.0-preview.13
+        - 2.1.0-preview.14
+        - 2.1.0
+        - 2.1.1
+        - 2.1.3
+        - 2.1.4
+        - 3.0.0-preview.1
+        - 3.0.0-preview.3
+        - 3.0.0-preview.4
+        - 3.0.0-preview.5
+        - 3.0.0-preview.7
+        - 3.0.0-preview.8
+        - 3.0.0-preview.10
+        - 3.0.0-preview.11
+        - 3.0.0-preview.12
+        - 3.0.0-preview.13
+        - 3.0.0-preview.14
+        - 3.0.0
+        - 3.0.1
+        - 3.0.3
+        - 3.0.4
+        compatible:
+        - 3.0.1
+        - 3.0.3
+        - 3.0.4
+        verified: 3.0.4
+      dependencies:
+      - name: com.unity.ugui
+        version: 1.0.0
+      resolvedDependencies:
+      - name: com.unity.ugui
+        version: 1.0.0
+      - name: com.unity.modules.ui
+        version: 1.0.0
+      - name: com.unity.modules.imgui
+        version: 1.0.0
+      keywords:
+      - TextMeshPro
+      - TextMesh Pro
+      - TMP
+      - Text
+      - SDF
+      registry:
+        id: main
+        name: 
+        url: https://packages.unity.com
+        scopes: []
+        isDefault: 1
+        capabilities: 7
+      hasRegistry: 1
+      hideInEditor: 1
+      entitlements:
+        isAllowed: 1
+      isAssetStorePackage: 0
+      datePublishedTicks: 637314376320000000
+      documentationUrl: 
+      hasRepository: 1
+      repository:
+        type: git
+        url: https://github.cds.internal.unity3d.com/unity/com.unity.textmeshpro.git
+        revision: 1604b62e543216408311bcd1355a7a9ca1e65765
+        path: 
+    - packageId: com.unity.timeline@1.4.6
+      testable: 0
+      isDirectDependency: 1
+      version: 1.4.6
+      source: 1
+      resolvedPath: C:\Users\rhawk\AndroidStudioProjects\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.timeline@1.4.6
       assetPath: Packages/com.unity.timeline
       name: com.unity.timeline
       displayName: Timeline
@@ -1060,6 +1285,7 @@ m_PackageAssets:
         - 1.5.0-preview.3
         - 1.5.0-preview.4
         - 1.5.0-preview.5
+>>>>>>> main
         - 1.5.1-pre.1
         - 1.5.1-pre.2
         - 1.5.1-pre.3
@@ -2925,6 +3151,80 @@ m_PackageAssets:
         url: 
         revision: 
         path: 
+<<<<<<< HEAD
+=======
+    - packageId: jillejr.newtonsoft.json-for-unity@12.0.302
+      testable: 0
+      isDirectDependency: 1
+      version: 12.0.302
+      source: 1
+      resolvedPath: C:\Users\rhawk\AndroidStudioProjects\VirtuCard\VirtuCardClient\Library\PackageCache\jillejr.newtonsoft.json-for-unity@12.0.302
+      assetPath: Packages/jillejr.newtonsoft.json-for-unity
+      name: jillejr.newtonsoft.json-for-unity
+      displayName: Json.NET 12.0.3 for Unity
+      author:
+        name: jilleJr
+        email: 
+        url: 
+      category: Utility
+      type: library
+      description: "Json.NET is a popular high-performance JSON framework for .NET\n\nThis
+        package is a fork of Newtonsoft.Json containing custom builds targeting standalone,
+        portable (UWP, WP8), and AOT targets such as all IL2CPP builds (iOS, WebGL,
+        Android, Windows, Mac OS X, et.al).\n\nThis package is licensed under The
+        MIT License (MIT)\n\nCopyright \xA9 2019 Kalle Jillheden (jilleJr)\nhttps://github.com/jilleJr/Newtonsoft.Json-for-Unity\n\nCopyright
+        \xA9 2016 SaladLab\nhttps://github.com/SaladLab/Json.Net.Unity3D\n\nCopyright
+        \xA9 2007 James Newton-King\nhttps://github.com/JamesNK/Newtonsoft.Json\n\nSee
+        full copyrights in LICENSE.md inside package"
+      status: 4
+      errors: []
+      versions:
+        all:
+        - 11.0.202
+        - 12.0.101
+        - 12.0.102
+        - 12.0.201
+        - 12.0.301
+        - 12.0.302
+        compatible:
+        - 11.0.202
+        - 12.0.101
+        - 12.0.102
+        - 12.0.201
+        - 12.0.301
+        - 12.0.302
+        verified: 
+      dependencies: []
+      resolvedDependencies: []
+      keywords:
+      - json
+      - json.net
+      - newtonsoft
+      - newtonsoft.json
+      - unity
+      - upm
+      registry:
+        id: scoped:jilleJr
+        name: jilleJr
+        url: https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity
+        scopes:
+        - jillejr.newtonsoft.json-for-unity
+        isDefault: 0
+        capabilities: 0
+      hasRegistry: 1
+      hideInEditor: 1
+      entitlements:
+        isAllowed: 1
+      isAssetStorePackage: 0
+      datePublishedTicks: 637493531366625350
+      documentationUrl: 
+      hasRepository: 1
+      repository:
+        type: git
+        url: https://github.com/jilleJr/Newtonsoft.Json-for-Unity.git
+        revision: 
+        path: 
+>>>>>>> main
     - packageId: com.unity.modules.subsystems@1.0.0
       testable: 0
       isDirectDependency: 0
@@ -3041,7 +3341,11 @@ m_PackageAssets:
       isDirectDependency: 0
       version: 1.0.6
       source: 1
+<<<<<<< HEAD
       resolvedPath: C:\Users\umang\Documents\GitHub\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.ext.nunit@1.0.6
+=======
+      resolvedPath: C:\Users\rhawk\AndroidStudioProjects\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.ext.nunit@1.0.6
+>>>>>>> main
       assetPath: Packages/com.unity.ext.nunit
       name: com.unity.ext.nunit
       displayName: Custom NUnit
@@ -3102,7 +3406,11 @@ m_PackageAssets:
       isDirectDependency: 0
       version: 1.1.0
       source: 1
+<<<<<<< HEAD
       resolvedPath: C:\Users\umang\Documents\GitHub\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.mathematics@1.1.0
+=======
+      resolvedPath: C:\Users\rhawk\AndroidStudioProjects\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.mathematics@1.1.0
+>>>>>>> main
       assetPath: Packages/com.unity.mathematics
       name: com.unity.mathematics
       displayName: Mathematics
@@ -3177,7 +3485,11 @@ m_PackageAssets:
       isDirectDependency: 0
       version: 4.0.3
       source: 1
+<<<<<<< HEAD
       resolvedPath: C:\Users\umang\Documents\GitHub\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.2d.common@4.0.3
+=======
+      resolvedPath: C:\Users\rhawk\AndroidStudioProjects\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.2d.common@4.0.3
+>>>>>>> main
       assetPath: Packages/com.unity.2d.common
       name: com.unity.2d.common
       displayName: 2D Common
@@ -3260,7 +3572,11 @@ m_PackageAssets:
       isDirectDependency: 0
       version: 4.0.1
       source: 1
+<<<<<<< HEAD
       resolvedPath: C:\Users\umang\Documents\GitHub\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.2d.path@4.0.1
+=======
+      resolvedPath: C:\Users\rhawk\AndroidStudioProjects\VirtuCard\VirtuCardClient\Library\PackageCache\com.unity.2d.path@4.0.1
+>>>>>>> main
       assetPath: Packages/com.unity.2d.path
       name: com.unity.2d.path
       displayName: 2D Path
@@ -3322,5 +3638,9 @@ m_PackageAssets:
         path: 
   m_LocalPackages:
     m_LocalFileStatus: []
+<<<<<<< HEAD
 m_ProjectPath: C:/Users/umang/Documents/GitHub/VirtuCard/VirtuCardClient/Packages
+=======
+m_ProjectPath: C:/Users/rhawk/AndroidStudioProjects/VirtuCard/VirtuCardClient/Packages
+>>>>>>> main
 m_EditorVersion: 2020.2.5f1 (e2c53f129de5)

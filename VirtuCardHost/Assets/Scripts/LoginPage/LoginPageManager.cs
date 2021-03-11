@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using FirebaseScripts;
+using System.Threading;
 
 public class LoginPageManager : MonoBehaviour
 {
@@ -12,11 +13,14 @@ public class LoginPageManager : MonoBehaviour
 
     // this is the button that is pressed to submit the username and password
     public Button loginBtn;
+    public Button successBtn;
+    public GameObject successPanel;
 
     //Error Dialog
     public GameObject failedPanel;
     public Text errorTitle;
     public Text errorMessage;
+    public Text successMessage;
 
     // this controls what scene to go to
     private LoadDifferentScene sceneLoader;
@@ -24,9 +28,12 @@ public class LoginPageManager : MonoBehaviour
     public bool CorrectCred = false;
     public bool IncorrectCred = false;
 
+    private bool didChangeState = false;
+
     // Start is called before the first frame update
     void Start()
     {
+        successPanel.SetActive(false);
         failedPanel.SetActive(false);
         // initialize sceneLoader
         sceneLoader = gameObject.AddComponent<LoadDifferentScene>();
@@ -38,18 +45,28 @@ public class LoginPageManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (CorrectCred)
+        if (didChangeState)
         {
-            Debug.Log("login success");
-            sceneLoader.ChangeScene(SceneNames.LandingPage);
-        }
+            if (CorrectCred)
+            {
+                Debug.Log("login success");
+                CreateSuccessMessage("Login Success!");
+                successBtn.onClick.AddListener(delegate { sceneLoader.ChangeScene(SceneNames.LandingPage); });
+            }
 
-        if (IncorrectCred) 
-        {
-            IncorrectCred = false;
-            CreateErrorMessage("ERROR", "Invalid email or Incorrect password!");
-            Debug.Log("login failed");
+            if (IncorrectCred)
+            {
+                IncorrectCred = false;
+                CreateErrorMessage("ERROR", "Invalid email or Incorrect password!");
+                Debug.Log("login failed");
+            }
+            didChangeState = false;
         }
+    }
+
+    void CreateSuccessMessage(string title) {
+        successMessage.GetComponent<Text>().text = title;
+        successPanel.SetActive(true);
     }
 
     void CreateErrorMessage(string title, string message)
@@ -83,6 +100,7 @@ public class LoginPageManager : MonoBehaviour
                     Debug.Log("task bool is " + task);
                     IncorrectCred = true;
                 }
+                didChangeState = true;
                 
             });
         });

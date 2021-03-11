@@ -29,7 +29,8 @@ namespace FirebaseScripts
 
                 GenerateFirebaseUsername(username =>
                 {
-                    User user = new User(username, username, task.Result.UserId, true);
+                    User user = new User(username, username.Substring(0, 18), task.Result.UserId,
+                        true);
                     DatabaseUtils.addUser(user, c =>
                     {
                         if (!c)
@@ -37,7 +38,8 @@ namespace FirebaseScripts
                             Debug.LogError("Error updating Database!");
                             task.Result.DeleteAsync();
                         }
-
+                        
+                        PhotonScripts.NetworkController.SetUsername(username);
                         callback(c);
                     });
                 });
@@ -55,8 +57,9 @@ namespace FirebaseScripts
 
             DatabaseUtils.findUsername(username, b =>
             {
-                if (b == null)
+                if (b != null)
                 {
+                    Debug.Log("Found Duplicate Username. Creating New Username");
                     GenerateFirebaseUsername(returnVal);
                 }
                 else

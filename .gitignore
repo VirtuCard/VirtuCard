@@ -2,6 +2,10 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
+[Ll]ibrary
+[Tt]emp
+[Oo]bj
+[Ll]ogs
 VirtuCardClient/[Ll]ibrary/
 VirtuCardClient/[Tt]emp/
 VirtuCardClient/[Oo]bj/
@@ -79,3 +83,4 @@ VirtuCardHost/Library/LastSceneManagerSetup.txt
 VirtuCardHost/Library/expandedItems
 VirtuCardHost/Library/CurrentLayout-default.dwlt
 VirtuCardHost/.idea/.idea.VirtuCardHost/.idea/indexLayout.xml
+VirtuCardHost/Assets/Firebase/Plugins/x86_64/FirebaseCppApp-7_1_0.so

@@ -2,6 +2,11 @@ using FirebaseScripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
+using System.Threading;
+using PhotonScripts;
+using System;
 
 public class LandingPageManager : MonoBehaviour
 {
@@ -22,13 +27,17 @@ public class LandingPageManager : MonoBehaviour
         canHostJoinToggle.onValueChanged.AddListener(
             delegate { CanHostJoinToggleValueChanged(canHostJoinToggle.isOn); });
 
-        gameChoiceDropdown.options.Add(new Dropdown.OptionData("Freeplay"));
-        gameChoiceDropdown.options.Add(new Dropdown.OptionData("Uno"));
-        gameChoiceDropdown.options.Add(new Dropdown.OptionData("Go Fish"));
+        string[] gameNames = Enum.GetNames(typeof(GameTypes));
+        foreach (string gameName in gameNames) {
+            gameChoiceDropdown.options.Add(new Dropdown.OptionData(gameName));
+        }
+        //gameChoiceDropdown.options.Add(new Dropdown.OptionData("Freeplay"));
+        //gameChoiceDropdown.options.Add(new Dropdown.OptionData("Uno"));
+        //gameChoiceDropdown.options.Add(new Dropdown.OptionData("Go Fish"));
 
         gameChoiceDropdown.onValueChanged.AddListener(GameChoiceValueChanged);
 
-    
+        PhotonNetwork.ConnectUsingSettings();
     }
 
     // Update is called once per frame
@@ -36,10 +45,19 @@ public class LandingPageManager : MonoBehaviour
     {
     }
 
+    /// OnCreateButtonClick()
+    /// 
+    /// Function triggered by 'Create Button' click. Generates RoomCode string.
     public void OnCreateButtonClick()
     {
-        HostData.setJoinCode("EFADDS");
-        SceneManager.LoadScene(SceneNames.WaitingRoomScreen, LoadSceneMode.Single);
+        //PhotonNetwork.ConnectUsingSettings();    //Connecting to Photon Master Servers
+        HostData.SetGame((GameTypes)Enum.Parse(typeof(GameTypes), gameChoiceDropdown.options[gameChoiceDropdown.value].text));
+
+        string RoomCode = NetworkController.generateCode();    //Generating Room Code string and storing it
+        NetworkController.CreateAndJoinRoom(RoomCode);    //Creating Photon Room with Generated Code
+
+        HostData.setJoinCode(RoomCode);
+        SceneManager.LoadScene(SceneNames.WaitingRoomScreen, LoadSceneMode.Single);       
     }
 
     private void GameChoiceValueChanged(int state)

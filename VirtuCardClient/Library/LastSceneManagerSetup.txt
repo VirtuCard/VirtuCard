@@ -1,5 +1,9 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: Assets/Scenes/LandingPage.unity
+=======
+- path: Assets/Scenes/WaitingScreen.unity
+>>>>>>> main
   isLoaded: 1
   isActive: 1
   isSubScene: 0

@@ -35,7 +35,7 @@ namespace FirebaseScripts
                     //Throw error for cancellation here 
                     Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
                     callback(false);
-                    return ;
+                    return;
                 }
 
                 if (task.IsFaulted)
@@ -49,10 +49,14 @@ namespace FirebaseScripts
                 // Firebase user has been created.
                 //Put callback here to return to when done.
                 Firebase.Auth.FirebaseUser newUser = task.Result;
-                 Debug.LogFormat("User logged in successfully: {0} ({1})",
-                     newUser.DisplayName, newUser.UserId);
-                callback(true);
-                return; 
+                Debug.LogFormat("User logged in successfully: {0} ({1})",
+                    newUser.DisplayName, newUser.UserId);
+                DatabaseUtils.getUser(newUser.UserId, s =>
+                {
+                    User user1 = new User(s);
+                    PhotonScripts.NetworkController.SetUsername(user1.Username);
+                    callback(true);
+                });
             });
         }
 
@@ -112,6 +116,7 @@ namespace FirebaseScripts
                     callback(false);
                     return;
                 }
+
                 if (task.IsFaulted)
                 {
                     //Throw error for other error here
@@ -135,6 +140,8 @@ namespace FirebaseScripts
                         Debug.Log("Failed to Add into Realtime Database");
                         firebaseUser.DeleteAsync();
                     }
+                    
+                    PhotonScripts.NetworkController.SetUsername(username);
 
                     callback(c);
                 });
@@ -158,6 +165,44 @@ namespace FirebaseScripts
                 }
 
                 callback(c);
+            });
+        }
+
+        public static void DeleteAnonymousAccount(Action<bool> callback)
+        {
+            if (!FirebaseInit.IsInitialized())
+            {
+                Debug.LogError("Firebase not initialized!");
+                callback(false);
+                return;
+            }
+
+            var prevUser = auth.CurrentUser;
+            DatabaseUtils.getUser(prevUser.UserId, res =>
+            {
+                User user = new User(res);
+                if (user.IsAnonymous)
+                {
+                    DatabaseUtils.RemoveUserWithID(prevUser.UserId, task =>
+                    {
+                        prevUser.DeleteAsync().ContinueWith(task =>
+                        {
+                            if (task.IsFaulted)
+                            {
+                                callback(false);
+                            }
+
+                            if (task.IsCompleted)
+                            {
+                                callback(true);
+                            }
+                        });
+                    });
+                }
+                else
+                {
+                    callback(false);
+                }
             });
         }
 
@@ -204,12 +249,81 @@ namespace FirebaseScripts
                     {
                         callback(false);
                     }
+
                     if (task.IsCompleted)
                     {
                         callback(true);
                     }
                 });
             });
+        }
+
+        /// This methods sends a confirmation email to the current user after they have registered successfully
+        /// </summary>
+        public static void SendConfirmationEmail()
+        {
+            FirebaseUser user = auth.CurrentUser;
+            if (user != null)
+            {
+                user.SendEmailVerificationAsync().ContinueWith(task =>
+                {
+                    if (task.IsCanceled)
+                    {
+                        Debug.LogError("SendEmailVerificationAsync was canceled.");
+                        return;
+                    }
+
+                    if (task.IsFaulted)
+                    {
+                        Debug.LogError("SendEmailVerificationAsync encountered an error: " + task.Exception);
+                        return;
+                    }
+
+                    Debug.Log("Email sent successfully.");
+                });
+            }
+        }
+
+        /// <summary>
+        /// This method is used to send a given user a password reset email for their account
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="email"></param>
+        public static void ResetPassword(String email, Action<bool> callback)
+        {
+            if (!FirebaseInit.IsInitialized())
+            {
+                Debug.LogError("Firebase not initialized!");
+                return;
+            }
+            if (email != null)
+            {
+                Debug.Log(email);
+                auth.SendPasswordResetEmailAsync(email).ContinueWith(task =>
+                {
+                    if (task.IsCanceled)
+                    {
+                        Debug.LogError("SendPasswordResetEmailAsync was canceled.");
+                        callback(false);
+                        return;
+                    }
+
+                    if (task.IsFaulted)
+                    {
+                        Debug.LogError("SendPasswordResetEmailAsync encountered an error: " + task.Exception);
+                        callback(false);
+                        return;
+                    }
+
+                    Debug.Log("Password reset email sent successfully.");
+                    callback(true);
+                });
+            }
+        }
+
+        public static string GetUserID()
+        {
+            return auth.CurrentUser.UserId;
         }
     }
 }
