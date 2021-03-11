@@ -1,9 +1,11 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using ExitGames.Client.Photon;
+using System;
 
 namespace PhotonScripts
 {
@@ -59,7 +61,7 @@ namespace PhotonScripts
             // corresponds to a letter. For example, 0 is A.
             for (int i = 0; i < RoomCodeLength; i++)
             {
-                RoomCodeNum[i] = Random.Range(65, 90);
+                RoomCodeNum[i] = UnityEngine.Random.Range(65, 90);
             }
 
             //Coverting Numbers into ASCII and then appending them to
@@ -161,7 +163,7 @@ namespace PhotonScripts
              PhotonNetwork.NetworkingClient.EventReceived -= OnSignalSent;
         }
 
-         private void OnSignalSent(EventData photonEvent)
+        private void OnSignalSent(EventData photonEvent)
         {
             if (photonEvent.Code == 1){
                 object[] data = (object[])photonEvent.CustomData;
@@ -172,7 +174,69 @@ namespace PhotonScripts
                 Debug.Log(test);
                 Debug.Log(players);
             }
+            // playing card event
+            else if (photonEvent.Code == 2)
+            {
+                object[] data = (object[])photonEvent.CustomData;
+                string cardType = (string)data[0];
+                StandardCardRank rank = (StandardCardRank)data[1];
+                StandardCardSuit suit = (StandardCardSuit)data[2];
+                StandardCard card = new StandardCard(rank, suit);
+
+                Debug.Log("Receiving a Played Card: " + card.ToString());
+                HostData.GetGame().AddCardToDeck(card, DeckChoices.PLAYED);
+            }
+            // verifying card event
+            else if (photonEvent.Code == 4)
+            {
+                object[] data = (object[])photonEvent.CustomData;
+                string cardType = (string)data[0];
+                StandardCardRank rank = (StandardCardRank)data[1];
+                StandardCardSuit suit = (StandardCardSuit)data[2];
+                StandardCard card = new StandardCard(rank, suit);
+
+                Debug.Log("Verifying a Card: " + card.ToString());
+                string username = (string)data[3];
+                bool isValid = HostData.GetGame().VerifyMove(card);
+                SendThatCardIsValid(username, isValid);
+            }
+            // draw card event
+            else if (photonEvent.Code == 7)
+            {
+                object[] data = (object[])photonEvent.CustomData;
+                string username = (string)data[0];
+                int numOfCards = (int)data[1];
+                List<Card> cards = HostData.GetGame().DrawCardsFromDeck(numOfCards, DeckChoices.UNDEALT);
+                SendCardsToPlayer(username, cards);
+            }
         }
+
+        public void SendCardsToPlayer(string username, List<Card> cards)
+        {
+            if (cards[0].GetType().Name == "StandardCard")
+            {
+                foreach (Card card in cards)
+                {
+                    StandardCard cardToSend = (StandardCard)card;
+                    object[] content = new object[] { username, cards[0].GetType().Name, cardToSend.GetRank(), cardToSend.GetSuit() };
+                    RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+                    PhotonNetwork.RaiseEvent(8, content, raiseEventOptions, SendOptions.SendUnreliable);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sends whether or not the card was valid to the specific username
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="isValid"></param>
+        public void SendThatCardIsValid(string username, bool isValid)
+        {
+            object[] content = new object[] { username, isValid };
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(5, content, raiseEventOptions, SendOptions.SendUnreliable);
+        }
+
         public void DoSomething()
         {
             string gameMode = HostData.GetSelectedGame();

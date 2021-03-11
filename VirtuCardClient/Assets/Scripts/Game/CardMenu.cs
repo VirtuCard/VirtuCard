@@ -33,9 +33,17 @@ public class CardMenu : MonoBehaviour
 
     private int current_index;
 
-
+    /// <summary>
+    /// Returns the currently selected card or NULL if there are none in the carousel
+    /// </summary>
+    /// <returns></returns>
     public Card GetCurrentlySelectedCard()
     {
+        if (images.Count == 0)
+        {
+            return null;
+        } 
+
         StandardCard stdCard = images[current_index].gameObject.GetComponent<StandardCard>();
         if (stdCard != null)
         {
