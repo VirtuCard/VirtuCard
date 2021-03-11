@@ -173,13 +173,15 @@ namespace PhotonScripts
             else if (photonEvent.Code == 2)
             {
                 object[] data = (object[])photonEvent.CustomData;
-                string cardType = (string)data[0];
-                StandardCardRank rank = (StandardCardRank)data[1];
-                StandardCardSuit suit = (StandardCardSuit)data[2];
+                string username = (string)data[0];
+                string cardType = (string)data[1];
+                StandardCardRank rank = (StandardCardRank)data[2];
+                StandardCardSuit suit = (StandardCardSuit)data[3];
                 StandardCard card = new StandardCard(rank, suit);
 
-                Debug.Log("Receiving a Played Card: " + card.ToString());
-                HostData.GetGame().AddCardToDeck(card, DeckChoices.PLAYED);
+                Debug.Log("Receiving a Played Card from " + username + ": " + card.ToString());
+                int userIndex = HostData.GetGame().GetPlayerIndex(username);
+                HostData.GetGame().DoMove(card, userIndex);
             }
             // verifying card event
             else if (photonEvent.Code == 4)
@@ -204,8 +206,21 @@ namespace PhotonScripts
                 List<Card> cards = HostData.GetGame().DrawCardsFromDeck(numOfCards, DeckChoices.UNDEALT);
                 SendCardsToPlayer(username, cards);
             }
+            // skip turn event
+            else if (photonEvent.Code == 10)
+            {
+                object[] data = (object[])photonEvent.CustomData;
+                // just get the username in case we need it in the future
+                string username = (string)data[0];
+                HostData.GetGame().AdvanceTurn(true);
+            }
         }
 
+        /// <summary>
+        /// Sends a list of cards to the player one by one
+        /// </summary>
+        /// <param name="username">PhotonNetwork.NickName of the player to send them to</param>
+        /// <param name="cards">Cards to send</param>
         public void SendCardsToPlayer(string username, List<Card> cards)
         {
             if (cards[0].GetType().Name == "StandardCard")
