@@ -33,6 +33,15 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
     
     public static bool displayError = false;
 
+    void Update()
+    {
+        if (displayError)
+        {
+            CreateErrorMessage("Failed to Connect", "Room Code is Invalid!");
+            displayError = false;
+        }
+    }
+
     void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
@@ -115,12 +124,10 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
             if (hostAllowed == false && clientName == hostName)
             {
                 Debug.Log("Host is not allowed to join the game!");
-                //errorCode.GetComponent<Text>().text = "Host cannot join!";
                 PhotonNetwork.LeaveRoom();
-                CreateErrorMessage("Failed to Connect", "Host is not allowed to join!");
+                displayError = true;
                 SceneManager.LoadScene(SceneNames.JoinGamePage);
-                //displayError = true;
-                
+
             }
         }
     }
