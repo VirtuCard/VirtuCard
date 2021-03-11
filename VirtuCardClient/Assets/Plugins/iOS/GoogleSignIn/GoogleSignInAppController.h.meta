@@ -1,7 +1,8 @@
 fileFormatVersion: 2
-guid: e15d832a50f19d14a84cc0d78988664e
+guid: ce40e3e7b37a54617a4683dfc0479c71
 labels:
 - gvh
+- gvh_version-1.0.4
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -16,39 +17,19 @@ PluginImporter:
   - first:
       Any: 
     second:
-      enabled: 1
+      enabled: 0
       settings: {}
   - first:
       Editor: Editor
     second:
       enabled: 0
       settings:
-        CPU: x86_64
         DefaultValueInitialized: true
   - first:
-      Standalone: Linux64
+      iPhone: iOS
     second:
       enabled: 1
-      settings:
-        CPU: AnyCPU
-  - first:
-      Standalone: OSXUniversal
-    second:
-      enabled: 0
-      settings:
-        CPU: x86_64
-  - first:
-      Standalone: Win
-    second:
-      enabled: 0
-      settings:
-        CPU: None
-  - first:
-      Standalone: Win64
-    second:
-      enabled: 1
-      settings:
-        CPU: AnyCPU
+      settings: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
