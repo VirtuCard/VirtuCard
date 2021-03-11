@@ -106,6 +106,7 @@ namespace PhotonScripts
             {
                 Debug.Log("Failed to add new player to game");
             }
+            DoSomething();
         }
 
 

@@ -28,6 +28,9 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
     public GameObject errorTitle;
     public GameObject errorMessage;
 
+    public GameObject MaxPlayersText;
+    public GameObject GameModeText;
+
     void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
@@ -99,6 +102,9 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
             Debug.Log(s);
             Debug.Log(test);
             Debug.Log(players);
+
+            MaxPlayersText.GetComponent<Text>().text = s;
+            GameModeText.GetComponent<Text>().text = "Max Players: " + players;
 
             if (!test)
             {
