@@ -188,8 +188,12 @@ public abstract class Game
     /// <returns></returns>
     public PlayerInfo GetPlayerOfCurrentTurn()
     {
+        //HostData.setCurrentPlayersTurn(players[playerTurnIndex].username);
+        // HostData.setCurrentPlayersTurn("peepeepoopoo");        
         return players[playerTurnIndex];
     }
+
+
 
     /// <summary>
     /// Disconnects a player from the game and removes them from all game lists.

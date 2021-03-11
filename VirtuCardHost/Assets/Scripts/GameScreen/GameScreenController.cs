@@ -19,8 +19,7 @@ public class GameScreenController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        string name = Game.GetPlayerOfCurrentTurn().username;
-        currentPlayer.GetComponent<Text>().text = name + "'s Turn";
+        currentPlayer.GetComponent<Text>().text = HostData.GetGame().GetPlayerOfCurrentTurn().username + "'s Turn";
     }
 
     /// <summary>
