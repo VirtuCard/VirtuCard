@@ -35,8 +35,6 @@ public class LandingPageManager : MonoBehaviour
         //gameChoiceDropdown.options.Add(new Dropdown.OptionData("Uno"));
         //gameChoiceDropdown.options.Add(new Dropdown.OptionData("Go Fish"));
 
-        gameChoiceDropdown.onValueChanged.AddListener(GameChoiceValueChanged);
-
         PhotonNetwork.ConnectUsingSettings();
     }
 
@@ -58,11 +56,6 @@ public class LandingPageManager : MonoBehaviour
 
         HostData.setJoinCode(RoomCode);
         SceneManager.LoadScene(SceneNames.WaitingRoomScreen, LoadSceneMode.Single);       
-    }
-
-    private void GameChoiceValueChanged(int state)
-    {
-        HostData.setSelectedGame(state);
     }
 
     /// <summary>

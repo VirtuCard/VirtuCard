@@ -77,6 +77,8 @@ namespace PhotonScripts
             //RoomCode = roomCodeBuffer;
             return roomCodeBuffer;
         }
+        
+        
 
         // Function to Create and Join a Room with associated Room Code
         public static void CreateAndJoinRoom(string RoomCodeString)
@@ -84,6 +86,7 @@ namespace PhotonScripts
             // Sets the max players that can join to 10
             // Number will change depending on the game
             RoomOptions options = new RoomOptions();
+            options.CustomRoomProperties = HostData.ToHashtable();
             options.MaxPlayers = 10;
 
             // This will join the room depending on the roomcode
@@ -106,7 +109,9 @@ namespace PhotonScripts
             {
                 Debug.Log("Failed to add new player to game");
             }
-            DoSomething();
+            
+            //Push custom properties of Room to people
+            PhotonNetwork.CurrentRoom.SetCustomProperties(HostData.ToHashtable());
         }
 
         public override void OnPlayerLeftRoom(Player playerToDisconnect)
