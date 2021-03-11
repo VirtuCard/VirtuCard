@@ -64,6 +64,15 @@ public class CardMenu : MonoBehaviour
     }
 
     /// <summary>
+    /// This returns the currently selected index of the card in the carousel
+    /// </summary>
+    /// <returns></returns>
+    public int GetCurrentlySelectedIndex()
+    {
+        return current_index;
+    }
+
+    /// <summary>
     /// Adds a card to the rightmost side of the carousel.
     /// It automatically reformats after adding.
     /// </summary>
@@ -214,5 +223,16 @@ public class CardMenu : MonoBehaviour
             }
         }
         dragAmount = 0;
+    }
+
+    /// <summary>
+    /// This method goes to a certain index of the deck
+    /// </summary>
+    /// <param name="value"></param>
+    public void MoveCarouselToIndex(int value)
+    {
+        current_index = value;
+        lerpTimer = 0;
+        lerpPosition = (imageWidth + imageSpacing) * current_index;
     }
 }
