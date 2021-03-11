@@ -86,14 +86,19 @@ namespace PhotonScripts
             // Sets the max players that can join to 10
             // Number will change depending on the game
             RoomOptions options = new RoomOptions();
+            options.CustomRoomProperties = HostData.ToHashtable();
             options.MaxPlayers = 10;
 
             // This will join the room depending on the roomcode
             // If room doesn't exist, it creates the room
             HostData.setJoinCode(RoomCodeString);
             PhotonNetwork.CreateRoom(RoomCodeString, options, null);
+            //sendData(HostData.CanHostJoinGame(), HostData.GetSelectedGame(), HostData.GetMaxNumPlayers());
+        }
 
-             //sendData(HostData.CanHostJoinGame(), HostData.GetSelectedGame(), HostData.GetMaxNumPlayers());
+        public override void OnCreatedRoom()
+        {
+            PhotonNetwork.CurrentRoom.SetCustomProperties(HostData.ToHashtable());
         }
 
         public override void OnPlayerEnteredRoom(Player newPlayer)
