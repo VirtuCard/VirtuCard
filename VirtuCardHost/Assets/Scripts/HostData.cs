@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Photon.Pun;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 /// <summary>
 /// This class is used to store host data between scenes. It allows the data to be persistent
@@ -9,7 +11,6 @@ using System;
 public static class HostData
 {
     private static bool canHostJoinGame;
-    private static string selectedGame = "Freeplay";
     private static int maxNumPlayers = 5;
     private static string joinCode;
     private static bool chatAllowed;
@@ -48,9 +49,9 @@ public static class HostData
 
     public static string GetSelectedGame()
     {
-        return selectedGame;
+        return currentGame.GetGameName();
     }
-
+    
     public static bool CanHostJoinGame()
     {
         return canHostJoinGame;
@@ -74,26 +75,12 @@ public static class HostData
     public static void setCanHostJoinGame(bool state)
     {
         canHostJoinGame = state;
-    }
-
-    public static void setSelectedGame(int state)
-    {
-        switch (state)
+        if (PhotonNetwork.CurrentRoom != null)
         {
-            case 0:
-                selectedGame = "Freeplay";
-                break;
-            case 1:
-                selectedGame = "Uno";
-                break;
-            case 2:
-                selectedGame = "Go Fish";
-                break;
-            default:
-                Debug.LogError("Got unexpected value: " + state);
-                break;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(HostData.ToHashtable());
         }
     }
+    
 
     public static void setJoinCode(string code)
     {
@@ -107,5 +94,21 @@ public static class HostData
     public static void setChatAllowed(bool isChatAllowed)
     {
         chatAllowed = isChatAllowed;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(ToHashtable());
+    }
+
+    public static Hashtable ToHashtable()
+    {
+        Hashtable table = new Hashtable();
+        table.Add("ChatAllowed", chatAllowed);
+        table.Add("HostCanJoin", canHostJoinGame);
+        Debug.Log(table.ToString());
+        return table;
+    }
+
+    enum Names
+    {
+        ChatAllowed, 
+        HostCanJoin,
     }
 }

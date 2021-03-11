@@ -8,13 +8,16 @@ public class ClientGameController : MonoBehaviour
     public Button skipBtn;
     public Button playCardBtn;
     public GameObject errorDisplay;
+    public GameObject chatDisableSign;
     
     private CardDeck cards = new CardDeck();
 
     public GameObject cardCarousel;
     private CardMenu cardMenu;
     public GameObject chatPanel;
+    public GameObject chatDisable;
     public Toggle chatToggle;
+
 
 
     private bool wasCurrentlyTurn = false;
@@ -22,6 +25,15 @@ public class ClientGameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // this is only if the settings disables the chat
+        // ClientData.setChatAllowed(false);
+        if (!ClientData.isChatAllowed())
+        {
+            chatDisable.SetActive(false);
+            chatDisableSign.SetActive(true);
+        }
+        else { chatDisableSign.SetActive(false); }
+
         skipBtn.onClick.AddListener(delegate() {
             SkipBtnClicked();
         });
