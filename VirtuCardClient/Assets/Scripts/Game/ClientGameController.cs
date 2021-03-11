@@ -10,6 +10,7 @@ public class ClientGameController : MonoBehaviour
     public GameObject errorDisplay;
     public GameObject turn;
     public GameObject notTurnUI;
+    public Text waitingSign;
     
     private CardDeck cards = new CardDeck();
 
@@ -25,7 +26,7 @@ public class ClientGameController : MonoBehaviour
     void Start()
     {
         // This is for testing
-        // ClientData.setCurrentTurn(true);
+        ClientData.setCurrentTurn(true);
         // does not display the option to play if it isn't your turn
 
 
@@ -61,6 +62,9 @@ public class ClientGameController : MonoBehaviour
             wasCurrentlyTurn = false;
 
             turn.SetActive(false);
+            // Call the Username of the current player here
+            string temp = "Juniebear";
+            waitingSign.GetComponent<Text>().text = temp + "'s Turn";
             notTurnUI.SetActive(true);
         }
 

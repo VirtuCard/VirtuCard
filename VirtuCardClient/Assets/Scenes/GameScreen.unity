@@ -157,6 +157,7 @@ MonoBehaviour:
   errorDisplay: {fileID: 0}
   turn: {fileID: 1490256972}
   notTurnUI: {fileID: 356191701}
+  waitingSign: {fileID: 335207972}
   cardCarousel: {fileID: 881918756}
   chatPanel: {fileID: 1958468103}
   chatToggle: {fileID: 1361487241}
@@ -354,7 +355,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Wait For Your Turn...
+  m_Text: Random text for now
 --- !u!222 &335207973
 CanvasRenderer:
   m_ObjectHideFlags: 0
