@@ -19,8 +19,8 @@ public class ForgotPasswordManager : MonoBehaviour
 
     //Confirmation Dialog
     public GameObject confirmPanel;
-    public Text confirmTitle;
     public Text confirmMessage;
+    public Text confirmTitle;
 
     // this controls what scene to go to
     private LoadDifferentScene sceneLoader;
