@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Photon.Pun;
+using Photon.Realtime;
+using ExitGames.Client.Photon;
 
 public abstract class Game
 {
@@ -17,6 +20,11 @@ public abstract class Game
     public Game()
     {
     }
+
+    /// <summary>
+    /// Initializes the game once the players have all joined
+    /// </summary>
+    public abstract void InitializeGame();
 
     /// <summary>
     /// Returns the name of the game
@@ -41,6 +49,7 @@ public abstract class Game
             {
                 playerTurnIndex -= players.Count;
             }
+            SendOutPlayerTurnIndex();
             return;
         }
         else
@@ -50,6 +59,7 @@ public abstract class Game
             {
                 playerTurnIndex += players.Count;
             }
+            SendOutPlayerTurnIndex();
             return;
         }
     }
@@ -66,6 +76,7 @@ public abstract class Game
             if (playerTurnIndex >= players.Count)
             {
                 playerTurnIndex = 0;
+                SendOutPlayerTurnIndex();
                 return;
             }
         }
@@ -75,9 +86,22 @@ public abstract class Game
             if (playerTurnIndex < 0)
             {
                 playerTurnIndex = players.Count - 1;
+                SendOutPlayerTurnIndex();
                 return;
             }
         }
+    }
+
+    /// <summary>
+    /// This sends out the playerTurnIndex to all the connected Clients
+    /// </summary>
+    private void SendOutPlayerTurnIndex()
+    {
+        PlayerInfo currentPlayer = GetPlayerOfCurrentTurn();
+        Debug.Log("Setting current to to " + currentPlayer.photonPlayer.NickName + "'s turn");
+        object[] content = new object[] { currentPlayer.photonPlayer.NickName };
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(9, content, raiseEventOptions, SendOptions.SendUnreliable);
     }
 
     /// <summary>
@@ -109,12 +133,35 @@ public abstract class Game
     }
 
     /// <summary>
+    /// Returns the PlayerInfo with the index that matches <paramref name="playerIndex"/>
+    /// </summary>
+    /// <param name="playerIndex">Index of the desired player</param>
+    /// <returns></returns>
+    public PlayerInfo GetPlayer(int playerIndex)
+    {
+        if (playerIndex < players.Count && playerIndex >= 0)
+        {
+            return players[playerIndex];
+        }
+        throw new Exception("Could not find player at index " + playerIndex);
+    }
+
+    /// <summary>
     /// Returns a list of all the playerInfos of the connected players
     /// </summary>
     /// <returns></returns>
     public List<PlayerInfo> GetAllPlayers()
     {
         return players;
+    }
+
+    /// <summary>
+    /// Returns the number of connected players
+    /// </summary>
+    /// <returns></returns>
+    public int GetNumOfPlayers()
+    {
+        return players.Count;
     }
 
     /// <summary>
@@ -194,6 +241,16 @@ public abstract class Game
     }
 
 
+
+    /// <summary>
+    /// Disconnects a player from the game and removes them from all game lists.
+    /// TODO return their hand to deck
+    /// </summary>
+    /// <param name="player">Player object of the player to disconnect</param>
+    public void DisconnectPlayerFromGame(Photon.Realtime.Player player)
+    {
+        DisconnectPlayerFromGame(player.NickName);
+    }
 
     /// <summary>
     /// Disconnects a player from the game and removes them from all game lists.

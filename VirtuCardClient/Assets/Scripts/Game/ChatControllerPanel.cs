@@ -100,8 +100,6 @@ public class ChatControllerPanel : MonoBehaviour, IChatClientListener
             }
         });
 
-        ClientData.setJoinCode("BREGBQ"); // TODO: Remove this
-
         roomcode = ClientData.getJoinCode();
         _chatClient = new ChatClient(this) {ChatRegion = "US"};
         _chatClient.Connect(appId, "0.1b", new AuthenticationValues(PhotonNetwork.NickName));
