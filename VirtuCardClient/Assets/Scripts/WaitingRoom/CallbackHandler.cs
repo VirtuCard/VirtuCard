@@ -1,4 +1,5 @@
 ﻿using System;
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -28,6 +29,10 @@ namespace WaitingRoom
             SceneManager.LoadScene(SceneNames.GameScreen);
  
         }
-
+        
+        public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+        {
+            ClientData.FromHashtable(propertiesThatChanged);
+        }
     }
 }

@@ -18,8 +18,12 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
     public GameObject cardCarousel;
     private CardMenu cardMenu;
+    public GameObject chatDisableSign;
+
     public GameObject chatPanel;
     public Toggle chatToggle;
+    public GameObject chatDisable;
+
 
     // this is used to determine if the user has scrolled over to a new card, so it can be used to verify
     private Card previouslySelectedCard;
@@ -31,6 +35,16 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        
+        ClientData.setChatAllowed(false);
+        if (!ClientData.isChatAllowed())
+        {
+            Debug.Log("Chat Not Allowed.");
+            chatDisable.SetActive(false);
+            chatDisableSign.SetActive(true);
+        }
+        else { chatDisableSign.SetActive(false); }
+
         PhotonNetwork.AddCallbackTarget(this);
         skipBtn.onClick.AddListener(delegate() {
             SkipBtnClicked();

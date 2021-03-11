@@ -37,7 +37,10 @@ public class LandingPageManager : MonoBehaviour
 
         gameChoiceDropdown.onValueChanged.AddListener(GameChoiceValueChanged);
 
-        PhotonNetwork.ConnectUsingSettings();
+        if (!PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.ConnectUsingSettings();
+        }
     }
 
     // Update is called once per frame
@@ -51,13 +54,21 @@ public class LandingPageManager : MonoBehaviour
     public void OnCreateButtonClick()
     {
         //PhotonNetwork.ConnectUsingSettings();    //Connecting to Photon Master Servers
-        HostData.SetGame((GameTypes)Enum.Parse(typeof(GameTypes), gameChoiceDropdown.options[gameChoiceDropdown.value].text));
+        if (PhotonNetwork.IsConnectedAndReady)
+        {
+            HostData.SetGame((GameTypes) Enum.Parse(typeof(GameTypes),
+                gameChoiceDropdown.options[gameChoiceDropdown.value].text));
 
-        string RoomCode = NetworkController.generateCode();    //Generating Room Code string and storing it
-        NetworkController.CreateAndJoinRoom(RoomCode);    //Creating Photon Room with Generated Code
+            string RoomCode = NetworkController.generateCode(); //Generating Room Code string and storing it
+            NetworkController.CreateAndJoinRoom(RoomCode); //Creating Photon Room with Generated Code
 
-        HostData.setJoinCode(RoomCode);
-        SceneManager.LoadScene(SceneNames.WaitingRoomScreen, LoadSceneMode.Single);       
+            HostData.setJoinCode(RoomCode);
+            SceneManager.LoadScene(SceneNames.WaitingRoomScreen, LoadSceneMode.Single);
+        }
+        else
+        {
+            Debug.Log("Not connected to Photon.");
+        }
     }
 
     private void GameChoiceValueChanged(int state)
