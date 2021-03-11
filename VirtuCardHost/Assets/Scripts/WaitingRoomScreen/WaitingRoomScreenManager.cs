@@ -24,7 +24,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
     // GameObjects for the player list feature
     public GameObject textBoxTemplate;
     private ArrayList playerList;
-    private List<GameObject> textBoxes;
+    private List<GameObject> textBoxes = new List<GameObject>();
     public Button startGameBtn;
 
     // Start is called before the first frame update
@@ -48,6 +48,90 @@ public class WaitingRoomScreenManager : MonoBehaviour
 
         startGameBtn.onClick.AddListener(delegate { StartGameBtnClicked(); });
         startGameBtn.interactable = false;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        joinCode.text = HostData.GetJoinCode();
+        if (HostData.GetGame().GetNumOfPlayers() > 0)
+        {
+            startGameBtn.interactable = true;
+        }
+
+        //Refresh players list here
+        RefreshPlayerListBox();
+    }
+
+    private void RefreshPlayerListBox()
+    {
+        List<string> playerNamesToAdd = new List<string>();
+        List<bool> boxIsAssociatedWithConnectedPlayer = new List<bool>();
+
+        for(int x = 0; x < textBoxes.Count; x++)
+        {
+            boxIsAssociatedWithConnectedPlayer.Add(false);
+        }
+
+        foreach (PlayerInfo player in HostData.GetGame().GetAllPlayers())
+        {
+            bool playerHasBeenAddedAlready = false;
+            if (textBoxes.Count > 0)
+            {
+                for (int x = 0; x < textBoxes.Count; x++)
+                {
+                    GameObject box = textBoxes[x];
+                    if (box.name.Equals(player.photonPlayer.NickName))
+                    {
+                        // do nothing the player has already been added
+                        playerHasBeenAddedAlready = true;
+                        boxIsAssociatedWithConnectedPlayer[x] = true;
+                        break;
+                    }
+                    Destroy(box);
+                }
+            }
+            if (!playerHasBeenAddedAlready)
+            {
+                playerNamesToAdd.Add(player.photonPlayer.NickName);
+            }
+        }
+        for (int x = boxIsAssociatedWithConnectedPlayer.Count - 1; x >= 0; x--)
+        {
+            if(boxIsAssociatedWithConnectedPlayer[x] == false)
+            {
+                // this player disconnected, so remove them from list
+                var box = textBoxes[x];
+                textBoxes.RemoveAt(x);
+                Destroy(box);
+            }
+        }
+
+        foreach (string name in playerNamesToAdd)
+        {
+            AddNameToPlayerListBox(name);
+        }
+    }
+
+    private void AddNameToPlayerListBox(string name)
+    {
+        // Creates a text game object based on the template based as an argument
+        GameObject textBox = Instantiate(textBoxTemplate) as GameObject;
+
+        // Setting the text game object to active
+        textBox.SetActive(true);
+
+        // Setting the text and name in the text game object
+        textBox.name = name;
+        textBox.GetComponent<Text>().text = name;
+
+        // Assigning the parent of text game object as the parent of template 
+        // the second argument indicates whether the game object will be placed automatically in the game world
+        // since we want it to be set to that of the parent, we pass 'false' as the second argument
+        textBox.transform.SetParent(textBoxTemplate.transform.parent, false);
+
+        // Adding game object to list
+        textBoxes.Add(textBox);
     }
 
     public void StartGameBtnClicked()
@@ -141,18 +225,5 @@ public class WaitingRoomScreenManager : MonoBehaviour
     private void ChatToggleValueChanged(bool state)
     {
         HostData.setChatAllowed(state);
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        joinCode.text = HostData.GetJoinCode();
-        if (HostData.GetGame().GetNumOfPlayers() > 0)
-        {
-            startGameBtn.interactable = true;
-        }
-
-        //Refresh players list here
     }
 }
