@@ -20,9 +20,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private CardMenu cardMenu;
     public GameObject chatDisableSign;
 
+    public GameObject chatToggleObject;
     public GameObject chatPanel;
     public Toggle chatToggle;
-    public GameObject chatDisable;
 
 
     // this is used to determine if the user has scrolled over to a new card, so it can be used to verify
@@ -36,12 +36,13 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     void Start()
     {
         
-        ClientData.setChatAllowed(false);
+        ClientData.setChatAllowed(true);
         if (!ClientData.isChatAllowed())
         {
-            Debug.Log("Chat Not Allowed.");
-            chatDisable.SetActive(false);
+            
             chatDisableSign.SetActive(true);
+            chatPanel.SetActive(false);
+            chatToggleObject.SetActive(false);
         }
         else { chatDisableSign.SetActive(false); }
 
