@@ -25,10 +25,6 @@ public class ClientGameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // This is for testing
-        // ClientData.setCurrentTurn(true);
-        // does not display the option to play if it isn't your turn
-
 
         skipBtn.onClick.AddListener(delegate() {
             SkipBtnClicked();
@@ -63,8 +59,7 @@ public class ClientGameController : MonoBehaviour
 
             turn.SetActive(false);
             // Call the Username of the current player here
-            string temp = "Juniebear";
-            waitingSign.GetComponent<Text>().text = temp + "'s Turn";
+            waitingSign.GetComponent<Text>().text = ClientData.getCurrentPlayerTurn() + "'s Turn";
             notTurnUI.SetActive(true);
         }
 

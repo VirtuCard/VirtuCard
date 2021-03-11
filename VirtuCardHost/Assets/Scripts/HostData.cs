@@ -14,7 +14,7 @@ public static class HostData
     private static string joinCode;
     private static bool chatAllowed;
     private static Game currentGame;
-
+    
     public static void SetGame(GameTypes gameType)
     {
         string gameName = Enum.GetName(typeof(GameTypes), gameType);
@@ -108,4 +108,5 @@ public static class HostData
     {
         chatAllowed = isChatAllowed;
     }
+
 }

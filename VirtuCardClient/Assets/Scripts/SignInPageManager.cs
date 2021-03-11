@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using FirebaseScripts;
 using UnityEngine.SceneManagement;
-using Game;
 
 public class SignInPageManager : MonoBehaviour
 {
