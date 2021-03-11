@@ -784,6 +784,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1750642337}
   - component: {fileID: 1750642336}
+  - component: {fileID: 1750642338}
   m_Layer: 0
   m_Name: GameScreenController
   m_TagString: Untagged
@@ -820,6 +821,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1750642338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750642335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 522a593a816a4b1db47278fd1f106c07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1817084560
 GameObject:
   m_ObjectHideFlags: 0

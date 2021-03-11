@@ -99,23 +99,35 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
             string s = (string) data[0];
             bool test = (bool) data[1];
             int players = (int) data[2];
+            string hostName = (string) data[3];
             Debug.Log(s);
             Debug.Log(test);
             Debug.Log(players);
+            Debug.Log(hostName);
 
             MaxPlayersText.GetComponent<Text>().text = s;
             GameModeText.GetComponent<Text>().text = "Max Players: " + players;
 
-            if (!test)
+            string clientName = PhotonNetwork.NickName;
+
+            if (test == false && clientName == hostName)
             {
-                errorCode.GetComponent<Text>().text = "Host cannot join!";
+                Debug.Log("Host is not allowed to join the game!");
+                //errorCode.GetComponent<Text>().text = "Host cannot join!";
+                PhotonNetwork.LeaveRoom();
+                SceneManager.LoadScene(SceneNames.JoinGamePage);
             }
+        }
+        // this is the flag that is saying to go from waiting screen to the game screen
+        else if (photonEvent.Code == 6)
+        {
+            SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
         }
     }
 
     private void DoSomething()
     {
-        object[] content = new object[] {"hello darkness"};
+        object[] content = new object[] {"hello darkness", true, 2};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
         PhotonNetwork.RaiseEvent(1, content, raiseEventOptions, SendOptions.SendUnreliable);
     }

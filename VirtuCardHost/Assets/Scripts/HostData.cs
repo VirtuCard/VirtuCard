@@ -10,7 +10,10 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 /// </summary>
 public static class HostData
 {
-    private static bool canHostJoinGame;
+    // just default this to true for convenience
+    private static bool canHostJoinGame = true;
+
+    private static string selectedGame = "Freeplay";
     private static int maxNumPlayers = 5;
     private static string joinCode;
     private static bool chatAllowed;

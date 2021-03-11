@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using ExitGames.Client.Photon;
 using PhotonScripts;
+using Photon.Pun; 
+using Photon.Realtime;
 
 public class WaitingRoomScreenManager : MonoBehaviour
 {
@@ -51,8 +54,13 @@ public class WaitingRoomScreenManager : MonoBehaviour
 
     public void StartGameBtnClicked()
     {
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(6, null, raiseEventOptions, SendOptions.SendUnreliable);
+        // this delay is to allow the clients enough time to start swap their scenes
+        System.Threading.Thread.Sleep(2000);
         HostData.GetGame().PrintAllPlayers();
-        //SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
+        HostData.GetGame().InitializeGame();
+        SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
     }
 
     public void CreatePlayerList()
