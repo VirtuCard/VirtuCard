@@ -5,6 +5,11 @@ using System;
 
 public class TestGame : Game
 {
+    public TestGame()
+    {
+        SetGameName(Enum.GetName(typeof(GameTypes), GameTypes.TestGame));
+    }
+
     /// <summary>
     /// This method is used to verify that the Card that the player wants to play is valid.
     /// It does NOT actually play the card, it only checks if it is possible
@@ -24,6 +29,18 @@ public class TestGame : Game
     /// <returns>True or false depending on validity of skip</returns>
     public override bool VerifyCanSkip(int playerIndex)
     {
+        return true;
+    }
+
+    /// <summary>
+    /// This method is called when a player plays a card
+    /// </summary>
+    /// <param name="cardToPlay">Card that the player is playing</param>
+    /// <param name="playerIndex">index of the player</param>
+    /// <returns></returns>
+    public override bool DoMove(Card cardToPlay, int playerIndex)
+    {
+        Debug.Log("Player " + playerIndex + " played " + cardToPlay.ToString());
         return true;
     }
 }

@@ -2985,6 +2985,7 @@ MonoBehaviour:
   errorTitle: {fileID: 712813975}
   errorMessage: {fileID: 310112584}
   failedPasswordText: {fileID: 1161454066}
+  invalidPasswordText: {fileID: 243523186}
   createBtn: {fileID: 1698649134}
 --- !u!4 &1966842147
 Transform:
@@ -3096,7 +3097,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2045128996
 RectTransform:
   m_ObjectHideFlags: 0

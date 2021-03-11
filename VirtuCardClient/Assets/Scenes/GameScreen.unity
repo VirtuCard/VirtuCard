@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skipBtn: {fileID: 843069685}
   playCardBtn: {fileID: 1784024938}
+  errorDisplay: {fileID: 0}
   cardCarousel: {fileID: 881918756}
   chatPanel: {fileID: 1958468103}
   chatDisable: {fileID: 429628847}
@@ -411,13 +412,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 388051639}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f56f1486ab17e49d199592841b3b4474, type: 3}
+  m_Script: {fileID: 11500000, guid: 70b6f90f88578f1498f6371260b85bb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   messageSend: {fileID: 1489928000}
   sendBtn: {fileID: 851355431}
   messageTemplate: {fileID: 1280737718}
   messageParent: {fileID: 450927758}
+  roomcode: 
+  appId: 50b55aec-e283-413b-88eb-c86a27dfb8b2
   placeholders:
   - {fileID: 216944805}
   - {fileID: 1116318612}

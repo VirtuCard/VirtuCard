@@ -10,9 +10,6 @@ public class GameScreenController : MonoBehaviour
     public GameObject toggle; 
     public Toggle chatToggle;
 
-    // the game being played
-    private Game game;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -40,7 +37,7 @@ public class GameScreenController : MonoBehaviour
     /// <returns></returns>
     public Card DrawCard()
     {
-        return game.DrawCardFromDeck(DeckChoices.UNDEALT);
+        return HostData.GetGame().DrawCardFromDeck(DeckChoices.UNDEALT);
     }
 
     /// <summary>
@@ -51,7 +48,43 @@ public class GameScreenController : MonoBehaviour
     /// <returns>A list containing all the drawn cards</returns>
     public List<Card> DrawCards(int numOfCards)
     {
-        return game.DrawCardsFromDeck(numOfCards, DeckChoices.UNDEALT);
+        return HostData.GetGame().DrawCardsFromDeck(numOfCards, DeckChoices.UNDEALT);
+    }
+
+    /// <summary>
+    /// TODO implementation
+    /// </summary>
+    /// <param name="card">The card to play</param>
+    /// <param name="playerIndex">The index of the player playing the card</param>
+    /// <returns>Returns true or false depending on whether the card was played</returns>
+    public bool PlayCard(Card card, int playerIndex)
+    {
+        if (VerifyIfCardIsValid(card))
+        {
+            HostData.GetGame().AddCardToDeck(card, DeckChoices.PLAYED);
+            return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// This method verifies if a card is allowed to be played based on the selected game's rules
+    /// </summary>
+    /// <param name="card">The card to see if it is valid to play</param>
+    /// <returns></returns>
+    public bool VerifyIfCardIsValid(Card card)
+    {
+        return HostData.GetGame().VerifyMove(card);
+    }
+
+    /// <summary>
+    /// This method returns a boolean depending on whether or not a player is allowed to skip their turn
+    /// </summary>
+    /// <param name="playerIndex"></param>
+    /// <returns></returns>
+    public bool VerifyCanSkipTurn(int playerIndex)
+    {
+        return HostData.GetGame().VerifyCanSkip(playerIndex);
     }
 
     /// <summary>
