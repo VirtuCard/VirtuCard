@@ -14,7 +14,9 @@ public class ClientGameController : MonoBehaviour
     public GameObject cardCarousel;
     private CardMenu cardMenu;
     public GameObject chatPanel;
+    public GameObject chatDisable;
     public Toggle chatToggle;
+
 
 
     private bool wasCurrentlyTurn = false;
@@ -22,6 +24,12 @@ public class ClientGameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // this is only if the settings disables the chat
+        // Come back to this part when Ryan is done
+        // HostData.setChatAllowed(true);
+        // if (!HostData.isChatAllowed()) {
+        //     chatDisable.SetActive(false);
+        // }
         skipBtn.onClick.AddListener(delegate() {
             SkipBtnClicked();
         });
