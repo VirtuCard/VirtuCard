@@ -8,6 +8,7 @@ public class ClientGameController : MonoBehaviour
     public Button skipBtn;
     public Button playCardBtn;
     public GameObject errorDisplay;
+    public GameObject chatDisableSign;
     
     private CardDeck cards = new CardDeck();
 
@@ -25,11 +26,14 @@ public class ClientGameController : MonoBehaviour
     void Start()
     {
         // this is only if the settings disables the chat
-        // Come back to this part when Ryan is done
-        // HostData.setChatAllowed(true);
-        // if (!HostData.isChatAllowed()) {
-        //     chatDisable.SetActive(false);
-        // }
+        // ClientData.setChatAllowed(false);
+        if (!ClientData.isChatAllowed())
+        {
+            chatDisable.SetActive(false);
+            chatDisableSign.SetActive(true);
+        }
+        else { chatDisableSign.SetActive(false); }
+
         skipBtn.onClick.AddListener(delegate() {
             SkipBtnClicked();
         });

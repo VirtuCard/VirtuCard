@@ -30,6 +30,17 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
 
     public GameObject MaxPlayersText;
     public GameObject GameModeText;
+    
+    public static bool displayError = false;
+
+    void Update()
+    {
+        if (displayError)
+        {
+            CreateErrorMessage("Failed to Connect", "Room Code is Invalid!");
+            displayError = false;
+        }
+    }
 
     void Start()
     {
@@ -97,18 +108,26 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
         {
             object[] data = (object[]) photonEvent.CustomData;
             string s = (string) data[0];
-            bool test = (bool) data[1];
+            bool hostAllowed = (bool) data[1];
             int players = (int) data[2];
+            string hostName = (string) data[3];
             Debug.Log(s);
-            Debug.Log(test);
+            Debug.Log(hostAllowed);
             Debug.Log(players);
+            Debug.Log(hostName);
 
             MaxPlayersText.GetComponent<Text>().text = s;
             GameModeText.GetComponent<Text>().text = "Max Players: " + players;
 
-            if (!test)
+            string clientName = PhotonNetwork.NickName;
+
+            if (hostAllowed == false && clientName == hostName)
             {
-                errorCode.GetComponent<Text>().text = "Host cannot join!";
+                Debug.Log("Host is not allowed to join the game!");
+                PhotonNetwork.LeaveRoom();
+                displayError = true;
+                SceneManager.LoadScene(SceneNames.JoinGamePage);
+
             }
         }
     }
