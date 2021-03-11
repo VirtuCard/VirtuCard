@@ -26,7 +26,7 @@ public class ClientGameController : MonoBehaviour
     void Start()
     {
         // this is only if the settings disables the chat
-        ClientData.setChatAllowed(false);
+        // ClientData.setChatAllowed(false);
         if (!ClientData.isChatAllowed())
         {
             chatDisable.SetActive(false);
