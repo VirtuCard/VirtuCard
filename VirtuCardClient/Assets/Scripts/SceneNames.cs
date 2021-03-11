@@ -14,8 +14,6 @@ public static class SceneNames
         get { return "JoinGamePage"; }
     }
 
-<<<<<<< HEAD
-=======
     public static string FriendsScene
     {
         get { return "FriendsScene"; }
@@ -46,7 +44,6 @@ public static class SceneNames
         get { return "GameScreen"; }
     }
 
->>>>>>> main
     public static string WaitingScreen
     {
         get { return "WaitingScreen"; }
