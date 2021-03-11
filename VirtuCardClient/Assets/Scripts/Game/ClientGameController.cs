@@ -166,8 +166,26 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private void PlayCardBtnClicked()
     {
         StandardCard card = (StandardCard)cardMenu.GetCurrentlySelectedCard();
+        int cardIdx = cardMenu.GetCurrentlySelectedIndex();
         card.Print();
         RemoveCard(card);
+        if (cardIdx > 0)
+        {
+            cardMenu.MoveCarouselToIndex(cardIdx - 1);
+        }
+        else
+        {
+            // card was at 0
+            if (cards.GetCardCount() == 0)
+            {
+                // if there are no cards in their hand, don't move carousel
+            }
+            else
+            {
+                // otherwise, do move it
+                cardMenu.MoveCarouselToIndex(0);
+            }
+        }
         SendCardToHost(card);
     }
 

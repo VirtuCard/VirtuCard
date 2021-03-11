@@ -50,6 +50,8 @@ public class WaitingRoomScreenManager : MonoBehaviour
     {
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
         PhotonNetwork.RaiseEvent(6, null, raiseEventOptions, SendOptions.SendUnreliable);
+        // this delay is to allow the clients enough time to start swap their scenes
+        System.Threading.Thread.Sleep(2000);
         HostData.GetGame().PrintAllPlayers();
         HostData.GetGame().InitializeGame();
         SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);

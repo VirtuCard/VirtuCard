@@ -98,6 +98,7 @@ public abstract class Game
     private void SendOutPlayerTurnIndex()
     {
         PlayerInfo currentPlayer = GetPlayerOfCurrentTurn();
+        Debug.Log("Setting current to to " + currentPlayer.photonPlayer.NickName + "'s turn");
         object[] content = new object[] { currentPlayer.photonPlayer.NickName };
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
         PhotonNetwork.RaiseEvent(9, content, raiseEventOptions, SendOptions.SendUnreliable);
