@@ -5,7 +5,7 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637510760736155455
+      ticks: 637510795355701790
     m_Hash: 567471780
   m_LockFileStatus:
     m_FilePath: C:/Users/Kade/source/CS307/VirtuCard/VirtuCardClient/Packages/packages-lock.json
@@ -13,7 +13,7 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637510761073561605
+      ticks: 637510796005383510
     m_Hash: 1099407875
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
