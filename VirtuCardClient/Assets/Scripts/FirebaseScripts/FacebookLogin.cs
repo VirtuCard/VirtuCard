@@ -6,23 +6,27 @@ using UnityEngine;
 using Firebase.Auth;
 using Facebook.Unity;
 using FirebaseScripts;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class FacebookLogin : MonoBehaviour
 {
 // Start function from Unity's MonoBehavior
     private int successful = 0;
+    public GameObject failedPanel;
+    public Text errorTitle;
+    public Text errorMessage;
 
     void Start()
     {
         if (!FB.IsInitialized)
         {
+            Debug.Log("Hi");
             FB.Init(initCallback, onHideUnity);
         }
-        else
-        {
-            // Already initialized
-            FB.ActivateApp();
-        }
+
+        // Already initialized
+        FB.ActivateApp();
     }
 
     private void initCallback()
@@ -56,31 +60,58 @@ public class FacebookLogin : MonoBehaviour
 
     public void OnFacebookLoginClick()
     {
-// Permission option list      https://developers.facebook.com/docs/facebook-login/permissions/
-        var perms = new List<string> {"email", "user_birthday", "public_profile"};
-        FB.LogInWithReadPermissions(perms, ret =>
+        FirebaseInit.InitializeFirebase(c =>
         {
-            if (FB.IsLoggedIn)
+// Permission option list      https://developers.facebook.com/docs/facebook-login/permissions/
+            var perms = new List<string> {"email", "public_profile", "user_friends"};
+            FB.LogInWithReadPermissions(perms, ret =>
             {
-                // AccessToken class will have session details
-                var accessToken = Facebook.Unity.AccessToken.CurrentAccessToken;
-                // current access token's User ID : aToken.UserId
-                AuthUser.FacebookLogin(accessToken.TokenString, val => { successful = val; });
-            }
-            else
-            {
-                Debug.Log("User cancelled login");
-                successful = -1;
-            }
+                if (FB.IsLoggedIn)
+                {
+                    // AccessToken class will have session details
+
+                    var accessToken = ret.AccessToken;
+
+                    // current access token's User ID : aToken.UserId
+                    Debug.Log("Called Login");
+                    if (accessToken == null)
+                    {
+                        successful = -1;
+                        return;
+                    }
+                    AuthUser.FacebookLogin(accessToken.TokenString, val => { successful = val; });
+                }
+                else
+                {
+                    Debug.Log("User cancelled login" + ret.Error);
+                    successful = -1;
+                }
+            });
         });
+    }
+
+    void CreateErrorMessage(string title, string message)
+    {
+        errorTitle.GetComponent<Text>().text = title;
+        errorMessage.GetComponent<Text>().text = message;
+        failedPanel.SetActive(true);
     }
 
     private void Update()
     {
-        if (successful != 0)
+        if (successful == -1)
         {
-            Debug.Log("Return value:" + successful);
-            successful = 0;
+            CreateErrorMessage("Login Error", "Failed to Sign In with Facebook!");
         }
+        else if (successful == 1)
+        {
+            SceneManager.LoadScene(SceneNames.SetUpAccount);
+        }
+        else if (successful == 2)
+        {
+            SceneManager.LoadScene(SceneNames.JoinGamePage);
+        }
+
+        successful = 0;
     }
 }

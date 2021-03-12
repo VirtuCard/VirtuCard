@@ -77,6 +77,8 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
         errorMessage.GetComponent<Text>().text = message;
         errorPanel.SetActive(true);
     }
+    
+    
 
 
     private void OnEnable()

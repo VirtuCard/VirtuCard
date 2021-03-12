@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ForgotPasswordScene.unity
     guid: 992ae1038646ee844af45122c15396fa
+  - enabled: 1
+    path: Assets/Scenes/RegisterOAuthPage.unity
+    guid: 95fb108df7ff96b42bb0ff4ac8bf0e81
   m_configObjects: {}

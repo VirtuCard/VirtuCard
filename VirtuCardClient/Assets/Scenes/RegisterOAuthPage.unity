@@ -168,16 +168,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 119351504}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b57fe27633881148a819a314c12f2ad, type: 3}
+  m_Script: {fileID: 11500000, guid: 247edf5068a74db2bb399c608a5f77fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usernameField: {fileID: 1722418765}
-  emailField: {fileID: 0}
-  passwordField: {fileID: 0}
-  confirmPasswordField: {fileID: 0}
-  errorPanel: {fileID: 2009534588}
-  errorTitle: {fileID: 2050374266}
-  errorMessage: {fileID: 1565171869}
+  inputField: {fileID: 1722418767}
+  failedPanel: {fileID: 2009534588}
+  errorTitle: {fileID: 2050374268}
+  errorMessage: {fileID: 1565171871}
 --- !u!1 &152758367
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,8 +260,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 119351506}
-        m_TargetAssemblyTypeName: RegisterButton, Assembly-CSharp
-        m_MethodName: AttemptCreateAccount
+        m_TargetAssemblyTypeName: CheckFields.AddUsername, ScriptsAssembly
+        m_MethodName: OnUsernameButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1367,6 +1364,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 818116664}
+  - {fileID: 2009534589}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1375,86 +1373,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &1315455522
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1315455524}
-  - component: {fileID: 1315455523}
-  - component: {fileID: 1315455526}
-  - component: {fileID: 1315455525}
-  m_Layer: 0
-  m_Name: CheckRegistrationFields
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1315455523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1315455522}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91619027f50f19a449834fff9dafdd17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  emailInput: 
-  inputField: {fileID: 0}
-  textDisplay: {fileID: 0}
---- !u!4 &1315455524
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1315455522}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 399.92126, y: 1031.8634, z: -2965.5667}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1315455525
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1315455522}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93a91684ab719c246b817b046f9cb27b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  toCheck: 
-  confirmField: 
-  textDisplay: {fileID: 0}
-  passwordInput: {fileID: 0}
-  checkPasswordInput: {fileID: 0}
---- !u!114 &1315455526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1315455522}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c4fa6baa697c4a4a83bad826e163f44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fixedPassword: 
-  textDisplay: {fileID: 0}
-  passwordInputField: {fileID: 0}
 --- !u!1 &1565171869
 GameObject:
   m_ObjectHideFlags: 0
@@ -1856,7 +1774,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2009534589
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1872,13 +1790,13 @@ RectTransform:
   - {fileID: 661767275}
   - {fileID: 2050374267}
   - {fileID: 1565171870}
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_Father: {fileID: 1233198703}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 540, y: 1080}
-  m_SizeDelta: {x: 1080, y: 2160}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2009534590
 MonoBehaviour:
