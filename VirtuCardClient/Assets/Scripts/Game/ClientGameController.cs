@@ -25,6 +25,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
     public GameObject chatToggleObject;
     public GameObject chatPanel;
+    public GameObject checkMark;
     public Toggle chatToggle;
 
 
@@ -38,7 +39,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        ClientData.setChatAllowed(true);
+        // ClientData.setChatAllowed(true);
         if (!ClientData.isChatAllowed())
         {
             chatDisableSign.SetActive(true);
@@ -46,7 +47,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             chatToggleObject.SetActive(false);
         }
         else
-        { 
+        {
             chatDisableSign.SetActive(false);
             chatPanel.SetActive(true);
             chatToggleObject.SetActive(true);
@@ -248,6 +249,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     /// <param name="toggleVal"></param>
     private void ChatToggleValueChanged(bool toggleVal)
     {
+        checkMark.SetActive(toggleVal);
         chatPanel.SetActive(!toggleVal);
     }
 

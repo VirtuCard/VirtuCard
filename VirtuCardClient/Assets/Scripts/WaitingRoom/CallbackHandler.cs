@@ -27,7 +27,6 @@ namespace WaitingRoom
         {
             Debug.Log("TAP");
             SceneManager.LoadScene(SceneNames.GameScreen);
- 
         }
         
         public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
