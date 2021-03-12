@@ -28,6 +28,11 @@ public static class HostData
             currentGame = new TestGame();
             return;
         }
+        else if (gameName == "GoFish")
+        {
+            currentGame = new GoFish();
+            return;
+        }
         /* Here is a sample to add a new game
         else if (gameName == "<insert_other_game>")
         {
