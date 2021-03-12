@@ -10,6 +10,12 @@ public class GameScreenController : MonoBehaviour
     public GameObject chatPanel;
     public Toggle chatToggle;
     public Text currentPlayer;
+
+    private bool hasInitializedGame = false;
+    private float startTime;
+    // this is the time in seconds before the game intitializes
+    private int secondsBeforeInitialization = 2;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,14 +30,18 @@ public class GameScreenController : MonoBehaviour
         else {
             allOfChatUI.SetActive(false);
         }
-
-        HostData.GetGame().AdvanceTurn(true);
+        startTime = Time.time;
     }
 
     // Update is called once per frame
     void Update()
     {
         currentPlayer.GetComponent<Text>().text = HostData.GetGame().GetPlayerOfCurrentTurn().username + "'s Turn";
+        if (hasInitializedGame == false && startTime + secondsBeforeInitialization <= Time.time)
+        {
+            hasInitializedGame = true;
+            HostData.GetGame().InitializeGame();
+        }
     }
     
     /// <summary>
