@@ -8,6 +8,7 @@ public class GameScreenController : MonoBehaviour
 {
     public GameObject allOfChatUI;
     public GameObject chatPanel;
+    public GameObject checkmark;
     public Toggle chatToggle;
     public Text currentPlayer;
 
@@ -109,6 +110,7 @@ public class GameScreenController : MonoBehaviour
     {
         // HostData.setChatAllowed(toggleVal);
         // Debug.Log("Chat is " + HostData.isChatAllowed());
+        checkmark.SetActive(toggleVal);
         chatPanel.SetActive(!toggleVal);
     }
 }
