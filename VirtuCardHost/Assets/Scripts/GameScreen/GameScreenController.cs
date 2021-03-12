@@ -25,8 +25,6 @@ public class GameScreenController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //HostData.setChatAllowed(false);
-        //Debug.Log("CHATCHAT CHATTTTTT is " + HostData.isChatAllowed());
         if (HostData.isChatAllowed())
         {
             allOfChatUI.SetActive(true);
