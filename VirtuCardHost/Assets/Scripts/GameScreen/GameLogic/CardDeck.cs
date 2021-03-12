@@ -21,6 +21,23 @@ public class CardDeck
     }
 
     /// <summary>
+    /// Returns true or false depnding on whether or not the card is present in the deck or not
+    /// </summary>
+    /// <param name="card"></param>
+    /// <returns></returns>
+    public bool IsCardPresent(Card card)
+    {
+        for (int x = 0; x < cards.Count; x++)
+        {
+            if (cards[x].Compare(card))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
     /// Adds multiple cards to the card deck at once.
     /// It does NOT put them in randomly, it appends them to the end of the deck
     /// </summary>

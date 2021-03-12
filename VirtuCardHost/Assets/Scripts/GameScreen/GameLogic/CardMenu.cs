@@ -73,6 +73,36 @@ public class CardMenu : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns a list of all the cards in the carousel
+    /// </summary>
+    /// <returns></returns>
+    public List<Card> GetAllCardsInCarousel()
+    {
+        List<Card> cardList = new List<Card>();
+        for (int x = 0; x < images.Count; x++)
+        {
+            StandardCard stdCard = GetStandardCardFromImage(images[x]);
+            if (stdCard != null)
+            {
+                cardList.Add(stdCard);
+            }
+        }
+        return cardList;
+    }
+
+    /// <summary>
+    /// Returns the StandardCard object from one of the images
+    /// </summary>
+    /// <param name="image"></param>
+    /// <returns></returns>
+    private StandardCard GetStandardCardFromImage(Transform image)
+    {
+        StandardCardRank rank = (StandardCardRank)Enum.Parse(typeof(StandardCardRank), image.Find("Rank").gameObject.GetComponent<Text>().text);
+        StandardCardSuit suit = (StandardCardSuit)Enum.Parse(typeof(StandardCardSuit), image.Find("Suit").gameObject.GetComponent<Text>().text);
+        return new StandardCard(rank, suit);
+    }
+
+    /// <summary>
     /// Adds a card to the rightmost side of the carousel.
     /// It automatically reformats after adding.
     /// </summary>

@@ -66,7 +66,12 @@ public class GameScreenController : MonoBehaviour
                 Debug.Log(card.GetRank());
                 Debug.Log(card.GetSuit());
                 playedCardMenu.AddCardToCarousel(card, CardTypes.StandardCard);
-                undealtCardMenu.RemoveCardFromCarousel(card);
+
+                // remove it from undealt card menu if it was present
+                if (undealtCardMenu.FindCardFromCarousel(card))
+                {
+                    undealtCardMenu.RemoveCardFromCarousel(card);
+                }
             }
         }
         for (int i = 0; i < HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCardCount(); ++i)
@@ -79,7 +84,23 @@ public class GameScreenController : MonoBehaviour
                 Debug.Log(card.GetRank());
                 Debug.Log(card.GetSuit());
                 undealtCardMenu.AddCardToCarousel(card, CardTypes.StandardCard);
-                playedCardMenu.RemoveCardFromCarousel(card);
+
+                // remove it from played card menu if it was present
+                if (playedCardMenu.FindCardFromCarousel(card))
+                {
+                    playedCardMenu.RemoveCardFromCarousel(card);
+                }
+            }
+        }
+
+        List<Card> cardsInCarousel = undealtCardMenu.GetAllCardsInCarousel();
+        int cardCount = cardsInCarousel.Count;
+        for (int i = cardCount - 1; i >= 0 ; i--)
+        {
+            // if the card carousel contains a card that is not present in the deck, remove it from carousel
+            if (!HostData.GetGame().GetDeck(DeckChoices.UNDEALT).IsCardPresent(cardsInCarousel[i]))
+            {
+                undealtCardMenu.RemoveCardFromCarousel(cardsInCarousel[i]);
             }
         }
     }
@@ -90,7 +111,9 @@ public class GameScreenController : MonoBehaviour
     /// <returns></returns>
     public Card DrawCard()
     {
-        return HostData.GetGame().DrawCardFromDeck(DeckChoices.UNDEALT);
+        Card drawnCard = HostData.GetGame().DrawCardFromDeck(DeckChoices.UNDEALT);
+        undealtCardMenu.RemoveCardFromCarousel(drawnCard);
+        return drawnCard;
     }
 
     /// <summary>
