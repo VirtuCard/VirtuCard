@@ -38,10 +38,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        ClientData.setChatAllowed(true);
         if (!ClientData.isChatAllowed())
         {
-            
             chatDisableSign.SetActive(true);
             chatPanel.SetActive(false);
             chatToggleObject.SetActive(false);
@@ -288,6 +286,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             Debug.Log("Setting CurrentTurn: " + currentPersonsTurn);
             if (currentPersonsTurn.Equals(PhotonNetwork.NickName))
             {
+                ClientData.setCurrentPlayerTurn(currentPersonsTurn);
                 ClientData.setCurrentTurn(true);
             }
             else
