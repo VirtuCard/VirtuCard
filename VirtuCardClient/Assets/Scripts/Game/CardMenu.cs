@@ -85,8 +85,14 @@ public class CardMenu : MonoBehaviour
         {
             newImage.gameObject.AddComponent<StandardCard>();
             StandardCard cardVals = newImage.gameObject.GetComponent<StandardCard>();
-            cardVals.SetRank(((StandardCard)newCard).GetRank());
-            cardVals.SetSuit(((StandardCard)newCard).GetSuit());
+            StandardCardRank rank = ((StandardCard)newCard).GetRank();
+            StandardCardSuit suit = ((StandardCard)newCard).GetSuit();
+            cardVals.SetRank(rank);
+            cardVals.SetSuit(suit);
+            Text rankText = newImage.Find("Rank").gameObject.GetComponent<Text>();
+            Text suitText = newImage.Find("Suit").gameObject.GetComponent<Text>();
+            rankText.text = Enum.GetName(typeof(StandardCardRank), rank);
+            suitText.text = Enum.GetName(typeof(StandardCardSuit), suit);
         }
         // TODO this is where other types of cards would be implemented
 

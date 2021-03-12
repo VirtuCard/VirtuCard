@@ -13,6 +13,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public Button playCardBtn;
     public Button drawCardBtn;
     public GameObject errorDisplay;
+    public GameObject turn;
+    public GameObject notTurnUI;
+    public Text waitingSign;
     
     private CardDeck cards = new CardDeck();
 
@@ -22,6 +25,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
     public GameObject chatToggleObject;
     public GameObject chatPanel;
+    public GameObject checkMark;
     public Toggle chatToggle;
 
 
@@ -35,16 +39,19 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        
-        ClientData.setChatAllowed(true);
+        // ClientData.setChatAllowed(true);
         if (!ClientData.isChatAllowed())
         {
-            
             chatDisableSign.SetActive(true);
             chatPanel.SetActive(false);
             chatToggleObject.SetActive(false);
         }
-        else { chatDisableSign.SetActive(false); }
+        else
+        {
+            chatDisableSign.SetActive(false);
+            chatPanel.SetActive(true);
+            chatToggleObject.SetActive(true);
+        }
 
         PhotonNetwork.AddCallbackTarget(this);
         skipBtn.onClick.AddListener(delegate() {
@@ -73,6 +80,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 wasCurrentlyTurn = true;
                 SetupTurn();
             }
+            turn.SetActive(true);
+            notTurnUI.SetActive(false);
 
             StandardCard selectedCard = (StandardCard)cardMenu.GetCurrentlySelectedCard();
 
@@ -92,7 +101,13 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         else
         {
             wasCurrentlyTurn = false;
+
+            turn.SetActive(false);
+            // Call the Username of the current player here
+            waitingSign.GetComponent<Text>().text = ClientData.getCurrentPlayerTurn() + "'s Turn";
+            notTurnUI.SetActive(true);
         }
+
     }
 
     /// <summary>
@@ -109,11 +124,18 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     /// </summary>
     public void DrawCardBtnClicked()
     {
-        // send request for a new card
-        int numOfCards = 1;
-        object[] content = new object[] { PhotonNetwork.NickName, numOfCards };
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(7, content, raiseEventOptions, SendOptions.SendUnreliable);
+        if (ClientData.isCurrentTurn())
+        {
+            // send request for a new card
+            int numOfCards = 1;
+            object[] content = new object[] { PhotonNetwork.NickName, numOfCards };
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(7, content, raiseEventOptions, SendOptions.SendUnreliable);
+        }
+        else
+        {
+            Debug.Log("Not currently your turn");
+        }
     }
 
     /// <summary>
@@ -172,6 +194,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         if (GameRules.skipAllowed())
         {
             ClientData.setCurrentTurn(false);
+            SetCanSkipBtn(false);
             SendSkipTurnToHost();
 
         }
@@ -182,28 +205,42 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
     private void PlayCardBtnClicked()
     {
-        StandardCard card = (StandardCard)cardMenu.GetCurrentlySelectedCard();
-        int cardIdx = cardMenu.GetCurrentlySelectedIndex();
-        card.Print();
-        RemoveCard(card);
-        if (cardIdx > 0)
+        if (ClientData.isCurrentTurn())
         {
-            cardMenu.MoveCarouselToIndex(cardIdx - 1);
-        }
-        else
-        {
-            // card was at 0
-            if (cards.GetCardCount() == 0)
+            if (cardIsValid)
             {
-                // if there are no cards in their hand, don't move carousel
+                StandardCard card = (StandardCard)cardMenu.GetCurrentlySelectedCard();
+                int cardIdx = cardMenu.GetCurrentlySelectedIndex();
+                card.Print();
+                RemoveCard(card);
+                if (cardIdx > 0)
+                {
+                    cardMenu.MoveCarouselToIndex(cardIdx - 1);
+                }
+                else
+                {
+                    // card was at 0
+                    if (cards.GetCardCount() == 0)
+                    {
+                        // if there are no cards in their hand, don't move carousel
+                    }
+                    else
+                    {
+                        // otherwise, do move it
+                        cardMenu.MoveCarouselToIndex(0);
+                    }
+                }
+                SendCardToHost(card);
             }
             else
             {
-                // otherwise, do move it
-                cardMenu.MoveCarouselToIndex(0);
+                Debug.Log("Card is not valid to be played");
             }
         }
-        SendCardToHost(card);
+        else
+        {
+            Debug.Log("Not currently your turn");
+        }
     }
 
     /// <summary>
@@ -212,6 +249,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     /// <param name="toggleVal"></param>
     private void ChatToggleValueChanged(bool toggleVal)
     {
+        checkMark.SetActive(toggleVal);
         chatPanel.SetActive(!toggleVal);
     }
 
@@ -278,6 +316,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             object[] data = (object[])photonEvent.CustomData;
             string currentPersonsTurn = (string)data[0];
             Debug.Log("Setting CurrentTurn: " + currentPersonsTurn);
+            ClientData.setCurrentPlayerTurn(currentPersonsTurn);
             if (currentPersonsTurn.Equals(PhotonNetwork.NickName))
             {
                 ClientData.setCurrentTurn(true);

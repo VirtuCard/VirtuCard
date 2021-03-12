@@ -7,8 +7,9 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 public static class ClientData
 {
     private static string joinCode;
+    private static string currentPlayerTurn;
     private static bool isCurrentlyTurn = false;
-    private static bool chatAllowed;
+    private static bool chatAllowed = true;
     private static bool hostCanJoin;
 
     public static bool canHostJoin()
@@ -45,7 +46,17 @@ public static class ClientData
     {
         chatAllowed = isChatAllowed;
     }
-    
+
+    public static string getCurrentPlayerTurn()
+    {
+        return currentPlayerTurn;
+    }
+
+    public static void setCurrentPlayerTurn(string name)
+    {
+        currentPlayerTurn = name;
+    }
+
     public static void FromHashtable(Hashtable propertiesThatChanged)
     {
         if (propertiesThatChanged == null)
@@ -55,7 +66,9 @@ public static class ClientData
 
         if (propertiesThatChanged.ContainsKey("ChatAllowed"))
         {
-            setChatAllowed((Boolean) propertiesThatChanged["ChatAllowed"]);
+            //setChatAllowed((Boolean) propertiesThatChanged["ChatAllowed"]);
+            chatAllowed = ((Boolean) propertiesThatChanged["ChatAllowed"]);
+            Debug.Log("Chat is changed from main and it is " + ((Boolean) propertiesThatChanged["ChatAllowed"]));
         }
 
         if (propertiesThatChanged.ContainsKey("HostCanJoin"))
@@ -63,5 +76,6 @@ public static class ClientData
             hostCanJoin = ((Boolean) propertiesThatChanged["HostCanJoin"]);
             Debug.Log("Hello " + hostCanJoin);
         }
+        
     }
 }

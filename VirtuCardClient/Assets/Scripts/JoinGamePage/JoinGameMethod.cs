@@ -31,12 +31,26 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
     public GameObject MaxPlayersText;
     public GameObject GameModeText;
 
+    public GameObject welcomePlayer;
+
+    public static bool makeError = false;
+
+
+    void Update()
+    {
+        if (makeError)
+        {
+            CreateErrorMessage("Failed to Connect", "Host is not allowed to join!");
+            makeError = false;
+        }
+    }
+
+
     void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.AddCallbackTarget(this);
     }
-
 
     public void ConnectClientClicked()
     {
@@ -107,10 +121,11 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
             Debug.Log(players);
             Debug.Log(hostName);
 
-            MaxPlayersText.GetComponent<Text>().text = s;
-            GameModeText.GetComponent<Text>().text = "Max Players: " + players;
-
             string clientName = PhotonNetwork.NickName;
+
+            MaxPlayersText.GetComponent<Text>().text = s;
+            GameModeText.GetComponent<Text>().text = "" + players;
+            welcomePlayer.GetComponent<Text>().text = "Welcome, " + clientName + "!";
 
             if (test == false && clientName == hostName)
             {
@@ -118,6 +133,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
                 //errorCode.GetComponent<Text>().text = "Host cannot join!";
                 PhotonNetwork.LeaveRoom();
                 SceneManager.LoadScene(SceneNames.JoinGamePage);
+                makeError = true;
             }
         }
         // this is the flag that is saying to go from waiting screen to the game screen
