@@ -6,6 +6,7 @@ using Firebase;
 using Firebase.Auth;
 using Google;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GoogleSignInScript : MonoBehaviour
@@ -15,6 +16,12 @@ public class GoogleSignInScript : MonoBehaviour
 
     private FirebaseAuth auth;
     private GoogleSignInConfiguration configuration;
+
+    //Associated fields with confirming login/sign-in
+    private int successful = 0;
+    public GameObject failedPanel;
+    public Text errorTitle;
+    public Text errorMessage;
 
     private void Awake()
     {
@@ -36,6 +43,7 @@ public class GoogleSignInScript : MonoBehaviour
             else
             {
                 AddToInformation("Dependency check was not completed. Error : " + task.Exception.Message);
+                
             }
         });
     }
@@ -75,10 +83,12 @@ public class GoogleSignInScript : MonoBehaviour
                 {
                     GoogleSignIn.SignInException error = (GoogleSignIn.SignInException)enumerator.Current;
                     AddToInformation("Got Error: " + error.Status + " " + error.Message);
+                    successful = -1;
                 }
                 else
                 {
                     AddToInformation("Got Unexpected Exception?!?" + task.Exception);
+                    successful = -1;
                 }
             }
         }
@@ -137,4 +147,30 @@ public class GoogleSignInScript : MonoBehaviour
     }
 
     private void AddToInformation(string str) { infoText.text += "\n" + str; }
+
+
+    void CreateErrorMessage(string title, string message)
+    {
+        errorTitle.GetComponent<Text>().text = title;
+        errorMessage.GetComponent<Text>().text = message;
+        failedPanel.SetActive(true);
+    }
+
+    private void Update()
+    {
+        if (successful == -1)
+        {
+            CreateErrorMessage("Login Error", "Failed to Sign In with Google!");
+        }
+        else if (successful == 1)
+        {
+            SceneManager.LoadScene(SceneNames.SetUpAccount);
+        }
+        else if (successful == 2)
+        {
+            SceneManager.LoadScene(SceneNames.JoinGamePage);
+        }
+
+        successful = 0;
+    }
 }
