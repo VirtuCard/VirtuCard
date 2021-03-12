@@ -73,22 +73,23 @@ public class WaitingRoomScreenManager : MonoBehaviour
             boxIsAssociatedWithConnectedPlayer.Add(false);
         }
 
-        foreach (PlayerInfo player in HostData.GetGame().GetAllPlayers())
+        var allConnectedPlayers = HostData.GetGame().GetAllPlayers();
+
+        foreach (PlayerInfo player in allConnectedPlayers)
         {
             bool playerHasBeenAddedAlready = false;
             if (textBoxes.Count > 0)
             {
                 for (int x = 0; x < textBoxes.Count; x++)
                 {
-                    GameObject box = textBoxes[x];
-                    if (box.name.Equals(player.photonPlayer.NickName))
+                    string boxName = textBoxes[x].name;
+                    if (boxName.Equals(player.photonPlayer.NickName))
                     {
                         // do nothing the player has already been added
                         playerHasBeenAddedAlready = true;
                         boxIsAssociatedWithConnectedPlayer[x] = true;
                         break;
                     }
-                    Destroy(box);
                 }
             }
             if (!playerHasBeenAddedAlready)
@@ -96,9 +97,10 @@ public class WaitingRoomScreenManager : MonoBehaviour
                 playerNamesToAdd.Add(player.photonPlayer.NickName);
             }
         }
+
         for (int x = boxIsAssociatedWithConnectedPlayer.Count - 1; x >= 0; x--)
         {
-            if(boxIsAssociatedWithConnectedPlayer[x] == false)
+            if (boxIsAssociatedWithConnectedPlayer[x] == false)
             {
                 // this player disconnected, so remove them from list
                 var box = textBoxes[x];
@@ -136,12 +138,10 @@ public class WaitingRoomScreenManager : MonoBehaviour
 
     public void StartGameBtnClicked()
     {
+        // send an event to clients telling them to start their games
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
         PhotonNetwork.RaiseEvent(6, null, raiseEventOptions, SendOptions.SendUnreliable);
-        // this delay is to allow the clients enough time to start swap their scenes
-        System.Threading.Thread.Sleep(2000);
         HostData.GetGame().PrintAllPlayers();
-        HostData.GetGame().InitializeGame();
         SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
     }
 
@@ -163,8 +163,9 @@ public class WaitingRoomScreenManager : MonoBehaviour
             textBoxes.Clear();
         }
 
+        var playerList = HostData.GetGame().GetAllPlayers();
         // Creating the list from scratch from the returned list of names (PhotonNetwork.PlayerList)
-        foreach (string name in playerList)
+        foreach (var player in playerList)
         {
             // Creates a text game object based on the template based as an argument
             GameObject textBox = Instantiate(textBoxTemplate) as GameObject;
@@ -173,8 +174,8 @@ public class WaitingRoomScreenManager : MonoBehaviour
             textBox.SetActive(true);
 
             // Setting the text and name in the text game object
-            textBox.name = name;
-            textBox.GetComponent<Text>().text = name;
+            textBox.name = player.photonPlayer.NickName;
+            textBox.GetComponent<Text>().text = player.photonPlayer.NickName;
 
             // Assigning the parent of text game object as the parent of template 
             // the second argument indicates whether the game object will be placed automatically in the game world
