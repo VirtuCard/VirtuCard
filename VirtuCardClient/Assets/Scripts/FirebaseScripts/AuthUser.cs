@@ -1,4 +1,5 @@
 ﻿using System;
+using Firebase;
 using Firebase.Auth;
 using Photon.Pun;
 using UnityEngine;
@@ -337,6 +338,49 @@ namespace FirebaseScripts
             Debug.Log("Retrieved Credential");
             auth.SignInWithCredentialAsync(credential).ContinueWith(task =>
             {
+                if (task.IsCanceled)
+                {
+                    Debug.LogError("SignInWithCredentialAsync was canceled.");
+                    callback(-1);
+                    return;
+                }
+
+                if (task.IsFaulted)
+                {
+                    Debug.LogError("SignInWithCredentialAsync encountered an error: " + task.Exception);
+                    callback(-1);
+                    return;
+                }
+
+                Debug.Log("Attempt Login: " + task.Result);
+                firebaseUser = task.Result;
+                Debug.LogFormat("User signed in successfully: {0} ({1})",
+                    firebaseUser.DisplayName, firebaseUser.UserId);
+                DatabaseUtils.getUser(firebaseUser.UserId, ret =>
+                {
+                    if (ret == null)
+                    {
+                        Debug.Log("New Account");
+                        callback(1);
+                    }
+                    else
+                    {
+                        User user = new User(ret);
+                        PhotonNetwork.NickName = user.Username;
+                        callback(2);
+                    }
+                });
+            });
+        }
+
+        public static void SignInWithGoogle(string idToken, Action<int> callback)
+        {
+            Credential credential = GoogleAuthProvider.GetCredential(idToken, null);
+            Debug.Log("iSValid?" + (credential.IsValid()));
+
+            auth.SignInWithCredentialAsync(credential).ContinueWith(task =>
+            {
+                Debug.Log("HDFSAJKDHASDjklohfsDVjkhl;vbfsjkhl;vbfsdjh");
                 if (task.IsCanceled)
                 {
                     Debug.LogError("SignInWithCredentialAsync was canceled.");
