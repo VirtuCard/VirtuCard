@@ -8,7 +8,7 @@ using ExitGames.Client.Photon;
 
 public abstract class Game
 {
-    private int playerTurnIndex = -1;
+    private int playerTurnIndex = 0;
     private CardDeck playedCards = new CardDeck();
     private CardDeck undealtCards = new CardDeck();
     private List<PlayerInfo> players = new List<PlayerInfo>();
@@ -34,6 +34,7 @@ public abstract class Game
     {
         return gameName;
     }
+
 
     /// <summary>
     /// Advances the playerTurnIndex by <paramref name="skipHowMany"/> either forwards or backwards while keeping it within the bounds of the array
@@ -76,8 +77,6 @@ public abstract class Game
             if (playerTurnIndex >= players.Count)
             {
                 playerTurnIndex = 0;
-                SendOutPlayerTurnIndex();
-                return;
             }
         }
         else
@@ -86,10 +85,9 @@ public abstract class Game
             if (playerTurnIndex < 0)
             {
                 playerTurnIndex = players.Count - 1;
-                SendOutPlayerTurnIndex();
-                return;
             }
         }
+        SendOutPlayerTurnIndex();
     }
 
     /// <summary>
@@ -98,10 +96,10 @@ public abstract class Game
     private void SendOutPlayerTurnIndex()
     {
         PlayerInfo currentPlayer = GetPlayerOfCurrentTurn();
-        Debug.Log("Setting current to to " + currentPlayer.photonPlayer.NickName + "'s turn");
+        Debug.Log("Setting current turn to " + currentPlayer.photonPlayer.NickName + "'s turn");
         object[] content = new object[] { currentPlayer.photonPlayer.NickName };
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(9, content, raiseEventOptions, SendOptions.SendUnreliable);
+        PhotonNetwork.RaiseEvent(9, content, raiseEventOptions, SendOptions.SendReliable);
     }
 
     /// <summary>
@@ -237,6 +235,8 @@ public abstract class Game
     {
         return players[playerTurnIndex];
     }
+
+
 
     /// <summary>
     /// Disconnects a player from the game and removes them from all game lists.

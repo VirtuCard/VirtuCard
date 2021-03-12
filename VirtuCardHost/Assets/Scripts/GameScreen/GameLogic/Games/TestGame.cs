@@ -15,7 +15,6 @@ public class TestGame : Game
     /// </summary>
     public override void InitializeGame()
     {
-        AdvanceTurn(true);
         AddCardToDeck(new StandardCard(StandardCardRank.FOUR, StandardCardSuit.CLUBS), DeckChoices.UNDEALT);
         AddCardToDeck(new StandardCard(StandardCardRank.FIVE, StandardCardSuit.CLUBS), DeckChoices.UNDEALT);
         AddCardToDeck(new StandardCard(StandardCardRank.SIX, StandardCardSuit.CLUBS), DeckChoices.UNDEALT);
@@ -23,6 +22,7 @@ public class TestGame : Game
         AddCardToDeck(new StandardCard(StandardCardRank.EIGHT, StandardCardSuit.CLUBS), DeckChoices.UNDEALT);
         AddCardToDeck(new StandardCard(StandardCardRank.NINE, StandardCardSuit.CLUBS), DeckChoices.UNDEALT);
         AddCardToDeck(new StandardCard(StandardCardRank.TEN, StandardCardSuit.CLUBS), DeckChoices.UNDEALT);
+        AdvanceTurn(true);
     }
 
     /// <summary>
@@ -33,6 +33,10 @@ public class TestGame : Game
     /// <returns>True or false depending on validity of move</returns>
     public override bool VerifyMove(Card cardToPlay)
     {
+        if (((StandardCard)cardToPlay).GetRank() == StandardCardRank.NINE)
+        {
+            return false;
+        }
         return true;
     }
 

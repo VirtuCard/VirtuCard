@@ -6,24 +6,83 @@ using System;
 
 public class GameScreenController : MonoBehaviour
 {
+    public GameObject allOfChatUI;
     public GameObject chatPanel;
+    public GameObject checkmark;
     public Toggle chatToggle;
+    public Text currentPlayer;
+
+    public GameObject playedCardCarousel;
+    public GameObject undealtCardCarousel;
+    private CardMenu playedCardMenu;
+    private CardMenu undealtCardMenu;
+
+    private bool hasInitializedGame = false;
+    private float startTime;
+    // this is the time in seconds before the game intitializes
+    private int secondsBeforeInitialization = 2;
 
     // Start is called before the first frame update
     void Start()
     {
-        chatToggle.SetIsOnWithoutNotify(HostData.isChatAllowed());
-        chatToggle.onValueChanged.AddListener(delegate { ChatToggleValueChanged(chatToggle.isOn); });
-
-        HostData.GetGame().AdvanceTurn(true);
+        //HostData.setChatAllowed(false);
+        //Debug.Log("CHATCHAT CHATTTTTT is " + HostData.isChatAllowed());
+        if (HostData.isChatAllowed())
+        {
+            allOfChatUI.SetActive(true);
+            chatToggle.SetIsOnWithoutNotify(HostData.isChatAllowed());
+            chatToggle.onValueChanged.AddListener(delegate { ChatToggleValueChanged(chatToggle.isOn); });
+        }
+        else {
+            allOfChatUI.SetActive(false);
+        }
+        startTime = Time.time;
+        playedCardMenu = playedCardCarousel.GetComponent<CardMenu>();
+        undealtCardMenu = undealtCardCarousel.GetComponent<CardMenu>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        currentPlayer.GetComponent<Text>().text = HostData.GetGame().GetPlayerOfCurrentTurn().username + "'s Turn";
+        if (hasInitializedGame == false && startTime + secondsBeforeInitialization <= Time.time)
+        {
+            hasInitializedGame = true;
+            HostData.GetGame().InitializeGame();
+        }
+        DisplayCards();
     }
+    
 
+    public void DisplayCards()
+    {
+        for (int i = 0; i < HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCardCount(); ++i)
+        {
+            if (!playedCardMenu.FindCardFromCarousel(HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCard(i)))
+            {
+                HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCard(i).Print();
+                Debug.Log(HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCardCount());
+                StandardCard card = (StandardCard)HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCard(i);
+                Debug.Log(card.GetRank());
+                Debug.Log(card.GetSuit());
+                playedCardMenu.AddCardToCarousel(card, CardTypes.StandardCard);
+                undealtCardMenu.RemoveCardFromCarousel(card);
+            }
+        }
+        for (int i = 0; i < HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCardCount(); ++i)
+        {
+            if (!undealtCardMenu.FindCardFromCarousel(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i)))
+            {
+                HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i).Print();
+                Debug.Log(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCardCount());
+                StandardCard card = (StandardCard)HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i);
+                Debug.Log(card.GetRank());
+                Debug.Log(card.GetSuit());
+                undealtCardMenu.AddCardToCarousel(card, CardTypes.StandardCard);
+                playedCardMenu.RemoveCardFromCarousel(card);
+            }
+        }
+    }
     /// <summary>
     /// This method should be called when a client has requested to draw a single card
     /// It draws a random card from the undealt deck and then removes it.
@@ -87,6 +146,9 @@ public class GameScreenController : MonoBehaviour
     /// <param name="toggleVal"></param>
     private void ChatToggleValueChanged(bool toggleVal)
     {
+        // HostData.setChatAllowed(toggleVal);
+        // Debug.Log("Chat is " + HostData.isChatAllowed());
+        checkmark.SetActive(toggleVal);
         chatPanel.SetActive(!toggleVal);
     }
 }

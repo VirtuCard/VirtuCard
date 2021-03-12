@@ -19,13 +19,18 @@ public static class HostData
     private static string joinCode;
     private static bool chatAllowed = true;
     private static Game currentGame;
-
+    
     public static void SetGame(GameTypes gameType)
     {
         string gameName = Enum.GetName(typeof(GameTypes), gameType);
         if (gameName == "TestGame")
         {
             currentGame = new TestGame();
+            return;
+        }
+        else if (gameName == "GoFish")
+        {
+            currentGame = new GoFish();
             return;
         }
         /* Here is a sample to add a new game
@@ -114,7 +119,6 @@ public static class HostData
         chatAllowed = isChatAllowed;
         PhotonNetwork.CurrentRoom.SetCustomProperties(ToHashtable());
     }
-    
     
     public static Hashtable ToHashtable()
     {
