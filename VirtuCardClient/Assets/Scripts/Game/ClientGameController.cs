@@ -123,11 +123,18 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     /// </summary>
     public void DrawCardBtnClicked()
     {
-        // send request for a new card
-        int numOfCards = 1;
-        object[] content = new object[] { PhotonNetwork.NickName, numOfCards };
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(7, content, raiseEventOptions, SendOptions.SendUnreliable);
+        if (ClientData.isCurrentTurn())
+        {
+            // send request for a new card
+            int numOfCards = 1;
+            object[] content = new object[] { PhotonNetwork.NickName, numOfCards };
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(7, content, raiseEventOptions, SendOptions.SendUnreliable);
+        }
+        else
+        {
+            Debug.Log("Not currently your turn");
+        }
     }
 
     /// <summary>
@@ -186,6 +193,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         if (GameRules.skipAllowed())
         {
             ClientData.setCurrentTurn(false);
+            SetCanSkipBtn(false);
             SendSkipTurnToHost();
 
         }
@@ -196,28 +204,35 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
     private void PlayCardBtnClicked()
     {
-        StandardCard card = (StandardCard)cardMenu.GetCurrentlySelectedCard();
-        int cardIdx = cardMenu.GetCurrentlySelectedIndex();
-        card.Print();
-        RemoveCard(card);
-        if (cardIdx > 0)
+        if (ClientData.isCurrentTurn())
         {
-            cardMenu.MoveCarouselToIndex(cardIdx - 1);
-        }
-        else
-        {
-            // card was at 0
-            if (cards.GetCardCount() == 0)
+            StandardCard card = (StandardCard)cardMenu.GetCurrentlySelectedCard();
+            int cardIdx = cardMenu.GetCurrentlySelectedIndex();
+            card.Print();
+            RemoveCard(card);
+            if (cardIdx > 0)
             {
-                // if there are no cards in their hand, don't move carousel
+                cardMenu.MoveCarouselToIndex(cardIdx - 1);
             }
             else
             {
-                // otherwise, do move it
-                cardMenu.MoveCarouselToIndex(0);
+                // card was at 0
+                if (cards.GetCardCount() == 0)
+                {
+                    // if there are no cards in their hand, don't move carousel
+                }
+                else
+                {
+                    // otherwise, do move it
+                    cardMenu.MoveCarouselToIndex(0);
+                }
             }
+            SendCardToHost(card);
         }
-        SendCardToHost(card);
+        else
+        {
+            Debug.Log("Not currently your turn");
+        }
     }
 
     /// <summary>
