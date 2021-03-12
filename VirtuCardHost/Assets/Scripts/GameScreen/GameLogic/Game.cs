@@ -35,6 +35,7 @@ public abstract class Game
         return gameName;
     }
 
+
     /// <summary>
     /// Advances the playerTurnIndex by <paramref name="skipHowMany"/> either forwards or backwards while keeping it within the bounds of the array
     /// </summary>

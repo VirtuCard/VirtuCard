@@ -5,16 +5,31 @@ using System;
 
 public class StandardCard : Card
 {
-    private StandardCardRank rank;
-    private StandardCardSuit suit;
+    public StandardCardRank rank;
+    public StandardCardSuit suit;
 
-    /// <summary>
-    /// Must pass in a non-null rank and suit to avoid an invalid card
-    /// </summary>
     public StandardCard(StandardCardRank rank, StandardCardSuit suit)
     {
         this.rank = rank;
         this.suit = suit;
+    }
+
+    /// <summary>
+    /// Sets the Suit of the card
+    /// </summary>
+    /// <param name="suit"></param>
+    public void SetSuit(StandardCardSuit suit)
+    {
+        this.suit = suit;
+    }
+
+    /// <summary>
+    /// Sets the Rank of the card
+    /// </summary>
+    /// <param name="rank"></param>
+    public void SetRank(StandardCardRank rank)
+    {
+        this.rank = rank;
     }
 
     /// <summary>
@@ -54,7 +69,7 @@ public class StandardCard : Card
     /// </summary>
     public override void Print()
     {
-        Debug.Log(ToString());
+        Debug.Log("STANDARD CARD (" + Enum.GetName(typeof(StandardCardRank), GetRank()) + " of " + Enum.GetName(typeof(StandardCardSuit), GetSuit()) + ")");
     }
 
     /// <summary>
