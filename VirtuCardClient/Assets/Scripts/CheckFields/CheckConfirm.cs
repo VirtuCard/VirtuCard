@@ -14,6 +14,7 @@ public class CheckConfirm : MonoBehaviour
    public GameObject textDisplay;
    public InputField passwordInput;
    public InputField checkPasswordInput;
+   public Button signUpButton;
    
    public void updateText()
    {
@@ -24,15 +25,18 @@ public class CheckConfirm : MonoBehaviour
        if (toCheck != confirmField && confirmField != "")
        {
          textDisplay.GetComponent<Text>().text = "Make sure your passwords match!";
+         signUpButton.enabled = false;
        }
        else if (toCheck == confirmField)
        {
           textDisplay.GetComponent<Text>().text = "";
+          signUpButton.enabled = true;
        }
        
        if (toCheck == "" || confirmField == "")
        {
           textDisplay.GetComponent<Text>().text = "";
+          signUpButton.enabled = false;
        }
        
    }

@@ -30,7 +30,7 @@ namespace FirebaseScripts
 
                 GenerateFirebaseUsername(username =>
                 {
-                    User user = new User(username, username.Substring(0, 18), task.Result.UserId,
+                    User user = new User(username, username.Substring(0, 10), task.Result.UserId,
                         true);
                     DatabaseUtils.addUser(user, c =>
                     {
@@ -51,7 +51,7 @@ namespace FirebaseScripts
         {
             String username = "Anonymous";
             Random rand = new Random();
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 4; i++)
             {
                 username += rand.Next(10);
             }

@@ -27,8 +27,9 @@ namespace FirebaseScripts
                 {
                     // Create and hold a reference to your FirebaseApp,
                     // where app is a Firebase.FirebaseApp property of your application class.
-                    string json = File.ReadAllText("Assets/google-services.json");
-                    app = Firebase.FirebaseApp.Create((AppOptions.LoadFromJsonConfig(json)));
+                    /* string json = File.ReadAllText("Assets/google-services.json");
+                    app = Firebase.FirebaseApp.Create((AppOptions.LoadFromJsonConfig(json))); */
+                    app = FirebaseApp.DefaultInstance;
                     AuthUser.SetAuth(FirebaseAuth.GetAuth(app));
                     DatabaseUtils.setApp(app);
 
