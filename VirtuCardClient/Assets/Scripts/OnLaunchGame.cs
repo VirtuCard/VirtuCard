@@ -9,8 +9,8 @@ namespace DefaultNamespace
     {
         private void Start()
         {
+            Debug.Log("Connected with: + " +  PhotonNetwork.ConnectUsingSettings());
             FirebaseInit.InitializeFirebase(c => Debug.Log("Returned Init with " + c));
-            PhotonNetwork.ConnectUsingSettings();
         }
     }
 }

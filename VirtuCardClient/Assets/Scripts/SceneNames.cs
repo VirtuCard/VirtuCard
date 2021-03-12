@@ -48,4 +48,10 @@ public static class SceneNames
     {
         get { return "WaitingScreen"; }
     }
+
+    public static string SetUpAccount
+    {
+        get { return "RegisterOAuthPage"; }
+    }
+
 }
