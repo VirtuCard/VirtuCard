@@ -206,28 +206,35 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     {
         if (ClientData.isCurrentTurn())
         {
-            StandardCard card = (StandardCard)cardMenu.GetCurrentlySelectedCard();
-            int cardIdx = cardMenu.GetCurrentlySelectedIndex();
-            card.Print();
-            RemoveCard(card);
-            if (cardIdx > 0)
+            if (cardIsValid)
             {
-                cardMenu.MoveCarouselToIndex(cardIdx - 1);
-            }
-            else
-            {
-                // card was at 0
-                if (cards.GetCardCount() == 0)
+                StandardCard card = (StandardCard)cardMenu.GetCurrentlySelectedCard();
+                int cardIdx = cardMenu.GetCurrentlySelectedIndex();
+                card.Print();
+                RemoveCard(card);
+                if (cardIdx > 0)
                 {
-                    // if there are no cards in their hand, don't move carousel
+                    cardMenu.MoveCarouselToIndex(cardIdx - 1);
                 }
                 else
                 {
-                    // otherwise, do move it
-                    cardMenu.MoveCarouselToIndex(0);
+                    // card was at 0
+                    if (cards.GetCardCount() == 0)
+                    {
+                        // if there are no cards in their hand, don't move carousel
+                    }
+                    else
+                    {
+                        // otherwise, do move it
+                        cardMenu.MoveCarouselToIndex(0);
+                    }
                 }
+                SendCardToHost(card);
             }
-            SendCardToHost(card);
+            else
+            {
+                Debug.Log("Card is not valid to be played");
+            }
         }
         else
         {
@@ -307,9 +314,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             object[] data = (object[])photonEvent.CustomData;
             string currentPersonsTurn = (string)data[0];
             Debug.Log("Setting CurrentTurn: " + currentPersonsTurn);
+            ClientData.setCurrentPlayerTurn(currentPersonsTurn);
             if (currentPersonsTurn.Equals(PhotonNetwork.NickName))
             {
-                ClientData.setCurrentPlayerTurn(currentPersonsTurn);
                 ClientData.setCurrentTurn(true);
             }
             else
