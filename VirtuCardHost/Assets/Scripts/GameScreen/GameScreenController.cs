@@ -9,19 +9,28 @@ public class GameScreenController : MonoBehaviour
     public GameObject chatPanel;
     public Toggle chatToggle;
 
+    private bool hasInitializedGame = false;
+    private float startTime;
+    // this is the time in seconds before the game intitializes
+    private int secondsBeforeInitialization = 2;
+
     // Start is called before the first frame update
     void Start()
     {
         chatToggle.SetIsOnWithoutNotify(HostData.isChatAllowed());
         chatToggle.onValueChanged.AddListener(delegate { ChatToggleValueChanged(chatToggle.isOn); });
-
-        HostData.GetGame().AdvanceTurn(true);
+        startTime = Time.time;
+        //HostData.GetGame().AdvanceTurn(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (hasInitializedGame == false && startTime + secondsBeforeInitialization <= Time.time)
+        {
+            hasInitializedGame = true;
+            HostData.GetGame().InitializeGame();
+        }
     }
 
     /// <summary>
