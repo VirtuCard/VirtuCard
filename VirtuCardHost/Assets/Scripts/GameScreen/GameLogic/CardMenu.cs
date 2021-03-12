@@ -99,13 +99,17 @@ public class CardMenu : MonoBehaviour
     }
 
 
-    public void RemoveCardFromCarousel(Card newCard)
+    public void RemoveCardFromCarousel(Card card)
     {
+        StandardCardRank rank = ((StandardCard)card).GetRank();
+        StandardCardSuit suit = ((StandardCard)card).GetSuit();
         for (int x = 0; x < images.Count; x++)
         {
             // if this image is the card we are looking for
-            if (images[x].gameObject.GetComponent<StandardCard>().Compare(newCard) == true)
+            if ((images[x].Find("Rank").gameObject.GetComponent<Text>().text == Enum.GetName(typeof(StandardCardRank), rank)) &&
+                (images[x].Find("Suit").gameObject.GetComponent<Text>().text == Enum.GetName(typeof(StandardCardSuit), suit)))
             {
+                Debug.Log(rank + " " + suit);
                 GameObject imageToDestroy = images[x].gameObject;
                 images.RemoveAt(x);
                 Destroy(imageToDestroy);
