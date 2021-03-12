@@ -254,7 +254,7 @@ namespace PhotonScripts
 
         public void DoSomething()
         {
-            string gameMode = HostData.GetSelectedGame();
+            string gameMode = HostData.GetGame().GetGameName();
             bool hostToggle = HostData.CanHostJoinGame();
             int maxPlayers = HostData.GetMaxNumPlayers();
             string hostName = PhotonNetwork.NickName;

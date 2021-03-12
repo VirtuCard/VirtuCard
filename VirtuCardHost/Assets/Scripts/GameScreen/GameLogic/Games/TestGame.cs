@@ -33,6 +33,10 @@ public class TestGame : Game
     /// <returns>True or false depending on validity of move</returns>
     public override bool VerifyMove(Card cardToPlay)
     {
+        if (((StandardCard)cardToPlay).GetRank() == StandardCardRank.NINE)
+        {
+            return false;
+        }
         return true;
     }
 

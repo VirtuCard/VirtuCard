@@ -8,7 +8,7 @@ using ExitGames.Client.Photon;
 
 public abstract class Game
 {
-    private int playerTurnIndex = -1;
+    private int playerTurnIndex = 0;
     private CardDeck playedCards = new CardDeck();
     private CardDeck undealtCards = new CardDeck();
     private List<PlayerInfo> players = new List<PlayerInfo>();
@@ -232,8 +232,6 @@ public abstract class Game
     /// <returns></returns>
     public PlayerInfo GetPlayerOfCurrentTurn()
     {
-        //HostData.setCurrentPlayersTurn(players[playerTurnIndex].username);
-        // HostData.setCurrentPlayersTurn("peepeepoopoo");        
         return players[playerTurnIndex];
     }
 

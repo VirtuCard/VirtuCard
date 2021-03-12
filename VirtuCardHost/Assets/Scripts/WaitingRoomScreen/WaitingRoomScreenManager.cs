@@ -74,6 +74,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
         }
 
         var allConnectedPlayers = HostData.GetGame().GetAllPlayers();
+        currPlayerCount.text = allConnectedPlayers.Count + " players";
 
         foreach (PlayerInfo player in allConnectedPlayers)
         {
@@ -197,6 +198,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
     public void OnClickGameExit()
     {
         //Implement Close Game lobby code here.
+        PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(SceneNames.LandingPage, LoadSceneMode.Single);
     }
 
