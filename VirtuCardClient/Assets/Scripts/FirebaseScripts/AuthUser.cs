@@ -55,7 +55,9 @@ namespace FirebaseScripts
                 DatabaseUtils.getUser(newUser.UserId, s =>
                 {
                     User user1 = new User(s);
-                    PhotonNetwork.NickName =  user1.Username;
+                    Debug.Log(user1);
+                    PhotonNetwork.NickName = user1.Username;
+                    Debug.Log("After");
                     callback(true);
                 });
             });
@@ -297,6 +299,7 @@ namespace FirebaseScripts
                 Debug.LogError("Firebase not initialized!");
                 return;
             }
+
             if (email != null)
             {
                 Debug.Log(email);
@@ -325,6 +328,48 @@ namespace FirebaseScripts
         public static string GetUserID()
         {
             return auth.CurrentUser.UserId;
+        }
+
+        public static void FacebookLogin(String accessToken, Action<int> callback)
+            //returns -1, 1 or 2 for incorrect, new account and old account.
+        {
+            var credential = FacebookAuthProvider.GetCredential(accessToken);
+            Debug.Log("Retrieved Credential");
+            auth.SignInWithCredentialAsync(credential).ContinueWith(task =>
+            {
+                if (task.IsCanceled)
+                {
+                    Debug.LogError("SignInWithCredentialAsync was canceled.");
+                    callback(-1);
+                    return;
+                }
+
+                if (task.IsFaulted)
+                {
+                    Debug.LogError("SignInWithCredentialAsync encountered an error: " + task.Exception);
+                    callback(-1);
+                    return;
+                }
+
+                Debug.Log("Attempt Login: " + task.Result);
+                firebaseUser = task.Result;
+                Debug.LogFormat("User signed in successfully: {0} ({1})",
+                    firebaseUser.DisplayName, firebaseUser.UserId);
+                DatabaseUtils.getUser(firebaseUser.UserId, ret =>
+                {
+                    if (ret == null)
+                    {
+                        Debug.Log("New Account");
+                        callback(1);
+                    }
+                    else
+                    {
+                        User user = new User(ret);
+                        PhotonNetwork.NickName = user.Username;
+                        callback(2);
+                    }
+                });
+            });
         }
     }
 }

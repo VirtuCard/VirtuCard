@@ -12,6 +12,8 @@ public class CheckEmail : MonoBehaviour
    public string emailInput;
    public GameObject inputField;
    public GameObject textDisplay;
+   public Button signUpButton;
+
    
    public void updateText()
    {
@@ -19,14 +21,17 @@ public class CheckEmail : MonoBehaviour
        if (!emailInput.Contains("@") || !emailInput.Contains("."))
        {
            textDisplay.GetComponent<Text>().text = "Please input a valid email.";
+           signUpButton.enabled = false;
        }
        else
        {
            textDisplay.GetComponent<Text>().text = "";
+           signUpButton.enabled = true;
        }
        if (emailInput == "")
        {
           textDisplay.GetComponent<Text>().text = "";
+          signUpButton.enabled = false;
        }
    }
 }

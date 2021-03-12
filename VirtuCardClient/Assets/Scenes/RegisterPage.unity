@@ -2525,6 +2525,7 @@ MonoBehaviour:
   emailInput: 
   inputField: {fileID: 656391236}
   textDisplay: {fileID: 897427710}
+  signUpButton: {fileID: 152758369}
 --- !u!4 &1315455524
 Transform:
   m_ObjectHideFlags: 0
@@ -2556,6 +2557,7 @@ MonoBehaviour:
   textDisplay: {fileID: 28648449}
   passwordInput: {fileID: 697107753}
   checkPasswordInput: {fileID: 1115034970}
+  signUpButton: {fileID: 152758369}
 --- !u!114 &1315455526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2571,6 +2573,7 @@ MonoBehaviour:
   fixedPassword: 
   textDisplay: {fileID: 299229617}
   passwordInputField: {fileID: 697107753}
+  signUpButton: {fileID: 152758369}
 --- !u!1 &1372925564
 GameObject:
   m_ObjectHideFlags: 0

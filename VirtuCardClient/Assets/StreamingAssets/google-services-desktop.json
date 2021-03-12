@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "1071081792573-imd2kml41l33l4pqv2jcop1jc9gf0sms.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cs307.virtucard",
+            "certificate_hash": "83cd757bc444f88f0efa6b9aa016dc48977d43b0"
+          }
+        },
+        {
+          "client_id": "1071081792573-pei3m0c3370hq0e2456qrmtrdnq0dvgn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cs307.virtucard",
+            "certificate_hash": "80fd638759c3171c7452779ce500e78a4ec8f186"
+          }
+        },
+        {
           "client_id": "1071081792573-ergti17jtn58rihd8rl4a97kkiige1d4.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -50,6 +66,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "1071081792573-f3omrpninrrd1h5koc4rooickcfbms8q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cs307.virtucardClient",
+            "certificate_hash": "83cd757bc444f88f0efa6b9aa016dc48977d43b0"
+          }
+        },
         {
           "client_id": "1071081792573-ergti17jtn58rihd8rl4a97kkiige1d4.apps.googleusercontent.com",
           "client_type": 3
