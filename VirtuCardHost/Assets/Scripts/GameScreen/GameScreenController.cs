@@ -11,6 +11,11 @@ public class GameScreenController : MonoBehaviour
     public Toggle chatToggle;
     public Text currentPlayer;
 
+    public GameObject playedCardCarousel;
+    public GameObject undealtCardCarousel;
+    private CardMenu playedCardMenu;
+    private CardMenu undealtCardMenu;
+
     private bool hasInitializedGame = false;
     private float startTime;
     // this is the time in seconds before the game intitializes
@@ -31,6 +36,8 @@ public class GameScreenController : MonoBehaviour
             allOfChatUI.SetActive(false);
         }
         startTime = Time.time;
+        playedCardMenu = playedCardCarousel.GetComponent<CardMenu>();
+        undealtCardMenu = undealtCardCarousel.GetComponent<CardMenu>();
     }
 
     // Update is called once per frame
@@ -42,8 +49,37 @@ public class GameScreenController : MonoBehaviour
             hasInitializedGame = true;
             HostData.GetGame().InitializeGame();
         }
+        DisplayCards();
     }
     
+
+    public void DisplayCards()
+    {
+        for(int i = 0; i < HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCardCount(); ++i)
+        {
+            HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCard(i).Print();
+            if (!playedCardMenu.FindCardFromCarousel(HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCard(i)))
+            {
+                Debug.Log(HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCardCount());
+                StandardCard card = (StandardCard)HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCard(i);
+                Debug.Log(card.GetRank());
+                Debug.Log(card.GetSuit());
+                playedCardMenu.AddCardToCarousel(card, CardTypes.StandardCard);
+            }
+        }
+        for (int i = 0; i < HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCardCount(); ++i)
+        {
+            HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i).Print();
+            if (!undealtCardMenu.FindCardFromCarousel(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i)))
+            {
+                Debug.Log(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCardCount());
+                StandardCard card = (StandardCard)HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i);
+                Debug.Log(card.GetRank());
+                Debug.Log(card.GetSuit());
+                undealtCardMenu.AddCardToCarousel(card, CardTypes.StandardCard);
+            }
+        }
+    }
     /// <summary>
     /// This method should be called when a client has requested to draw a single card
     /// It draws a random card from the undealt deck and then removes it.
