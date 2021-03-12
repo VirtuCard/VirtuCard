@@ -38,13 +38,19 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        ClientData.setChatAllowed(true);
         if (!ClientData.isChatAllowed())
         {
             chatDisableSign.SetActive(true);
             chatPanel.SetActive(false);
             chatToggleObject.SetActive(false);
         }
-        else { chatDisableSign.SetActive(false); }
+        else
+        { 
+            chatDisableSign.SetActive(false);
+            chatPanel.SetActive(true);
+            chatToggleObject.SetActive(true);
+        }
 
         PhotonNetwork.AddCallbackTarget(this);
         skipBtn.onClick.AddListener(delegate() {
