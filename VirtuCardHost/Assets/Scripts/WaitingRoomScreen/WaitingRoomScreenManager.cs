@@ -191,6 +191,11 @@ public class WaitingRoomScreenManager : MonoBehaviour
     public void OnClickCloseOptions()
     {
         numPlayers.SetTextWithoutNotify(HostData.GetMaxNumPlayers().ToString());
+        string updatedPlayers = HostData.GetMaxNumPlayers().ToString();
+        // Sending signal to clients to update their waiting screen
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+        object[] content = new object[] {updatedPlayers};
+        PhotonNetwork.RaiseEvent(10, content, raiseEventOptions, SendOptions.SendUnreliable);
         settingsPanel.SetActive(false);
     }
 
