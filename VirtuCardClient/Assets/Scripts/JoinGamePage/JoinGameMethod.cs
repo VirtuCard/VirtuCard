@@ -141,6 +141,12 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
         {
             SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
         }
+        else if (photonEvent.Code == 10)
+        {
+            object[] data = (object[]) photonEvent.CustomData;
+            string updatedPlayerCount = (string) data[0];
+            GameModeText.GetComponent<Text>().text = "" + updatedPlayerCount;
+        }
     }
 
     private void DoSomething()
