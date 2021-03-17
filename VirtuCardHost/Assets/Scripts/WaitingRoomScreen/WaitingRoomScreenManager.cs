@@ -203,10 +203,6 @@ public class WaitingRoomScreenManager : MonoBehaviour
 
     public void StartGameBtnClicked()
     {
-        // send an event to clients telling them to start their games
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        PhotonNetwork.RaiseEvent(6, null, raiseEventOptions, SendOptions.SendUnreliable);
-
         HostData.SetIsTimerEnabled(timerEnabledToggle.isOn);
         if (timerEnabledToggle.isOn)
         {
@@ -218,6 +214,12 @@ public class WaitingRoomScreenManager : MonoBehaviour
             HostData.SetTimerSeconds(-1);
             HostData.SetTimerMinutes(-1);
         }
+
+        // send an event to clients telling them to start their games
+        // this content is in the form { bool, int, int }
+        object[] content = new object[] { HostData.IsTimerEnabled(), HostData.GetTimerSeconds(), HostData.GetTimerMinutes() };
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+        PhotonNetwork.RaiseEvent(6, null, raiseEventOptions, SendOptions.SendUnreliable);
 
         SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
     }

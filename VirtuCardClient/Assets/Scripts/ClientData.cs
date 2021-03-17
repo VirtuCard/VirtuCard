@@ -11,7 +11,34 @@ public static class ClientData
     private static bool isCurrentlyTurn = false;
     private static bool chatAllowed = true;
     private static bool hostCanJoin;
+    private static bool isTimerEnabled;
+    private static int timerMinutes;
+    private static int timerSeconds;
 
+    public static int GetTimerSeconds()
+    {
+        return timerSeconds;
+    }
+    public static void SetTimerSeconds(int seconds)
+    {
+        timerSeconds = seconds;
+    }
+    public static int GetTimerMinutes()
+    {
+        return timerMinutes;
+    }
+    public static void SetTimerMinutes(int minutes)
+    {
+        timerMinutes = minutes;
+    }
+    public static void SetIsTimerEnabled(bool isEnabled)
+    {
+        isTimerEnabled = isEnabled;
+    }
+    public static bool IsTimerEnabled()
+    {
+        return isTimerEnabled;
+    }
     public static bool canHostJoin()
     {
         return hostCanJoin;

@@ -54,7 +54,7 @@ public static class HostData
     }
     public static int GetTimerMinutes()
     {
-        return timerSeconds;
+        return timerMinutes;
     }
     public static void SetTimerMinutes(int minutes)
     {
