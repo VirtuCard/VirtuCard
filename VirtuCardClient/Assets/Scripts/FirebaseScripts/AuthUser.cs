@@ -331,6 +331,16 @@ namespace FirebaseScripts
             return auth.CurrentUser.UserId;
         }
 
+        public static void Logout()
+        {
+            if (auth.CurrentUser != null)
+            {
+                auth.SignOut(); 
+                // Null check required for account deletion cases.
+            }
+            
+        }
+
         public static void FacebookLogin(String accessToken, Action<int> callback)
             //returns -1, 1 or 2 for incorrect, new account and old account.
         {
