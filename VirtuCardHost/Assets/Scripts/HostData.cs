@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using FirebaseScripts;
 using Photon.Pun;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -19,7 +20,14 @@ public static class HostData
     private static string joinCode;
     private static bool chatAllowed = true;
     private static Game currentGame;
-    
+    private static User userProfile;
+
+    public static User UserProfile
+    {
+        get => userProfile;
+        set => userProfile = value;
+    }
+
     public static void SetGame(GameTypes gameType)
     {
         string gameName = Enum.GetName(typeof(GameTypes), gameType);
