@@ -76,10 +76,7 @@ namespace JoinGamePage
 
         void OnApplicationQuit()
         {
-            if (isAnonymous)
-            {
-                AuthUser.DeleteAnonymousAccount(task => { Debug.Log("Completed with return value " + task); });
-            }
+            
         }
     }
 }
