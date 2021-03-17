@@ -22,6 +22,7 @@ namespace GameScreen.ChatPanel
         public GameObject messageParent;
 
         public List<GameObject> placeholders;
+        private int messageCounter = 0;
 
         /// <summary>
         /// This class contains all the methods and fields that are within a single message.
@@ -57,6 +58,11 @@ namespace GameScreen.ChatPanel
                 messageText.text = message;
             }
 
+            /// this is for testing purposes
+            public string GetText() {
+                return messageText.text;
+            }
+
             public void SetUsername(string username)
             {
                 this.username.text = username;
@@ -70,6 +76,7 @@ namespace GameScreen.ChatPanel
         /// <param name="username">The username of the person sending the message</param>
         public void CreateNewMessage(string message, string username)
         {
+            messageCounter++;
             MessageUI ui = new MessageUI(messageTemplate, messageParent);
             ui.SetText(message);
             ui.SetUsername(username);
@@ -103,6 +110,10 @@ namespace GameScreen.ChatPanel
             }
 
             _chatClient.Service();
+        }
+
+        public int getMessageCount() {
+            return messageCounter; 
         }
 
         public new void SendMessage(string message)
