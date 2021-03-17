@@ -321,6 +321,16 @@ namespace FirebaseScripts
             }
         }
 
+      public static void Logout()
+        {
+            if (auth.CurrentUser != null)
+            {
+                auth.SignOut(); 
+                // Null check required for account deletion cases.
+            }
+            
+        }
+
         public static string GetUserID()
         {
             return auth.CurrentUser.UserId;
