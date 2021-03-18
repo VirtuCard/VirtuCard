@@ -120,6 +120,12 @@ public class Timer : MonoBehaviour
         {
             // reset the timer to full values
             secondsRemaining = (float)totalSeconds;
+
+            // set panel color
+            timerPanel.GetComponent<Image>().color = timerColor;
+
+            // hide warning panel
+            warningPanel.SetActive(false);
         }
     }
 
