@@ -19,7 +19,14 @@ public class War : Game
     /// </summary>
     public override void InitializeGame()
     {
-        
+        CardDeck OGDeck = CreateStandard52Deck();
+        CardDeck poneUnplayed = new CardDeck();
+        for (int i = 0; i < 26; i++)
+        {
+            poneUnplayed.AddCard(OGDeck.PopCard());
+        }
+        GetDeck(DeckChoices.PONEUNPLAYED).AddCards(poneUnplayed);
+        GetDeck(DeckChoices.PTWOUNPLAYED).AddCards(OGDeck);
     }
 
     public override bool VerifyMove(Card cardToPlay)
