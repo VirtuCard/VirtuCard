@@ -136,16 +136,9 @@ public class WaitingRoomScreenManager : MonoBehaviour
     /// <param name="isOn"></param>
     private void TimerToggleValueChanged(bool isOn)
     {
-        if (isOn)
-        {
-            secondsInput.interactable = true;
-            minutesInput.interactable = true;
-        }
-        else
-        {
-            secondsInput.interactable = false;
-            minutesInput.interactable = false;
-        }
+        secondsInput.interactable = isOn;
+        minutesInput.interactable = isOn;
+        HostData.SetIsTimerEnabled(isOn);
     }
 
     /// <summary>
@@ -219,7 +212,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
         // this content is in the form { bool, int, int }
         object[] content = new object[] { HostData.IsTimerEnabled(), HostData.GetTimerSeconds(), HostData.GetTimerMinutes() };
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        PhotonNetwork.RaiseEvent(6, null, raiseEventOptions, SendOptions.SendUnreliable);
+        PhotonNetwork.RaiseEvent(6, content, raiseEventOptions, SendOptions.SendUnreliable);
 
         SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
     }

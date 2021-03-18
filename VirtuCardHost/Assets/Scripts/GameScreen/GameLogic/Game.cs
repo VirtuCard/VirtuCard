@@ -91,6 +91,16 @@ public abstract class Game
     }
 
     /// <summary>
+    /// This method is called when a player runs out of time on the timer and their turn is forcefully skipped
+    /// </summary>
+    /// <param name="forwards"></param>
+    public void ForceAdvanceTurn(bool forwards)
+    {
+        ForceSkipTurn(GetCurrentPlayerTurnIndex());
+        AdvanceTurn(forwards);
+    }
+
+    /// <summary>
     /// This sends out the playerTurnIndex to all the connected Clients
     /// </summary>
     private void SendOutPlayerTurnIndex()
@@ -407,6 +417,13 @@ public abstract class Game
     /// <param name="playerIndex">The index of the player</param>
     /// <returns>True or false depending on validity of skip</returns>
     public abstract bool VerifyCanSkip(int playerIndex);
+
+    /// <summary>
+    /// This method is called when a player had their turn forcefully skipped.
+    /// This method contains any punishments that are dealt to the player (i.e. they are forced to draw a card)
+    /// </summary>
+    /// <param name="playerIndex"></param>
+    protected abstract void ForceSkipTurn(int playerIndex);
 
     protected void SetGameName(string gamename)
     {
