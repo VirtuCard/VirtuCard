@@ -4,5 +4,5 @@ using UnityEngine;
 
 public enum GameTypes
 {
-    TestGame = 0, GoFish = 1 
+    TestGame = 0, GoFish = 1, War = 2
 };
