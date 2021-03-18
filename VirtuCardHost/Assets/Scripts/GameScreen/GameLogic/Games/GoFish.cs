@@ -15,6 +15,10 @@ public class GoFish : Game
     /// </summary>
     public override void InitializeGame()
     {
+        CardDeck deck = CreateStandard52Deck();
+        GetDeck(DeckChoices.UNDEALT).AddCards(deck);
+        GetDeck(DeckChoices.UNDEALT).Print();
+        AdvanceTurn(true);
     }
 
     /// <summary>

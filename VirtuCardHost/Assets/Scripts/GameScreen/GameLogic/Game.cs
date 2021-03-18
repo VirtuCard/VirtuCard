@@ -209,6 +209,7 @@ public abstract class Game
         playerInfo.username = player.NickName;
         playerInfo.score = 0;
         playerInfo.photonPlayer = player;
+        playerInfo.cards = new CardDeck();
 
         if (players.Count < HostData.GetMaxNumPlayers())
         {
@@ -382,6 +383,23 @@ public abstract class Game
     public void PrintPlayer(PlayerInfo player)
     {
         Debug.Log(player.ToString());
+    }
+
+    /// <summary>
+    /// Creates a standard deck of 52 cards
+    /// </summary>
+    /// <returns></returns>
+    public CardDeck CreateStandard52Deck()
+    {
+        CardDeck deck = new CardDeck();
+        foreach (StandardCardSuit suit in (StandardCardSuit[])Enum.GetValues(typeof(StandardCardSuit)))
+        {
+            foreach (StandardCardRank rank in (StandardCardRank[])Enum.GetValues(typeof(StandardCardRank)))
+            {
+                deck.AddCard(new StandardCard(rank, suit));
+            }
+        }
+        return deck;
     }
 
     /// <summary>
