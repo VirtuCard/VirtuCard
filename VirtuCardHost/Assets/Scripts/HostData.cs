@@ -19,6 +19,9 @@ public static class HostData
     private static string joinCode;
     private static bool chatAllowed = true;
     private static Game currentGame;
+    private static bool isTimerEnabled;
+    private static int timerMinutes;
+    private static int timerSeconds;
     
     public static void SetGame(GameTypes gameType)
     {
@@ -40,6 +43,30 @@ public static class HostData
             return;
         }
         */
+    }
+    public static int GetTimerSeconds()
+    {
+        return timerSeconds;
+    }
+    public static void SetTimerSeconds(int seconds)
+    {
+        timerSeconds = seconds;
+    }
+    public static int GetTimerMinutes()
+    {
+        return timerMinutes;
+    }
+    public static void SetTimerMinutes(int minutes)
+    {
+        timerMinutes = minutes;
+    }
+    public static void SetIsTimerEnabled(bool isEnabled)
+    {
+        isTimerEnabled = isEnabled;
+    }
+    public static bool IsTimerEnabled()
+    {
+        return isTimerEnabled;
     }
     public static Game GetGame()
     {
