@@ -385,6 +385,23 @@ public abstract class Game
     }
 
     /// <summary>
+    /// Creates a standard deck of 52 cards
+    /// </summary>
+    /// <returns></returns>
+    public CardDeck CreateStandard52Deck()
+    {
+        CardDeck deck = new CardDeck();
+        foreach (StandardCardSuit suit in (StandardCardSuit[])Enum.GetValues(typeof(StandardCardSuit)))
+        {
+            foreach (StandardCardRank rank in (StandardCardRank[])Enum.GetValues(typeof(StandardCardRank)))
+            {
+                deck.AddCard(new StandardCard(rank, suit));
+            }
+        }
+        return deck;
+    }
+
+    /// <summary>
     /// This method is used to verify that the Card that the player wants to play is valid.
     /// It does NOT actually play the card, it only checks if it is possible
     /// </summary>

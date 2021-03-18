@@ -51,6 +51,15 @@ public class CardDeck
     }
 
     /// <summary>
+    /// Adds an entire decks cards into this deck
+    /// </summary>
+    /// <param name="deck"></param>
+    public void AddCards(CardDeck deck)
+    {
+        cards.AddRange(deck.GetAllCards());
+    }
+
+    /// <summary>
     /// Adds a single card to the deck.
     /// It does NOT put it in randomly, it appends it to the end of the deck
     /// </summary>
@@ -74,6 +83,15 @@ public class CardDeck
         Card returnCard = GetCard(cardIndex);
         RemoveCard(cardIndex);
         return returnCard;
+    }
+
+    /// <summary>
+    /// Returns all the cards within this deck in a list
+    /// </summary>
+    /// <returns></returns>
+    public List<Card> GetAllCards()
+    {
+        return cards;
     }
 
     /// <summary>
