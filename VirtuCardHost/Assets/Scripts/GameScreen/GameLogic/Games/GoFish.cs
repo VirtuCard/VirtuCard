@@ -18,6 +18,7 @@ public class GoFish : Game
         CardDeck deck = CreateStandard52Deck();
         GetDeck(DeckChoices.UNDEALT).AddCards(deck);
         GetDeck(DeckChoices.UNDEALT).Print();
+        AdvanceTurn(true);
     }
 
     /// <summary>

@@ -7,6 +7,7 @@ public struct PlayerInfo
     public string username;
     public int score;
     public Photon.Realtime.Player photonPlayer;
+    public CardDeck cards;
 
     public override string ToString()
     {
