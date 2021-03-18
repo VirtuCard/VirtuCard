@@ -11,6 +11,10 @@ public abstract class Game
     private int playerTurnIndex = 0;
     private CardDeck playedCards = new CardDeck();
     private CardDeck undealtCards = new CardDeck();
+    private CardDeck ponePlayed = new CardDeck();
+    private CardDeck ptwoPlayed = new CardDeck();
+    private CardDeck poneUnplayed = new CardDeck();
+    private CardDeck ptwoUnplayed = new CardDeck();
     private List<PlayerInfo> players = new List<PlayerInfo>();
     private string gameName;
 
@@ -357,6 +361,22 @@ public abstract class Game
         else if ((int)whichDeck == 1)
         {
             return playedCards;
+        }
+        else if ((int)whichDeck == 2)
+        {
+            return ponePlayed;
+        }
+        else if ((int) whichDeck == 3)
+        {
+            return poneUnplayed;
+        }
+        else if ((int) whichDeck == 4)
+        {
+            return ptwoPlayed;
+        }
+        else if ((int) whichDeck == 5)
+        {
+            return ptwoUnplayed;
         }
 
         throw new Exception("Invalid deck specified: " + (int)whichDeck + ". Game.cs:79");
