@@ -123,7 +123,13 @@ public class CardDeck
     /// <param name="card"></param>
     public void RemoveCard(Card card)
     {
-        cards.Remove(card);
+        for (int x = 0; x < cards.Count; x++) 
+        { 
+            if (cards[x].Compare(card) == true)
+            {
+                cards.RemoveAt(x);
+            }
+        }
     }
 
     /// <summary>

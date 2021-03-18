@@ -186,6 +186,8 @@ namespace PhotonScripts
 
                 Debug.Log("Receiving a Played Card from " + username + ": " + card.ToString());
                 int userIndex = HostData.GetGame().GetPlayerIndex(username);
+                PlayerInfo player = HostData.GetGame().GetPlayer(username);
+                player.cards.RemoveCard(card);
                 HostData.GetGame().DoMove(card, userIndex);
             }
             // verifying card event
@@ -232,6 +234,9 @@ namespace PhotonScripts
             {
                 foreach (Card card in cards)
                 {
+                    PlayerInfo player = HostData.GetGame().GetPlayer(username);
+                    player.cards.AddCard(card);
+
                     StandardCard cardToSend = (StandardCard)card;
                     object[] content = new object[] { username, cards[0].GetType().Name, cardToSend.GetRank(), cardToSend.GetSuit() };
                     RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
