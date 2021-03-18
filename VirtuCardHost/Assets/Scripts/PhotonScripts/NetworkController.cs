@@ -219,7 +219,16 @@ namespace PhotonScripts
                 object[] data = (object[])photonEvent.CustomData;
                 // just get the username in case we need it in the future
                 string username = (string)data[0];
-                HostData.GetGame().AdvanceTurn(true);
+                bool wasSkippedDueToTimer = (bool)data[1];
+                if (wasSkippedDueToTimer)
+                {
+                    HostData.GetGame().ForceAdvanceTurn(true);
+                }
+                else
+                {
+                    // skip turn normally
+                    HostData.GetGame().AdvanceTurn(true);
+                }
             }
         }
 
@@ -243,6 +252,17 @@ namespace PhotonScripts
                     PhotonNetwork.RaiseEvent(8, content, raiseEventOptions, SendOptions.SendUnreliable);
                 }
             }
+        }
+
+        /// <summary>
+        /// This method sends a signal that either enables or disables the timers on the clients
+        /// </summary>
+        /// <param name="">enable or disable the timers on the clients</param>
+        public static void EnableTimer(bool enable)
+        {
+            object[] content = new object[] { enable };
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(11, content, raiseEventOptions, SendOptions.SendUnreliable);
         }
 
         /// <summary>

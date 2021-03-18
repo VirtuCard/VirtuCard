@@ -12,6 +12,9 @@ public class GameScreenController : MonoBehaviour
     public Toggle chatToggle;
     public Text currentPlayer;
 
+    public GameObject settingsPanel;
+    public Toggle timerToggle;
+
     public GameObject playedCardCarousel;
     public GameObject undealtCardCarousel;
     private CardMenu playedCardMenu;
@@ -37,6 +40,12 @@ public class GameScreenController : MonoBehaviour
         startTime = Time.time;
         playedCardMenu = playedCardCarousel.GetComponent<CardMenu>();
         undealtCardMenu = undealtCardCarousel.GetComponent<CardMenu>();
+
+        // setup settings menu
+        settingsPanel.SetActive(false);
+        timerToggle.SetIsOnWithoutNotify(HostData.IsTimerEnabled());
+        timerToggle.onValueChanged.AddListener(delegate { EnableTimer(timerToggle.isOn); });
+        timerToggle.gameObject.SetActive(HostData.IsTimerEnabled());
     }
 
     // Update is called once per frame
@@ -175,10 +184,26 @@ public class GameScreenController : MonoBehaviour
 
 
     /// <summary>
-    /// This is purely for debugging purposes
+    /// This sends a signal to all the clients to either enable or disable the timer
     /// </summary>
-    public void PrintPlayerOnesCards()
+    public void EnableTimer(bool enable)
     {
-        HostData.GetGame().GetPlayer(0).cards.Print();
+        if (HostData.GetTimerSeconds() + HostData.GetTimerMinutes() > 0)
+        {
+            PhotonScripts.NetworkController.EnableTimer(enable);
+        }
+        else
+        {
+            Debug.Log("Must have enabled timer in pregame settings to toggle it");
+        }
+    }
+
+    /// <summary>
+    /// Shows or hides the settingsWindow depending on <paramref name="enabled"/>
+    /// </summary>
+    /// <param name="enabled"></param>
+    public void DisplaySettingsWindow(bool enabled)
+    {
+        settingsPanel.SetActive(enabled);
     }
 }

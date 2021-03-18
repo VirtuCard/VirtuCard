@@ -34,6 +34,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     bool cardIsValid = false;
     public Text cardIsValidText;
 
+    public Timer timer;
+
     private bool wasCurrentlyTurn = false;
 
     // Start is called before the first frame update
@@ -67,6 +69,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         chatToggle.SetIsOnWithoutNotify(ClientData.isChatAllowed());
         chatToggle.onValueChanged.AddListener(delegate { ChatToggleValueChanged(chatToggle.isOn); });
 
+        // setup timer
+        timer.SetupTimer(ClientData.IsTimerEnabled(), ClientData.GetTimerSeconds(), ClientData.GetTimerMinutes(), warningThreshold: 30, TimerEarlyWarning, TimerReachedZero);
     }
 
     // Update is called once per frame
@@ -100,6 +104,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         }
         else
         {
+            timer.StopTimer();
+
             wasCurrentlyTurn = false;
 
             turn.SetActive(false);
@@ -168,7 +174,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
     /// <summary>
     /// This method should called every time the game swaps to the player's turn
-    /// It should setup all the necessary things like enabling skip btn, etc...
+    /// It should setup all the necessary things like enabling skip btn, timer, etc...
     /// </summary>
     private void SetupTurn()
     {
@@ -320,11 +326,21 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             if (currentPersonsTurn.Equals(PhotonNetwork.NickName))
             {
                 ClientData.setCurrentTurn(true);
+                timer.StartTimer();
             }
             else
             {
                 ClientData.setCurrentTurn(false);
             }
+        }
+        // this is if the host is either enabling or disabling the timer during the middle of the game
+        else if (photonEvent.Code == 11)
+        {
+            object[] data = (object[])photonEvent.CustomData;
+            bool enabled = (bool)data[0];
+
+            // enable/disable timer
+            timer.EnableTimer(enabled);
         }
     }
 
@@ -332,10 +348,10 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     /// Sends the command to the host to skip this player's turn
     /// </summary>
     /// <param name="username"></param>
-    private void SendSkipTurnToHost()
+    private void SendSkipTurnToHost(bool didRunOutOfTurnTime = false)
     {
         Debug.Log("Sending Skip Command");
-        object[] content = new object[] { PhotonNetwork.NickName };
+        object[] content = new object[] { PhotonNetwork.NickName, didRunOutOfTurnTime };
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
         PhotonNetwork.RaiseEvent(10, content, raiseEventOptions, SendOptions.SendUnreliable);
     }
@@ -366,5 +382,21 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
             PhotonNetwork.RaiseEvent(4, content, raiseEventOptions, SendOptions.SendUnreliable);
         }
+    }
+    
+    /// <summary>
+    /// This method is called every time the timer crosses the early warning threshold
+    /// </summary>
+    private void TimerEarlyWarning()
+    {
+        Debug.Log("Hurry up, only " + timer.GetEarlyWarningThreshold() + " seconds left");
+    }
+
+    /// <summary>
+    /// This method is called every time the timer reaches 0
+    /// </summary>
+    private void TimerReachedZero()
+    {
+        SendSkipTurnToHost(true);
     }
 }
