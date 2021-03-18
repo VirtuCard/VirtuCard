@@ -172,4 +172,13 @@ public class GameScreenController : MonoBehaviour
         checkmark.SetActive(toggleVal);
         chatPanel.SetActive(!toggleVal);
     }
+
+
+    /// <summary>
+    /// This is purely for debugging purposes
+    /// </summary>
+    public void PrintPlayerOnesCards()
+    {
+        HostData.GetGame().GetPlayer(0).cards.Print();
+    }
 }
