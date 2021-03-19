@@ -15,6 +15,10 @@ public class GoFish : Game
     /// </summary>
     public override void InitializeGame()
     {
+        CardDeck deck = CreateStandard52Deck();
+        GetDeck(DeckChoices.UNDEALT).AddCards(deck);
+        GetDeck(DeckChoices.UNDEALT).Print();
+        AdvanceTurn(true);
     }
 
     /// <summary>
@@ -48,5 +52,14 @@ public class GoFish : Game
     public override bool DoMove(Card cardToPlay, int playerIndex)
     {
         return true;
+    }
+
+    /// <summary>
+    /// This is the method that is called when a player has their turn forcefully skipped by the timer
+    /// </summary>
+    /// <param name="playerIndex"></param>
+    protected override void ForceSkipTurn(int playerIndex)
+    {
+        
     }
 }
