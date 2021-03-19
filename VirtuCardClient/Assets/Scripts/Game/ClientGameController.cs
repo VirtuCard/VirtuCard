@@ -28,6 +28,10 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public GameObject checkMark;
     public Toggle chatToggle;
 
+    // 3 below are used for if the game is over
+    public GameObject winnerPanel;
+    public Button exitGameBtn;
+    public Text winnerAnnounce;
 
     // this is used to determine if the user has scrolled over to a new card, so it can be used to verify
     private Card previouslySelectedCard;
@@ -37,6 +41,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public Timer timer;
 
     private bool wasCurrentlyTurn = false;
+    private bool gameOver = false;
 
     // Start is called before the first frame update
     void Start()
@@ -114,6 +119,22 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             notTurnUI.SetActive(true);
         }
 
+        // This is where kade and ryan gets stuff from the host
+        if (gameOver) {
+            winnerPanel.SetActive(true);
+            winnerAnnounce.GetComponent<Text>().text = "YOU WON!";
+
+            // if (the current player is the winner) {
+            //   winnerAnnounce.GetComponent<Text>().text = "YOU WON!";
+            //}
+            // // or you didn't win
+            // else
+            // {
+            //   winnerAnnounce.GetComponent<Text>().text = winner's username + " has won the game!";
+            // }
+            exitGameBtn.onClick.AddListener(delegate () { exitGameBtnOnClick(); });
+
+        }
     }
 
     /// <summary>
@@ -247,6 +268,12 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         {
             Debug.Log("Not currently your turn");
         }
+    }
+
+    private void exitGameBtnOnClick() {
+        Debug.Log("WHAT THE FUCK");
+        winnerPanel.SetActive(false);
+        SceneManager.LoadScene(SceneNames.JoinGamePage, LoadSceneMode.Single);
     }
 
     /// <summary>
