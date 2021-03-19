@@ -28,7 +28,7 @@ namespace GameScreen.ChatPanel
         /// This class contains all the methods and fields that are within a single message.
         /// When the constructor is called, it creates a new message from the messageTemplate and places it into the messageParent
         /// </summary>
-        private class MessageUI
+        public class MessageUI
         {
             private Text messageText;
             private Text username;
@@ -67,7 +67,7 @@ namespace GameScreen.ChatPanel
             {
                 this.username.text = username;
             }
-        }
+        } // end of MessageUI class
 
         /// <summary>
         /// This method creates a new message and places it into the message box
@@ -181,5 +181,14 @@ namespace GameScreen.ChatPanel
         {
             /* Ignore */
         }
+
+        /// START UNIT TEST
+        /// The next two methods are for unit tests only
+        public string setAndGetTextTest(string text) {
+            MessageUI ui = new MessageUI(messageTemplate, messageParent);
+            ui.SetText(text);
+            return ui.GetText();
+        }
+        /// end of testing
     }
 }
