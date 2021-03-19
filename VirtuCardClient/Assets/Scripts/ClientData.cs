@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FirebaseScripts;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -11,6 +12,13 @@ public static class ClientData
     private static bool isCurrentlyTurn = false;
     private static bool chatAllowed = true;
     private static bool hostCanJoin;
+    private static User userProfile;
+
+    public static User UserProfile
+    {
+        get => userProfile;
+        set => userProfile = value;
+    }
 
     public static bool canHostJoin()
     {

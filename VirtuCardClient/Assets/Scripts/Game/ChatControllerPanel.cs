@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 
-public class ChatControllerPanel : MonoBehaviour, IChatClientListener
+public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListener
 {
     private const int MESSAGE_LIMIT = 44;
 
@@ -102,6 +102,7 @@ public class ChatControllerPanel : MonoBehaviour, IChatClientListener
 
         roomcode = ClientData.getJoinCode();
         _chatClient = new ChatClient(this) {ChatRegion = "US"};
+        PhotonNetwork.AddCallbackTarget(this);
         _chatClient.Connect(appId, "0.1b", new AuthenticationValues(PhotonNetwork.NickName));
     }
 
@@ -185,5 +186,10 @@ public class ChatControllerPanel : MonoBehaviour, IChatClientListener
     public void OnUserUnsubscribed(string channel, string user)
     {
         /* Ignore */
+    }
+
+    public override void OnLeftRoom()
+    {
+        _chatClient.Disconnect();
     }
 }

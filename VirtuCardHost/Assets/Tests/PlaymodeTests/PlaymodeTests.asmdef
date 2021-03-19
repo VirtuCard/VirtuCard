@@ -5,7 +5,9 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "ScriptsAssembly",
-        "NetworkControllerAssembly"
+        "PhotonUnityNetworking",
+        "PhotonRealtime",
+        "PhotonChat"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
