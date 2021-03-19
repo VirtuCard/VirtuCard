@@ -91,6 +91,16 @@ public abstract class Game
     }
 
     /// <summary>
+    /// This method is called when a player runs out of time on the timer and their turn is forcefully skipped
+    /// </summary>
+    /// <param name="forwards"></param>
+    public void ForceAdvanceTurn(bool forwards)
+    {
+        ForceSkipTurn(GetCurrentPlayerTurnIndex());
+        AdvanceTurn(forwards);
+    }
+
+    /// <summary>
     /// This sends out the playerTurnIndex to all the connected Clients
     /// </summary>
     private void SendOutPlayerTurnIndex()
@@ -209,6 +219,7 @@ public abstract class Game
         playerInfo.username = player.NickName;
         playerInfo.score = 0;
         playerInfo.photonPlayer = player;
+        playerInfo.cards = new CardDeck();
 
         if (players.Count < HostData.GetMaxNumPlayers())
         {
@@ -385,6 +396,23 @@ public abstract class Game
     }
 
     /// <summary>
+    /// Creates a standard deck of 52 cards
+    /// </summary>
+    /// <returns></returns>
+    public CardDeck CreateStandard52Deck()
+    {
+        CardDeck deck = new CardDeck();
+        foreach (StandardCardSuit suit in (StandardCardSuit[])Enum.GetValues(typeof(StandardCardSuit)))
+        {
+            foreach (StandardCardRank rank in (StandardCardRank[])Enum.GetValues(typeof(StandardCardRank)))
+            {
+                deck.AddCard(new StandardCard(rank, suit));
+            }
+        }
+        return deck;
+    }
+
+    /// <summary>
     /// This method is used to verify that the Card that the player wants to play is valid.
     /// It does NOT actually play the card, it only checks if it is possible
     /// </summary>
@@ -407,6 +435,13 @@ public abstract class Game
     /// <param name="playerIndex">The index of the player</param>
     /// <returns>True or false depending on validity of skip</returns>
     public abstract bool VerifyCanSkip(int playerIndex);
+
+    /// <summary>
+    /// This method is called when a player had their turn forcefully skipped.
+    /// This method contains any punishments that are dealt to the player (i.e. they are forced to draw a card)
+    /// </summary>
+    /// <param name="playerIndex"></param>
+    protected abstract void ForceSkipTurn(int playerIndex);
 
     protected void SetGameName(string gamename)
     {

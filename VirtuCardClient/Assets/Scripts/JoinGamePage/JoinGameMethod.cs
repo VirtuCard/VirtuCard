@@ -144,6 +144,15 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
         // this is the flag that is saying to go from waiting screen to the game screen
         else if (photonEvent.Code == 6)
         {
+            object[] data = (object[])photonEvent.CustomData;
+            bool timerEnabled = (bool)data[0];
+            int timerSeconds = (int)data[1];
+            int timerMinutes = (int)data[2];
+
+            ClientData.SetIsTimerEnabled(timerEnabled);
+            ClientData.SetTimerSeconds(timerSeconds);
+            ClientData.SetTimerMinutes(timerMinutes);
+
             SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
         }
         else if (photonEvent.Code == 10)

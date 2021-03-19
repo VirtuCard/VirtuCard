@@ -64,4 +64,13 @@ public class TestGame : Game
         AdvanceTurn(true);
         return true;
     }
+
+    /// <summary>
+    /// This is the method that is called when a player has their turn forcefully skipped by the timer
+    /// </summary>
+    /// <param name="playerIndex"></param>
+    protected override void ForceSkipTurn(int playerIndex)
+    {
+        Debug.Log(GetPlayer(playerIndex).username + " was forcefully skipped by the timer");
+    }
 }

@@ -186,6 +186,8 @@ namespace PhotonScripts
 
                 Debug.Log("Receiving a Played Card from " + username + ": " + card.ToString());
                 int userIndex = HostData.GetGame().GetPlayerIndex(username);
+                PlayerInfo player = HostData.GetGame().GetPlayer(username);
+                player.cards.RemoveCard(card);
                 HostData.GetGame().DoMove(card, userIndex);
             }
             // verifying card event
@@ -217,7 +219,16 @@ namespace PhotonScripts
                 object[] data = (object[])photonEvent.CustomData;
                 // just get the username in case we need it in the future
                 string username = (string)data[0];
-                HostData.GetGame().AdvanceTurn(true);
+                bool wasSkippedDueToTimer = (bool)data[1];
+                if (wasSkippedDueToTimer)
+                {
+                    HostData.GetGame().ForceAdvanceTurn(true);
+                }
+                else
+                {
+                    // skip turn normally
+                    HostData.GetGame().AdvanceTurn(true);
+                }
             }
         }
 
@@ -232,12 +243,26 @@ namespace PhotonScripts
             {
                 foreach (Card card in cards)
                 {
+                    PlayerInfo player = HostData.GetGame().GetPlayer(username);
+                    player.cards.AddCard(card);
+
                     StandardCard cardToSend = (StandardCard)card;
                     object[] content = new object[] { username, cards[0].GetType().Name, cardToSend.GetRank(), cardToSend.GetSuit() };
                     RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
                     PhotonNetwork.RaiseEvent(8, content, raiseEventOptions, SendOptions.SendUnreliable);
                 }
             }
+        }
+
+        /// <summary>
+        /// This method sends a signal that either enables or disables the timers on the clients
+        /// </summary>
+        /// <param name="">enable or disable the timers on the clients</param>
+        public static void EnableTimer(bool enable)
+        {
+            object[] content = new object[] { enable };
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(11, content, raiseEventOptions, SendOptions.SendUnreliable);
         }
 
         /// <summary>

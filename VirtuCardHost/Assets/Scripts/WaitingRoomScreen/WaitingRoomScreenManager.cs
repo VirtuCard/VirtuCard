@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using ExitGames.Client.Photon;
 using PhotonScripts;
 using Photon.Pun;
+using System;
 using Photon.Realtime;
 
 public class WaitingRoomScreenManager : MonoBehaviour
@@ -15,6 +16,13 @@ public class WaitingRoomScreenManager : MonoBehaviour
     public InputField numPlayers;
     public Toggle canHostJoinToggle;
     public Toggle chatEnabledToggle;
+    //Freeplay settings
+    public GameObject freeplaySettingsPanel;
+
+    // Timer Settings
+    public Toggle timerEnabledToggle;
+    public InputField minutesInput;
+    public InputField secondsInput;
 
     //Displayed Codes
     public Text joinCode;
@@ -34,6 +42,15 @@ public class WaitingRoomScreenManager : MonoBehaviour
             delegate { CanHostJoinToggleValueChanged(canHostJoinToggle.isOn); });
         chatEnabledToggle.onValueChanged.AddListener(
             delegate { ChatToggleValueChanged(chatEnabledToggle.isOn); });
+
+        // setup initial timer stuff
+        timerEnabledToggle.onValueChanged.AddListener(
+            delegate { TimerToggleValueChanged(timerEnabledToggle.isOn); });
+        secondsInput.text = "30";
+        minutesInput.text = "1";
+        secondsInput.interactable = false;
+        minutesInput.interactable = false;
+
         numPlayers.onValueChanged.AddListener(OnNumPlayersFieldChange);
         playerList = NetworkController.ListAllPlayers();
         CreatePlayerList();
@@ -116,6 +133,49 @@ public class WaitingRoomScreenManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// This method is the event handler for when the timer enabled toggle is changed
+    /// </summary>
+    /// <param name="isOn"></param>
+    private void TimerToggleValueChanged(bool isOn)
+    {
+        secondsInput.interactable = isOn;
+        minutesInput.interactable = isOn;
+        HostData.SetIsTimerEnabled(isOn);
+    }
+
+    /// <summary>
+    /// This method is called whenever the seconds input is updated
+    /// </summary>
+    public void SecondsInputUpdated()
+    {
+        int second = int.Parse(secondsInput.text);
+        if (second < 0)
+        {
+            secondsInput.text = "0";
+        }
+        else if (second > 59)
+        {
+            secondsInput.text = "59";
+        }
+    }
+
+    /// <summary>
+    /// This method is called whenever the minutes input is updated
+    /// </summary>
+    public void MinutesInputUpdated()
+    {
+        int minute = int.Parse(minutesInput.text);
+        if (minute < 0)
+        {
+            minutesInput.text = "0";
+        }
+        else if (minute > 9)
+        {
+            minutesInput.text = "9";
+        }
+    }
+
     private void AddNameToPlayerListBox(string name)
     {
         // Creates a text game object based on the template based as an argument
@@ -139,10 +199,24 @@ public class WaitingRoomScreenManager : MonoBehaviour
 
     public void StartGameBtnClicked()
     {
+        HostData.SetIsTimerEnabled(timerEnabledToggle.isOn);
+        if (timerEnabledToggle.isOn)
+        {
+            HostData.SetTimerSeconds(int.Parse(secondsInput.text));
+            HostData.SetTimerMinutes(int.Parse(minutesInput.text));
+        }
+        else
+        {
+            HostData.SetTimerSeconds(-1);
+            HostData.SetTimerMinutes(-1);
+        }
+
         // send an event to clients telling them to start their games
+        // this content is in the form { bool, int, int }
+        object[] content = new object[] { HostData.IsTimerEnabled(), HostData.GetTimerSeconds(), HostData.GetTimerMinutes() };
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        PhotonNetwork.RaiseEvent(6, null, raiseEventOptions, SendOptions.SendUnreliable);
-        HostData.GetGame().PrintAllPlayers();
+        PhotonNetwork.RaiseEvent(6, content, raiseEventOptions, SendOptions.SendUnreliable);
+
         SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
     }
 
@@ -187,6 +261,28 @@ public class WaitingRoomScreenManager : MonoBehaviour
             textBoxes.Add(textBox);
         }
     }
+
+//Freeplay options stuff
+
+    public void OnClickFreePlaySettings()
+    {
+        //This is were the second screen will be for the host to change options
+        //TODO
+    }
+
+    public void OnClickBackOnFreeplaySettings()
+    {
+        settingsPanel.SetActive(true);
+        freeplaySettingsPanel.SetActive(false);
+    }
+
+    public void OnClickFreeplaySettings()
+    {
+        //Add logic to check what game mode is selected
+        freeplaySettingsPanel.SetActive(true);
+        settingsPanel.SetActive(false);
+    }
+
 
     public void OnClickCloseOptions()
     {
