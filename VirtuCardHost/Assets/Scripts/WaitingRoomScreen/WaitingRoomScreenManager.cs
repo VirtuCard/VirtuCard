@@ -16,6 +16,9 @@ public class WaitingRoomScreenManager : MonoBehaviour
     public InputField numPlayers;
     public Toggle canHostJoinToggle;
     public Toggle chatEnabledToggle;
+    //Freeplay settings
+    public GameObject freeplaySettingsPanel;
+
     // Timer Settings
     public Toggle timerEnabledToggle;
     public InputField minutesInput;
@@ -258,6 +261,28 @@ public class WaitingRoomScreenManager : MonoBehaviour
             textBoxes.Add(textBox);
         }
     }
+
+//Freeplay options stuff
+
+    public void OnClickFreePlaySettings()
+    {
+        //This is were the second screen will be for the host to change options
+        //TODO
+    }
+
+    public void OnClickBackOnFreeplaySettings()
+    {
+        settingsPanel.SetActive(true);
+        freeplaySettingsPanel.SetActive(false);
+    }
+
+    public void OnClickFreeplaySettings()
+    {
+        //Add logic to check what game mode is selected
+        freeplaySettingsPanel.SetActive(true);
+        settingsPanel.SetActive(false);
+    }
+
 
     public void OnClickCloseOptions()
     {
