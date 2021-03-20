@@ -16,8 +16,14 @@ public class WaitingRoomScreenManager : MonoBehaviour
     public InputField numPlayers;
     public Toggle canHostJoinToggle;
     public Toggle chatEnabledToggle;
+
     //Freeplay settings
     public GameObject freeplaySettingsPanel;
+    public Toggle enableHearts;
+    public Toggle enableClubs;
+    public Toggle enableSpades;
+    public Toggle enableDiamonds;
+    public Toggle showLastCard;
 
     // Timer Settings
     public Toggle timerEnabledToggle;
@@ -42,6 +48,8 @@ public class WaitingRoomScreenManager : MonoBehaviour
             delegate { CanHostJoinToggleValueChanged(canHostJoinToggle.isOn); });
         chatEnabledToggle.onValueChanged.AddListener(
             delegate { ChatToggleValueChanged(chatEnabledToggle.isOn); });
+
+        //TODO add listeners to update information on Freeplay class
 
         // setup initial timer stuff
         timerEnabledToggle.onValueChanged.AddListener(
@@ -263,12 +271,6 @@ public class WaitingRoomScreenManager : MonoBehaviour
     }
 
 //Freeplay options stuff
-
-    public void OnClickFreePlaySettings()
-    {
-        //This is were the second screen will be for the host to change options
-        //TODO
-    }
 
     public void OnClickBackOnFreeplaySettings()
     {
