@@ -3,6 +3,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
+using FirebaseScripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -46,6 +47,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        IncrementGamesPlayed();
+        
         // ClientData.setChatAllowed(true);
         if (!ClientData.isChatAllowed())
         {
@@ -76,6 +79,12 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
         // setup timer
         timer.SetupTimer(ClientData.IsTimerEnabled(), ClientData.GetTimerSeconds(), ClientData.GetTimerMinutes(), warningThreshold: 30, TimerEarlyWarning, TimerReachedZero);
+    }
+
+    private void IncrementGamesPlayed()
+    {
+        ClientData.UserProfile.GamesPlayed += 1;
+        DatabaseUtils.updateUser(ClientData.UserProfile, b => {Debug.Log("Added game to total count");});
     }
 
     // Update is called once per frame
