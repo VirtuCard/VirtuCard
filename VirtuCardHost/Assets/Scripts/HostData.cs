@@ -150,6 +150,7 @@ public static class HostData
     {
         return chatAllowed;
     }
+    
     public static void setChatAllowed(bool isChatAllowed)
     {
         chatAllowed = isChatAllowed;
