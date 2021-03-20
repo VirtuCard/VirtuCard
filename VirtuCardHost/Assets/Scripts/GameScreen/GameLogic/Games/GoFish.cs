@@ -3,11 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class GoFish : Game
 {
+    
     public GoFish()
     {
+        /*
         SetGameName(Enum.GetName(typeof(GameTypes), GameTypes.GoFish));
+        */
     }
 
     /// <summary>
@@ -15,9 +19,11 @@ public class GoFish : Game
     /// </summary>
     public override void InitializeGame()
     {
+        /*
         CardDeck deck = CreateStandard52Deck();
         GetDeck(DeckChoices.UNDEALT).AddCards(deck);
         GetDeck(DeckChoices.UNDEALT).Print();
+        */
     }
 
     /// <summary>
@@ -28,6 +34,7 @@ public class GoFish : Game
     /// <returns>True or false depending on validity of move</returns>
     public override bool VerifyMove(Card cardToPlay)
     {
+        
         return true;
     }
 
@@ -52,4 +59,5 @@ public class GoFish : Game
     {
         return true;
     }
+    
 }
