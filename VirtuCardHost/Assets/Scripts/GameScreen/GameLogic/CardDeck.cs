@@ -6,6 +6,7 @@ public class CardDeck
 {
     private List<Card> cards = new List<Card>();
 
+
     /// <summary>
     /// This prints all the cards in the CardDeck by calling each one's overloaded print method
     /// </summary>
@@ -77,8 +78,9 @@ public class CardDeck
     public Card PopCard()
     {
         int count = cards.Count;
-        System.Random rand = new System.Random();
-        int cardIndex = rand.Next(0, count - 1);
+        //System.Random rand = new System.Random();
+        int cardIndex = Random.Range(0, count - 1);
+        //int cardIndex = rand.Next(0, count - 1);
 
         Card returnCard = GetCard(cardIndex);
         RemoveCard(cardIndex);
@@ -146,6 +148,19 @@ public class CardDeck
     /// </summary>
     public void Shuffle()
     {
-        // TODO implementation
+        CardDeck newDeck = new CardDeck();
+        int DeckSize = cards.Count;
+        
+        while (DeckSize >= 0)
+        {
+            Card shuffled = PopCard();
+            newDeck.AddCard(shuffled);
+
+            //Decrementing DeckSize given that a card has been removed from the cards list
+            DeckSize--;
+        }
+        //Adds the newDeck's cards into the empty default deck to complete shuffling
+        AddCards(newDeck);
     }
+    
 }
