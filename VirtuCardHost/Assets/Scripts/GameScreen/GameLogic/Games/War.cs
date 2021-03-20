@@ -50,12 +50,16 @@ public class War : Game
         
         if (playerIndex == 0)
         {
-            AddCardToDeck(GetDeck(DeckChoices.PONEUNPLAYED).PopCard(), DeckChoices.PONEPLAYED);
+            StandardCard toPlay = (StandardCard) GetDeck(DeckChoices.PONEUNPLAYED).GetCard(0);
+            GetDeck(DeckChoices.PONEUNPLAYED).RemoveCard(0);
+            AddCardToDeck(toPlay, DeckChoices.PONEPLAYED);
             AdvanceTurn(true);
         }
         else
-        {            
-            AddCardToDeck(GetDeck(DeckChoices.PTWOUNPLAYED).PopCard(), DeckChoices.PTWOPLAYED);
+        {       
+            StandardCard toPlay = (StandardCard) GetDeck(DeckChoices.PTWOUNPLAYED).GetCard(0); 
+            GetDeck(DeckChoices.PTWOUNPLAYED).RemoveCard(0);    
+            AddCardToDeck(toPlay, DeckChoices.PTWOPLAYED);
             StandardCard firstCard = (StandardCard) GetDeck(DeckChoices.PONEPLAYED).GetCard(0);
             StandardCard secondCard = (StandardCard) GetDeck(DeckChoices.PTWOPLAYED).GetCard(0);
             if (firstCard.GetRank() == secondCard.GetRank())
