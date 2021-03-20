@@ -2,13 +2,15 @@ using System.Collections.Generic;
 using ExitGames.Client.Photon;
 using Photon.Chat;
 using Photon.Pun;
+using Photon.Realtime;
 using PhotonScripts;
 using UnityEngine;
 using UnityEngine.UI;
+using AuthenticationValues = Photon.Chat.AuthenticationValues;
 
 namespace GameScreen.ChatPanel
 {
-    public class ChatPanelController : MonoBehaviour, IChatClientListener
+    public class ChatPanelController : MonoBehaviourPunCallbacks, IChatClientListener
     {
         private const int MESSAGE_LIMIT = 44;
 
@@ -98,7 +100,8 @@ namespace GameScreen.ChatPanel
             roomcode = HostData.GetJoinCode();
 
             _chatClient = new ChatClient(this) {ChatRegion = "US"};
-            _chatClient.Connect(appId, "0.1b", new AuthenticationValues(PhotonNetwork.NickName));
+            PhotonNetwork.AddCallbackTarget(this);
+            _chatClient.Connect(appId, "0.1b", new AuthenticationValues( PhotonNetwork.NickName + " (Host)"));
         }
 
         // Update is called once per frame
@@ -180,6 +183,11 @@ namespace GameScreen.ChatPanel
         public void OnUserUnsubscribed(string channel, string user)
         {
             /* Ignore */
+        }
+
+        public override void OnPlayerLeftRoom(Player otherPlayer)
+        {
+            SendMessage(otherPlayer.NickName + " has left the room.");
         }
 
         /// START UNIT TEST

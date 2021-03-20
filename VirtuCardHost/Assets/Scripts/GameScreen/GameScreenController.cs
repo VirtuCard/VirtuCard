@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.SceneManagement;
 
 public class GameScreenController : MonoBehaviour
 {
@@ -21,7 +22,9 @@ public class GameScreenController : MonoBehaviour
     private CardMenu undealtCardMenu;
 
     private bool hasInitializedGame = false;
+
     private float startTime;
+
     // this is the time in seconds before the game intitializes
     private int secondsBeforeInitialization = 2;
 
@@ -34,9 +37,11 @@ public class GameScreenController : MonoBehaviour
             chatToggle.SetIsOnWithoutNotify(HostData.isChatAllowed());
             chatToggle.onValueChanged.AddListener(delegate { ChatToggleValueChanged(chatToggle.isOn); });
         }
-        else {
+        else
+        {
             allOfChatUI.SetActive(false);
         }
+
         startTime = Time.time;
         playedCardMenu = playedCardCarousel.GetComponent<CardMenu>();
         undealtCardMenu = undealtCardCarousel.GetComponent<CardMenu>();
@@ -51,15 +56,21 @@ public class GameScreenController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (HostData.GetGame().IsGameEmpty())
+        {
+            SceneManager.LoadScene(SceneNames.WaitingRoomScreen);
+        }
+
         currentPlayer.GetComponent<Text>().text = HostData.GetGame().GetPlayerOfCurrentTurn().username + "'s Turn";
         if (hasInitializedGame == false && startTime + secondsBeforeInitialization <= Time.time)
         {
             hasInitializedGame = true;
             HostData.GetGame().InitializeGame();
         }
+
         DisplayCards();
     }
-    
+
 
     public void DisplayCards()
     {
@@ -69,7 +80,7 @@ public class GameScreenController : MonoBehaviour
             {
                 HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCard(i).Print();
                 Debug.Log(HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCardCount());
-                StandardCard card = (StandardCard)HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCard(i);
+                StandardCard card = (StandardCard) HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCard(i);
                 Debug.Log(card.GetRank());
                 Debug.Log(card.GetSuit());
                 playedCardMenu.AddCardToCarousel(card, CardTypes.StandardCard);
@@ -81,13 +92,14 @@ public class GameScreenController : MonoBehaviour
                 }
             }
         }
+
         for (int i = 0; i < HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCardCount(); ++i)
         {
             if (!undealtCardMenu.FindCardFromCarousel(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i)))
             {
                 HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i).Print();
                 Debug.Log(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCardCount());
-                StandardCard card = (StandardCard)HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i);
+                StandardCard card = (StandardCard) HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i);
                 Debug.Log(card.GetRank());
                 Debug.Log(card.GetSuit());
                 undealtCardMenu.AddCardToCarousel(card, CardTypes.StandardCard);
@@ -102,7 +114,7 @@ public class GameScreenController : MonoBehaviour
 
         List<Card> cardsInCarousel = undealtCardMenu.GetAllCardsInCarousel();
         int cardCount = cardsInCarousel.Count;
-        for (int i = cardCount - 1; i >= 0 ; i--)
+        for (int i = cardCount - 1; i >= 0; i--)
         {
             // if the card carousel contains a card that is not present in the deck, remove it from carousel
             if (!HostData.GetGame().GetDeck(DeckChoices.UNDEALT).IsCardPresent(cardsInCarousel[i]))
@@ -111,6 +123,7 @@ public class GameScreenController : MonoBehaviour
             }
         }
     }
+
     /// <summary>
     /// This method should be called when a client has requested to draw a single card
     /// It draws a random card from the undealt deck and then removes it.
@@ -147,6 +160,7 @@ public class GameScreenController : MonoBehaviour
             HostData.GetGame().AddCardToDeck(card, DeckChoices.PLAYED);
             return true;
         }
+
         return false;
     }
 
