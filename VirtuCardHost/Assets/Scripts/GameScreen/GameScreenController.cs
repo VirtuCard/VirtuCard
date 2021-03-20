@@ -13,6 +13,8 @@ public class GameScreenController : MonoBehaviour
     public Text currentPlayer;
 
     public GameObject settingsPanel;
+
+    public Dropdown chatOptions;
     public Toggle timerToggle;
 
     public GameObject playedCardCarousel;
@@ -24,6 +26,7 @@ public class GameScreenController : MonoBehaviour
     private float startTime;
     // this is the time in seconds before the game intitializes
     private int secondsBeforeInitialization = 2;
+
 
     // Start is called before the first frame update
     void Start()
@@ -58,8 +61,28 @@ public class GameScreenController : MonoBehaviour
             HostData.GetGame().InitializeGame();
         }
         DisplayCards();
+
+        updatingChat();
     }
     
+    public void updatingChat() {
+        int chatValue = chatOptions.value;
+        if (chatValue == 0) // normal chat
+        {
+            HostData.setChatAllowed(true);
+            chatPanel.SetActive(true);
+        }
+        else if (chatValue == 1) // disable chat
+        {
+            HostData.setChatAllowed(false);
+            chatPanel.SetActive(false);
+        }
+        else // mute chat
+        {
+            HostData.setChatAllowed(true);
+            chatPanel.SetActive(false);
+        }
+    }
 
     public void DisplayCards()
     {
@@ -177,7 +200,8 @@ public class GameScreenController : MonoBehaviour
     private void ChatToggleValueChanged(bool toggleVal)
     {
         // HostData.setChatAllowed(toggleVal);
-        // Debug.Log("Chat is " + HostData.isChatAllowed());
+        Debug.Log("Chat is " + HostData.isChatAllowed());
+        HostData.setChatAllowed(toggleVal);
         checkmark.SetActive(toggleVal);
         chatPanel.SetActive(!toggleVal);
     }
