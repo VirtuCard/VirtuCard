@@ -213,6 +213,7 @@ public abstract class Game
         playerInfo.username = player.NickName;
         playerInfo.score = 0;
         playerInfo.photonPlayer = player;
+        playerInfo.cards = new CardDeck();
 
         if (players.Count < HostData.GetMaxNumPlayers())
         {

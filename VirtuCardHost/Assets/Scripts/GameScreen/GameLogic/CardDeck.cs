@@ -38,6 +38,24 @@ public class CardDeck
     }
 
     /// <summary>
+    /// Adds an entire decks cards into this deck
+    /// </summary>
+    /// <param name="deck"></param>
+    public void AddCards(CardDeck deck)
+    {
+        cards.AddRange(deck.GetAllCards());
+    }
+
+    /// <summary>
+    /// Adds an entire list of cards into this deck
+    /// </summary>
+    /// <param name="cards"></param>
+    public void AddCards(List<Card> cards)
+    {
+        AddCards(cards.ToArray());
+    }
+
+    /// <summary>
     /// Adds multiple cards to the card deck at once.
     /// It does NOT put them in randomly, it appends them to the end of the deck
     /// </summary>
@@ -91,6 +109,52 @@ public class CardDeck
     }
 
     /// <summary>
+    /// Checks if the card rank exists in the card deck
+    /// </summary>
+    /// <param name="rank"></param>
+    /// <returns></returns>
+    public bool CheckIfCardRankExists(StandardCardRank rank)
+    {
+        foreach (Card card in cards)
+        {
+            if (((StandardCard)card).GetRank() == rank)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Returns a list of cards that match the rank specified in the deck
+    /// </summary>
+    /// <param name="rank"></param>
+    /// <returns></returns>
+    public List<Card> GetAllCardsOfSpecificRank(StandardCardRank rank)
+    {
+        List<Card> list = new List<Card>();
+
+        foreach (Card card in cards)
+        {
+            if (((StandardCard)card).GetRank() == rank)
+            {
+                list.Add(card);
+            }
+        }
+
+        return list;
+    }
+    
+    /// <summary>
+    /// Returns all the cards within this deck in a list
+    /// </summary>
+    /// <returns></returns>
+    public List<Card> GetAllCards()
+    {
+        return cards;
+    }
+
+    /// <summary>
     /// Returns the number of cards in the deck
     /// </summary>
     /// <returns></returns>
@@ -105,7 +169,13 @@ public class CardDeck
     /// <param name="card"></param>
     public void RemoveCard(Card card)
     {
-        cards.Remove(card);
+        for (int x = 0; x < cards.Count; x++)
+        {
+            if (cards[x].Compare(card) == true)
+            {
+                cards.RemoveAt(x);
+            }
+        }
     }
 
     /// <summary>
@@ -115,6 +185,18 @@ public class CardDeck
     public void RemoveCard(int index)
     {
         cards.RemoveAt(index);
+    }
+
+    /// <summary>
+    /// Removes a list of cards from the card deck
+    /// </summary>
+    /// <param name="cards"></param>
+    public void RemoveCards(List<Card> cards)
+    {
+        foreach (Card card in cards)
+        {
+            RemoveCard(card);
+        }
     }
 
     /// <summary>

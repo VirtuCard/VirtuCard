@@ -186,6 +186,7 @@ namespace PhotonScripts
 
                 Debug.Log("Receiving a Played Card from " + username + ": " + card.ToString());
                 int userIndex = HostData.GetGame().GetPlayerIndex(username);
+                PlayerInfo player = HostData.GetGame().GetPlayer(username);
                 HostData.GetGame().DoMove(card, userIndex);
             }
             // verifying card event
@@ -219,6 +220,22 @@ namespace PhotonScripts
                 string username = (string)data[0];
                 HostData.GetGame().AdvanceTurn(true);
             }
+            // stolen card event
+            else if (photonEvent.Code == 14)
+            {
+                object[] data = (object[])photonEvent.CustomData;
+                string toPlayer = (string)data[0];
+                string fromPlayer = (string)data[1];
+                int numOfCards = (int)data[2];
+
+                List<Card> cards = new List<Card>();
+                for (int x = 3; x < numOfCards + 3; x++)
+                {
+                    StandardCard card = new StandardCard((StandardCardRank)data[x + (2 * (x - 3))], (StandardCardSuit)data[x + 1 + (2 * (x - 3))]);
+                    cards.Add(card);
+                }
+                //SendCardsToPlayer(username, cards);
+            }
         }
 
         /// <summary>
@@ -226,18 +243,43 @@ namespace PhotonScripts
         /// </summary>
         /// <param name="username">PhotonNetwork.NickName of the player to send them to</param>
         /// <param name="cards">Cards to send</param>
-        public void SendCardsToPlayer(string username, List<Card> cards)
+        public static void SendCardsToPlayer(string username, List<Card> cards)
         {
             if (cards[0].GetType().Name == "StandardCard")
             {
                 foreach (Card card in cards)
                 {
+                    PlayerInfo player = HostData.GetGame().GetPlayer(username);
+                    player.cards.AddCard(card);
+
                     StandardCard cardToSend = (StandardCard)card;
                     object[] content = new object[] { username, cards[0].GetType().Name, cardToSend.GetRank(), cardToSend.GetSuit() };
                     RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
                     PhotonNetwork.RaiseEvent(8, content, raiseEventOptions, SendOptions.SendUnreliable);
                 }
             }
+        }
+
+        /// <summary>
+        /// Steals cards from the user, <paramref name="fromUsername"/>, and gives them to the user, <paramref name="toUsername"/> 
+        /// </summary>
+        /// <param name="fromUsername"></param>
+        /// <param name="toUsername"></param>
+        public static void RemoveCardsFromPlayer(string fromUsername, string toUsername, List<Card> cardsToSteal)
+        {
+            List<object> content = new List<object>();
+            content.Add(fromUsername);
+            content.Add(toUsername);
+
+            for (int x = 0; x < cardsToSteal.Count; x++)
+            {
+                StandardCard card = (StandardCard)cardsToSteal[x];
+                content.Add(card.GetRank());
+                content.Add(card.GetSuit());
+            }
+
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(13, content.ToArray(), raiseEventOptions, SendOptions.SendUnreliable);
         }
 
         /// <summary>
