@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class GoFish : Game
 {
     // number of cards each player starts with
@@ -18,6 +19,7 @@ public class GoFish : Game
     /// </summary>
     public override void InitializeGame()
     {
+        
         CardDeck deck = CreateStandard52Deck();
         GetDeck(DeckChoices.UNDEALT).AddCards(deck);
 
@@ -74,6 +76,7 @@ public class GoFish : Game
     /// <returns>True or false depending on validity of move</returns>
     public override bool VerifyMove(Card cardToPlay)
     {
+        
         return true;
     }
 

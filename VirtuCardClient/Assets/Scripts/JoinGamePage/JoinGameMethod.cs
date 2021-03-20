@@ -18,6 +18,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
     /// This method grabs the code that the user input
     /// then puts it in to the code to join a Photon room.
     /// <summary>
+
     public string joinCode;
 
     public GameObject inputField;
@@ -122,6 +123,11 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
             Debug.Log(hostName);
 
             string clientName = PhotonNetwork.NickName;
+
+            if (s == "War")
+            {
+
+            }
 
             MaxPlayersText.GetComponent<Text>().text = s;
             GameModeText.GetComponent<Text>().text = "" + players;
