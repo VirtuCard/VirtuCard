@@ -110,12 +110,14 @@ public class CardMenu : MonoBehaviour
             {
                 GameObject imageToDestroy = images[x].gameObject;
                 images.RemoveAt(x);
+                imageToDestroy.GetComponent<Animator>().Play("CardAnimationClientDelete");
                 Destroy(imageToDestroy);
                 break;
             }
         }
         ReformatCarousel();
     }
+
 
     /// <summary>
     /// Resets the spacing for the cards.
