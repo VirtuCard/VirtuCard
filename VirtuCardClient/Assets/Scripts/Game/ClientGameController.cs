@@ -47,18 +47,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     void Start()
     {
         // ClientData.setChatAllowed(true);
-        if (!ClientData.isChatAllowed())
-        {
-            chatDisableSign.SetActive(true);
-            chatPanel.SetActive(false);
-            chatToggleObject.SetActive(false);
-        }
-        else
-        {
-            chatDisableSign.SetActive(false);
-            chatPanel.SetActive(true);
-            chatToggleObject.SetActive(true);
-        }
 
         PhotonNetwork.AddCallbackTarget(this);
         skipBtn.onClick.AddListener(delegate() {
@@ -135,7 +123,31 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             exitGameBtn.onClick.AddListener(delegate () { exitGameBtnOnClick(); });
 
         }
+        
+        disableChat(); // doesn't work yet
     }
+
+    /// <summary>
+    /// If host decides to disable the chat, the chat should disable
+    /// </summary>
+    public void disableChat() {
+        if (!ClientData.isChatAllowed())
+        {
+            // chat is not allowed
+            chatDisableSign.SetActive(true);
+            chatPanel.SetActive(false);
+            chatToggleObject.SetActive(false);
+        }
+        else
+        {
+            // chat is allowed
+            chatDisableSign.SetActive(false);
+            chatPanel.SetActive(true);
+            chatToggleObject.SetActive(true);
+        }
+    }
+
+
 
     /// <summary>
     /// This just adds a random card, which actually is not random
@@ -271,7 +283,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     }
 
     private void exitGameBtnOnClick() {
-        Debug.Log("WHAT THE FUCK");
         winnerPanel.SetActive(false);
         SceneManager.LoadScene(SceneNames.JoinGamePage, LoadSceneMode.Single);
     }
