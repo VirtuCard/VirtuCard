@@ -8,8 +8,6 @@ public class GameScreenController : MonoBehaviour
 {
     public GameObject allOfChatUI;
     public GameObject chatPanel;
-    public GameObject checkmark;
-    public Toggle chatToggle;
     public Text currentPlayer;
 
     public GameObject settingsPanel;
@@ -34,8 +32,6 @@ public class GameScreenController : MonoBehaviour
         if (HostData.isChatAllowed())
         {
             allOfChatUI.SetActive(true);
-            chatToggle.SetIsOnWithoutNotify(HostData.isChatAllowed());
-            chatToggle.onValueChanged.AddListener(delegate { ChatToggleValueChanged(chatToggle.isOn); });
         }
         else {
             allOfChatUI.SetActive(false);
@@ -61,7 +57,6 @@ public class GameScreenController : MonoBehaviour
             HostData.GetGame().InitializeGame();
         }
         DisplayCards();
-
         updatingChat();
     }
     
@@ -192,20 +187,6 @@ public class GameScreenController : MonoBehaviour
     {
         return HostData.GetGame().VerifyCanSkip(playerIndex);
     }
-
-    /// <summary>
-    /// This method is called when the chat toggle state changes
-    /// </summary>
-    /// <param name="toggleVal"></param>
-    private void ChatToggleValueChanged(bool toggleVal)
-    {
-        // HostData.setChatAllowed(toggleVal);
-        Debug.Log("Chat is " + HostData.isChatAllowed());
-        HostData.setChatAllowed(toggleVal);
-        checkmark.SetActive(toggleVal);
-        chatPanel.SetActive(!toggleVal);
-    }
-
 
     /// <summary>
     /// This sends a signal to all the clients to either enable or disable the timer

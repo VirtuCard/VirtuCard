@@ -21,7 +21,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: Scene
   m_RootView: {fileID: 6}
-  m_MinSize: {x: 875, y: 542}
+  m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_Maximized: 0
 --- !u!114 &2
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 679, y: 492}
   m_MaxSize: {x: 14002, y: 14042}
   vertical: 0
-  controlID: 86
+  controlID: 120
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_MinSize: {x: 403, y: 492}
   m_MaxSize: {x: 10001, y: 14042}
   vertical: 1
-  controlID: 87
+  controlID: 121
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -251,7 +251,7 @@ MonoBehaviour:
   m_MinSize: {x: 403, y: 221}
   m_MaxSize: {x: 8003, y: 4021}
   vertical: 0
-  controlID: 88
+  controlID: 122
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -355,10 +355,10 @@ MonoBehaviour:
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 79}
-    m_SelectedIDs: 5c840000
-    m_LastClickedID: 33884
-    m_ExpandedIDs: 00000000e46e00005e8400004c90000000ca9a3b
+    scrollPos: {x: 0, y: 52.5}
+    m_SelectedIDs: 18470000
+    m_LastClickedID: 18200
+    m_ExpandedIDs: 000000008846000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -386,7 +386,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000e46e0000
+    m_ExpandedIDs: 0000000088460000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -507,9 +507,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 9c75ffff0076ffff847fffffd886fffff286ffff5a87ffff669dffff6c9dffff7a9dffff869dffff22acffff7caeffffe8b2ffffccb4ffff1eb8ffff1cbaffffa0beffff04bfffff18bfffff2cbfffff46bfffff5ebfffff72bfffff86bfffffbec0ffffd8a700000ca800003aa800008abb0000bcbb0000eabb000012ca000022d000007cd00000aed0000030d10000
+      m_SelectedIDs: e86b0000
+      m_LastClickedID: 27624
+      m_ExpandedIDs: 68e8fffff6efffff2cf4ffff3cfbffff0463000014630000166300005e63000070630000a2630000b86300000664000068640000e26b00003c6c00006e6c0000846c0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
