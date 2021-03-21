@@ -3,6 +3,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -46,7 +47,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        // ClientData.setChatAllowed(true);
+        // ClientData.setChatAllowed(false);
 
         PhotonNetwork.AddCallbackTarget(this);
         skipBtn.onClick.AddListener(delegate() {
@@ -437,5 +438,10 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private void TimerReachedZero()
     {
         SendSkipTurnToHost(true);
+    }
+
+    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+    {
+        ClientData.FromHashtable(propertiesThatChanged);
     }
 }
