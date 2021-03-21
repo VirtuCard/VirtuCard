@@ -11,6 +11,31 @@ public static class ClientData
     private static bool isCurrentlyTurn = false;
     private static bool chatAllowed = true;
     private static bool hostCanJoin;
+    private static string gameName = "";
+
+    private static List<string> playerNames = new List<string>();
+    
+    public static List<string> GetAllConnectedPlayers()
+    {
+        return playerNames;
+    }
+    public static void RemoveConnectedPlayerName(string nameToRemove)
+    {
+        playerNames.Remove(nameToRemove);
+    }
+    public static void AddConnectedPlayerName(string newName)
+    {
+        playerNames.Add(newName);
+    }
+
+    public static void SetGameName(string name)
+    {
+        gameName = name;
+    }
+    public static string GetGameName()
+    {
+        return gameName;
+    }
 
     public static bool canHostJoin()
     {

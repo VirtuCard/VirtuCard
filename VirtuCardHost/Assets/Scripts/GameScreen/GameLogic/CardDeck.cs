@@ -37,11 +37,6 @@ public class CardDeck
         return false;
     }
 
-    public void AddCards(CardDeck deck){
-        cards.AddRange(deck.GetAllCards());
-    }
-
-
 
     /// <summary>
     /// Adds an entire decks cards into this deck
@@ -112,11 +107,6 @@ public class CardDeck
             return cards[index];
         }
         throw new System.Exception("Card Deck of size: " + cards.Count + " does not contain card at index: " + index);
-    }
-
-    public List<Card> GetAllCards()
-    {
-        return cards;
     }
 
     /// <summary>

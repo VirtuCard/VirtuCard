@@ -184,10 +184,23 @@ namespace PhotonScripts
                 StandardCardSuit suit = (StandardCardSuit)data[3];
                 StandardCard card = new StandardCard(rank, suit);
 
-                Debug.Log("Receiving a Played Card from " + username + ": " + card.ToString());
-                int userIndex = HostData.GetGame().GetPlayerIndex(username);
-                PlayerInfo player = HostData.GetGame().GetPlayer(username);
-                HostData.GetGame().DoMove(card, userIndex);
+                // if the game is gofish
+                if (HostData.GetGame().GetGameName().Equals(Enum.GetName(typeof(GameTypes), GameTypes.GoFish)))
+                {
+                    string playerToRequestFrom = (string)data[4];
+
+                    Debug.Log(username + " is requesting " + card.GetRank()  + "s from " + playerToRequestFrom);
+
+                    int userIndex = HostData.GetGame().GetPlayerIndex(playerToRequestFrom);
+                    HostData.GetGame().DoMove(card, userIndex);
+                }
+                else
+                {
+                    // the game is not gofish
+                    Debug.Log("Receiving a Played Card from " + username + ": " + card.ToString());
+                    int userIndex = HostData.GetGame().GetPlayerIndex(username);
+                    HostData.GetGame().DoMove(card, userIndex);
+                }
             }
             // verifying card event
             else if (photonEvent.Code == 4)
@@ -220,22 +233,6 @@ namespace PhotonScripts
                 string username = (string)data[0];
                 HostData.GetGame().AdvanceTurn(true);
             }
-            // stolen card event
-            else if (photonEvent.Code == 14)
-            {
-                object[] data = (object[])photonEvent.CustomData;
-                string toPlayer = (string)data[0];
-                string fromPlayer = (string)data[1];
-                int numOfCards = (int)data[2];
-
-                List<Card> cards = new List<Card>();
-                for (int x = 3; x < numOfCards + 3; x++)
-                {
-                    StandardCard card = new StandardCard((StandardCardRank)data[x + (2 * (x - 3))], (StandardCardSuit)data[x + 1 + (2 * (x - 3))]);
-                    cards.Add(card);
-                }
-                //SendCardsToPlayer(username, cards);
-            }
         }
 
         /// <summary>
@@ -261,19 +258,29 @@ namespace PhotonScripts
         }
 
         /// <summary>
-        /// Steals cards from the user, <paramref name="fromUsername"/>, and gives them to the user, <paramref name="toUsername"/> 
+        /// Removes cards from the user, <paramref name="fromUsername"/>, and sends the string, <paramref name="toUsername"/>
+        /// to the client to let them know who removed their cards if they were taken by another player
         /// </summary>
         /// <param name="fromUsername"></param>
         /// <param name="toUsername"></param>
-        public static void RemoveCardsFromPlayer(string fromUsername, string toUsername, List<Card> cardsToSteal)
+        public static void RemoveCardsFromPlayer(string fromUsername, string toUsername, List<Card> cardsToRemove)
         {
+            PlayerInfo player = HostData.GetGame().GetPlayer(fromUsername);
+            player.cards.RemoveCards(cardsToRemove);
+
             List<object> content = new List<object>();
             content.Add(fromUsername);
+            if (toUsername == null)
+            {
+                toUsername = String.Empty;
+            }
             content.Add(toUsername);
 
-            for (int x = 0; x < cardsToSteal.Count; x++)
+            content.Add(cardsToRemove.Count);
+
+            for (int x = 0; x < cardsToRemove.Count; x++)
             {
-                StandardCard card = (StandardCard)cardsToSteal[x];
+                StandardCard card = (StandardCard)cardsToRemove[x];
                 content.Add(card.GetRank());
                 content.Add(card.GetSuit());
             }
