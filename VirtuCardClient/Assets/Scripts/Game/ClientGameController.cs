@@ -131,19 +131,20 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     /// If host decides to disable the chat, the chat should disable
     /// </summary>
     public void disableChat() {
-        if (!ClientData.isChatAllowed())
-        {
-            // chat is not allowed
-            chatDisableSign.SetActive(true);
-            chatPanel.SetActive(false);
-            chatToggleObject.SetActive(false);
-        }
-        else
+        Debug.Log("chat allowed status: " + ClientData.isChatAllowed());
+        if (ClientData.isChatAllowed())
         {
             // chat is allowed
             chatDisableSign.SetActive(false);
             chatPanel.SetActive(true);
             chatToggleObject.SetActive(true);
+        }
+        else
+        {
+            // chat is not allowed
+            chatDisableSign.SetActive(true);
+            chatPanel.SetActive(false);
+            chatToggleObject.SetActive(false);
         }
     }
 
