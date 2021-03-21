@@ -124,6 +124,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
 
             string clientName = PhotonNetwork.NickName;
 
+            ClientData.SetGameName(s);
             if (s == "War")
             {
 
@@ -145,6 +146,12 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
         // this is the flag that is saying to go from waiting screen to the game screen
         else if (photonEvent.Code == 6)
         {
+            object[] data = (object[])photonEvent.CustomData;
+            int numOfPlayers = (int)data[0];
+            for (int x = 1; x < numOfPlayers + 1; x++)
+            {
+                ClientData.AddConnectedPlayerName((string)data[x]);
+            }
             SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
         }
         else if (photonEvent.Code == 10)

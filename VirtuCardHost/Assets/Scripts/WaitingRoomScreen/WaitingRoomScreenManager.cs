@@ -58,6 +58,10 @@ public class WaitingRoomScreenManager : MonoBehaviour
         {
             startGameBtn.interactable = true;
         }
+        else
+        {
+            startGameBtn.interactable = false;
+        }
 
         //Refresh players list here
         RefreshPlayerListBox();
@@ -140,8 +144,18 @@ public class WaitingRoomScreenManager : MonoBehaviour
     public void StartGameBtnClicked()
     {
         // send an event to clients telling them to start their games
+
+        List<object> content = new List<object>();
+        List<PlayerInfo> allConnectedPlayers = HostData.GetGame().GetAllPlayers();
+        content.Add(allConnectedPlayers.Count);
+        for (int x = 0; x < allConnectedPlayers.Count; x++)
+        {
+            content.Add(allConnectedPlayers[x].username);
+        }
+
+
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        PhotonNetwork.RaiseEvent(6, null, raiseEventOptions, SendOptions.SendUnreliable);
+        PhotonNetwork.RaiseEvent(6, content.ToArray(), raiseEventOptions, SendOptions.SendUnreliable);
         HostData.GetGame().PrintAllPlayers();
         SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
     }

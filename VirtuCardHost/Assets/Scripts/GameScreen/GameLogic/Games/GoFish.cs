@@ -113,18 +113,32 @@ public class GoFish : Game
         List<Card> stolenCards = QueryPlayerForCards(playerToQuery.username, card.GetRank());
 
         // take cards from queried player
+        PhotonScripts.NetworkController.RemoveCardsFromPlayer(playerToQuery.username, currentPlayer.username, stolenCards);
 
         // give cards to current player
+        PhotonScripts.NetworkController.SendCardsToPlayer(currentPlayer.username, stolenCards);
 
         // check if they have 4 of the current rank. If they do, add a point to them and remove those 4 from their deck
         List<Card> fourOfAKind = QueryPlayerForCards(currentPlayer.username, card.GetRank());
         if (fourOfAKind.Count == 4)
         {
             currentPlayer.score++;
+            // TODO update UI for score
+
             // remove the cards from fourOfAKind from the player
+            PhotonScripts.NetworkController.RemoveCardsFromPlayer(currentPlayer.username, null, fourOfAKind);
         }
 
         // do not advance the turn because they stole some cards
+
+        // check if the game has ended
+        if (HasGameEnded())
+        {
+            Debug.Log("Game has ended");
+            // TODO clean up game
+        }
+
+
 
         return true;
     }
@@ -149,7 +163,7 @@ public class GoFish : Game
     /// <returns></returns>
     public StandardCardRank? CheckIfDeckHas4OfAKind(CardDeck deck)
     {
-        for (int x = deck.GetCardCount(); x >= 0; x--)
+        for (int x = deck.GetCardCount() - 1; x >= 0; x--)
         {
             StandardCard card = (StandardCard)deck.GetCard(x);
             List<Card> fourOfAKind = deck.GetAllCardsOfSpecificRank(card.GetRank());
@@ -188,5 +202,23 @@ public class GoFish : Game
         }
 
         return playerToCheck.cards.GetAllCardsOfSpecificRank(rank);
+    }
+
+    /// <summary>
+    /// Returns true if the game has reached the end.
+    /// </summary>
+    /// <returns></returns>
+    public bool HasGameEnded()
+    {
+        List<PlayerInfo> players = GetAllPlayers();
+
+        int cumulativeScore = 0;
+        foreach (PlayerInfo player in players)
+        {
+            cumulativeScore += player.score;
+        }
+
+        // 13 total sets need to have been made to end the game
+        return (cumulativeScore == 13);
     }
 }

@@ -5,8 +5,8 @@ using System;
 
 public class StandardCard : Card
 {
-    public StandardCardRank rank;
-    public StandardCardSuit suit;
+    private StandardCardRank rank;
+    private StandardCardSuit suit;
 
     public StandardCard(StandardCardRank rank, StandardCardSuit suit)
     {
