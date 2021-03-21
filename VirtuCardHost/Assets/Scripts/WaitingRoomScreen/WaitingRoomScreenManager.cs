@@ -50,7 +50,14 @@ public class WaitingRoomScreenManager : MonoBehaviour
             delegate { ChatToggleValueChanged(chatEnabledToggle.isOn); });
 
         //TODO add listeners to update information on Freeplay class
-
+        enableHearts.onValueChanged.AddListener(
+            delegate { HeartsToggleValueChanged(enableHearts.isOn); });
+        enableClubs.onValueChanged.AddListener(
+            delegate { ClubsToggleValueChanged(enableClubs.isOn); });
+        enableSpades.onValueChanged.AddListener(
+            delegate { SpadesToggleValueChanged(enableSpades.isOn); });
+        enableDiamonds.onValueChanged.AddListener(
+            delegate { DiamondsToggleValueChanged(enableDiamonds.isOn); });
         // setup initial timer stuff
         timerEnabledToggle.onValueChanged.AddListener(
             delegate { TimerToggleValueChanged(timerEnabledToggle.isOn); });
@@ -70,6 +77,11 @@ public class WaitingRoomScreenManager : MonoBehaviour
         chatEnabledToggle.isOn = HostData.isChatAllowed();
         numPlayers.SetTextWithoutNotify(HostData.GetMaxNumPlayers().ToString());
 
+        //freeplay initialization
+        enableHearts.isOn = HostData.getHeartsAllowed();
+        enableClubs.isOn = HostData.getClubsAllowed();
+        enableSpades.isOn = HostData.getSpadesAllowed();
+        enableDiamonds.isOn = HostData.getDiamondsAllowed();
 
         startGameBtn.onClick.AddListener(delegate { StartGameBtnClicked(); });
         startGameBtn.interactable = false;
@@ -270,7 +282,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
         }
     }
 
-//Freeplay options stuff
+//Freeplay options methods
 
     public void OnClickBackOnFreeplaySettings()
     {
@@ -281,9 +293,38 @@ public class WaitingRoomScreenManager : MonoBehaviour
     public void OnClickFreeplaySettings()
     {
         //Add logic to check what game mode is selected
+        //TODO
+
         freeplaySettingsPanel.SetActive(true);
         settingsPanel.SetActive(false);
     }
+
+    private void HeartsToggleValueChanged(bool isOn)
+    {
+        HostData.setHeartsAllowed(isOn);
+    }
+
+    private void ClubsToggleValueChanged(bool isOn)
+    {
+        HostData.setClubsAllowed(isOn);
+    }
+
+    private void SpadesToggleValueChanged(bool isOn)
+    {
+        HostData.setSpadesAllowed(isOn);
+    }
+       
+    private void DiamondsToggleValueChanged(bool isOn)
+    {
+        HostData.setDiamondsAllowed(isOn);
+    }
+
+    private void LastCardToggleChanged(bool isOn)
+    {
+        HostData.setDisplayLastCard(isOn);
+    }
+
+//End freeplay options
 
 
     public void OnClickCloseOptions()
