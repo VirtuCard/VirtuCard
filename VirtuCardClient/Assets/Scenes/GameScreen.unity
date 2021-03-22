@@ -238,6 +238,7 @@ MonoBehaviour:
   turn: {fileID: 1490256972}
   notTurnUI: {fileID: 356191701}
   waitingSign: {fileID: 335207972}
+  card: {fileID: 1487859254}
   cardCarousel: {fileID: 881918756}
   chatDisableSign: {fileID: 882972421}
   chatToggleObject: {fileID: 1361487239}
@@ -247,6 +248,7 @@ MonoBehaviour:
   winnerPanel: {fileID: 171645464}
   exitGameBtn: {fileID: 2018423521}
   winnerAnnounce: {fileID: 873378909}
+  CardList: []
   cardIsValidText: {fileID: 1495751247}
   timer: {fileID: 1163514993}
 --- !u!4 &118907039
@@ -1277,7 +1279,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 803}
+  m_AnchoredPosition: {x: 0, y: 789}
   m_SizeDelta: {x: 128.3353, y: 105.2336}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &470023685
@@ -1323,7 +1325,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 470023686}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 118907038}
+        m_TargetAssemblyTypeName: ClientGameController, ScriptsAssembly
+        m_MethodName: onFlipButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &470023686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3605,7 +3619,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1487859254}
   - component: {fileID: 1487859255}
-  - component: {fileID: 1487859256}
   m_Layer: 5
   m_Name: StandardCardTemplate
   m_TagString: Untagged
@@ -3632,7 +3645,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1159, y: 79}
+  m_AnchoredPosition: {x: -1111, y: 48}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &1487859255
@@ -3643,7 +3656,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1487859253}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 25c6c15512b20e54d9dbeb9e84560bde, type: 2}
   m_CullingMode: 0
@@ -3654,24 +3667,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!111 &1487859256
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1487859253}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations:
-  - {fileID: 7400000, guid: e1d53c3a70317f545871da2d6556a74e, type: 2}
-  - {fileID: 7400000, guid: d3c5ecc13d461ae46aec35425dac3a8a, type: 2}
-  - {fileID: 7400000, guid: 2ba79ed725f99ef498f7bd4208f16c58, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!1 &1489927996
 GameObject:
   m_ObjectHideFlags: 0
