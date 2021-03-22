@@ -1,9 +1,9 @@
 using ExitGames.Client.Photon;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -24,6 +24,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private CardMenu cardMenu;
     public GameObject chatDisableSign;
 
+    public Dropdown chatOptions;
     public GameObject chatToggleObject;
     public GameObject chatPanel;
     public GameObject checkMark;
@@ -124,8 +125,25 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             exitGameBtn.onClick.AddListener(delegate () { exitGameBtnOnClick(); });
 
         }
+
+        updateChat();
         
-        disableChat(); // doesn't work yet
+        disableChat();
+    }
+
+    /// <summary>
+    /// This is where the player decides if they want to hide the chat or not
+    /// </summary>
+    public void updateChat() {
+        int chatValue = chatOptions.value;
+        if (chatValue == 0) // normal chat
+        {
+            chatPanel.SetActive(true);
+        }
+        else if (chatValue == 1) // hide chat
+        {
+            chatPanel.SetActive(false);
+        }
     }
 
     /// <summary>
