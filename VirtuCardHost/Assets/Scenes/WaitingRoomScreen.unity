@@ -5022,6 +5022,7 @@ MonoBehaviour:
   enableSpades: {fileID: 1618973791}
   enableDiamonds: {fileID: 623410590}
   showLastCard: {fileID: 888505738}
+  FreeplaySettingsButton: {fileID: 626472028}
   timerEnabledToggle: {fileID: 1564252619}
   minutesInput: {fileID: 707466920}
   secondsInput: {fileID: 1726754683}

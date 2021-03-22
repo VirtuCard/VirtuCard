@@ -24,6 +24,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
     public Toggle enableSpades;
     public Toggle enableDiamonds;
     public Toggle showLastCard;
+    public Button FreeplaySettingsButton;
 
     // Timer Settings
     public Toggle timerEnabledToggle;
@@ -49,7 +50,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
         chatEnabledToggle.onValueChanged.AddListener(
             delegate { ChatToggleValueChanged(chatEnabledToggle.isOn); });
 
-        //TODO add listeners to update information on Freeplay class
+        //  Freeplay listeners
         enableHearts.onValueChanged.AddListener(
             delegate { HeartsToggleValueChanged(enableHearts.isOn); });
         enableClubs.onValueChanged.AddListener(
@@ -85,6 +86,14 @@ public class WaitingRoomScreenManager : MonoBehaviour
 
         startGameBtn.onClick.AddListener(delegate { StartGameBtnClicked(); });
         startGameBtn.interactable = false;
+        
+        //disables and hides the freeplay button if the gamemode is not freeplay
+        if (HostData.GetGame().GetGameName() != "Freeplay")
+        {
+            //FreeplaySettingsButton.enabled = false;
+            FreeplaySettingsButton.gameObject.SetActive(false);
+        }
+        
     }
 
     // Update is called once per frame
