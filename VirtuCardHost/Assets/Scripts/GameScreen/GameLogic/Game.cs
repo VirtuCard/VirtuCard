@@ -176,7 +176,7 @@ public abstract class Game
     {
         for (int x = 0; x < players.Count; x++)
         {
-            if (username.Equals(players[x].username))
+            if (username.Trim().Equals(players[x].username))
             {
                 return x;
             }
