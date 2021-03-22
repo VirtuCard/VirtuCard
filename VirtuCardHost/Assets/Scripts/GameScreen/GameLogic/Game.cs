@@ -97,7 +97,7 @@ public abstract class Game
     /// <summary>
     /// This sends out the playerTurnIndex to all the connected Clients
     /// </summary>
-    private void SendOutPlayerTurnIndex()
+    public void SendOutPlayerTurnIndex()
     {
         PlayerInfo currentPlayer = GetPlayerOfCurrentTurn();
         Debug.Log("Setting current turn to " + currentPlayer.photonPlayer.NickName + "'s turn");
