@@ -163,4 +163,37 @@ public class CardDeck
         AddCards(newDeck);
     }
     
+    /// <summary>
+    /// The method compares two argument decks against each other to determine if they are identical.
+    /// </summary>
+    /// <param name="deck1"> A deck to compare the latter deck against </param>
+    /// <param name="deck2"> A deck that will be compared against the former deck </param>
+    /// <returns> True if the two decks are equal. Else false. </returns>
+    public static bool IsEqual(CardDeck deck1, CardDeck deck2)
+    {
+        if (deck1.GetCardCount() != deck2.GetCardCount())
+        {
+            return false;
+        }
+
+        for (int i = 0; i < deck1.GetCardCount(); i++)
+        {
+            if (deck1.GetCard(i).Compare(deck2.GetCard(i)) == false)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// This method copies a card deck
+    /// </summary>
+    public void DuplicateDeck(CardDeck toCopy)
+    {
+        for (int i = 0; i < GetCardCount(); i++)
+        {
+            (this.GetCard(i)).CopyCard(toCopy.GetCard(i));
+        }
+    }
 }
