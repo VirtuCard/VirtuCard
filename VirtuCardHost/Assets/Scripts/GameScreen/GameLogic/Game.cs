@@ -423,6 +423,18 @@ public abstract class Game
     }
 
     /// <summary>
+    /// This method returns the maximum number of players for a game
+    /// </summary>
+    /// <returns></returns>
+    public abstract int GetMaximumNumOfPlayers();
+
+    /// <summary>
+    /// This method returns teh minimum number of players for a game
+    /// </summary>
+    /// <returns></returns>
+    public abstract int GetMinimumNumOfPlayers();
+
+    /// <summary>
     /// This method is used to verify that the Card that the player wants to play is valid.
     /// It does NOT actually play the card, it only checks if it is possible
     /// </summary>

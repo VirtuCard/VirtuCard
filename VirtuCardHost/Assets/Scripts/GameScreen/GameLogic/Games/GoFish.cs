@@ -9,6 +9,9 @@ public class GoFish : Game
     // number of cards each player starts with
     private const int NUM_OF_CARDS_PER_PLAYER = 5;
 
+    private const int MIN_NUM_OF_PLAYERS = 2;
+    private const int MAX_NUM_OF_PLAYERS = 10;
+
     public GoFish()
     {
         SetGameName(Enum.GetName(typeof(GameTypes), GameTypes.GoFish));
@@ -40,10 +43,11 @@ public class GoFish : Game
             {
                 playerDecks[deckIndex].AddCard(GetDeck(DeckChoices.UNDEALT).PopCard());
             }
+            playerDecks[deckIndex].Print();
 
             // check that they do not start with 4 of a kind
-            StandardCardRank? rank;
-            while ((rank = CheckIfDeckHas4OfAKind(playerDecks[deckIndex])) != null)
+            
+            while (CheckIfDeckHas4OfAKind(playerDecks[deckIndex]) != null)
             {
                 for (int x = 0; x < playerDecks[deckIndex].GetCardCount(); x++)
                 {
@@ -66,6 +70,24 @@ public class GoFish : Game
         // now all players will be sent 5 cards that do not contain a 4 of a kind
 
         SendOutPlayerTurnIndex();
+    }
+
+    /// <summary>
+    /// Returns the maximum limit of players
+    /// </summary>
+    /// <returns></returns>
+    public override int GetMaximumNumOfPlayers()
+    {
+        return MAX_NUM_OF_PLAYERS;
+    }
+
+    /// <summary>
+    /// Returns the minimum number of players required to start the game
+    /// </summary>
+    /// <returns></returns>
+    public override int GetMinimumNumOfPlayers()
+    {
+        return MIN_NUM_OF_PLAYERS;
     }
 
     /// <summary>

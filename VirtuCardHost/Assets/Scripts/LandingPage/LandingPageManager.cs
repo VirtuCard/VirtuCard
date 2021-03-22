@@ -60,7 +60,8 @@ public class LandingPageManager : MonoBehaviour
                 gameChoiceDropdown.options[gameChoiceDropdown.value].text));
 
             string RoomCode = NetworkController.generateCode(); //Generating Room Code string and storing it
-            NetworkController.CreateAndJoinRoom(RoomCode); //Creating Photon Room with Generated Code
+            HostData.setMaxNumPlayers(HostData.GetGame().GetMaximumNumOfPlayers());
+            NetworkController.CreateAndJoinRoom(RoomCode, HostData.GetGame().GetMaximumNumOfPlayers()); //Creating Photon Room with Generated Code
 
             HostData.setJoinCode(RoomCode);
             SceneManager.LoadScene(SceneNames.WaitingRoomScreen, LoadSceneMode.Single);

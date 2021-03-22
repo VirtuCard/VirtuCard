@@ -35,6 +35,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
     public GameObject welcomePlayer;
 
     public static bool makeError = false;
+    public static bool makeCapacityError = false;
 
 
     void Update()
@@ -43,6 +44,11 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
         {
             CreateErrorMessage("Failed to Connect", "Host is not allowed to join!");
             makeError = false;
+        }
+        else if (makeCapacityError)
+        {
+            CreateErrorMessage("Failed to Connect", "Game is at capacity!");
+            makeCapacityError = false;
         }
     }
 
@@ -134,7 +140,14 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
             GameModeText.GetComponent<Text>().text = "" + players;
             welcomePlayer.GetComponent<Text>().text = "Welcome, " + clientName + "!";
 
-            if (test == false && clientName == hostName)
+            if (hostName.Equals("__CAPACITY__"))
+            {
+                //errorCode.GetComponent<Text>().text = "Host cannot join!";
+                PhotonNetwork.LeaveRoom();
+                SceneManager.LoadScene(SceneNames.JoinGamePage);
+                makeCapacityError = true;
+            }
+            else if (test == false && clientName == hostName)
             {
                 Debug.Log("Host is not allowed to join the game!");
                 //errorCode.GetComponent<Text>().text = "Host cannot join!";

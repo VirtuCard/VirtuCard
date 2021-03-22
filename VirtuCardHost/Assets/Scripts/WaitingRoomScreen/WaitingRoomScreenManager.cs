@@ -43,7 +43,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
         currPlayerCount.text = "0 players";
         canHostJoinToggle.isOn = HostData.CanHostJoinGame();
         chatEnabledToggle.isOn = HostData.isChatAllowed();
-        numPlayers.SetTextWithoutNotify(HostData.GetMaxNumPlayers().ToString());
+        numPlayers.SetTextWithoutNotify(HostData.GetGame().GetMaximumNumOfPlayers().ToString());
 
 
         startGameBtn.onClick.AddListener(delegate { StartGameBtnClicked(); });
@@ -54,7 +54,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
     void Update()
     {
         joinCode.text = HostData.GetJoinCode();
-        if (HostData.GetGame().GetNumOfPlayers() > 0)
+        if (HostData.GetGame().GetNumOfPlayers() >= HostData.GetGame().GetMinimumNumOfPlayers())
         {
             startGameBtn.interactable = true;
         }
@@ -231,7 +231,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
         int value = 0;
         if (!int.TryParse(newValue, out value))
         {
-            HostData.setMaxNumPlayers(3);
+            HostData.setMaxNumPlayers(HostData.GetGame().GetMaximumNumOfPlayers());
         }
         else
         {

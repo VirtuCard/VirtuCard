@@ -42,7 +42,7 @@ namespace PhotonScripts
 
         void OnServerConnect()
         {
-            DoSomething();
+            DoSomething(false);
         }
         /// generateCode()
         /// 
@@ -81,7 +81,7 @@ namespace PhotonScripts
         }
 
         // Function to Create and Join a Room with associated Room Code
-        public static void CreateAndJoinRoom(string RoomCodeString)
+        public static void CreateAndJoinRoom(string RoomCodeString, int maxPlayers)
         {
             // Sets the max players that can join to 10
             // Number will change depending on the game
@@ -105,6 +105,15 @@ namespace PhotonScripts
         {
             Debug.Log("-----PLAYER ENTERED-----");
             Debug.Log(newPlayer.ToString());
+
+            // see if the game is already at capacity
+            if (HostData.GetGame().GetNumOfPlayers() >= HostData.GetMaxNumPlayers())
+            {
+                Debug.Log("Game at capacity");
+                DoSomething(true);
+            }
+
+
             if(HostData.GetGame().AddPlayer(newPlayer))
             {
                 Debug.Log("Added new player to game");
@@ -113,7 +122,7 @@ namespace PhotonScripts
             {
                 Debug.Log("Failed to add new player to game");
             }
-            DoSomething();
+            DoSomething(false);
         }
 
         public override void OnPlayerLeftRoom(Player playerToDisconnect)
@@ -301,12 +310,16 @@ namespace PhotonScripts
             PhotonNetwork.RaiseEvent(5, content, raiseEventOptions, SendOptions.SendUnreliable);
         }
 
-        public void DoSomething()
+        public void DoSomething(bool isRoomAtCapacity)
         {
             string gameMode = HostData.GetGame().GetGameName();
             bool hostToggle = HostData.CanHostJoinGame();
             int maxPlayers = HostData.GetMaxNumPlayers();
             string hostName = PhotonNetwork.NickName;
+            if (isRoomAtCapacity)
+            {
+                hostName = "__CAPACITY__";
+            }
             object[] content = new object[] {gameMode, hostToggle, maxPlayers, hostName};
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
             PhotonNetwork.RaiseEvent(1, content, raiseEventOptions, SendOptions.SendReliable);
