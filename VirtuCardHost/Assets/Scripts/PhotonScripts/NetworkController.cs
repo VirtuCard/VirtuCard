@@ -9,7 +9,8 @@ using System;
 
 namespace PhotonScripts
 {
-    public class NetworkController : MonoBehaviourPunCallbacks, IConnectionCallbacks, IMatchmakingCallbacks, IInRoomCallbacks, ILobbyCallbacks, IErrorInfoCallback
+    public class NetworkController : MonoBehaviourPunCallbacks, IConnectionCallbacks, IMatchmakingCallbacks,
+        IInRoomCallbacks, ILobbyCallbacks, IErrorInfoCallback
     {
         private int RoomCodeLength = 6;
         private GameObject eventTest;
@@ -44,6 +45,7 @@ namespace PhotonScripts
         {
             DoSomething();
         }
+
         /// generateCode()
         /// 
         /// Method to generate Host's RoomCode.
@@ -105,7 +107,7 @@ namespace PhotonScripts
         {
             Debug.Log("-----PLAYER ENTERED-----");
             Debug.Log(newPlayer.ToString());
-            if(HostData.GetGame().AddPlayer(newPlayer))
+            if (HostData.GetGame().AddPlayer(newPlayer))
             {
                 Debug.Log("Added new player to game");
             }
@@ -113,12 +115,14 @@ namespace PhotonScripts
             {
                 Debug.Log("Failed to add new player to game");
             }
+
             DoSomething();
         }
 
         public override void OnPlayerLeftRoom(Player playerToDisconnect)
         {
             Debug.Log("-----PLAYER LEFT (" + playerToDisconnect.NickName + ")-----");
+
             HostData.GetGame().DisconnectPlayerFromGame(playerToDisconnect);
         }
 
@@ -136,10 +140,11 @@ namespace PhotonScripts
             Debug.Log("Getting list of players from Photon Server (every 5 seconds)");
 
             ArrayList playerList = new ArrayList();
-            foreach(var player in PhotonNetwork.PlayerList)
+            foreach (var player in PhotonNetwork.PlayerList)
             {
                 playerList.Add(player.NickName);
             }
+
             Debug.Log(playerList.ToString());
             return playerList;
         }
@@ -160,16 +165,17 @@ namespace PhotonScripts
 
         private void OnDisable()
         {
-             PhotonNetwork.NetworkingClient.EventReceived -= OnSignalSent;
+            PhotonNetwork.NetworkingClient.EventReceived -= OnSignalSent;
         }
 
         private void OnSignalSent(EventData photonEvent)
         {
-            if (photonEvent.Code == 1){
-                object[] data = (object[])photonEvent.CustomData;
-                string s = (string)data[0];
-                bool test = (bool)data[1];
-                int players = (int)data[2];
+            if (photonEvent.Code == 1)
+            {
+                object[] data = (object[]) photonEvent.CustomData;
+                string s = (string) data[0];
+                bool test = (bool) data[1];
+                int players = (int) data[2];
                 Debug.Log(s);
                 Debug.Log(test);
                 Debug.Log(players);
@@ -177,11 +183,11 @@ namespace PhotonScripts
             // playing card event
             else if (photonEvent.Code == 2)
             {
-                object[] data = (object[])photonEvent.CustomData;
-                string username = (string)data[0];
-                string cardType = (string)data[1];
-                StandardCardRank rank = (StandardCardRank)data[2];
-                StandardCardSuit suit = (StandardCardSuit)data[3];
+                object[] data = (object[]) photonEvent.CustomData;
+                string username = (string) data[0];
+                string cardType = (string) data[1];
+                StandardCardRank rank = (StandardCardRank) data[2];
+                StandardCardSuit suit = (StandardCardSuit) data[3];
                 StandardCard card = new StandardCard(rank, suit);
 
                 Debug.Log("Receiving a Played Card from " + username + ": " + card.ToString());
@@ -193,33 +199,38 @@ namespace PhotonScripts
             // verifying card event
             else if (photonEvent.Code == 4)
             {
-                object[] data = (object[])photonEvent.CustomData;
-                string cardType = (string)data[0];
-                StandardCardRank rank = (StandardCardRank)data[1];
-                StandardCardSuit suit = (StandardCardSuit)data[2];
+                object[] data = (object[]) photonEvent.CustomData;
+                string cardType = (string) data[0];
+                StandardCardRank rank = (StandardCardRank) data[1];
+                StandardCardSuit suit = (StandardCardSuit) data[2];
                 StandardCard card = new StandardCard(rank, suit);
 
                 Debug.Log("Verifying a Card: " + card.ToString());
-                string username = (string)data[3];
+                string username = (string) data[3];
                 bool isValid = HostData.GetGame().VerifyMove(card);
                 SendThatCardIsValid(username, isValid);
             }
             // draw card event
             else if (photonEvent.Code == 7)
             {
-                object[] data = (object[])photonEvent.CustomData;
-                string username = (string)data[0];
-                int numOfCards = (int)data[1];
+                object[] data = (object[]) photonEvent.CustomData;
+                string username = (string) data[0];
+                int numOfCards = (int) data[1];
                 List<Card> cards = HostData.GetGame().DrawCardsFromDeck(numOfCards, DeckChoices.UNDEALT);
                 SendCardsToPlayer(username, cards);
             }
             // skip turn event
             else if (photonEvent.Code == 10)
             {
-                object[] data = (object[])photonEvent.CustomData;
+                object[] data = (object[]) photonEvent.CustomData;
                 // just get the username in case we need it in the future
-                string username = (string)data[0];
-                bool wasSkippedDueToTimer = (bool)data[1];
+                string username = (string) data[0];
+                bool wasSkippedDueToTimer = false;
+                if (data.Length > 2)
+                {
+                    wasSkippedDueToTimer = (bool) data[1];
+                }
+
                 if (wasSkippedDueToTimer)
                 {
                     HostData.GetGame().ForceAdvanceTurn(true);
@@ -246,9 +257,10 @@ namespace PhotonScripts
                     PlayerInfo player = HostData.GetGame().GetPlayer(username);
                     player.cards.AddCard(card);
 
-                    StandardCard cardToSend = (StandardCard)card;
-                    object[] content = new object[] { username, cards[0].GetType().Name, cardToSend.GetRank(), cardToSend.GetSuit() };
-                    RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+                    StandardCard cardToSend = (StandardCard) card;
+                    object[] content = new object[]
+                        {username, cards[0].GetType().Name, cardToSend.GetRank(), cardToSend.GetSuit()};
+                    RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
                     PhotonNetwork.RaiseEvent(8, content, raiseEventOptions, SendOptions.SendUnreliable);
                 }
             }
@@ -260,8 +272,8 @@ namespace PhotonScripts
         /// <param name="">enable or disable the timers on the clients</param>
         public static void EnableTimer(bool enable)
         {
-            object[] content = new object[] { enable };
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            object[] content = new object[] {enable};
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
             PhotonNetwork.RaiseEvent(11, content, raiseEventOptions, SendOptions.SendUnreliable);
         }
 
@@ -272,8 +284,8 @@ namespace PhotonScripts
         /// <param name="isValid"></param>
         public void SendThatCardIsValid(string username, bool isValid)
         {
-            object[] content = new object[] { username, isValid };
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            object[] content = new object[] {username, isValid};
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
             PhotonNetwork.RaiseEvent(5, content, raiseEventOptions, SendOptions.SendUnreliable);
         }
 
@@ -284,7 +296,7 @@ namespace PhotonScripts
             int maxPlayers = HostData.GetMaxNumPlayers();
             string hostName = PhotonNetwork.NickName;
             object[] content = new object[] {gameMode, hostToggle, maxPlayers, hostName};
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
             PhotonNetwork.RaiseEvent(1, content, raiseEventOptions, SendOptions.SendReliable);
         }
     }
