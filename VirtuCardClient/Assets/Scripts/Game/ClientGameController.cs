@@ -179,8 +179,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     {
         bool checkTurn = ClientData.isCurrentTurn();
         if (checkTurn){
-          cardMenu.AddCardToCarousel(newCard, whichCardType);
-          cards.AddCard(newCard);
+            cardMenu.AddCardToCarousel(newCard, whichCardType);
+            cards.AddCard(newCard);
+            newCard.gameObject.GetComponent<Animation>().Play("CardAnimationClient");
         }
         else
         {
@@ -205,6 +206,14 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private void SetupTurn()
     {
         SetCanSkipBtn(ClientData.isCurrentTurn());
+    }
+
+    public void onFlipButtonClicked()
+    {
+        foreach (RectTransform o in cardMenu.images)
+        {
+            o.gameObject.AddComponent<Animation>().Play("CardFlipClient");
+        }
     }
 
     /// <summary>
