@@ -403,14 +403,18 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             string removeFromPlayer = (string)data[0];
 
             // if it is this player we want to remove cards from
-            if (removeFromPlayer.Equals(PhotonNetwork.NickName)) {
-                string userWhoTookCards = (string)data[1];
+            if (removeFromPlayer.Equals(PhotonNetwork.NickName))
+            {
                 int numOfCards = (int)data[2];
+                Debug.Log("Removing " + numOfCards + " Cards");
+
+                string userWhoTookCards = (string)data[1];
 
                 List<Card> cardsToRemove = new List<Card>();
-                for (int x = 3; x < numOfCards * 2; x += 2)
+                for (int x = 3; x < 3 + (numOfCards * 2); x += 2)
                 {
                     StandardCard card = new StandardCard((StandardCardRank)data[x], (StandardCardSuit)data[x + 1]);
+                    Debug.Log("Removing: " + card.ToString());
                     cardsToRemove.Add(card);
                 }
 
@@ -446,7 +450,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             {
                 // if the game is gofish, do special handling
                 string currentText = goFishQueryButton.GetComponentInChildren<Text>().text;
-                string requestFromUsername = currentText.Substring(currentText.IndexOf(' ') + 1, currentText.IndexOf(" for "));
+                string requestFromUsername = goFishNamesDropdown.options[goFishNamesDropdown.value].text;
 
                 StandardCard cardToSend = (StandardCard)card;
                 object[] content = new object[] { PhotonNetwork.NickName, "StandardCard", cardToSend.GetRank(), cardToSend.GetSuit(), requestFromUsername };

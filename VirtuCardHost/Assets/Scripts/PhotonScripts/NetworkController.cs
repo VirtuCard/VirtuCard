@@ -196,12 +196,26 @@ namespace PhotonScripts
                 // if the game is gofish
                 if (HostData.GetGame().GetGameName().Equals(Enum.GetName(typeof(GameTypes), GameTypes.GoFish)))
                 {
-                    string playerToRequestFrom = (string)data[4];
+                    string playerToRequestFrom = ((string)data[4]).Trim();
 
                     Debug.Log(username + " is requesting " + card.GetRank()  + "s from " + playerToRequestFrom);
 
-                    int userIndex = HostData.GetGame().GetPlayerIndex(playerToRequestFrom);
-                    HostData.GetGame().DoMove(card, userIndex);
+                    int userIndex = HostData.GetGame().GetPlayerIndex(playerToRequestFrom.Trim());
+                    if (userIndex >= 0)
+                    {
+                        HostData.GetGame().DoMove(card, userIndex);
+                    }
+                    else
+                    {
+                        Debug.Log("Could not find player: \"" + playerToRequestFrom  + "\"");
+                        var allPlayers = HostData.GetGame().GetAllPlayers();
+                        string nameList = "";
+                        foreach (var player in allPlayers)
+                        {
+                            nameList += "\"" + player.username + "\" ";
+                        }
+                        Debug.Log("All connected players: " + nameList.Trim());
+                    }
                 }
                 else
                 {

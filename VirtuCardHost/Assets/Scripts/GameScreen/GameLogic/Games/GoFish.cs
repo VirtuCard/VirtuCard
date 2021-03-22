@@ -121,14 +121,18 @@ public class GoFish : Game
     /// <returns></returns>
     public override bool DoMove(Card cardToPlay, int playerIndex)
     {
-        //GetPlayerOfCurrentTurn().cards.RemoveCard(cardToPlay);
         StandardCard card = (StandardCard)cardToPlay;
         PlayerInfo playerToQuery = GetPlayer(playerIndex);
         PlayerInfo currentPlayer = GetPlayerOfCurrentTurn();
 
-        if (DoesPlayerHaveCard(playerToQuery.username, card.GetRank()))
+        bool doesHaveCard = DoesPlayerHaveCard(playerToQuery.username, card.GetRank());
+        if (!doesHaveCard)
         {
-            // the did not have any cards
+            // they did not have any cards
+            Debug.Log(playerToQuery.username + " did not have any " + card.GetRank() + "s, GoFish");
+            List<Card> gofishCards = new List<Card>();
+            gofishCards.Add(GetDeck(DeckChoices.UNDEALT).PopCard());
+            PhotonScripts.NetworkController.SendCardsToPlayer(currentPlayer.username, gofishCards);
             AdvanceTurn(true);
             return false;
         }
