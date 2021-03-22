@@ -87,12 +87,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                     goFishNamesDropdown.options.Add(new Dropdown.OptionData(playerName));
                 }
             }
-            goFishNamesDropdown.options.Add(new Dropdown.OptionData("TESTING1"));
-            goFishNamesDropdown.options.Add(new Dropdown.OptionData("TESTING2"));
-            goFishNamesDropdown.options.Add(new Dropdown.OptionData("TESTING3"));
-            goFishNamesDropdown.options.Add(new Dropdown.OptionData("TESTING4"));
-            goFishNamesDropdown.options.Add(new Dropdown.OptionData("TESTING5"));
             goFishNamesDropdown.onValueChanged.AddListener(GoFishNamesDropdownValueChanged);
+
+            goFishQueryButton.onClick.AddListener(GoFishQueryButtonClicked);
         }
         else
         {
@@ -115,6 +112,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             turn.SetActive(true);
             notTurnUI.SetActive(false);
 
+            
             StandardCard selectedCard = (StandardCard)cardMenu.GetCurrentlySelectedCard();
 
             if (selectedCard != null)
@@ -138,9 +136,19 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             turn.SetActive(false);
             // Call the Username of the current player here
             waitingSign.GetComponent<Text>().text = ClientData.getCurrentPlayerTurn() + "'s Turn";
+            if (String.IsNullOrEmpty(ClientData.getCurrentPlayerTurn()))
+            {
+                waitingSign.GetComponent<Text>().text = "Loading Game...";
+            }
             notTurnUI.SetActive(true);
         }
 
+    }
+
+    private void GoFishQueryButtonClicked()
+    {
+        StandardCard card = (StandardCard)cardMenu.GetCurrentlySelectedCard();
+        SendCardToHost(card);
     }
 
     /// <summary>
@@ -437,7 +445,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             if (ClientData.GetGameName().Equals("GoFish"))
             {
                 // if the game is gofish, do special handling
-                string requestFromUsername = "Kade";
+                string currentText = goFishQueryButton.GetComponentInChildren<Text>().text;
+                string requestFromUsername = currentText.Substring(currentText.IndexOf(' ') + 1, currentText.IndexOf(" for "));
 
                 StandardCard cardToSend = (StandardCard)card;
                 object[] content = new object[] { PhotonNetwork.NickName, "StandardCard", cardToSend.GetRank(), cardToSend.GetSuit(), requestFromUsername };

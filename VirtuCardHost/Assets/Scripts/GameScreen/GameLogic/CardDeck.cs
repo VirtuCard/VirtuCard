@@ -86,9 +86,7 @@ public class CardDeck
     /// <returns></returns>
     public Card PopCard()
     {
-        int count = cards.Count;
-        System.Random rand = new System.Random();
-        int cardIndex = rand.Next(0, count - 1);
+        int cardIndex = Random.Range(0, cards.Count);
 
         Card returnCard = GetCard(cardIndex);
         RemoveCard(cardIndex);
