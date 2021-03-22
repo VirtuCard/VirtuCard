@@ -18,6 +18,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
     /// This method grabs the code that the user input
     /// then puts it in to the code to join a Photon room.
     /// <summary>
+
     public string joinCode;
 
     public GameObject inputField;
@@ -34,6 +35,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
     public GameObject welcomePlayer;
 
     public static bool makeError = false;
+    public static bool makeCapacityError = false;
 
 
     void Update()
@@ -42,6 +44,11 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
         {
             CreateErrorMessage("Failed to Connect", "Host is not allowed to join!");
             makeError = false;
+        }
+        else if (makeCapacityError)
+        {
+            CreateErrorMessage("Failed to Connect", "Game is at capacity!");
+            makeCapacityError = false;
         }
     }
 
@@ -128,11 +135,24 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
 
             string clientName = PhotonNetwork.NickName;
 
+            ClientData.SetGameName(s);
+            if (s == "War")
+            {
+
+            }
+
             MaxPlayersText.GetComponent<Text>().text = s;
             GameModeText.GetComponent<Text>().text = "" + players;
             welcomePlayer.GetComponent<Text>().text = "Welcome, " + clientName + "!";
 
-            if (test == false && clientName == hostName)
+            if (hostName.Equals("__CAPACITY__"))
+            {
+                //errorCode.GetComponent<Text>().text = "Host cannot join!";
+                PhotonNetwork.LeaveRoom();
+                SceneManager.LoadScene(SceneNames.JoinGamePage);
+                makeCapacityError = true;
+            }
+            else if (test == false && clientName == hostName)
             {
                 Debug.Log("Host is not allowed to join the game!");
                 //errorCode.GetComponent<Text>().text = "Host cannot join!";
@@ -153,6 +173,11 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
             ClientData.SetTimerSeconds(timerSeconds);
             ClientData.SetTimerMinutes(timerMinutes);
 
+            int numOfPlayers = (int)data[0];
+            for (int x = 1; x < numOfPlayers + 1; x++)
+            {
+                ClientData.AddConnectedPlayerName((string)data[x]);
+            }
             SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
         }
         else if (photonEvent.Code == 10)
