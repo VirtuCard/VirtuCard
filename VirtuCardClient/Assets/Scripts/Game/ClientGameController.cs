@@ -16,7 +16,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public GameObject turn;
     public GameObject notTurnUI;
     public Text waitingSign;
-    
+
     private CardDeck cards = new CardDeck();
 
     public GameObject cardCarousel;
@@ -33,6 +33,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public Button exitGameBtn;
     public Text winnerAnnounce;
 
+    public List<Card> CardList;
+
     // this is used to determine if the user has scrolled over to a new card, so it can be used to verify
     private Card previouslySelectedCard;
     bool cardIsValid = false;
@@ -42,6 +44,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
     private bool wasCurrentlyTurn = false;
     private bool gameOver = false;
+    private bool cardsFlipped = false;
 
     // Start is called before the first frame update
     void Start()
@@ -181,7 +184,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         if (checkTurn){
             cardMenu.AddCardToCarousel(newCard, whichCardType);
             cards.AddCard(newCard);
-            newCard.gameObject.GetComponent<Animation>().Play("CardAnimationClient");
         }
         else
         {
@@ -210,10 +212,12 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
     public void onFlipButtonClicked()
     {
+        string animation = cardsFlipped ? "CardUnflipClient" : "CardFlipClient";
         foreach (RectTransform o in cardMenu.images)
         {
-            o.gameObject.AddComponent<Animation>().Play("CardFlipClient");
+            o.GetComponent<Animator>().Play(animation);
         }
+        cardsFlipped = !cardsFlipped;
     }
 
     /// <summary>
@@ -252,6 +256,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             {
                 StandardCard card = (StandardCard)cardMenu.GetCurrentlySelectedCard();
                 int cardIdx = cardMenu.GetCurrentlySelectedIndex();
+
                 card.Print();
                 RemoveCard(card);
                 if (cardIdx > 0)
