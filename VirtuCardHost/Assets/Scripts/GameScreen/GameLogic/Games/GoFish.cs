@@ -65,7 +65,7 @@ public class GoFish : Game
         }
         // now all players will be sent 5 cards that do not contain a 4 of a kind
 
-        AdvanceTurn(true);
+        SendOutPlayerTurnIndex();
     }
 
     /// <summary>
@@ -88,7 +88,7 @@ public class GoFish : Game
     /// <returns>True or false depending on validity of skip</returns>
     public override bool VerifyCanSkip(int playerIndex)
     {
-        return false;
+        return true;
     }
 
     /// <summary>
