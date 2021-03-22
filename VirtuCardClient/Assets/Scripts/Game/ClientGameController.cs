@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
 
 public class ClientGameController : MonoBehaviourPunCallbacks
 {
@@ -32,6 +33,11 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public GameObject winnerPanel;
     public Button exitGameBtn;
     public Text winnerAnnounce;
+    public GameObject standardPanel;
+
+    public GameObject goFishPanel;
+    public Dropdown goFishNamesDropdown;
+    public Button goFishQueryButton;
 
     // this is used to determine if the user has scrolled over to a new card, so it can be used to verify
     private Card previouslySelectedCard;
@@ -76,6 +82,29 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
         // setup timer
         timer.SetupTimer(ClientData.IsTimerEnabled(), ClientData.GetTimerSeconds(), ClientData.GetTimerMinutes(), warningThreshold: 30, TimerEarlyWarning, TimerReachedZero);
+        if (ClientData.GetGameName() == "GoFish")
+        {
+            standardPanel.SetActive(false);
+            goFishPanel.SetActive(true);
+
+            List<string> allPlayers = ClientData.GetAllConnectedPlayers();
+            foreach (string playerName in allPlayers)
+            {
+                // only add the name if it is not this person
+                if (!playerName.Equals(PhotonNetwork.NickName))
+                {
+                    goFishNamesDropdown.options.Add(new Dropdown.OptionData(playerName));
+                }
+            }
+            goFishNamesDropdown.onValueChanged.AddListener(GoFishNamesDropdownValueChanged);
+
+            goFishQueryButton.onClick.AddListener(GoFishQueryButtonClicked);
+        }
+        else
+        {
+            standardPanel.SetActive(true);
+            goFishPanel.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -96,6 +125,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             turn.SetActive(true);
             notTurnUI.SetActive(false);
 
+            
             StandardCard selectedCard = (StandardCard)cardMenu.GetCurrentlySelectedCard();
             cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("RawImage").GetComponent<Outline>().enabled = true;
 
@@ -106,6 +136,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 {
                     // if it is a new card, verify that it is valid
                     VerifyIfCardCanBePlayed(selectedCard);
+                    UpdateGoFishButtonText(goFishNamesDropdown.options[goFishNamesDropdown.value].text, selectedCard.GetRank());
                     previouslySelectedCard = selectedCard;
                     cardIsValid = false;
                     cardIsValidText.text = "Card is NOT valid";
@@ -121,6 +152,10 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             turn.SetActive(false);
             // Call the Username of the current player here
             waitingSign.GetComponent<Text>().text = ClientData.getCurrentPlayerTurn() + "'s Turn";
+            if (String.IsNullOrEmpty(ClientData.getCurrentPlayerTurn()))
+            {
+                waitingSign.GetComponent<Text>().text = "Loading Game...";
+            }
             notTurnUI.SetActive(true);
         }
 
@@ -140,6 +175,48 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             exitGameBtn.onClick.AddListener(delegate () { exitGameBtnOnClick(); });
 
         }
+    }
+
+    private void GoFishQueryButtonClicked()
+    {
+        StandardCard card = (StandardCard)cardMenu.GetCurrentlySelectedCard();
+        SendCardToHost(card);
+    }
+
+    /// <summary>
+    /// This updates the gofish button text with a new playername and rank.
+    /// If either is null, it uses the previous text there instead of an empty string
+    /// </summary>
+    /// <param name="playerName"></param>
+    /// <param name="rank"></param>
+    private void UpdateGoFishButtonText(string playerName, StandardCardRank? rank)
+    {
+        string currentText = goFishQueryButton.GetComponentInChildren<Text>().text;
+
+        try
+        {
+            if (string.IsNullOrEmpty(playerName))
+            {
+                string currentName = currentText.Substring(currentText.IndexOf(' ') + 1, currentText.IndexOf(" for "));
+                playerName = currentName;
+            }
+            if (rank == null)
+            {
+                string currentRank = currentText.Substring(currentText.IndexOf(" for ") + 5);
+                rank = (StandardCardRank)Enum.Parse(typeof(StandardCardRank), currentRank);
+            }
+            string newText = "Ask " + playerName + " for " + Enum.GetName(typeof(StandardCardRank), rank);
+            goFishQueryButton.GetComponentInChildren<Text>().text = newText;
+        } catch { }
+    }
+
+    /// <summary>
+    /// This handler is called every time the gofish player choice dropdown is changed
+    /// </summary>
+    public void GoFishNamesDropdownValueChanged(int state)
+    {
+        string nameSelected = goFishNamesDropdown.options[state].text;
+        UpdateGoFishButtonText(nameSelected, null);
     }
 
     /// <summary>
@@ -177,15 +254,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     /// <param name="whichCardType"></param>
     public void AddCard(Card newCard, CardTypes whichCardType)
     {
-        bool checkTurn = ClientData.isCurrentTurn();
-        if (checkTurn){
-          cardMenu.AddCardToCarousel(newCard, whichCardType);
-          cards.AddCard(newCard);
-        }
-        else
-        {
-            Debug.Log("It is not the player's turn!");
-        }
+        cardMenu.AddCardToCarousel(newCard, whichCardType);
+        cards.AddCard(newCard);
     }
 
     /// <summary>
@@ -374,6 +444,34 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             // enable/disable timer
             timer.EnableTimer(enabled);
         }
+        // remove card event
+        else if (photonEvent.Code == 13)
+        {
+            object[] data = (object[])photonEvent.CustomData;
+            string removeFromPlayer = (string)data[0];
+
+            // if it is this player we want to remove cards from
+            if (removeFromPlayer.Equals(PhotonNetwork.NickName))
+            {
+                int numOfCards = (int)data[2];
+                Debug.Log("Removing " + numOfCards + " Cards");
+
+                string userWhoTookCards = (string)data[1];
+
+                List<Card> cardsToRemove = new List<Card>();
+                for (int x = 3; x < 3 + (numOfCards * 2); x += 2)
+                {
+                    StandardCard card = new StandardCard((StandardCardRank)data[x], (StandardCardSuit)data[x + 1]);
+                    Debug.Log("Removing: " + card.ToString());
+                    cardsToRemove.Add(card);
+                }
+
+                foreach (Card card in cardsToRemove)
+                {
+                    RemoveCard(card);
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -396,11 +494,25 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     {
         if (card.GetType().Name == "StandardCard")
         {
-            Debug.Log("Sending Card: " + card.ToString());
-            StandardCard cardToSend = (StandardCard)card;
-            object[] content = new object[] { PhotonNetwork.NickName, "StandardCard", cardToSend.GetRank(), cardToSend.GetSuit() };
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-            PhotonNetwork.RaiseEvent(2, content, raiseEventOptions, SendOptions.SendUnreliable);
+            if (ClientData.GetGameName().Equals("GoFish"))
+            {
+                // if the game is gofish, do special handling
+                string currentText = goFishQueryButton.GetComponentInChildren<Text>().text;
+                string requestFromUsername = goFishNamesDropdown.options[goFishNamesDropdown.value].text;
+
+                StandardCard cardToSend = (StandardCard)card;
+                object[] content = new object[] { PhotonNetwork.NickName, "StandardCard", cardToSend.GetRank(), cardToSend.GetSuit(), requestFromUsername };
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+                PhotonNetwork.RaiseEvent(2, content, raiseEventOptions, SendOptions.SendUnreliable);
+            }
+            else
+            {
+                Debug.Log("Sending Card: " + card.ToString());
+                StandardCard cardToSend = (StandardCard)card;
+                object[] content = new object[] { PhotonNetwork.NickName, "StandardCard", cardToSend.GetRank(), cardToSend.GetSuit() };
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+                PhotonNetwork.RaiseEvent(2, content, raiseEventOptions, SendOptions.SendUnreliable);
+            }
         }
     }
 

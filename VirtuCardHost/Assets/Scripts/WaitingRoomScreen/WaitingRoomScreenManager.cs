@@ -78,7 +78,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
         currPlayerCount.text = "0 players";
         canHostJoinToggle.isOn = HostData.CanHostJoinGame();
         chatEnabledToggle.isOn = HostData.isChatAllowed();
-        numPlayers.SetTextWithoutNotify(HostData.GetMaxNumPlayers().ToString());
+        numPlayers.SetTextWithoutNotify(HostData.GetGame().GetMaximumNumOfPlayers().ToString());
 
         //freeplay initialization
         enableHearts.isOn = HostData.getHeartsAllowed();
@@ -102,9 +102,13 @@ public class WaitingRoomScreenManager : MonoBehaviour
     void Update()
     {
         joinCode.text = HostData.GetJoinCode();
-        if (HostData.GetGame().GetNumOfPlayers() > 0)
+        if (HostData.GetGame().GetNumOfPlayers() >= HostData.GetGame().GetMinimumNumOfPlayers())
         {
             startGameBtn.interactable = true;
+        }
+        else
+        {
+            startGameBtn.interactable = false;
         }
 
         //Refresh players list here
@@ -249,7 +253,20 @@ public class WaitingRoomScreenManager : MonoBehaviour
             {HostData.IsTimerEnabled(), HostData.GetTimerSeconds(), HostData.GetTimerMinutes()};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
         PhotonNetwork.RaiseEvent(6, content, raiseEventOptions, SendOptions.SendUnreliable);
+        // TODO HERE -------------------------------------------
 
+        List<object> content = new List<object>();
+        List<PlayerInfo> allConnectedPlayers = HostData.GetGame().GetAllPlayers();
+        content.Add(allConnectedPlayers.Count);
+        for (int x = 0; x < allConnectedPlayers.Count; x++)
+        {
+            content.Add(allConnectedPlayers[x].username);
+        }
+
+
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+        PhotonNetwork.RaiseEvent(6, content.ToArray(), raiseEventOptions, SendOptions.SendUnreliable);
+        HostData.GetGame().PrintAllPlayers();
         SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
     }
 
@@ -369,7 +386,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
         int value = 0;
         if (!int.TryParse(newValue, out value))
         {
-            HostData.setMaxNumPlayers(3);
+            HostData.setMaxNumPlayers(HostData.GetGame().GetMaximumNumOfPlayers());
         }
         else
         {

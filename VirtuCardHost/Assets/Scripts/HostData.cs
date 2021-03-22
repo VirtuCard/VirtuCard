@@ -117,12 +117,13 @@ public static class HostData
 
     public static void setMaxNumPlayers(int numPlayers)
     {
-        if (numPlayers > 12)
+        if (numPlayers > GetGame().GetMaximumNumOfPlayers())
         {
-            maxNumPlayers = 12;
-        } else if (numPlayers < 3)
+            maxNumPlayers = GetGame().GetMaximumNumOfPlayers();
+        } 
+        else if (numPlayers < GetGame().GetMinimumNumOfPlayers())
         {
-            maxNumPlayers = 3;
+            maxNumPlayers = GetGame().GetMinimumNumOfPlayers();
         }
         else
         {
