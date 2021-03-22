@@ -50,6 +50,11 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.AddCallbackTarget(this);
+        errorPanel.SetActive(false);
+        DatabaseUtils.getUser(AuthUser.GetUserID(), json =>
+        {
+            ClientData.UserProfile = new User(json);
+        });
     }
 
     public void ConnectClientClicked()

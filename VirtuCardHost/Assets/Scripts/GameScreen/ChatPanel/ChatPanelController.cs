@@ -2,13 +2,15 @@ using System.Collections.Generic;
 using ExitGames.Client.Photon;
 using Photon.Chat;
 using Photon.Pun;
+using Photon.Realtime;
 using PhotonScripts;
 using UnityEngine;
 using UnityEngine.UI;
+using AuthenticationValues = Photon.Chat.AuthenticationValues;
 
 namespace GameScreen.ChatPanel
 {
-    public class ChatPanelController : MonoBehaviour, IChatClientListener
+    public class ChatPanelController : MonoBehaviourPunCallbacks, IChatClientListener
     {
         private const int MESSAGE_LIMIT = 44;
 
@@ -22,12 +24,13 @@ namespace GameScreen.ChatPanel
         public GameObject messageParent;
 
         public List<GameObject> placeholders;
+        private int messageCounter = 0;
 
         /// <summary>
         /// This class contains all the methods and fields that are within a single message.
         /// When the constructor is called, it creates a new message from the messageTemplate and places it into the messageParent
         /// </summary>
-        private class MessageUI
+        public class MessageUI
         {
             private Text messageText;
             private Text username;
@@ -57,11 +60,16 @@ namespace GameScreen.ChatPanel
                 messageText.text = message;
             }
 
+            /// this is for testing purposes
+            public string GetText() {
+                return messageText.text;
+            }
+
             public void SetUsername(string username)
             {
                 this.username.text = username;
             }
-        }
+        } // end of MessageUI class
 
         /// <summary>
         /// This method creates a new message and places it into the message box
@@ -70,6 +78,7 @@ namespace GameScreen.ChatPanel
         /// <param name="username">The username of the person sending the message</param>
         public void CreateNewMessage(string message, string username)
         {
+            messageCounter++;
             MessageUI ui = new MessageUI(messageTemplate, messageParent);
             ui.SetText(message);
             ui.SetUsername(username);
@@ -91,7 +100,8 @@ namespace GameScreen.ChatPanel
             roomcode = HostData.GetJoinCode();
 
             _chatClient = new ChatClient(this) {ChatRegion = "US"};
-            _chatClient.Connect(appId, "0.1b", new AuthenticationValues(PhotonNetwork.NickName));
+            PhotonNetwork.AddCallbackTarget(this);
+            _chatClient.Connect(appId, "0.1b", new AuthenticationValues( PhotonNetwork.NickName + " (Host)"));
         }
 
         // Update is called once per frame
@@ -103,6 +113,10 @@ namespace GameScreen.ChatPanel
             }
 
             _chatClient.Service();
+        }
+
+        public int getMessageCount() {
+            return messageCounter; 
         }
 
         public new void SendMessage(string message)
@@ -170,5 +184,19 @@ namespace GameScreen.ChatPanel
         {
             /* Ignore */
         }
+
+        public override void OnPlayerLeftRoom(Player otherPlayer)
+        {
+            SendMessage(otherPlayer.NickName + " has left the room.");
+        }
+
+        /// START UNIT TEST
+        /// The next two methods are for unit tests only
+        public string setAndGetTextTest(string text) {
+            MessageUI ui = new MessageUI(messageTemplate, messageParent);
+            ui.SetText(text);
+            return ui.GetText();
+        }
+        /// end of testing
     }
 }

@@ -15,6 +15,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
     public GameObject settingsPanel;
     public InputField numPlayers;
     public Toggle canHostJoinToggle;
+
     public Toggle chatEnabledToggle;
 
     //Freeplay settings
@@ -71,6 +72,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
         playerList = NetworkController.ListAllPlayers();
         CreatePlayerList();
         settingsPanel.SetActive(false);
+        freeplaySettingsPanel.SetActive(false);
         joinCode.text = HostData.GetJoinCode();
         selectedGame.text = HostData.GetGame().GetGameName();
         currPlayerCount.text = "0 players";
@@ -114,7 +116,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
         List<string> playerNamesToAdd = new List<string>();
         List<bool> boxIsAssociatedWithConnectedPlayer = new List<bool>();
 
-        for(int x = 0; x < textBoxes.Count; x++)
+        for (int x = 0; x < textBoxes.Count; x++)
         {
             boxIsAssociatedWithConnectedPlayer.Add(false);
         }
@@ -139,6 +141,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
                     }
                 }
             }
+
             if (!playerHasBeenAddedAlready)
             {
                 playerNamesToAdd.Add(player.photonPlayer.NickName);
@@ -242,7 +245,8 @@ public class WaitingRoomScreenManager : MonoBehaviour
 
         // send an event to clients telling them to start their games
         // this content is in the form { bool, int, int }
-        object[] content = new object[] { HostData.IsTimerEnabled(), HostData.GetTimerSeconds(), HostData.GetTimerMinutes() };
+        object[] content = new object[]
+            {HostData.IsTimerEnabled(), HostData.GetTimerSeconds(), HostData.GetTimerMinutes()};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
         PhotonNetwork.RaiseEvent(6, content, raiseEventOptions, SendOptions.SendUnreliable);
 
