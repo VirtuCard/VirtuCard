@@ -139,10 +139,11 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
             
             StandardCard selectedCard = (StandardCard)cardMenu.GetCurrentlySelectedCard();
-            cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("RawImage").GetComponent<Outline>().enabled = true;
+            
 
             if (selectedCard != null)
             {
+                cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("RawImage").GetComponent<Outline>().enabled = true;
                 if (previouslySelectedCard == null ||
                     previouslySelectedCard.Compare(selectedCard) == false)
                 {

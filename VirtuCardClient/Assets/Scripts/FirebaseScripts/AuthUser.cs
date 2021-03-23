@@ -57,9 +57,10 @@ namespace FirebaseScripts
                 DatabaseUtils.getUser(newUser.UserId, s =>
                 {
                     User user1 = new User(s);
+                    Debug.Log(user1.ToString());
                     ClientData.UserProfile = user1;
                     PhotonNetwork.NickName = user1.Username;
-                    DatabaseUtils.updateUser(user1, b => { Debug.Log("Updated with " + b); });
+                   // DatabaseUtils.updateUser(user1, b => { Debug.Log("Updated with " + b); });
                     callback(true);
                 });
             });

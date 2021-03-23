@@ -13,9 +13,9 @@ namespace FirebaseScripts
         private string email;
         private string _userId;
         private bool isAnonymous;
-        private int gamesPlayed;
-        private int gamesWon;
-        private int gamesLost;
+        private long gamesPlayed;
+        private long gamesWon;
+        private long gamesLost;
 
         //Should be as stringsv
         private List<string> friends;
@@ -80,19 +80,19 @@ namespace FirebaseScripts
             gamesPlayed = 0;
             if (dict.ContainsKey("GamesPlayed"))
             {
-                gamesPlayed = (int) dict["GamesPlayed"];
+                this.gamesPlayed = (long) dict["GamesPlayed"];
             }
 
             gamesWon = 0;
             if (dict.ContainsKey("GamesWon"))
             {
-                gamesWon = (int) dict["GamesWon"];
+                this.gamesWon = (long) dict["GamesWon"];
             }
-
+            
             gamesLost = 0;
             if (dict.ContainsKey("GamesLost"))
             {
-                gamesPlayed = (int) dict["GamesLost"];
+                this.gamesPlayed = (long) dict["GamesLost"];
             }
         }
 
@@ -139,19 +139,19 @@ namespace FirebaseScripts
             set => isAnonymous = value;
         }
 
-        public int GamesPlayed
+        public long GamesPlayed
         {
             get => gamesPlayed;
             set => gamesPlayed = value;
         }
 
-        public int GamesWon
+        public long GamesWon
         {
             get => gamesWon;
             set => gamesWon = value;
         }
 
-        public int GamesLost
+        public long GamesLost
         {
             get => gamesLost;
             set => gamesLost = value;
