@@ -9,11 +9,11 @@ public class GameScreenController : MonoBehaviour
 {
     public GameObject allOfChatUI;
     public GameObject chatPanel;
-    public GameObject checkmark;
-    public Toggle chatToggle;
     public Text currentPlayer;
 
     public GameObject settingsPanel;
+
+    public Dropdown chatOptions;
     public Toggle timerToggle;
 
     public GameObject playedCardCarousel;
@@ -28,14 +28,13 @@ public class GameScreenController : MonoBehaviour
     // this is the time in seconds before the game intitializes
     private int secondsBeforeInitialization = 2;
 
+
     // Start is called before the first frame update
     void Start()
     {
         if (HostData.isChatAllowed())
         {
             allOfChatUI.SetActive(true);
-            chatToggle.SetIsOnWithoutNotify(HostData.isChatAllowed());
-            chatToggle.onValueChanged.AddListener(delegate { ChatToggleValueChanged(chatToggle.isOn); });
         }
         else
         {
@@ -69,8 +68,27 @@ public class GameScreenController : MonoBehaviour
         }
 
         DisplayCards();
+        updatingChat();
     }
-
+    
+    public void updatingChat() {
+        int chatValue = chatOptions.value;
+        if (chatValue == 0) // normal chat
+        {
+            HostData.setChatAllowed(true);
+            chatPanel.SetActive(true);
+        }
+        else if (chatValue == 1) // disable chat
+        {
+            HostData.setChatAllowed(false);
+            chatPanel.SetActive(false);
+        }
+        else // mute chat
+        {
+            HostData.setChatAllowed(true);
+            chatPanel.SetActive(false);
+        }
+    }
 
     public void DisplayCards()
     {
@@ -185,19 +203,6 @@ public class GameScreenController : MonoBehaviour
     }
 
     /// <summary>
-    /// This method is called when the chat toggle state changes
-    /// </summary>
-    /// <param name="toggleVal"></param>
-    private void ChatToggleValueChanged(bool toggleVal)
-    {
-        // HostData.setChatAllowed(toggleVal);
-        // Debug.Log("Chat is " + HostData.isChatAllowed());
-        checkmark.SetActive(toggleVal);
-        chatPanel.SetActive(!toggleVal);
-    }
-
-
-    /// <summary>
     /// This sends a signal to all the clients to either enable or disable the timer
     /// </summary>
     public void EnableTimer(bool enable)
@@ -220,4 +225,5 @@ public class GameScreenController : MonoBehaviour
     {
         settingsPanel.SetActive(enabled);
     }
+
 }

@@ -1,4 +1,5 @@
 using ExitGames.Client.Photon;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
@@ -25,10 +26,10 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private CardMenu cardMenu;
     public GameObject chatDisableSign;
 
-    public GameObject chatToggleObject;
+    public Dropdown chatOptions;
+    public GameObject dropboxUI;
+    public RectTransform dropboxSize;
     public GameObject chatPanel;
-    public GameObject checkMark;
-    public Toggle chatToggle;
 
     // 3 below are used for if the game is over
     public GameObject winnerPanel;
@@ -56,21 +57,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        IncrementGamesPlayed();
-        
-        // ClientData.setChatAllowed(true);
-        if (!ClientData.isChatAllowed())
-        {
-            chatDisableSign.SetActive(true);
-            chatPanel.SetActive(false);
-            chatToggleObject.SetActive(false);
-        }
-        else
-        {
-            chatDisableSign.SetActive(false);
-            chatPanel.SetActive(true);
-            chatToggleObject.SetActive(true);
-        }
+        // ClientData.setChatAllowed(false);
 
         PhotonNetwork.AddCallbackTarget(this);
         skipBtn.onClick.AddListener(delegate() {
@@ -82,9 +69,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         drawCardBtn.onClick.AddListener(delegate () { DrawCardBtnClicked(); });
         SetCanSkipBtn(ClientData.isCurrentTurn());
         cardMenu = cardCarousel.GetComponent<CardMenu>();
-
-        chatToggle.SetIsOnWithoutNotify(ClientData.isChatAllowed());
-        chatToggle.onValueChanged.AddListener(delegate { ChatToggleValueChanged(chatToggle.isOn); });
 
         // setup timer
         timer.SetupTimer(ClientData.IsTimerEnabled(), ClientData.GetTimerSeconds(), ClientData.GetTimerMinutes(), warningThreshold: 30, TimerEarlyWarning, TimerReachedZero);
@@ -139,7 +123,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
             
             StandardCard selectedCard = (StandardCard)cardMenu.GetCurrentlySelectedCard();
-            
+            //cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("RawImage").GetComponent<Outline>().enabled = true;
 
             if (selectedCard != null)
             {
@@ -187,6 +171,44 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             // }
             exitGameBtn.onClick.AddListener(delegate () { exitGameBtnOnClick(); });
 
+        }
+
+        updateChat();
+            }
+
+    /// <summary>
+    /// This is where the player decides if they want to hide the chat or not
+    /// If host decides to disable the chat, the chat should disable
+    /// </summary>
+    public void updateChat() {
+        Debug.Log("chat allowed status: " + ClientData.isChatAllowed());
+        int chatValue = chatOptions.value;
+
+        if (ClientData.isChatAllowed())
+        {
+            // chat is allowed from the host
+            chatDisableSign.SetActive(false);
+            dropboxUI.SetActive(true);
+            if (chatValue == 0) // normal chat
+            {
+                dropboxSize.offsetMin = new Vector2(dropboxSize.offsetMin.x, 950);
+                dropboxSize.offsetMax = new Vector2(dropboxSize.offsetMax.x, 1040);
+                chatPanel.SetActive(true);
+            }
+            else if (chatValue == 1) // hide chat
+            {
+                dropboxSize.offsetMin = new Vector2(dropboxSize.offsetMin.x, -1130);
+                dropboxSize.offsetMax = new Vector2(dropboxSize.offsetMax.x, -1040);
+                chatPanel.SetActive(false);
+            }
+
+        }
+        else
+        {
+            // chat is not allowed from the host
+            chatDisableSign.SetActive(true);
+            chatPanel.SetActive(false);
+            dropboxUI.SetActive(false);
         }
     }
 
@@ -370,20 +392,10 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     }
 
     private void exitGameBtnOnClick() {
-        Debug.Log("WHAT THE FUCK");
         winnerPanel.SetActive(false);
         SceneManager.LoadScene(SceneNames.JoinGamePage, LoadSceneMode.Single);
     }
 
-    /// <summary>
-    /// This method is called when the chat toggle state changes
-    /// </summary>
-    /// <param name="toggleVal"></param>
-    private void ChatToggleValueChanged(bool toggleVal)
-    {
-        checkMark.SetActive(toggleVal);
-        chatPanel.SetActive(!toggleVal);
-    }
 
     private void OnEnable()
     {
@@ -566,5 +578,10 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private void TimerReachedZero()
     {
         SendSkipTurnToHost(true);
+    }
+
+    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+    {
+        ClientData.FromHashtable(propertiesThatChanged);
     }
 }
