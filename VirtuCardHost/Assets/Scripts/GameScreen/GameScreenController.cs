@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 public class GameScreenController : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class GameScreenController : MonoBehaviour
 
     public GameObject settingsPanel;
     public Toggle timerToggle;
+
+    public GameObject winnerPanel;
+    public Dropdown winnerDropdown;
+
 
     public GameObject playedCardCarousel;
     public GameObject undealtCardCarousel;
@@ -51,6 +56,8 @@ public class GameScreenController : MonoBehaviour
         timerToggle.SetIsOnWithoutNotify(HostData.IsTimerEnabled());
         timerToggle.onValueChanged.AddListener(delegate { EnableTimer(timerToggle.isOn); });
         timerToggle.gameObject.SetActive(HostData.IsTimerEnabled());
+
+
     }
 
     // Update is called once per frame
@@ -220,4 +227,33 @@ public class GameScreenController : MonoBehaviour
     {
         settingsPanel.SetActive(enabled);
     }
+
+    // Adding functions for endgame button and declare winner button
+
+    public void EndGameClicked()
+    {
+        Debug.Log("End game clicked");
+    }
+
+    public void DeclareWinnerClicked()
+    {   
+        winnerPanel.SetActive(true);
+        var allConnectedPlayers = HostData.GetGame().GetAllPlayers();
+        foreach (PlayerInfo player in allConnectedPlayers) {
+            winnerDropdown.options.Add(new Dropdown.OptionData(player.photonPlayer.NickName));
+        }
+    
+    }
+
+    public void ExitClicked()
+    {
+        winnerPanel.SetActive(false);
+    }
+
+    public void DeclareWinnerChoiceClicked()
+    {
+        // this will raise an event
+        Debug.Log("Winner Declared! Congratulations, " +  winnerDropdown.options[winnerDropdown.value].text);
+    }
+
 }
