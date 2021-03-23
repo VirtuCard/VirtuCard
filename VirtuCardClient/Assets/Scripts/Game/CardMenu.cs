@@ -110,7 +110,6 @@ public class CardMenu : MonoBehaviour
             {
                 GameObject imageToDestroy = images[x].gameObject;
                 images.RemoveAt(x);
-                imageToDestroy.GetComponent<Animator>().Play("CardAnimationClientDelete");
                 Destroy(imageToDestroy);
                 break;
             }
@@ -148,7 +147,11 @@ public class CardMenu : MonoBehaviour
             lastScreenPosition = screenPosition;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        RectTransform transform = this.gameObject.GetComponent<RectTransform>();
+
+        if (Input.GetMouseButtonDown(0) && 
+            Input.mousePosition.y <= transform.position.y + (transform.rect.height / 2) &&
+            Input.mousePosition.y >= transform.position.y - (transform.rect.height / 2))
         {
             canSwipe = true;
             mousePositionStartX = Input.mousePosition.x;
