@@ -49,22 +49,18 @@ public static class HostData
             if (gameName == "TestGame")
             {
                 currentGame = new TestGame();
-                return true;
             }
             else if (gameName == "GoFish")
             {
                 currentGame = new GoFish();
-                return true;
             }
             else if (gameName == "Freeplay")
             {
                 currentGame = new Freeplay();
-                return true;
             }
             else if (gameName == "War")
             {
                 currentGame = new War();
-                return true;
             }
             /* Here is a sample to add a new game
             else if (gameName == "<insert_other_game>")
@@ -74,6 +70,7 @@ public static class HostData
             }
             */
             gameSelected = true;
+            return true;
         }
         else
         {
