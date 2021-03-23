@@ -20,6 +20,7 @@ public static class HostData
     private static string joinCode;
     private static bool chatAllowed = true;
     private static Game currentGame;
+    private static bool gameSelected = false;
     private static User userProfile;
 
     public static User UserProfile
@@ -40,36 +41,43 @@ public static class HostData
     private static bool displayLastCard = true;
     // eventually we will add more functionality to freeplay mode but this will do for now
     
-    public static void SetGame(GameTypes gameType)
+    public static bool SetGame(GameTypes gameType)
     {
-        string gameName = Enum.GetName(typeof(GameTypes), gameType);
-        if (gameName == "TestGame")
+        if (gameSelected == false)
         {
-            currentGame = new TestGame();
-            return;
+            string gameName = Enum.GetName(typeof(GameTypes), gameType);
+            if (gameName == "TestGame")
+            {
+                currentGame = new TestGame();
+            }
+            else if (gameName == "GoFish")
+            {
+                currentGame = new GoFish();
+            }
+            else if (gameName == "Freeplay")
+            {
+                currentGame = new Freeplay();
+            }
+            else if (gameName == "War")
+            {
+                currentGame = new War();
+            }
+            /* Here is a sample to add a new game
+            else if (gameName == "<insert_other_game>")
+            {
+                currentGame = new <other_game>();
+                return;
+            }
+            */
+            gameSelected = true;
+            return true;
         }
-        else if (gameName == "GoFish")
+        else
         {
-            currentGame = new GoFish();
-            return;
+            Debug.Log("You have already chosen a game");
+            return false;
         }
-        else if (gameName == "Freeplay")
-        {
-            currentGame = new Freeplay();
-            return;
-        }
-        else if (gameName == "War")
-        {
-            currentGame = new War();
-            return;
-        }
-        /* Here is a sample to add a new game
-        else if (gameName == "<insert_other_game>")
-        {
-            currentGame = new <other_game>();
-            return;
-        }
-        */
+
     }
     public static int GetTimerSeconds()
     {
