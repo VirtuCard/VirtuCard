@@ -238,7 +238,6 @@ MonoBehaviour:
   turn: {fileID: 1490256972}
   notTurnUI: {fileID: 356191701}
   waitingSign: {fileID: 335207972}
-  card: {fileID: 1487859254}
   cardCarousel: {fileID: 881918756}
   chatDisableSign: {fileID: 882972421}
   chatToggleObject: {fileID: 1361487239}
