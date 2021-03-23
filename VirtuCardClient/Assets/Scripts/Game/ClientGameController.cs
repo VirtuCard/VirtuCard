@@ -25,10 +25,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public GameObject chatDisableSign;
 
     public Dropdown chatOptions;
-    public GameObject chatToggleObject;
+    public GameObject dropboxUI;
+    public RectTransform dropboxSize;
     public GameObject chatPanel;
-    public GameObject checkMark;
-    public Toggle chatToggle;
 
     // 3 below are used for if the game is over
     public GameObject winnerPanel;
@@ -60,9 +59,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         drawCardBtn.onClick.AddListener(delegate () { DrawCardBtnClicked(); });
         SetCanSkipBtn(ClientData.isCurrentTurn());
         cardMenu = cardCarousel.GetComponent<CardMenu>();
-
-        chatToggle.SetIsOnWithoutNotify(ClientData.isChatAllowed());
-        chatToggle.onValueChanged.AddListener(delegate { ChatToggleValueChanged(chatToggle.isOn); });
 
         // setup timer
         timer.SetupTimer(ClientData.IsTimerEnabled(), ClientData.GetTimerSeconds(), ClientData.GetTimerMinutes(), warningThreshold: 30, TimerEarlyWarning, TimerReachedZero);
@@ -128,46 +124,44 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
         updateChat();
         
-        disableChat();
+        // disableChat();
     }
 
     /// <summary>
     /// This is where the player decides if they want to hide the chat or not
-    /// </summary>
-    public void updateChat() {
-        int chatValue = chatOptions.value;
-        if (chatValue == 0) // normal chat
-        {
-            chatPanel.SetActive(true);
-        }
-        else if (chatValue == 1) // hide chat
-        {
-            chatPanel.SetActive(false);
-        }
-    }
-
-    /// <summary>
     /// If host decides to disable the chat, the chat should disable
     /// </summary>
-    public void disableChat() {
+    public void updateChat() {
         Debug.Log("chat allowed status: " + ClientData.isChatAllowed());
+        int chatValue = chatOptions.value;
+
         if (ClientData.isChatAllowed())
         {
-            // chat is allowed
+            // chat is allowed from the host
             chatDisableSign.SetActive(false);
-            chatPanel.SetActive(true);
-            chatToggleObject.SetActive(true);
+            dropboxUI.SetActive(true);
+            if (chatValue == 0) // normal chat
+            {
+                dropboxSize.offsetMin = new Vector2(dropboxSize.offsetMin.x, 930);
+                dropboxSize.offsetMax = new Vector2(dropboxSize.offsetMax.x, 1040);
+                chatPanel.SetActive(true);
+            }
+            else if (chatValue == 1) // hide chat
+            {
+                dropboxSize.offsetMin = new Vector2(dropboxSize.offsetMin.x, -1150);
+                dropboxSize.offsetMax = new Vector2(dropboxSize.offsetMax.x, -1040);
+                chatPanel.SetActive(false);
+            }
+
         }
         else
         {
-            // chat is not allowed
+            // chat is not allowed from the host
             chatDisableSign.SetActive(true);
             chatPanel.SetActive(false);
-            chatToggleObject.SetActive(false);
+            dropboxUI.SetActive(false);
         }
     }
-
-
 
     /// <summary>
     /// This just adds a random card, which actually is not random
@@ -307,15 +301,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         SceneManager.LoadScene(SceneNames.JoinGamePage, LoadSceneMode.Single);
     }
 
-    /// <summary>
-    /// This method is called when the chat toggle state changes
-    /// </summary>
-    /// <param name="toggleVal"></param>
-    private void ChatToggleValueChanged(bool toggleVal)
-    {
-        checkMark.SetActive(toggleVal);
-        chatPanel.SetActive(!toggleVal);
-    }
 
     private void OnEnable()
     {
