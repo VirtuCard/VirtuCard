@@ -11,6 +11,10 @@ public abstract class Game
     private int playerTurnIndex = 0;
     private CardDeck playedCards = new CardDeck();
     private CardDeck undealtCards = new CardDeck();
+    private CardDeck ponePlayed = new CardDeck();
+    private CardDeck ptwoPlayed = new CardDeck();
+    private CardDeck poneUnplayed = new CardDeck();
+    private CardDeck ptwoUnplayed = new CardDeck();
     private List<PlayerInfo> players = new List<PlayerInfo>();
     private string gameName;
 
@@ -106,7 +110,7 @@ public abstract class Game
     /// <summary>
     /// This sends out the playerTurnIndex to all the connected Clients
     /// </summary>
-    private void SendOutPlayerTurnIndex()
+    public void SendOutPlayerTurnIndex()
     {
         PlayerInfo currentPlayer = GetPlayerOfCurrentTurn();
         Debug.Log("Setting current turn to " + currentPlayer.photonPlayer.NickName + "'s turn");
@@ -190,7 +194,7 @@ public abstract class Game
     {
         for (int x = 0; x < players.Count; x++)
         {
-            if (username.Equals(players[x].username))
+            if (username.Trim().Equals(players[x].username))
             {
                 return x;
             }
@@ -406,6 +410,22 @@ public abstract class Game
         {
             return playedCards;
         }
+        else if ((int)whichDeck == 2)
+        {
+            return ponePlayed;
+        }
+        else if ((int) whichDeck == 3)
+        {
+            return poneUnplayed;
+        }
+        else if ((int) whichDeck == 4)
+        {
+            return ptwoPlayed;
+        }
+        else if ((int) whichDeck == 5)
+        {
+            return ptwoUnplayed;
+        }
 
         throw new Exception("Invalid deck specified: " + (int) whichDeck + ". Game.cs:79");
     }
@@ -449,6 +469,18 @@ public abstract class Game
 
         return deck;
     }
+
+    /// <summary>
+    /// This method returns the maximum number of players for a game
+    /// </summary>
+    /// <returns></returns>
+    public abstract int GetMaximumNumOfPlayers();
+
+    /// <summary>
+    /// This method returns teh minimum number of players for a game
+    /// </summary>
+    /// <returns></returns>
+    public abstract int GetMinimumNumOfPlayers();
 
     /// <summary>
     /// This method is used to verify that the Card that the player wants to play is valid.

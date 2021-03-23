@@ -43,7 +43,7 @@ namespace PhotonScripts
 
         void OnServerConnect()
         {
-            DoSomething();
+            DoSomething(false);
         }
 
         /// generateCode()
@@ -83,7 +83,7 @@ namespace PhotonScripts
         }
 
         // Function to Create and Join a Room with associated Room Code
-        public static void CreateAndJoinRoom(string RoomCodeString)
+        public static void CreateAndJoinRoom(string RoomCodeString, int maxPlayers)
         {
             // Sets the max players that can join to 10
             // Number will change depending on the game
@@ -107,7 +107,16 @@ namespace PhotonScripts
         {
             Debug.Log("-----PLAYER ENTERED-----");
             Debug.Log(newPlayer.ToString());
-            if (HostData.GetGame().AddPlayer(newPlayer))
+
+            // see if the game is already at capacity
+            if (HostData.GetGame().GetNumOfPlayers() >= HostData.GetMaxNumPlayers())
+            {
+                Debug.Log("Game at capacity");
+                DoSomething(true);
+            }
+
+
+            if(HostData.GetGame().AddPlayer(newPlayer))
             {
                 Debug.Log("Added new player to game");
             }
@@ -115,8 +124,7 @@ namespace PhotonScripts
             {
                 Debug.Log("Failed to add new player to game");
             }
-
-            DoSomething();
+            DoSomething(false);
         }
 
         public override void OnPlayerLeftRoom(Player playerToDisconnect)
@@ -190,11 +198,37 @@ namespace PhotonScripts
                 StandardCardSuit suit = (StandardCardSuit) data[3];
                 StandardCard card = new StandardCard(rank, suit);
 
-                Debug.Log("Receiving a Played Card from " + username + ": " + card.ToString());
-                int userIndex = HostData.GetGame().GetPlayerIndex(username);
-                PlayerInfo player = HostData.GetGame().GetPlayer(username);
-                player.cards.RemoveCard(card);
-                HostData.GetGame().DoMove(card, userIndex);
+                // if the game is gofish
+                if (HostData.GetGame().GetGameName().Equals(Enum.GetName(typeof(GameTypes), GameTypes.GoFish)))
+                {
+                    string playerToRequestFrom = ((string)data[4]).Trim();
+
+                    Debug.Log(username + " is requesting " + card.GetRank()  + "s from " + playerToRequestFrom);
+
+                    int userIndex = HostData.GetGame().GetPlayerIndex(playerToRequestFrom.Trim());
+                    if (userIndex >= 0)
+                    {
+                        HostData.GetGame().DoMove(card, userIndex);
+                    }
+                    else
+                    {
+                        Debug.Log("Could not find player: \"" + playerToRequestFrom  + "\"");
+                        var allPlayers = HostData.GetGame().GetAllPlayers();
+                        string nameList = "";
+                        foreach (var player in allPlayers)
+                        {
+                            nameList += "\"" + player.username + "\" ";
+                        }
+                        Debug.Log("All connected players: " + nameList.Trim());
+                    }
+                }
+                else
+                {
+                    // the game is not gofish
+                    Debug.Log("Receiving a Played Card from " + username + ": " + card.ToString());
+                    int userIndex = HostData.GetGame().GetPlayerIndex(username);
+                    HostData.GetGame().DoMove(card, userIndex);
+                }
             }
             // verifying card event
             else if (photonEvent.Code == 4)
@@ -248,7 +282,7 @@ namespace PhotonScripts
         /// </summary>
         /// <param name="username">PhotonNetwork.NickName of the player to send them to</param>
         /// <param name="cards">Cards to send</param>
-        public void SendCardsToPlayer(string username, List<Card> cards)
+        public static void SendCardsToPlayer(string username, List<Card> cards)
         {
             if (cards[0].GetType().Name == "StandardCard")
             {
@@ -257,10 +291,9 @@ namespace PhotonScripts
                     PlayerInfo player = HostData.GetGame().GetPlayer(username);
                     player.cards.AddCard(card);
 
-                    StandardCard cardToSend = (StandardCard) card;
-                    object[] content = new object[]
-                        {username, cards[0].GetType().Name, cardToSend.GetRank(), cardToSend.GetSuit()};
-                    RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+                    StandardCard cardToSend = (StandardCard)card;
+                    object[] content = new object[] { username, cards[0].GetType().Name, cardToSend.GetRank(), cardToSend.GetSuit() };
+                    RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
                     PhotonNetwork.RaiseEvent(8, content, raiseEventOptions, SendOptions.SendUnreliable);
                 }
             }
@@ -276,6 +309,37 @@ namespace PhotonScripts
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
             PhotonNetwork.RaiseEvent(11, content, raiseEventOptions, SendOptions.SendUnreliable);
         }
+        
+        /// Removes cards from the user, <paramref name="fromUsername"/>, and sends the string, <paramref name="toUsername"/>
+        /// to the client to let them know who removed their cards if they were taken by another player
+        /// </summary>
+        /// <param name="fromUsername"></param>
+        /// <param name="toUsername"></param>
+        public static void RemoveCardsFromPlayer(string fromUsername, string toUsername, List<Card> cardsToRemove)
+        {
+            PlayerInfo player = HostData.GetGame().GetPlayer(fromUsername);
+            player.cards.RemoveCards(cardsToRemove);
+
+            List<object> content = new List<object>();
+            content.Add(fromUsername);
+            if (toUsername == null)
+            {
+                toUsername = String.Empty;
+            }
+            content.Add(toUsername);
+
+            content.Add(cardsToRemove.Count);
+
+            for (int x = 0; x < cardsToRemove.Count; x++)
+            {
+                StandardCard card = (StandardCard)cardsToRemove[x];
+                content.Add(card.GetRank());
+                content.Add(card.GetSuit());
+            }
+
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(13, content.ToArray(), raiseEventOptions, SendOptions.SendUnreliable);
+        }
 
         /// <summary>
         /// Sends whether or not the card was valid to the specific username
@@ -289,12 +353,16 @@ namespace PhotonScripts
             PhotonNetwork.RaiseEvent(5, content, raiseEventOptions, SendOptions.SendUnreliable);
         }
 
-        public void DoSomething()
+        public void DoSomething(bool isRoomAtCapacity)
         {
             string gameMode = HostData.GetGame().GetGameName();
             bool hostToggle = HostData.CanHostJoinGame();
             int maxPlayers = HostData.GetMaxNumPlayers();
             string hostName = PhotonNetwork.NickName;
+            if (isRoomAtCapacity)
+            {
+                hostName = "__CAPACITY__";
+            }
             object[] content = new object[] {gameMode, hostToggle, maxPlayers, hostName};
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
             PhotonNetwork.RaiseEvent(1, content, raiseEventOptions, SendOptions.SendReliable);
