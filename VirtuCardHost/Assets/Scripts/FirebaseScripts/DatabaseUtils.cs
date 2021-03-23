@@ -114,6 +114,35 @@ namespace FirebaseScripts
                 callback((string) task.Result.Value);
             });
         }
+        
+        //Works for non-email related details
+        /// <summary>
+        /// Call this whenever changes needed to be made for statistics
+        /// </summary>
+        /// <param name="details"></param>
+        /// <param name="callback"></param>
+        public static void updateUser(User details, Action<bool> callback)
+        {
+            getUser(details.UserId, s =>
+            {
+                if (s != null)
+                {
+                    DatabaseReference usersRef = realtime.GetReference("users/");
+                    usersRef.Child(details.UserId).SetRawJsonValueAsync(details.ToString()).ContinueWith(task =>
+                    {
+                        if (task.IsFaulted)
+                        {
+                            Debug.LogError("Failed to Update Details");
+                            callback(false);
+                        }
+                        else if (task.IsCompleted)
+                        {
+                            callback(true);
+                        }
+                    });
+                }
+            });
+        }
 
         public static void getUser(string userId, Action<string> callback)
         {
