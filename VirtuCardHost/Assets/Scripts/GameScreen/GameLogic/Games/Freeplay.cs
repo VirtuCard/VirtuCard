@@ -5,6 +5,9 @@ using System;
 
 public class Freeplay : Game
 {
+    private const int MIN_NUM_OF_PLAYERS = 2;
+    private const int MAX_NUM_OF_PLAYERS = 10;
+
     // Start is called before the first frame update
     public Freeplay()
     {
@@ -42,4 +45,21 @@ public class Freeplay : Game
         return true;
     }
 
+    /// <summary>
+    /// Returns the maximum limit of players
+    /// </summary>
+    /// <returns></returns>
+    public override int GetMaximumNumOfPlayers()
+    {
+        return MAX_NUM_OF_PLAYERS;
+    }
+
+    /// <summary>
+    /// Returns the minimum number of players required to start the game
+    /// </summary>
+    /// <returns></returns>
+    public override int GetMinimumNumOfPlayers()
+    {
+        return MIN_NUM_OF_PLAYERS;
+    }
 }

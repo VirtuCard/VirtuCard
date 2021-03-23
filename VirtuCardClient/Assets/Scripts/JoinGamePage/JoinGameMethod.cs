@@ -173,10 +173,10 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
             ClientData.SetTimerSeconds(timerSeconds);
             ClientData.SetTimerMinutes(timerMinutes);
 
-            int numOfPlayers = (int)data[0];
-            for (int x = 1; x < numOfPlayers + 1; x++)
+            int numOfPlayers = (int)data[3];
+            for (int x = 0; x < numOfPlayers; x++)
             {
-                ClientData.AddConnectedPlayerName((string)data[x]);
+                ClientData.AddConnectedPlayerName((string)data[x + 4]);
             }
             SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
         }
