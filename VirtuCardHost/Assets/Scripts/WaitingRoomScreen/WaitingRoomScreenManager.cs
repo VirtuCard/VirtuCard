@@ -247,15 +247,14 @@ public class WaitingRoomScreenManager : MonoBehaviour
             HostData.SetTimerMinutes(-1);
         }
 
-        // send an event to clients telling them to start their games
-        // this content is in the form { bool, int, int }
-        object[] content = new object[]
-            {HostData.IsTimerEnabled(), HostData.GetTimerSeconds(), HostData.GetTimerMinutes()};
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        PhotonNetwork.RaiseEvent(6, content, raiseEventOptions, SendOptions.SendUnreliable);
-        // TODO HERE -------------------------------------------
-
         List<object> content = new List<object>();
+
+        // add timer stuff to content
+        content.Add(HostData.IsTimerEnabled());
+        content.Add(HostData.GetTimerSeconds());
+        content.Add(HostData.GetTimerMinutes());
+
+        // add player names to content
         List<PlayerInfo> allConnectedPlayers = HostData.GetGame().GetAllPlayers();
         content.Add(allConnectedPlayers.Count);
         for (int x = 0; x < allConnectedPlayers.Count; x++)
@@ -263,10 +262,11 @@ public class WaitingRoomScreenManager : MonoBehaviour
             content.Add(allConnectedPlayers[x].username);
         }
 
-
+        // send content
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
         PhotonNetwork.RaiseEvent(6, content.ToArray(), raiseEventOptions, SendOptions.SendUnreliable);
-        HostData.GetGame().PrintAllPlayers();
+
+        // change the scene to the gamescreen
         SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
     }
 

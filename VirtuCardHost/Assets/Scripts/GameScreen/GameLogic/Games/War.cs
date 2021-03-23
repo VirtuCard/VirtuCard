@@ -42,6 +42,15 @@ public class War : Game
     }
 
     /// <summary>
+    /// This is the method that is called when the player's turn is forcibly skipped by the timer
+    /// </summary>
+    /// <param name="playerIndex"></param>
+    protected override void ForceSkipTurn(int playerIndex)
+    {
+
+    }
+
+    /// <summary>
     /// Returns the minimum number of players required to start the game
     /// </summary>
     /// <returns></returns>
