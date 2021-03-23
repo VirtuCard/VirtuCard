@@ -60,7 +60,6 @@ public class LandingPageManager : MonoBehaviour
         //PhotonNetwork.ConnectUsingSettings();    //Connecting to Photon Master Servers
         if (PhotonNetwork.IsConnectedAndReady)
         {
-            Debug.Log(gameChoiceDropdown.options[gameChoiceDropdown.value].text);
             HostData.SetGame((GameTypes) Enum.Parse(typeof(GameTypes),
                 gameChoiceDropdown.options[gameChoiceDropdown.value].text));
 
