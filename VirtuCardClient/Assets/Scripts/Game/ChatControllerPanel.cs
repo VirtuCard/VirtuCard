@@ -18,11 +18,15 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
     public GameObject messageTemplate;
     public GameObject messageParent;
 
-    public string roomcode ;
+    public string roomcode;
     private ChatClient _chatClient;
     public string appId = "50b55aec-e283-413b-88eb-c86a27dfb8b2";
 
     public List<GameObject> placeholders;
+
+    public Button[] defaultChats;
+    public Text[] defaultChatMessages;
+
 
     /// <summary>
     /// This class contains all the methods and fields that are within a single message.
@@ -83,9 +87,22 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
         currentMessages.Add(ui.GetGameObject());
     }
 
+    void InitializeDefaultChats()
+    {
+        //More can be added here.
+        string[] messages = {"Outstanding Move", "Big OOF", "Well Played"};
+        for (int i = 0; i < defaultChats.Length; i++)
+        {
+            defaultChatMessages[i].text = messages[i];
+            int j = i;
+            defaultChats[i].onClick.AddListener((() => SendMessage(messages[j])));
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+
         // set the currentMessages to contain the placeholders
         currentMessages = new List<GameObject>();
         currentMessages.AddRange(placeholders);
@@ -104,12 +121,13 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
         _chatClient = new ChatClient(this) {ChatRegion = "US"};
         PhotonNetwork.AddCallbackTarget(this);
         _chatClient.Connect(appId, "0.1b", new AuthenticationValues(PhotonNetwork.NickName));
+        InitializeDefaultChats();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
         _chatClient.Service();
     }
 
@@ -135,12 +153,12 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
         Debug.Log("Chat Disconnected!\n");
     }
 
-    public void OnConnected() 
+    public void OnConnected()
     {
         Debug.Log("Chat Connected!\n");
         _chatClient.Subscribe(new[] {roomcode});
         SendMessage("hi" + Random.Range(0, 10));
-        
+
         /* Enable chatbox here */
     }
 
