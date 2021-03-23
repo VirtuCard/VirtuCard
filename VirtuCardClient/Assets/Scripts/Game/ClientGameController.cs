@@ -123,10 +123,11 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
             
             StandardCard selectedCard = (StandardCard)cardMenu.GetCurrentlySelectedCard();
-            cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("RawImage").GetComponent<Outline>().enabled = true;
+            //cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("RawImage").GetComponent<Outline>().enabled = true;
 
             if (selectedCard != null)
             {
+                cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("RawImage").GetComponent<Outline>().enabled = true;
                 if (previouslySelectedCard == null ||
                     previouslySelectedCard.Compare(selectedCard) == false)
                 {
@@ -173,9 +174,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         }
 
         updateChat();
-        
-        // disableChat();
-    }
+            }
 
     /// <summary>
     /// This is where the player decides if they want to hide the chat or not
@@ -192,13 +191,13 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             dropboxUI.SetActive(true);
             if (chatValue == 0) // normal chat
             {
-                dropboxSize.offsetMin = new Vector2(dropboxSize.offsetMin.x, 930);
+                dropboxSize.offsetMin = new Vector2(dropboxSize.offsetMin.x, 950);
                 dropboxSize.offsetMax = new Vector2(dropboxSize.offsetMax.x, 1040);
                 chatPanel.SetActive(true);
             }
             else if (chatValue == 1) // hide chat
             {
-                dropboxSize.offsetMin = new Vector2(dropboxSize.offsetMin.x, -1150);
+                dropboxSize.offsetMin = new Vector2(dropboxSize.offsetMin.x, -1130);
                 dropboxSize.offsetMax = new Vector2(dropboxSize.offsetMax.x, -1040);
                 chatPanel.SetActive(false);
             }
