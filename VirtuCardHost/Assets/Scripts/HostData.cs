@@ -41,7 +41,7 @@ public static class HostData
     private static bool displayLastCard = true;
     // eventually we will add more functionality to freeplay mode but this will do for now
     
-    public static void SetGame(GameTypes gameType)
+    public static bool SetGame(GameTypes gameType)
     {
         if (gameSelected == false)
         {
@@ -49,22 +49,22 @@ public static class HostData
             if (gameName == "TestGame")
             {
                 currentGame = new TestGame();
-                return;
+                return true;
             }
             else if (gameName == "GoFish")
             {
                 currentGame = new GoFish();
-                return;
+                return true;
             }
             else if (gameName == "Freeplay")
             {
                 currentGame = new Freeplay();
-                return;
+                return true;
             }
             else if (gameName == "War")
             {
                 currentGame = new War();
-                return;
+                return true;
             }
             /* Here is a sample to add a new game
             else if (gameName == "<insert_other_game>")
@@ -73,6 +73,12 @@ public static class HostData
                 return;
             }
             */
+            gameSelected = true;
+        }
+        else
+        {
+            Debug.Log("You have already chosen a game");
+            return false;
         }
 
     }
