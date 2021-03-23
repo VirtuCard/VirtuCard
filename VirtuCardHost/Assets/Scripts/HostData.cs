@@ -58,6 +58,11 @@ public static class HostData
             currentGame = new Freeplay();
             return;
         }
+        else if (gameName == "War")
+        {
+            currentGame = new War();
+            return;
+        }
         /* Here is a sample to add a new game
         else if (gameName == "<insert_other_game>")
         {
