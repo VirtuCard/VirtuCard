@@ -31,6 +31,14 @@ public static class HostData
     private static bool isTimerEnabled;
     private static int timerMinutes;
     private static int timerSeconds;
+
+    //Adding more settings for freeplay customizability
+    private static bool areHeartsAllowed = true;
+    private static bool areClubsAllowed = true;
+    private static bool areSpadesAllowed = true;
+    private static bool areDiamondsAllowed = true;
+    private static bool displayLastCard = true;
+    // eventually we will add more functionality to freeplay mode but this will do for now
     
     public static void SetGame(GameTypes gameType)
     {
@@ -43,6 +51,16 @@ public static class HostData
         else if (gameName == "GoFish")
         {
             currentGame = new GoFish();
+            return;
+        }
+        else if (gameName == "Freeplay")
+        {
+            currentGame = new Freeplay();
+            return;
+        }
+        else if (gameName == "War")
+        {
+            currentGame = new War();
             return;
         }
         /* Here is a sample to add a new game
@@ -104,12 +122,13 @@ public static class HostData
 
     public static void setMaxNumPlayers(int numPlayers)
     {
-        if (numPlayers > 12)
+        if (numPlayers > GetGame().GetMaximumNumOfPlayers())
         {
-            maxNumPlayers = 12;
-        } else if (numPlayers < 3)
+            maxNumPlayers = GetGame().GetMaximumNumOfPlayers();
+        } 
+        else if (numPlayers < GetGame().GetMinimumNumOfPlayers())
         {
-            maxNumPlayers = 3;
+            maxNumPlayers = GetGame().GetMinimumNumOfPlayers();
         }
         else
         {
@@ -155,6 +174,65 @@ public static class HostData
         chatAllowed = isChatAllowed;
         PhotonNetwork.CurrentRoom.SetCustomProperties(ToHashtable());
     }
+
+    // Adding settings for freeplay
+
+    public static void setHeartsAllowed(bool heartsAllowed)
+    {
+        areHeartsAllowed = heartsAllowed;
+        return;
+    }
+
+    public static bool getHeartsAllowed()
+    {
+        return areHeartsAllowed;
+    }
+
+    public static void setClubsAllowed(bool clubsAllowed)
+    {
+        areClubsAllowed = clubsAllowed;
+        return;
+    }
+
+    public static bool getClubsAllowed()
+    {
+        return areClubsAllowed;
+    }
+
+    public static void setSpadesAllowed(bool spadesAllowed)
+    {
+        areSpadesAllowed = spadesAllowed;
+        return;
+    }
+
+    public static bool getSpadesAllowed()
+    {
+        return areSpadesAllowed;
+    }
+
+    public static void setDiamondsAllowed(bool diamondsAllowed)
+    {
+        areDiamondsAllowed = diamondsAllowed;
+        return;
+    }
+
+    public static bool getDiamondsAllowed()
+    {
+        return areDiamondsAllowed;
+    }
+
+    public static void setDisplayLastCard(bool displayCard)
+    {
+        displayLastCard = displayCard;
+        return;
+    }
+
+    public static bool getDisplayLastCard()
+    {
+        return displayLastCard;
+    }
+
+
     
     public static Hashtable ToHashtable()
     {
