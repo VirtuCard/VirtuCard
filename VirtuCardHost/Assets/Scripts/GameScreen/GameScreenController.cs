@@ -5,6 +5,10 @@ using UnityEngine.UI;
 using System;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
+using ExitGames.Client.Photon;
+using PhotonScripts;
+using System;
+using Photon.Realtime;
 
 public class GameScreenController : MonoBehaviour
 {
@@ -19,6 +23,9 @@ public class GameScreenController : MonoBehaviour
 
     public GameObject winnerPanel;
     public Dropdown winnerDropdown;
+    public GameObject gameOverPanel;
+    public GameObject gameOverText;
+    public GameObject endGamePanel;
 
 
     public GameObject playedCardCarousel;
@@ -232,7 +239,12 @@ public class GameScreenController : MonoBehaviour
 
     public void EndGameClicked()
     {
-        Debug.Log("End game clicked");
+        endGamePanel.SetActive(true);
+    }
+
+    public void KeepPlayingClicked()
+    {
+        endGamePanel.SetActive(false);
     }
 
     public void DeclareWinnerClicked()
@@ -248,12 +260,27 @@ public class GameScreenController : MonoBehaviour
     public void ExitClicked()
     {
         winnerPanel.SetActive(false);
+    
     }
 
     public void DeclareWinnerChoiceClicked()
     {
         // this will raise an event
         Debug.Log("Winner Declared! Congratulations, " +  winnerDropdown.options[winnerDropdown.value].text);
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+        object[] content = new object[] {winnerDropdown.options[winnerDropdown.value].text};
+        PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
+        winnerPanel.SetActive(false);
+        // Display winner message
+        gameOverPanel.SetActive(true);
+        gameOverText.GetComponent<Text>().text = "Congratulations, " + winnerDropdown.options[winnerDropdown.value].text + "!";
+
     }
 
+    public void ExitGameClicked()
+    {
+        Debug.Log("exit game clicked");
+        PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene(SceneNames.LandingPage, LoadSceneMode.Single);
+    }
 }
