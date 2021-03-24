@@ -3,17 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.SceneManagement;
+using Photon.Pun;
+using ExitGames.Client.Photon;
+using PhotonScripts;
+using System;
+using Photon.Realtime;
 
 public class GameScreenController : MonoBehaviour
 {
+    public NotificationWindow notificationWindow;
+
     public GameObject allOfChatUI;
     public GameObject chatPanel;
-    public GameObject checkmark;
-    public Toggle chatToggle;
     public Text currentPlayer;
 
     public GameObject settingsPanel;
+
+    public Dropdown chatOptions;
     public Toggle timerToggle;
+
+    public GameObject winnerPanel;
+    public Dropdown winnerDropdown;
+    public GameObject gameOverPanel;
+    public GameObject gameOverText;
+    public GameObject endGamePanel;
+
 
     public GameObject playedCardCarousel;
     public GameObject undealtCardCarousel;
@@ -21,9 +36,12 @@ public class GameScreenController : MonoBehaviour
     private CardMenu undealtCardMenu;
 
     private bool hasInitializedGame = false;
+
     private float startTime;
+
     // this is the time in seconds before the game intitializes
     private int secondsBeforeInitialization = 2;
+
 
     // Start is called before the first frame update
     void Start()
@@ -31,12 +49,12 @@ public class GameScreenController : MonoBehaviour
         if (HostData.isChatAllowed())
         {
             allOfChatUI.SetActive(true);
-            chatToggle.SetIsOnWithoutNotify(HostData.isChatAllowed());
-            chatToggle.onValueChanged.AddListener(delegate { ChatToggleValueChanged(chatToggle.isOn); });
         }
-        else {
+        else
+        {
             allOfChatUI.SetActive(false);
         }
+
         startTime = Time.time;
         playedCardMenu = playedCardCarousel.GetComponent<CardMenu>();
         undealtCardMenu = undealtCardCarousel.GetComponent<CardMenu>();
@@ -46,20 +64,58 @@ public class GameScreenController : MonoBehaviour
         timerToggle.SetIsOnWithoutNotify(HostData.IsTimerEnabled());
         timerToggle.onValueChanged.AddListener(delegate { EnableTimer(timerToggle.isOn); });
         timerToggle.gameObject.SetActive(HostData.IsTimerEnabled());
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (HostData.GetGame().IsGameEmpty())
+        {
+            SceneManager.LoadScene(SceneNames.WaitingRoomScreen);
+        }
+
         currentPlayer.GetComponent<Text>().text = HostData.GetGame().GetPlayerOfCurrentTurn().username + "'s Turn";
         if (hasInitializedGame == false && startTime + secondsBeforeInitialization <= Time.time)
         {
             hasInitializedGame = true;
             HostData.GetGame().InitializeGame();
         }
+
         DisplayCards();
+        updatingChat();
+
+        // if the notification window should be shown
+        string[] messages = new string[] { };
+        if (HostData.GetDoShowNotificationWindow(ref messages))
+        {
+            for (int x = 0; x < messages.Length; x++)
+            {
+                notificationWindow.ShowNotification(messages[x]);
+            }
+            HostData.SetDoShowNotificationWindow(false);
+        }
     }
     
+    public void updatingChat() {
+        int chatValue = chatOptions.value;
+        if (chatValue == 0) // normal chat
+        {
+            HostData.setChatAllowed(true);
+            chatPanel.SetActive(true);
+        }
+        else if (chatValue == 1) // disable chat
+        {
+            HostData.setChatAllowed(false);
+            chatPanel.SetActive(false);
+        }
+        else // mute chat
+        {
+            HostData.setChatAllowed(true);
+            chatPanel.SetActive(false);
+        }
+    }
 
     public void DisplayCards()
     {
@@ -69,7 +125,7 @@ public class GameScreenController : MonoBehaviour
             {
                 HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCard(i).Print();
                 Debug.Log(HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCardCount());
-                StandardCard card = (StandardCard)HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCard(i);
+                StandardCard card = (StandardCard) HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCard(i);
                 Debug.Log(card.GetRank());
                 Debug.Log(card.GetSuit());
                 playedCardMenu.AddCardToCarousel(card, CardTypes.StandardCard);
@@ -81,13 +137,14 @@ public class GameScreenController : MonoBehaviour
                 }
             }
         }
+
         for (int i = 0; i < HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCardCount(); ++i)
         {
             if (!undealtCardMenu.FindCardFromCarousel(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i)))
             {
                 HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i).Print();
                 Debug.Log(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCardCount());
-                StandardCard card = (StandardCard)HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i);
+                StandardCard card = (StandardCard) HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i);
                 Debug.Log(card.GetRank());
                 Debug.Log(card.GetSuit());
                 undealtCardMenu.AddCardToCarousel(card, CardTypes.StandardCard);
@@ -102,7 +159,7 @@ public class GameScreenController : MonoBehaviour
 
         List<Card> cardsInCarousel = undealtCardMenu.GetAllCardsInCarousel();
         int cardCount = cardsInCarousel.Count;
-        for (int i = cardCount - 1; i >= 0 ; i--)
+        for (int i = cardCount - 1; i >= 0; i--)
         {
             // if the card carousel contains a card that is not present in the deck, remove it from carousel
             if (!HostData.GetGame().GetDeck(DeckChoices.UNDEALT).IsCardPresent(cardsInCarousel[i]))
@@ -110,44 +167,6 @@ public class GameScreenController : MonoBehaviour
                 undealtCardMenu.RemoveCardFromCarousel(cardsInCarousel[i]);
             }
         }
-    }
-    /// <summary>
-    /// This method should be called when a client has requested to draw a single card
-    /// It draws a random card from the undealt deck and then removes it.
-    /// </summary>
-    /// <returns></returns>
-    public Card DrawCard()
-    {
-        Card drawnCard = HostData.GetGame().DrawCardFromDeck(DeckChoices.UNDEALT);
-        undealtCardMenu.RemoveCardFromCarousel(drawnCard);
-        return drawnCard;
-    }
-
-    /// <summary>
-    /// This method should be called when a client has requested to draw multiple cards.
-    /// It draws <paramref name="numOfCards"/> random cards from the undealt deck and subsequently removes them.
-    /// </summary>
-    /// <param name="numOfCards">Number of cards to draw and return</param>
-    /// <returns>A list containing all the drawn cards</returns>
-    public List<Card> DrawCards(int numOfCards)
-    {
-        return HostData.GetGame().DrawCardsFromDeck(numOfCards, DeckChoices.UNDEALT);
-    }
-
-    /// <summary>
-    /// TODO implementation
-    /// </summary>
-    /// <param name="card">The card to play</param>
-    /// <param name="playerIndex">The index of the player playing the card</param>
-    /// <returns>Returns true or false depending on whether the card was played</returns>
-    public bool PlayCard(Card card, int playerIndex)
-    {
-        if (VerifyIfCardIsValid(card))
-        {
-            HostData.GetGame().AddCardToDeck(card, DeckChoices.PLAYED);
-            return true;
-        }
-        return false;
     }
 
     /// <summary>
@@ -171,19 +190,6 @@ public class GameScreenController : MonoBehaviour
     }
 
     /// <summary>
-    /// This method is called when the chat toggle state changes
-    /// </summary>
-    /// <param name="toggleVal"></param>
-    private void ChatToggleValueChanged(bool toggleVal)
-    {
-        // HostData.setChatAllowed(toggleVal);
-        // Debug.Log("Chat is " + HostData.isChatAllowed());
-        checkmark.SetActive(toggleVal);
-        chatPanel.SetActive(!toggleVal);
-    }
-
-
-    /// <summary>
     /// This sends a signal to all the clients to either enable or disable the timer
     /// </summary>
     public void EnableTimer(bool enable)
@@ -205,5 +211,54 @@ public class GameScreenController : MonoBehaviour
     public void DisplaySettingsWindow(bool enabled)
     {
         settingsPanel.SetActive(enabled);
+    }
+
+    // Adding functions for endgame button and declare winner button
+
+    public void EndGameClicked()
+    {
+        endGamePanel.SetActive(true);
+    }
+
+    public void KeepPlayingClicked()
+    {
+        endGamePanel.SetActive(false);
+    }
+
+    public void DeclareWinnerClicked()
+    {   
+        winnerPanel.SetActive(true);
+        var allConnectedPlayers = HostData.GetGame().GetAllPlayers();
+        foreach (PlayerInfo player in allConnectedPlayers) {
+            winnerDropdown.options.Add(new Dropdown.OptionData(player.photonPlayer.NickName));
+        }
+    
+    }
+
+    public void ExitClicked()
+    {
+        winnerPanel.SetActive(false);
+    
+    }
+
+    public void DeclareWinnerChoiceClicked()
+    {
+        // this will raise an event
+        Debug.Log("Winner Declared! Congratulations, " +  winnerDropdown.options[winnerDropdown.value].text);
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+        object[] content = new object[] {winnerDropdown.options[winnerDropdown.value].text};
+        PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
+        winnerPanel.SetActive(false);
+        // Display winner message
+        gameOverPanel.SetActive(true);
+        gameOverText.GetComponent<Text>().text = "Congratulations, " + winnerDropdown.options[winnerDropdown.value].text + "!";
+
+    }
+
+    public void ExitGameClicked()
+    {
+        Debug.Log("exit game clicked");
+        PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene(SceneNames.LandingPage, LoadSceneMode.Single);
     }
 }

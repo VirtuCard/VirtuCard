@@ -1,2 +1,2 @@
 # VirtuCard
-![alt text](https://github.com/VirtuCard/VirtuCard/blob/main/VirtuCardIcon.png?raw=true)
+![alt text](https://github.com/VirtuCard/VirtuCard/blob/master/VirtuCardIcon.png?raw=true)

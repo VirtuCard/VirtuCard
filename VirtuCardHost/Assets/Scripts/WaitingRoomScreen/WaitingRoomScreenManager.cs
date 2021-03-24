@@ -15,9 +15,17 @@ public class WaitingRoomScreenManager : MonoBehaviour
     public GameObject settingsPanel;
     public InputField numPlayers;
     public Toggle canHostJoinToggle;
+
     public Toggle chatEnabledToggle;
+
     //Freeplay settings
     public GameObject freeplaySettingsPanel;
+    public Toggle enableHearts;
+    public Toggle enableClubs;
+    public Toggle enableSpades;
+    public Toggle enableDiamonds;
+    public Toggle showLastCard;
+    public Button FreeplaySettingsButton;
 
     // Timer Settings
     public Toggle timerEnabledToggle;
@@ -43,6 +51,15 @@ public class WaitingRoomScreenManager : MonoBehaviour
         chatEnabledToggle.onValueChanged.AddListener(
             delegate { ChatToggleValueChanged(chatEnabledToggle.isOn); });
 
+        //  Freeplay listeners
+        enableHearts.onValueChanged.AddListener(
+            delegate { HeartsToggleValueChanged(enableHearts.isOn); });
+        enableClubs.onValueChanged.AddListener(
+            delegate { ClubsToggleValueChanged(enableClubs.isOn); });
+        enableSpades.onValueChanged.AddListener(
+            delegate { SpadesToggleValueChanged(enableSpades.isOn); });
+        enableDiamonds.onValueChanged.AddListener(
+            delegate { DiamondsToggleValueChanged(enableDiamonds.isOn); });
         // setup initial timer stuff
         timerEnabledToggle.onValueChanged.AddListener(
             delegate { TimerToggleValueChanged(timerEnabledToggle.isOn); });
@@ -55,25 +72,43 @@ public class WaitingRoomScreenManager : MonoBehaviour
         playerList = NetworkController.ListAllPlayers();
         CreatePlayerList();
         settingsPanel.SetActive(false);
+        freeplaySettingsPanel.SetActive(false);
         joinCode.text = HostData.GetJoinCode();
         selectedGame.text = HostData.GetGame().GetGameName();
         currPlayerCount.text = "0 players";
         canHostJoinToggle.isOn = HostData.CanHostJoinGame();
         chatEnabledToggle.isOn = HostData.isChatAllowed();
-        numPlayers.SetTextWithoutNotify(HostData.GetMaxNumPlayers().ToString());
+        numPlayers.SetTextWithoutNotify(HostData.GetGame().GetMaximumNumOfPlayers().ToString());
 
+        //freeplay initialization
+        enableHearts.isOn = HostData.getHeartsAllowed();
+        enableClubs.isOn = HostData.getClubsAllowed();
+        enableSpades.isOn = HostData.getSpadesAllowed();
+        enableDiamonds.isOn = HostData.getDiamondsAllowed();
 
         startGameBtn.onClick.AddListener(delegate { StartGameBtnClicked(); });
         startGameBtn.interactable = false;
+        
+        //disables and hides the freeplay button if the gamemode is not freeplay
+        if (HostData.GetGame().GetGameName() != "Freeplay")
+        {
+            //FreeplaySettingsButton.enabled = false;
+            FreeplaySettingsButton.gameObject.SetActive(false);
+        }
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         joinCode.text = HostData.GetJoinCode();
-        if (HostData.GetGame().GetNumOfPlayers() > 0)
+        if (HostData.GetGame().GetNumOfPlayers() >= HostData.GetGame().GetMinimumNumOfPlayers())
         {
             startGameBtn.interactable = true;
+        }
+        else
+        {
+            startGameBtn.interactable = false;
         }
 
         //Refresh players list here
@@ -85,7 +120,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
         List<string> playerNamesToAdd = new List<string>();
         List<bool> boxIsAssociatedWithConnectedPlayer = new List<bool>();
 
-        for(int x = 0; x < textBoxes.Count; x++)
+        for (int x = 0; x < textBoxes.Count; x++)
         {
             boxIsAssociatedWithConnectedPlayer.Add(false);
         }
@@ -110,6 +145,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
                     }
                 }
             }
+
             if (!playerHasBeenAddedAlready)
             {
                 playerNamesToAdd.Add(player.photonPlayer.NickName);
@@ -211,12 +247,26 @@ public class WaitingRoomScreenManager : MonoBehaviour
             HostData.SetTimerMinutes(-1);
         }
 
-        // send an event to clients telling them to start their games
-        // this content is in the form { bool, int, int }
-        object[] content = new object[] { HostData.IsTimerEnabled(), HostData.GetTimerSeconds(), HostData.GetTimerMinutes() };
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        PhotonNetwork.RaiseEvent(6, content, raiseEventOptions, SendOptions.SendUnreliable);
+        List<object> content = new List<object>();
 
+        // add timer stuff to content
+        content.Add(HostData.IsTimerEnabled());
+        content.Add(HostData.GetTimerSeconds());
+        content.Add(HostData.GetTimerMinutes());
+
+        // add player names to content
+        List<PlayerInfo> allConnectedPlayers = HostData.GetGame().GetAllPlayers();
+        content.Add(allConnectedPlayers.Count);
+        for (int x = 0; x < allConnectedPlayers.Count; x++)
+        {
+            content.Add(allConnectedPlayers[x].username);
+        }
+
+        // send content
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+        PhotonNetwork.RaiseEvent(6, content.ToArray(), raiseEventOptions, SendOptions.SendUnreliable);
+
+        // change the scene to the gamescreen
         SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
     }
 
@@ -262,13 +312,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
         }
     }
 
-//Freeplay options stuff
-
-    public void OnClickFreePlaySettings()
-    {
-        //This is were the second screen will be for the host to change options
-        //TODO
-    }
+//Freeplay options methods
 
     public void OnClickBackOnFreeplaySettings()
     {
@@ -279,9 +323,38 @@ public class WaitingRoomScreenManager : MonoBehaviour
     public void OnClickFreeplaySettings()
     {
         //Add logic to check what game mode is selected
+        //TODO
+
         freeplaySettingsPanel.SetActive(true);
         settingsPanel.SetActive(false);
     }
+
+    private void HeartsToggleValueChanged(bool isOn)
+    {
+        HostData.setHeartsAllowed(isOn);
+    }
+
+    private void ClubsToggleValueChanged(bool isOn)
+    {
+        HostData.setClubsAllowed(isOn);
+    }
+
+    private void SpadesToggleValueChanged(bool isOn)
+    {
+        HostData.setSpadesAllowed(isOn);
+    }
+       
+    private void DiamondsToggleValueChanged(bool isOn)
+    {
+        HostData.setDiamondsAllowed(isOn);
+    }
+
+    private void LastCardToggleChanged(bool isOn)
+    {
+        HostData.setDisplayLastCard(isOn);
+    }
+
+//End freeplay options
 
 
     public void OnClickCloseOptions()
@@ -313,7 +386,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
         int value = 0;
         if (!int.TryParse(newValue, out value))
         {
-            HostData.setMaxNumPlayers(3);
+            HostData.setMaxNumPlayers(HostData.GetGame().GetMaximumNumOfPlayers());
         }
         else
         {

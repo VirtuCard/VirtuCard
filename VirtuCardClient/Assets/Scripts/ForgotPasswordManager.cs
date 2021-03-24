@@ -8,6 +8,7 @@ public class ForgotPasswordManager : MonoBehaviour
 {
     // Start is called before the first frame update
     public InputField emailInput;
+
     // this is the button that is pressed to submit the email and recieve the forgot password email
     public Button sendBtn;
 
@@ -28,6 +29,8 @@ public class ForgotPasswordManager : MonoBehaviour
     public bool CorrectCred = false;
     public bool IncorrectCred = false;
 
+    public GameObject loadingPanel;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,7 +43,6 @@ public class ForgotPasswordManager : MonoBehaviour
 
         // add an event listner for when the login button is clicked
         sendBtn.onClick.AddListener(delegate { sendBtnClicked(); });
-
     }
 
     // Update is called once per frame
@@ -48,18 +50,18 @@ public class ForgotPasswordManager : MonoBehaviour
     {
         if (CorrectCred)
         {
+            loadingPanel.SetActive(false);
             confirmPanel.SetActive(true);
             emailInput.text = "";
             CorrectCred = false;
-
         }
         else if (IncorrectCred)
         {
+            loadingPanel.SetActive(false);
             failedPanel.SetActive(true);
             emailInput.text = "";
             IncorrectCred = false;
         }
-
     }
 
     public void CreateErrorMessage(string title, string message)
@@ -84,12 +86,14 @@ public class ForgotPasswordManager : MonoBehaviour
         // collect email
         string email = emailInput.text;
         Debug.Log(email);
+        loadingPanel.SetActive(true);
 
         // change the scene
         FirebaseInit.InitializeFirebase(task =>
         {
             AuthUser.ResetPassword(email,
-                task => {
+                task =>
+                {
                     if (task)
                     {
                         Debug.Log("task bool is " + task);

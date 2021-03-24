@@ -5,6 +5,9 @@ using System;
 
 public class TestGame : Game
 {
+    private const int MIN_NUM_OF_PLAYERS = 1;
+    private const int MAX_NUM_OF_PLAYERS = 10;
+
     public TestGame()
     {
         SetGameName(Enum.GetName(typeof(GameTypes), GameTypes.TestGame));
@@ -23,6 +26,24 @@ public class TestGame : Game
         AddCardToDeck(new StandardCard(StandardCardRank.NINE, StandardCardSuit.CLUBS), DeckChoices.UNDEALT);
         AddCardToDeck(new StandardCard(StandardCardRank.TEN, StandardCardSuit.CLUBS), DeckChoices.UNDEALT);
         AdvanceTurn(true);
+    }
+
+    /// <summary>
+    /// Returns the maximum limit of players
+    /// </summary>
+    /// <returns></returns>
+    public override int GetMaximumNumOfPlayers()
+    {
+        return MAX_NUM_OF_PLAYERS;
+    }
+
+    /// <summary>
+    /// Returns the minimum number of players required to start the game
+    /// </summary>
+    /// <returns></returns>
+    public override int GetMinimumNumOfPlayers()
+    {
+        return MIN_NUM_OF_PLAYERS;
     }
 
     /// <summary>

@@ -2,6 +2,7 @@
 using Firebase;
 using Firebase.Auth;
 using Photon.Pun;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace FirebaseScripts
@@ -56,9 +57,10 @@ namespace FirebaseScripts
                 DatabaseUtils.getUser(newUser.UserId, s =>
                 {
                     User user1 = new User(s);
-                    Debug.Log(user1);
+                    Debug.Log(user1.ToString());
+                    ClientData.UserProfile = user1;
                     PhotonNetwork.NickName = user1.Username;
-                    Debug.Log("After");
+                   // DatabaseUtils.updateUser(user1, b => { Debug.Log("Updated with " + b); });
                     callback(true);
                 });
             });
@@ -335,10 +337,9 @@ namespace FirebaseScripts
         {
             if (auth.CurrentUser != null)
             {
-                auth.SignOut(); 
+                auth.SignOut();
                 // Null check required for account deletion cases.
             }
-            
         }
 
         public static void FacebookLogin(String accessToken, Action<int> callback)

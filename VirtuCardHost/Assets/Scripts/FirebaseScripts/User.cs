@@ -13,8 +13,11 @@ namespace FirebaseScripts
         private string email;
         private string _userId;
         private bool isAnonymous;
+        private long gamesPlayed;
+        private long gamesWon;
+        private long gamesLost;
 
-        //Should be as strings
+        //Should be as stringsv
         private List<string> friends;
 
         public User(string username, string email, string userId)
@@ -26,6 +29,9 @@ namespace FirebaseScripts
             this.name = "";
             this.friends = new List<string>();
             this.isAnonymous = false;
+            this.gamesPlayed = 0;
+            this.gamesWon = 0;
+            this.gamesLost = 0;
         }
 
 
@@ -38,6 +44,9 @@ namespace FirebaseScripts
             this.name = name;
             this.friends = new List<string>();
             this.isAnonymous = isAnonymous;
+            this.gamesPlayed = 0;
+            this.gamesWon = 0;
+            this.gamesLost = 0;
         }
 
 
@@ -66,7 +75,25 @@ namespace FirebaseScripts
             {
                 this.friends = new List<string>();
             }
+
+
+            gamesPlayed = 0;
+            if (dict.ContainsKey("GamesPlayed"))
+            {
+                this.gamesPlayed = (long) dict["GamesPlayed"];
+            }
+
+            gamesWon = 0;
+            if (dict.ContainsKey("GamesWon"))
+            {
+                this.gamesWon = (long) dict["GamesWon"];
+            }
             
+            gamesLost = 0;
+            if (dict.ContainsKey("GamesLost"))
+            {
+                this.gamesPlayed = (long) dict["GamesLost"];
+            }
         }
 
         public string Name
@@ -110,6 +137,24 @@ namespace FirebaseScripts
         {
             get => isAnonymous;
             set => isAnonymous = value;
+        }
+
+        public long GamesPlayed
+        {
+            get => gamesPlayed;
+            set => gamesPlayed = value;
+        }
+
+        public long GamesWon
+        {
+            get => gamesWon;
+            set => gamesWon = value;
+        }
+
+        public long GamesLost
+        {
+            get => gamesLost;
+            set => gamesLost = value;
         }
 
         public override string ToString()
