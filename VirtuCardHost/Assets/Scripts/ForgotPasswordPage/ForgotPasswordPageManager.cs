@@ -29,6 +29,8 @@ public class ForgotPasswordPageManager : MonoBehaviour
     public bool CorrectCred = false;
     public bool IncorrectCred = false;
 
+    public GameObject loadingPanel;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,7 +43,6 @@ public class ForgotPasswordPageManager : MonoBehaviour
 
         // add an event listner for when the login button is clicked
         sendBtn.onClick.AddListener(delegate { sendBtnClicked(); });
-
     }
 
     // Update is called once per frame
@@ -49,18 +50,18 @@ public class ForgotPasswordPageManager : MonoBehaviour
     {
         if (CorrectCred)
         {
+            loadingPanel.SetActive(false);
             confirmPanel.SetActive(true);
             emailInput.text = "";
             CorrectCred = false;
-
         }
         else if (IncorrectCred)
         {
+            loadingPanel.SetActive(false);
             failedPanel.SetActive(true);
             emailInput.text = "";
             IncorrectCred = false;
         }
-
     }
 
     public void CreateErrorMessage(string title, string message)
@@ -83,6 +84,7 @@ public class ForgotPasswordPageManager : MonoBehaviour
     public void sendBtnClicked()
     {
         // collect email
+        loadingPanel.SetActive(true);
         string email = emailInput.text;
         Debug.Log(email);
 
@@ -90,7 +92,8 @@ public class ForgotPasswordPageManager : MonoBehaviour
         FirebaseInit.InitializeFirebase(task =>
         {
             AuthUser.ResetPassword(email,
-                task => {
+                task =>
+                {
                     if (task)
                     {
                         Debug.Log("task bool is " + task);
@@ -101,7 +104,7 @@ public class ForgotPasswordPageManager : MonoBehaviour
                         Debug.Log("task bool is " + task);
                         IncorrectCred = true;
                     }
-            });
+                });
         });
     }
 }
