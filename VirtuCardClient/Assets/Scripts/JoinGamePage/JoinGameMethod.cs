@@ -18,7 +18,6 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
     /// This method grabs the code that the user input
     /// then puts it in to the code to join a Photon room.
     /// <summary>
-
     public string joinCode;
 
     public GameObject inputField;
@@ -36,6 +35,8 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
 
     public static bool makeError = false;
     public static bool makeCapacityError = false;
+
+    public GameObject loadingPanel;
 
 
     void Update()
@@ -58,14 +59,12 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.AddCallbackTarget(this);
         errorPanel.SetActive(false);
-        DatabaseUtils.getUser(AuthUser.GetUserID(), json =>
-        {
-            ClientData.UserProfile = new User(json);
-        });
+        DatabaseUtils.getUser(AuthUser.GetUserID(), json => { ClientData.UserProfile = new User(json); });
     }
 
     public void ConnectClientClicked()
     {
+        loadingPanel.SetActive(true);
         joinCode = inputField.GetComponent<Text>().text;
         Debug.Log("Join Code is: " + joinCode);
         ConnectClientToServer(joinCode);
@@ -93,7 +92,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        
+        loadingPanel.SetActive(false);
         SceneManager.LoadScene(SceneNames.WaitingScreen);
     }
 
@@ -101,10 +100,9 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
     {
         errorTitle.GetComponent<Text>().text = title;
         errorMessage.GetComponent<Text>().text = message;
+        loadingPanel.SetActive(false);
         errorPanel.SetActive(true);
     }
-    
-    
 
 
     private void OnEnable()
@@ -138,7 +136,6 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
             ClientData.SetGameName(s);
             if (s == "War")
             {
-
             }
 
             MaxPlayersText.GetComponent<Text>().text = s;
@@ -164,20 +161,21 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
         // this is the flag that is saying to go from waiting screen to the game screen
         else if (photonEvent.Code == 6)
         {
-            object[] data = (object[])photonEvent.CustomData;
-            bool timerEnabled = (bool)data[0];
-            int timerSeconds = (int)data[1];
-            int timerMinutes = (int)data[2];
+            object[] data = (object[]) photonEvent.CustomData;
+            bool timerEnabled = (bool) data[0];
+            int timerSeconds = (int) data[1];
+            int timerMinutes = (int) data[2];
 
             ClientData.SetIsTimerEnabled(timerEnabled);
             ClientData.SetTimerSeconds(timerSeconds);
             ClientData.SetTimerMinutes(timerMinutes);
 
-            int numOfPlayers = (int)data[3];
+            int numOfPlayers = (int) data[3];
             for (int x = 0; x < numOfPlayers; x++)
             {
-                ClientData.AddConnectedPlayerName((string)data[x + 4]);
+                ClientData.AddConnectedPlayerName((string) data[x + 4]);
             }
+
             SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
         }
         else if (photonEvent.Code == 10)
