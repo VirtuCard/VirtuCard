@@ -41,6 +41,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public Dropdown goFishNamesDropdown;
     public Button goFishQueryButton;
 
+    public CanvasGroup invalidMove;
+
     public List<Card> CardList;
 
     // this is used to determine if the user has scrolled over to a new card, so it can be used to verify
@@ -384,6 +386,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             }
             else
             {
+                invalidMove.GetComponent<CanvasGroup>().alpha = 1;
+                StartCoroutine(FadeCanvas(invalidMove, invalidMove.alpha, 0));
                 Debug.Log("Card is not valid to be played");
             }
         }
@@ -522,6 +526,26 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                     notificationWindow.ShowNotification(card.ToNiceString() + " has been taken!");
                 }
             }
+        }
+    }
+
+
+    /// <summary>
+    /// This is the code to update the fade in or fade out for the Canvas Group
+    /// </summary>
+    public IEnumerator FadeCanvas(CanvasGroup cg, float start, float end, float lerpTime = 1.0f) {
+        float _timeStartedLerping = Time.time;
+        float timeSinceStarted = Time.time - _timeStartedLerping;
+        float percentageComplete = timeSinceStarted / lerpTime;
+        
+        while (true) {
+            timeSinceStarted = Time.time - _timeStartedLerping;
+            percentageComplete = timeSinceStarted / lerpTime;
+
+            float currentValue = Mathf.Lerp(start, end, percentageComplete);
+            cg.alpha = currentValue;
+            if (percentageComplete >= 1) break;
+            yield return new WaitForEndOfFrame();
         }
     }
 
