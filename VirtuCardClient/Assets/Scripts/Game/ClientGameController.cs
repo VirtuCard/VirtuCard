@@ -98,6 +98,10 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             standardPanel.SetActive(true);
             goFishPanel.SetActive(false);
         }
+
+        // when winner is announced the button is clicked
+        exitGameBtn.onClick.AddListener(delegate() { exitGameBtnOnClick(); });
+
     }
 
     private void IncrementGamesPlayed()
@@ -184,7 +188,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             // {
             //   winnerAnnounce.GetComponent<Text>().text = winner's username + " has won the game!";
             // }
-            exitGameBtn.onClick.AddListener(delegate() { exitGameBtnOnClick(); });
+            // exitGameBtn.onClick.AddListener(delegate() { exitGameBtnOnClick(); });
         }
 
         updateChat();
