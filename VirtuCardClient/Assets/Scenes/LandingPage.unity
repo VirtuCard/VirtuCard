@@ -577,7 +577,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dcd5946fc7e5c3449df0295bcc608d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infoText: {fileID: 0}
   webClientId: 1071081792573-ergti17jtn58rihd8rl4a97kkiige1d4.apps.googleusercontent.com
   failedPanel: {fileID: 338521660}
   errorTitle: {fileID: 263863626}
