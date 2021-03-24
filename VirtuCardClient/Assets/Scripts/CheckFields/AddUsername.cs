@@ -16,6 +16,8 @@ namespace CheckFields
         public Text errorTitle;
         public Text errorMessage;
 
+        public GameObject loadingPanel;
+        
         private void Start()
         {
 
@@ -25,6 +27,7 @@ namespace CheckFields
         {
             if (value == 1)
             {
+                loadingPanel.SetActive(false);
                 SceneManager.LoadScene(SceneNames.JoinGamePage);
             } else if (value == -1)
             {
@@ -38,12 +41,13 @@ namespace CheckFields
         {
             errorTitle.GetComponent<Text>().text = title;
             errorMessage.GetComponent<Text>().text = message;
+            loadingPanel.SetActive(false);
             failedPanel.SetActive(true);
         }
         
         public void OnUsernameButtonClick()
         {
-            Debug.Log("Hi");
+            loadingPanel.SetActive(true);
             string username = inputField.text;
             Debug.Log(username);
             User user = new User(username, "virtu@card.com", AuthUser.GetUserID());

@@ -29,6 +29,7 @@ public class LoginPageManager : MonoBehaviour
     public bool IncorrectCred = false;
 
     private bool didChangeState = false;
+    public GameObject loadingPanel;
 
     // Start is called before the first frame update
     void Start()
@@ -66,6 +67,7 @@ public class LoginPageManager : MonoBehaviour
 
     void CreateSuccessMessage(string title) {
         successMessage.GetComponent<Text>().text = title;
+        loadingPanel.SetActive(false);
         successPanel.SetActive(true);
     }
 
@@ -73,6 +75,7 @@ public class LoginPageManager : MonoBehaviour
     {
         errorTitle.GetComponent<Text>().text = title;
         errorMessage.GetComponent<Text>().text = message;
+        loadingPanel.SetActive(false);
         failedPanel.SetActive(true);
     }
 
@@ -82,6 +85,7 @@ public class LoginPageManager : MonoBehaviour
 
     private void loginBtnClicked()
     {
+        loadingPanel.SetActive(true);
         FirebaseInit.InitializeFirebase(task =>
         {
             // collect username and password

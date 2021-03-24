@@ -29,6 +29,7 @@ public class RegistrationPageManager : MonoBehaviour
     // this controls what scene to go to
     private LoadDifferentScene sceneLoader;
 
+    public GameObject loadingPanel; 
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +52,7 @@ public class RegistrationPageManager : MonoBehaviour
         switch (_successful)
         {
             case 1:
+                loadingPanel.SetActive(false);
                 sceneLoader.ChangeScene(SceneNames.LandingPage);
                 break;
             case -1:
@@ -93,6 +95,7 @@ public class RegistrationPageManager : MonoBehaviour
     {
         errorTitle.GetComponent<Text>().text = title;
         errorMessage.GetComponent<Text>().text = message;
+        loadingPanel.SetActive(false);
         failedPanel.SetActive(true);
         _successful = 0;
     }
@@ -103,6 +106,7 @@ public class RegistrationPageManager : MonoBehaviour
     /// </summary>
     private void onCreateBtnClick()
     {
+        loadingPanel.SetActive(true);
         string userName = usernameInput.text;
         string email = emailInput.text;
         string password = passwordInput.text;

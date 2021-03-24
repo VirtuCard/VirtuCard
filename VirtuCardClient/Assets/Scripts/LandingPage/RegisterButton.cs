@@ -23,6 +23,8 @@ public class RegisterButton : MonoBehaviour
     public GameObject confirmPasswordField;
     public GameObject errorPanel;
     public GameObject errorTitle;
+    
+    public GameObject loadingPanel;
     public GameObject errorMessage;
 
     void Start()
@@ -32,6 +34,7 @@ public class RegisterButton : MonoBehaviour
 
     public void AttemptCreateAccount()
     {
+        loadingPanel.SetActive(true);
         string username = usernameField.GetComponent<InputField>().text;
         string email = emailField.GetComponent<InputField>().text;
         string password = passwordField.GetComponent<InputField>().text;
@@ -83,6 +86,7 @@ public class RegisterButton : MonoBehaviour
     {
         errorTitle.GetComponent<Text>().text = title;
         errorMessage.GetComponent<Text>().text = message;
+        loadingPanel.SetActive(false);
         errorPanel.SetActive(true);
         successful = 0;
     }
@@ -93,6 +97,7 @@ public class RegisterButton : MonoBehaviour
         switch (successful)
         {
             case 1:
+                loadingPanel.SetActive(false);
                 SceneManager.LoadScene(SceneNames.JoinGamePage, LoadSceneMode.Single);
                 break;
             case -1:
