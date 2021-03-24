@@ -33,6 +33,10 @@ public static class HostData
     private static int timerMinutes;
     private static int timerSeconds;
 
+    // for notification window popup
+    private static bool doShowNotificationWindow;
+    private static List<string> notificationWindowMessages = new List<string>();
+
     //Adding more settings for freeplay customizability
     private static bool areHeartsAllowed = true;
     private static bool areClubsAllowed = true;
@@ -77,8 +81,31 @@ public static class HostData
             Debug.Log("You have already chosen a game");
             return false;
         }
-
     }
+
+    public static void SetDoShowNotificationWindow(bool value, string message = "")
+    {
+        doShowNotificationWindow = value;
+        if (!String.IsNullOrEmpty(message))
+        {
+            notificationWindowMessages.Add(message);
+        }
+    }
+    /// <summary>
+    /// This gets if the 
+    /// </summary>
+    /// <param name="message"></param>
+    /// <returns></returns>
+    public static bool GetDoShowNotificationWindow(ref string[] message)
+    {
+        if (doShowNotificationWindow)
+        {
+            message = notificationWindowMessages.ToArray();
+            notificationWindowMessages.Clear();
+        }
+        return doShowNotificationWindow;
+    }
+
     public static int GetTimerSeconds()
     {
         return timerSeconds;
@@ -248,7 +275,7 @@ public static class HostData
         Hashtable table = new Hashtable();
         table.Add("ChatAllowed", chatAllowed);
         table.Add("HostCanJoin", canHostJoinGame);
-        Debug.Log(table.ToString());
+        //Debug.Log(table.ToString());
         return table;
     }
 
