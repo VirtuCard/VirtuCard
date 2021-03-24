@@ -22,7 +22,8 @@ public class SignInPageManager : MonoBehaviour
     public Text errorMessage;
     public Text successMessage;
 
-
+    public GameObject loadingPanel;
+    
     // this controls what scene to go to
     private LoadDifferentScene sceneLoader;
 
@@ -68,6 +69,7 @@ public class SignInPageManager : MonoBehaviour
 
     void CreateSuccessMessage(string title) {
         successMessage.GetComponent<Text>().text = title;
+        loadingPanel.SetActive(false);
         successPanel.SetActive(true);
     }
 
@@ -75,6 +77,7 @@ public class SignInPageManager : MonoBehaviour
     {
         errorTitle.GetComponent<Text>().text = title;
         errorMessage.GetComponent<Text>().text = message;
+        loadingPanel.SetActive(false);
         failedPanel.SetActive(true);
     }
 
@@ -83,6 +86,7 @@ public class SignInPageManager : MonoBehaviour
     /// </summary>
     private void loginBtnClicked()
     {
+        loadingPanel.SetActive(true);
         FirebaseInit.InitializeFirebase(task =>
         {
             // collect username and password

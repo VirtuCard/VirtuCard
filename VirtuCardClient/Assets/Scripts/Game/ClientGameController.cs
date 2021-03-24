@@ -41,6 +41,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public Dropdown goFishNamesDropdown;
     public Button goFishQueryButton;
 
+    public GameObject loadingPanel;
+
     public List<Card> CardList;
 
     // this is used to determine if the user has scrolled over to a new card, so it can be used to verify
@@ -62,18 +64,15 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         // ClientData.setChatAllowed(false);
 
         PhotonNetwork.AddCallbackTarget(this);
-        skipBtn.onClick.AddListener(delegate() {
-            SkipBtnClicked();
-        });
-        playCardBtn.onClick.AddListener(delegate () {
-            PlayCardBtnClicked();
-        });
-        drawCardBtn.onClick.AddListener(delegate () { DrawCardBtnClicked(); });
+        skipBtn.onClick.AddListener(delegate() { SkipBtnClicked(); });
+        playCardBtn.onClick.AddListener(delegate() { PlayCardBtnClicked(); });
+        drawCardBtn.onClick.AddListener(delegate() { DrawCardBtnClicked(); });
         SetCanSkipBtn(ClientData.isCurrentTurn());
         cardMenu = cardCarousel.GetComponent<CardMenu>();
 
         // setup timer
-        timer.SetupTimer(ClientData.IsTimerEnabled(), ClientData.GetTimerSeconds(), ClientData.GetTimerMinutes(), warningThreshold: 30, TimerEarlyWarning, TimerReachedZero);
+        timer.SetupTimer(ClientData.IsTimerEnabled(), ClientData.GetTimerSeconds(), ClientData.GetTimerMinutes(),
+            warningThreshold: 30, TimerEarlyWarning, TimerReachedZero);
         if (ClientData.GetGameName() == "GoFish")
         {
             standardPanel.SetActive(false);
@@ -88,6 +87,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                     goFishNamesDropdown.options.Add(new Dropdown.OptionData(playerName));
                 }
             }
+
             goFishNamesDropdown.onValueChanged.AddListener(GoFishNamesDropdownValueChanged);
 
             goFishQueryButton.onClick.AddListener(GoFishQueryButtonClicked);
@@ -102,40 +102,45 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private void IncrementGamesPlayed()
     {
         ClientData.UserProfile.GamesPlayed += 1;
-        DatabaseUtils.updateUser(ClientData.UserProfile, b => {Debug.Log("Added game to total count");});
+        DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Added game to total count"); });
     }
 
     // Update is called once per frame
     void Update()
     {
         // check to see if the player can skip their turn once per frame
-        foreach(RectTransform o in cardMenu.images)
+        foreach (RectTransform o in cardMenu.images)
         {
             o.Find("RawImage").GetComponent<Outline>().enabled = false;
         }
+
         if (ClientData.isCurrentTurn())
         {
+            loadingPanel.SetActive(false);
             if (!wasCurrentlyTurn)
             {
                 wasCurrentlyTurn = true;
                 SetupTurn();
             }
+
             turn.SetActive(true);
             notTurnUI.SetActive(false);
 
-            
-            StandardCard selectedCard = (StandardCard)cardMenu.GetCurrentlySelectedCard();
+
+            StandardCard selectedCard = (StandardCard) cardMenu.GetCurrentlySelectedCard();
             //cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("RawImage").GetComponent<Outline>().enabled = true;
 
             if (selectedCard != null)
             {
-                cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("RawImage").GetComponent<Outline>().enabled = true;
+                cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("RawImage").GetComponent<Outline>().enabled =
+                    true;
                 if (previouslySelectedCard == null ||
                     previouslySelectedCard.Compare(selectedCard) == false)
                 {
                     // if it is a new card, verify that it is valid
                     VerifyIfCardCanBePlayed(selectedCard);
-                    UpdateGoFishButtonText(goFishNamesDropdown.options[goFishNamesDropdown.value].text, selectedCard.GetRank());
+                    UpdateGoFishButtonText(goFishNamesDropdown.options[goFishNamesDropdown.value].text,
+                        selectedCard.GetRank());
                     previouslySelectedCard = selectedCard;
                     cardIsValid = false;
                     cardIsValidText.text = "Card is NOT valid";
@@ -153,13 +158,20 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             waitingSign.GetComponent<Text>().text = ClientData.getCurrentPlayerTurn() + "'s Turn";
             if (String.IsNullOrEmpty(ClientData.getCurrentPlayerTurn()))
             {
+                loadingPanel.SetActive(true);
                 waitingSign.GetComponent<Text>().text = "Loading Game...";
             }
+            else
+            {
+                loadingPanel.SetActive(false);
+            }
+
             notTurnUI.SetActive(true);
         }
 
         // This is where kade and ryan gets stuff from the host
-        if (gameOver) {
+        if (gameOver)
+        {
             winnerPanel.SetActive(true);
             winnerAnnounce.GetComponent<Text>().text = "YOU WON!";
 
@@ -171,8 +183,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             // {
             //   winnerAnnounce.GetComponent<Text>().text = winner's username + " has won the game!";
             // }
-            exitGameBtn.onClick.AddListener(delegate () { exitGameBtnOnClick(); });
-
+            exitGameBtn.onClick.AddListener(delegate() { exitGameBtnOnClick(); });
         }
 
         updateChat();
@@ -182,7 +193,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     /// This is where the player decides if they want to hide the chat or not
     /// If host decides to disable the chat, the chat should disable
     /// </summary>
-    public void updateChat() {
+    public void updateChat()
+    {
         Debug.Log("chat allowed status: " + ClientData.isChatAllowed());
         int chatValue = chatOptions.value;
 
@@ -203,7 +215,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 dropboxSize.offsetMax = new Vector2(dropboxSize.offsetMax.x, -1040);
                 chatPanel.SetActive(false);
             }
-
         }
         else
         {
@@ -216,7 +227,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
     private void GoFishQueryButtonClicked()
     {
-        StandardCard card = (StandardCard)cardMenu.GetCurrentlySelectedCard();
+        StandardCard card = (StandardCard) cardMenu.GetCurrentlySelectedCard();
         SendCardToHost(card);
     }
 
@@ -237,14 +248,19 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 string currentName = currentText.Substring(currentText.IndexOf(' ') + 1, currentText.IndexOf(" for "));
                 playerName = currentName;
             }
+
             if (rank == null)
             {
                 string currentRank = currentText.Substring(currentText.IndexOf(" for ") + 5);
-                rank = (StandardCardRank)Enum.Parse(typeof(StandardCardRank), currentRank);
+                rank = (StandardCardRank) Enum.Parse(typeof(StandardCardRank), currentRank);
             }
+
             string newText = "Ask " + playerName + " for " + Enum.GetName(typeof(StandardCardRank), rank);
             goFishQueryButton.GetComponentInChildren<Text>().text = newText;
-        } catch { }
+        }
+        catch
+        {
+        }
     }
 
     /// <summary>
@@ -262,7 +278,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public void AddRandomStandardCard()
     {
         AddCard(new StandardCard(StandardCardRank.FOUR, StandardCardSuit.HEARTS), CardTypes.StandardCard);
-        
     }
 
     /// <summary>
@@ -274,8 +289,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         {
             // send request for a new card
             int numOfCards = 1;
-            object[] content = new object[] { PhotonNetwork.NickName, numOfCards };
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            object[] content = new object[] {PhotonNetwork.NickName, numOfCards};
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
             PhotonNetwork.RaiseEvent(7, content, raiseEventOptions, SendOptions.SendUnreliable);
         }
         else
@@ -321,6 +336,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         {
             o.GetComponent<Animator>().Play(animation);
         }
+
         cardsFlipped = !cardsFlipped;
     }
 
@@ -345,9 +361,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             ClientData.setCurrentTurn(false);
             SetCanSkipBtn(false);
             SendSkipTurnToHost();
-
         }
-        else {
+        else
+        {
             errorDisplay.GetComponent<Text>().text = "You are not allowed to skip!";
         }
     }
@@ -358,7 +374,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         {
             if (cardIsValid)
             {
-                StandardCard card = (StandardCard)cardMenu.GetCurrentlySelectedCard();
+                StandardCard card = (StandardCard) cardMenu.GetCurrentlySelectedCard();
                 int cardIdx = cardMenu.GetCurrentlySelectedIndex();
 
                 card.Print();
@@ -380,6 +396,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                         cardMenu.MoveCarouselToIndex(0);
                     }
                 }
+
                 SendCardToHost(card);
             }
             else
@@ -393,7 +410,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         }
     }
 
-    private void exitGameBtnOnClick() {
+    private void exitGameBtnOnClick()
+    {
         winnerPanel.SetActive(false);
         SceneManager.LoadScene(SceneNames.JoinGamePage, LoadSceneMode.Single);
     }
@@ -421,12 +439,12 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         else if (photonEvent.Code == 5)
         {
             Debug.Log("Receiving Verification");
-            object[] data = (object[])photonEvent.CustomData;
-            string username = (string)data[0];
+            object[] data = (object[]) photonEvent.CustomData;
+            string username = (string) data[0];
             // ignore if it was not meant for this user
             if (username.Equals(PhotonNetwork.NickName))
             {
-                bool isValid = (bool)data[1];
+                bool isValid = (bool) data[1];
                 Debug.Log("Is Valid: " + isValid);
                 cardIsValid = isValid;
                 if (cardIsValid)
@@ -443,8 +461,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         else if (photonEvent.Code == 8)
         {
             Debug.Log("Receiving Card");
-            object[] data = (object[])photonEvent.CustomData;
-            string username = (string)data[0];
+            object[] data = (object[]) photonEvent.CustomData;
+            string username = (string) data[0];
             // ignore if it was not meant for this user
             if (username.Equals(PhotonNetwork.NickName))
             {
@@ -471,8 +489,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         // this is if the host updated the current player turn index
         else if (photonEvent.Code == 9)
         {
-            object[] data = (object[])photonEvent.CustomData;
-            string currentPersonsTurn = (string)data[0];
+            object[] data = (object[]) photonEvent.CustomData;
+            string currentPersonsTurn = (string) data[0];
             Debug.Log("Setting CurrentTurn: " + currentPersonsTurn);
             ClientData.setCurrentPlayerTurn(currentPersonsTurn);
             if (currentPersonsTurn.Equals(PhotonNetwork.NickName))
@@ -488,8 +506,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         // this is if the host is either enabling or disabling the timer during the middle of the game
         else if (photonEvent.Code == 11)
         {
-            object[] data = (object[])photonEvent.CustomData;
-            bool enabled = (bool)data[0];
+            object[] data = (object[]) photonEvent.CustomData;
+            bool enabled = (bool) data[0];
 
             // enable/disable timer
             timer.EnableTimer(enabled);
@@ -497,21 +515,21 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         // remove card event
         else if (photonEvent.Code == 13)
         {
-            object[] data = (object[])photonEvent.CustomData;
-            string removeFromPlayer = (string)data[0];
+            object[] data = (object[]) photonEvent.CustomData;
+            string removeFromPlayer = (string) data[0];
 
             // if it is this player we want to remove cards from
             if (removeFromPlayer.Equals(PhotonNetwork.NickName))
             {
-                int numOfCards = (int)data[2];
+                int numOfCards = (int) data[2];
                 Debug.Log("Removing " + numOfCards + " Cards");
 
-                string userWhoTookCards = (string)data[1];
+                string userWhoTookCards = (string) data[1];
 
                 List<Card> cardsToRemove = new List<Card>();
                 for (int x = 3; x < 3 + (numOfCards * 2); x += 2)
                 {
-                    StandardCard card = new StandardCard((StandardCardRank)data[x], (StandardCardSuit)data[x + 1]);
+                    StandardCard card = new StandardCard((StandardCardRank) data[x], (StandardCardSuit) data[x + 1]);
                     Debug.Log("Removing: " + card.ToString());
                     cardsToRemove.Add(card);
                 }
@@ -532,8 +550,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private void SendSkipTurnToHost(bool didRunOutOfTurnTime = false)
     {
         Debug.Log("Sending Skip Command");
-        object[] content = new object[] { PhotonNetwork.NickName, didRunOutOfTurnTime };
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        object[] content = new object[] {PhotonNetwork.NickName, didRunOutOfTurnTime};
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
         PhotonNetwork.RaiseEvent(10, content, raiseEventOptions, SendOptions.SendUnreliable);
     }
 
@@ -551,17 +569,22 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 string currentText = goFishQueryButton.GetComponentInChildren<Text>().text;
                 string requestFromUsername = goFishNamesDropdown.options[goFishNamesDropdown.value].text;
 
-                StandardCard cardToSend = (StandardCard)card;
-                object[] content = new object[] { PhotonNetwork.NickName, "StandardCard", cardToSend.GetRank(), cardToSend.GetSuit(), requestFromUsername };
-                RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+                StandardCard cardToSend = (StandardCard) card;
+                object[] content = new object[]
+                {
+                    PhotonNetwork.NickName, "StandardCard", cardToSend.GetRank(), cardToSend.GetSuit(),
+                    requestFromUsername
+                };
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
                 PhotonNetwork.RaiseEvent(2, content, raiseEventOptions, SendOptions.SendUnreliable);
             }
             else
             {
                 Debug.Log("Sending Card: " + card.ToString());
-                StandardCard cardToSend = (StandardCard)card;
-                object[] content = new object[] { PhotonNetwork.NickName, "StandardCard", cardToSend.GetRank(), cardToSend.GetSuit() };
-                RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+                StandardCard cardToSend = (StandardCard) card;
+                object[] content = new object[]
+                    {PhotonNetwork.NickName, "StandardCard", cardToSend.GetRank(), cardToSend.GetSuit()};
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
                 PhotonNetwork.RaiseEvent(2, content, raiseEventOptions, SendOptions.SendUnreliable);
             }
         }
@@ -572,13 +595,14 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         if (card.GetType().Name == "StandardCard")
         {
             Debug.Log("Verifying Card: " + card.ToString());
-            StandardCard cardToSend = (StandardCard)card;
-            object[] content = new object[] { "StandardCard", cardToSend.GetRank(), cardToSend.GetSuit(), PhotonNetwork.NickName };
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            StandardCard cardToSend = (StandardCard) card;
+            object[] content = new object[]
+                {"StandardCard", cardToSend.GetRank(), cardToSend.GetSuit(), PhotonNetwork.NickName};
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
             PhotonNetwork.RaiseEvent(4, content, raiseEventOptions, SendOptions.SendUnreliable);
         }
     }
-    
+
     /// <summary>
     /// This method is called every time the timer crosses the early warning threshold
     /// </summary>
