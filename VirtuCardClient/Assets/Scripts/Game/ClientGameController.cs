@@ -101,7 +101,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
         // when winner is announced the button is clicked
         exitGameBtn.onClick.AddListener(delegate() { exitGameBtnOnClick(); });
-
     }
 
     private void IncrementGamesPlayed()
@@ -137,15 +136,21 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
             if (selectedCard != null)
             {
+                Debug.Log("Hi1");
                 cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("RawImage").GetComponent<Outline>().enabled =
                     true;
+                Debug.Log("Hi2");
                 if (previouslySelectedCard == null ||
                     previouslySelectedCard.Compare(selectedCard) == false)
                 {
                     // if it is a new card, verify that it is valid
                     VerifyIfCardCanBePlayed(selectedCard);
-                    UpdateGoFishButtonText(goFishNamesDropdown.options[goFishNamesDropdown.value].text,
-                        selectedCard.GetRank());
+                    if (ClientData.GetGameName() == "GoFish")
+                    {
+                        UpdateGoFishButtonText(goFishNamesDropdown.options[goFishNamesDropdown.value].text,
+                            selectedCard.GetRank());
+                    }
+
                     previouslySelectedCard = selectedCard;
                     cardIsValid = false;
                     cardIsValidText.text = "Card is NOT valid";
@@ -473,11 +478,11 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             // ignore if it was not meant for this user
             if (username.Equals(PhotonNetwork.NickName))
             {
-                string cardType = (string)data[1];
-                StandardCardRank rank = (StandardCardRank)data[2];
-                StandardCardSuit suit = (StandardCardSuit)data[3];
-                bool didDrawFromDeck = (bool)data[4];
-                bool doShowPlayer = (bool)data[5];
+                string cardType = (string) data[1];
+                StandardCardRank rank = (StandardCardRank) data[2];
+                StandardCardSuit suit = (StandardCardSuit) data[3];
+                bool didDrawFromDeck = (bool) data[4];
+                bool doShowPlayer = (bool) data[5];
                 StandardCard card = new StandardCard(rank, suit);
                 card.Print();
                 AddCard(card, CardTypes.StandardCard);
@@ -489,6 +494,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                     {
                         displayString = "Drew the " + card.ToNiceString();
                     }
+
                     notificationWindow.ShowNotification(displayString);
                 }
             }
@@ -554,12 +560,14 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     /// <summary>
     /// This is the code to update the fade in or fade out for the Canvas Group
     /// </summary>
-    public IEnumerator FadeCanvas(CanvasGroup cg, float start, float end, float lerpTime = 1.0f) {
+    public IEnumerator FadeCanvas(CanvasGroup cg, float start, float end, float lerpTime = 1.0f)
+    {
         float _timeStartedLerping = Time.time;
         float timeSinceStarted = Time.time - _timeStartedLerping;
         float percentageComplete = timeSinceStarted / lerpTime;
-        
-        while (true) {
+
+        while (true)
+        {
             timeSinceStarted = Time.time - _timeStartedLerping;
             percentageComplete = timeSinceStarted / lerpTime;
 
