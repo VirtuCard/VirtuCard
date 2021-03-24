@@ -50,6 +50,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
     public Timer timer;
 
+    public NotificationWindow notificationWindow;
+
     private bool wasCurrentlyTurn = false;
     private bool gameOver = false;
     private bool cardsFlipped = false;
@@ -174,7 +176,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         }
 
         updateChat();
-            }
+    }
 
     /// <summary>
     /// This is where the player decides if they want to hide the chat or not
@@ -449,9 +451,21 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 string cardType = (string)data[1];
                 StandardCardRank rank = (StandardCardRank)data[2];
                 StandardCardSuit suit = (StandardCardSuit)data[3];
+                bool didDrawFromDeck = (bool)data[4];
+                bool doShowPlayer = (bool)data[5];
                 StandardCard card = new StandardCard(rank, suit);
                 card.Print();
                 AddCard(card, CardTypes.StandardCard);
+
+                if (doShowPlayer)
+                {
+                    string displayString = "Received the " + card.ToNiceString();
+                    if (didDrawFromDeck)
+                    {
+                        displayString = "Drew the " + card.ToNiceString();
+                    }
+                    notificationWindow.ShowNotification(displayString);
+                }
             }
         }
         // this is if the host updated the current player turn index
@@ -505,6 +519,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 foreach (Card card in cardsToRemove)
                 {
                     RemoveCard(card);
+                    notificationWindow.ShowNotification(card.ToNiceString() + " has been taken!");
                 }
             }
         }
@@ -577,6 +592,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     /// </summary>
     private void TimerReachedZero()
     {
+        notificationWindow.ShowNotification("Time is up!");
         SendSkipTurnToHost(true);
     }
 
