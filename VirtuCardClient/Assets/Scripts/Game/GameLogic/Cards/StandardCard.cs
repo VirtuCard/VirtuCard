@@ -5,8 +5,8 @@ using System;
 
 public class StandardCard : Card
 {
-    public StandardCardRank rank;
-    public StandardCardSuit suit;
+    private StandardCardRank rank;
+    private StandardCardSuit suit;
 
     public StandardCard(StandardCardRank rank, StandardCardSuit suit)
     {
@@ -69,7 +69,22 @@ public class StandardCard : Card
     /// </summary>
     public override void Print()
     {
-        Debug.Log("STANDARD CARD (" + Enum.GetName(typeof(StandardCardRank), GetRank()) + " of " + Enum.GetName(typeof(StandardCardSuit), GetSuit()) + ")");
+        Debug.Log(ToString());
+    }
+
+    /// <summary>
+    /// Returns a nice string in the format
+    /// "Rank of Suit"
+    /// with rank and suit capitalized
+    /// </summary>
+    /// <returns></returns>
+    public override string ToNiceString()
+    {
+        string rankCaps = Enum.GetName(typeof(StandardCardRank), GetRank());
+        string suitCaps = Enum.GetName(typeof(StandardCardSuit), GetSuit());
+        string rank = rankCaps.Substring(0, 1).ToUpper() + rankCaps.Substring(1).ToLower();
+        string suit = suitCaps.Substring(0, 1).ToUpper() + suitCaps.Substring(1).ToLower();
+        return rank + " of " + suit;
     }
 
     /// <summary>

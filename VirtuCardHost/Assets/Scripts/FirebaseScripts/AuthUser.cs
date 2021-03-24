@@ -53,6 +53,7 @@ namespace FirebaseScripts
                     newUser.DisplayName, newUser.UserId);
                 DatabaseUtils.getUser(newUser.UserId, s =>
                 {
+                    Debug.Log(s);
                     User user1 = new User(s);
                     PhotonScripts.NetworkController.SetUsername(user1.Username);
                     callback(true);

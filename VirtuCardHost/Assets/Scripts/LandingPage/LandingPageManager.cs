@@ -60,11 +60,12 @@ public class LandingPageManager : MonoBehaviour
         //PhotonNetwork.ConnectUsingSettings();    //Connecting to Photon Master Servers
         if (PhotonNetwork.IsConnectedAndReady)
         {
-            HostData.SetGame((GameTypes) Enum.Parse(typeof(GameTypes),
-                gameChoiceDropdown.options[gameChoiceDropdown.value].text));
+            Debug.Assert(HostData.SetGame((GameTypes)Enum.Parse(typeof(GameTypes),
+                gameChoiceDropdown.options[gameChoiceDropdown.value].text)));
 
             string RoomCode = NetworkController.generateCode(); //Generating Room Code string and storing it
-            NetworkController.CreateAndJoinRoom(RoomCode); //Creating Photon Room with Generated Code
+            HostData.setMaxNumPlayers(HostData.GetGame().GetMaximumNumOfPlayers());
+            NetworkController.CreateAndJoinRoom(RoomCode, HostData.GetGame().GetMaximumNumOfPlayers()); //Creating Photon Room with Generated Code
 
             HostData.setJoinCode(RoomCode);
             SceneManager.LoadScene(SceneNames.WaitingRoomScreen, LoadSceneMode.Single);

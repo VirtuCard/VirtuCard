@@ -34,6 +34,9 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
     public GameObject welcomePlayer;
 
     public static bool makeError = false;
+    public static bool makeCapacityError = false;
+
+    public GameObject loadingPanel;
 
 
     void Update()
@@ -43,6 +46,11 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
             CreateErrorMessage("Failed to Connect", "Host is not allowed to join!");
             makeError = false;
         }
+        else if (makeCapacityError)
+        {
+            CreateErrorMessage("Failed to Connect", "Game is at capacity!");
+            makeCapacityError = false;
+        }
     }
 
 
@@ -51,14 +59,12 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.AddCallbackTarget(this);
         errorPanel.SetActive(false);
-        DatabaseUtils.getUser(AuthUser.GetUserID(), json =>
-        {
-            ClientData.UserProfile = new User(json);
-        });
+        DatabaseUtils.getUser(AuthUser.GetUserID(), json => { ClientData.UserProfile = new User(json); });
     }
 
     public void ConnectClientClicked()
     {
+        loadingPanel.SetActive(true);
         joinCode = inputField.GetComponent<Text>().text;
         Debug.Log("Join Code is: " + joinCode);
         ConnectClientToServer(joinCode);
@@ -86,7 +92,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        
+        loadingPanel.SetActive(false);
         SceneManager.LoadScene(SceneNames.WaitingScreen);
     }
 
@@ -94,10 +100,9 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
     {
         errorTitle.GetComponent<Text>().text = title;
         errorMessage.GetComponent<Text>().text = message;
+        loadingPanel.SetActive(false);
         errorPanel.SetActive(true);
     }
-    
-    
 
 
     private void OnEnable()
@@ -128,11 +133,23 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
 
             string clientName = PhotonNetwork.NickName;
 
+            ClientData.SetGameName(s);
+            if (s == "War")
+            {
+            }
+
             MaxPlayersText.GetComponent<Text>().text = s;
             GameModeText.GetComponent<Text>().text = "" + players;
             welcomePlayer.GetComponent<Text>().text = "Welcome, " + clientName + "!";
 
-            if (test == false && clientName == hostName)
+            if (hostName.Equals("__CAPACITY__"))
+            {
+                //errorCode.GetComponent<Text>().text = "Host cannot join!";
+                PhotonNetwork.LeaveRoom();
+                SceneManager.LoadScene(SceneNames.JoinGamePage);
+                makeCapacityError = true;
+            }
+            else if (test == false && clientName == hostName)
             {
                 Debug.Log("Host is not allowed to join the game!");
                 //errorCode.GetComponent<Text>().text = "Host cannot join!";
@@ -144,14 +161,20 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
         // this is the flag that is saying to go from waiting screen to the game screen
         else if (photonEvent.Code == 6)
         {
-            object[] data = (object[])photonEvent.CustomData;
-            bool timerEnabled = (bool)data[0];
-            int timerSeconds = (int)data[1];
-            int timerMinutes = (int)data[2];
+            object[] data = (object[]) photonEvent.CustomData;
+            bool timerEnabled = (bool) data[0];
+            int timerSeconds = (int) data[1];
+            int timerMinutes = (int) data[2];
 
             ClientData.SetIsTimerEnabled(timerEnabled);
             ClientData.SetTimerSeconds(timerSeconds);
             ClientData.SetTimerMinutes(timerMinutes);
+
+            int numOfPlayers = (int) data[3];
+            for (int x = 0; x < numOfPlayers; x++)
+            {
+                ClientData.AddConnectedPlayerName((string) data[x + 4]);
+            }
 
             SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
         }

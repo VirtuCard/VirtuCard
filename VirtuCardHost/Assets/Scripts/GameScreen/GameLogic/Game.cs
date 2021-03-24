@@ -11,6 +11,10 @@ public abstract class Game
     private int playerTurnIndex = 0;
     private CardDeck playedCards = new CardDeck();
     private CardDeck undealtCards = new CardDeck();
+    private CardDeck ponePlayed = new CardDeck();
+    private CardDeck ptwoPlayed = new CardDeck();
+    private CardDeck poneUnplayed = new CardDeck();
+    private CardDeck ptwoUnplayed = new CardDeck();
     private List<PlayerInfo> players = new List<PlayerInfo>();
     private string gameName;
 
@@ -50,6 +54,7 @@ public abstract class Game
             {
                 playerTurnIndex -= players.Count;
             }
+
             SendOutPlayerTurnIndex();
             return;
         }
@@ -60,6 +65,7 @@ public abstract class Game
             {
                 playerTurnIndex += players.Count;
             }
+
             SendOutPlayerTurnIndex();
             return;
         }
@@ -87,6 +93,7 @@ public abstract class Game
                 playerTurnIndex = players.Count - 1;
             }
         }
+
         SendOutPlayerTurnIndex();
     }
 
@@ -103,12 +110,12 @@ public abstract class Game
     /// <summary>
     /// This sends out the playerTurnIndex to all the connected Clients
     /// </summary>
-    private void SendOutPlayerTurnIndex()
+    public void SendOutPlayerTurnIndex()
     {
         PlayerInfo currentPlayer = GetPlayerOfCurrentTurn();
         Debug.Log("Setting current turn to " + currentPlayer.photonPlayer.NickName + "'s turn");
-        object[] content = new object[] { currentPlayer.photonPlayer.NickName };
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        object[] content = new object[] {currentPlayer.photonPlayer.NickName};
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
         PhotonNetwork.RaiseEvent(9, content, raiseEventOptions, SendOptions.SendReliable);
     }
 
@@ -137,7 +144,10 @@ public abstract class Game
                 return player;
             }
         }
-        throw new Exception("Could not find player with username " + username);
+
+        //Player disconnect 
+        return null;
+        // throw new Exception("Could not find player with username " + username);
     }
 
     /// <summary>
@@ -151,7 +161,9 @@ public abstract class Game
         {
             return players[playerIndex];
         }
-        throw new Exception("Could not find player at index " + playerIndex);
+
+        return null;
+        //throw new Exception("Could not find player at index " + playerIndex);
     }
 
     /// <summary>
@@ -182,11 +194,12 @@ public abstract class Game
     {
         for (int x = 0; x < players.Count; x++)
         {
-            if (username.Equals(players[x].username))
+            if (username.Trim().Equals(players[x].username))
             {
                 return x;
             }
         }
+
         return -1;
     }
 
@@ -226,6 +239,7 @@ public abstract class Game
             players.Add(playerInfo);
             return true;
         }
+
         return false;
     }
 
@@ -244,10 +258,18 @@ public abstract class Game
     /// <returns></returns>
     public PlayerInfo GetPlayerOfCurrentTurn()
     {
+        if (players.Count == 0 || players.Count < playerTurnIndex)
+        {
+            Debug.LogError("Accessing name outside of bounds in GetPlayerOfCurrentTurn");
+            return null;
+        }
         return players[playerTurnIndex];
     }
 
-
+    public bool IsGameEmpty()
+    {
+        return players.Count == 0;
+    }
 
     /// <summary>
     /// Disconnects a player from the game and removes them from all game lists.
@@ -267,12 +289,24 @@ public abstract class Game
     public void DisconnectPlayerFromGame(string username)
     {
         PlayerInfo playerToDisconnect = GetPlayer(username);
+        if (playerToDisconnect == null)
+        {
+            return;
+        }
+
         if (GetPlayerIndex(playerToDisconnect) == GetCurrentPlayerTurnIndex())
         {
             // if it is the disconnecting player's turn advance it by one
+            players.Remove(playerToDisconnect);
             AdvanceTurn(true);
         }
-        players.Remove(playerToDisconnect);
+        else
+        {
+            players.Remove(playerToDisconnect);
+        }
+
+        AddCardsToDeck(playerToDisconnect.cards.GetAllCards().ToArray(), DeckChoices.UNDEALT);
+        ShuffleDeck(DeckChoices.UNDEALT);
     }
 
     /// <summary>
@@ -285,6 +319,12 @@ public abstract class Game
     {
         CardDeck deck = GetDeck(whichDeck);
         deck.AddCards(cards);
+    }
+
+    public void ShuffleDeck(DeckChoices whichDeck)
+    {
+        CardDeck deck = GetDeck(whichDeck);
+        deck.Shuffle();
     }
 
     /// <summary>
@@ -317,6 +357,7 @@ public abstract class Game
         {
             cardList.Add(DrawCardFromDeck(DeckChoices.UNDEALT));
         }
+
         return cardList;
     }
 
@@ -360,17 +401,33 @@ public abstract class Game
     public CardDeck GetDeck(DeckChoices whichDeck)
     {
         // Is it the undealt deck
-        if ((int)whichDeck == 0)
+        if ((int) whichDeck == 0)
         {
             return undealtCards;
         }
         // Is it the played cards deck
-        else if ((int)whichDeck == 1)
+        else if ((int) whichDeck == 1)
         {
             return playedCards;
         }
+        else if ((int)whichDeck == 2)
+        {
+            return ponePlayed;
+        }
+        else if ((int) whichDeck == 3)
+        {
+            return poneUnplayed;
+        }
+        else if ((int) whichDeck == 4)
+        {
+            return ptwoPlayed;
+        }
+        else if ((int) whichDeck == 5)
+        {
+            return ptwoUnplayed;
+        }
 
-        throw new Exception("Invalid deck specified: " + (int)whichDeck + ". Game.cs:79");
+        throw new Exception("Invalid deck specified: " + (int) whichDeck + ". Game.cs:79");
     }
 
     /// <summary>
@@ -402,15 +459,28 @@ public abstract class Game
     public CardDeck CreateStandard52Deck()
     {
         CardDeck deck = new CardDeck();
-        foreach (StandardCardSuit suit in (StandardCardSuit[])Enum.GetValues(typeof(StandardCardSuit)))
+        foreach (StandardCardSuit suit in (StandardCardSuit[]) Enum.GetValues(typeof(StandardCardSuit)))
         {
-            foreach (StandardCardRank rank in (StandardCardRank[])Enum.GetValues(typeof(StandardCardRank)))
+            foreach (StandardCardRank rank in (StandardCardRank[]) Enum.GetValues(typeof(StandardCardRank)))
             {
                 deck.AddCard(new StandardCard(rank, suit));
             }
         }
+
         return deck;
     }
+
+    /// <summary>
+    /// This method returns the maximum number of players for a game
+    /// </summary>
+    /// <returns></returns>
+    public abstract int GetMaximumNumOfPlayers();
+
+    /// <summary>
+    /// This method returns teh minimum number of players for a game
+    /// </summary>
+    /// <returns></returns>
+    public abstract int GetMinimumNumOfPlayers();
 
     /// <summary>
     /// This method is used to verify that the Card that the player wants to play is valid.
