@@ -9,9 +9,11 @@ namespace LandingPage
     public class AnonButton : MonoBehaviour
     {
         public bool successful = false;
+        public GameObject loadingPanel;
 
         public void AttemptCreateAccount()
         {
+            loadingPanel.SetActive(true);
             FirebaseInit.InitializeFirebase(ret =>
             {
                 if (ret)
@@ -39,6 +41,7 @@ namespace LandingPage
         {
             if (successful)
             {
+                loadingPanel.SetActive(false);
                 SceneManager.LoadScene(SceneNames.JoinGamePage, LoadSceneMode.Single);
             }
         }
