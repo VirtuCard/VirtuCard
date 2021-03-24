@@ -203,7 +203,9 @@ namespace PhotonScripts
                 {
                     string playerToRequestFrom = ((string)data[4]).Trim();
 
-                    Debug.Log(username + " is requesting " + card.GetRank()  + "s from " + playerToRequestFrom);
+                    string displayMessage = username + " is requesting " + card.GetRank() + "s from " + playerToRequestFrom;
+                    Debug.Log(displayMessage);
+                    HostData.SetDoShowNotificationWindow(true, displayMessage);
 
                     int userIndex = HostData.GetGame().GetPlayerIndex(playerToRequestFrom.Trim());
                     if (userIndex >= 0)
@@ -226,6 +228,7 @@ namespace PhotonScripts
                 {
                     // the game is not gofish
                     Debug.Log("Receiving a Played Card from " + username + ": " + card.ToString());
+                    HostData.SetDoShowNotificationWindow(true, username + " played a card");
                     int userIndex = HostData.GetGame().GetPlayerIndex(username);
                     HostData.GetGame().DoMove(card, userIndex);
                 }
@@ -251,7 +254,8 @@ namespace PhotonScripts
                 string username = (string) data[0];
                 int numOfCards = (int) data[1];
                 List<Card> cards = HostData.GetGame().DrawCardsFromDeck(numOfCards, DeckChoices.UNDEALT);
-                SendCardsToPlayer(username, cards);
+                HostData.SetDoShowNotificationWindow(true, username + " drew a card");
+                SendCardsToPlayer(username, cards, true, true);
             }
             // skip turn event
             else if (photonEvent.Code == 10)
@@ -267,11 +271,13 @@ namespace PhotonScripts
 
                 if (wasSkippedDueToTimer)
                 {
+                    HostData.SetDoShowNotificationWindow(true, username + " ran out of time");
                     HostData.GetGame().ForceAdvanceTurn(true);
                 }
                 else
                 {
                     // skip turn normally
+                    HostData.SetDoShowNotificationWindow(true, username + " has skipped their turn");
                     HostData.GetGame().AdvanceTurn(true);
                 }
             }
@@ -282,7 +288,7 @@ namespace PhotonScripts
         /// </summary>
         /// <param name="username">PhotonNetwork.NickName of the player to send them to</param>
         /// <param name="cards">Cards to send</param>
-        public static void SendCardsToPlayer(string username, List<Card> cards)
+        public static void SendCardsToPlayer(string username, List<Card> cards, bool didDrawFromDeck, bool doShowPlayerNotification)
         {
             if (cards[0].GetType().Name == "StandardCard")
             {
@@ -292,7 +298,7 @@ namespace PhotonScripts
                     player.cards.AddCard(card);
 
                     StandardCard cardToSend = (StandardCard)card;
-                    object[] content = new object[] { username, cards[0].GetType().Name, cardToSend.GetRank(), cardToSend.GetSuit() };
+                    object[] content = new object[] { username, cards[0].GetType().Name, cardToSend.GetRank(), cardToSend.GetSuit(), didDrawFromDeck, doShowPlayerNotification };
                     RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
                     PhotonNetwork.RaiseEvent(8, content, raiseEventOptions, SendOptions.SendUnreliable);
                 }

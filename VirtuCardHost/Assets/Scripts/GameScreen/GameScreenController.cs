@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class GameScreenController : MonoBehaviour
 {
+    public NotificationWindow notificationWindow;
+
     public GameObject allOfChatUI;
     public GameObject chatPanel;
     public Text currentPlayer;
@@ -69,6 +71,17 @@ public class GameScreenController : MonoBehaviour
 
         DisplayCards();
         updatingChat();
+
+        // if the notification window should be shown
+        string[] messages = new string[] { };
+        if (HostData.GetDoShowNotificationWindow(ref messages))
+        {
+            for (int x = 0; x < messages.Length; x++)
+            {
+                notificationWindow.ShowNotification(messages[x]);
+            }
+            HostData.SetDoShowNotificationWindow(false);
+        }
     }
     
     public void updatingChat() {
@@ -140,46 +153,6 @@ public class GameScreenController : MonoBehaviour
                 undealtCardMenu.RemoveCardFromCarousel(cardsInCarousel[i]);
             }
         }
-    }
-
-    /// <summary>
-    /// This method should be called when a client has requested to draw a single card
-    /// It draws a random card from the undealt deck and then removes it.
-    /// </summary>
-    /// <returns></returns>
-    public Card DrawCard()
-    {
-        Card drawnCard = HostData.GetGame().DrawCardFromDeck(DeckChoices.UNDEALT);
-        undealtCardMenu.RemoveCardFromCarousel(drawnCard);
-        return drawnCard;
-    }
-
-    /// <summary>
-    /// This method should be called when a client has requested to draw multiple cards.
-    /// It draws <paramref name="numOfCards"/> random cards from the undealt deck and subsequently removes them.
-    /// </summary>
-    /// <param name="numOfCards">Number of cards to draw and return</param>
-    /// <returns>A list containing all the drawn cards</returns>
-    public List<Card> DrawCards(int numOfCards)
-    {
-        return HostData.GetGame().DrawCardsFromDeck(numOfCards, DeckChoices.UNDEALT);
-    }
-
-    /// <summary>
-    /// TODO implementation
-    /// </summary>
-    /// <param name="card">The card to play</param>
-    /// <param name="playerIndex">The index of the player playing the card</param>
-    /// <returns>Returns true or false depending on whether the card was played</returns>
-    public bool PlayCard(Card card, int playerIndex)
-    {
-        if (VerifyIfCardIsValid(card))
-        {
-            HostData.GetGame().AddCardToDeck(card, DeckChoices.PLAYED);
-            return true;
-        }
-
-        return false;
     }
 
     /// <summary>

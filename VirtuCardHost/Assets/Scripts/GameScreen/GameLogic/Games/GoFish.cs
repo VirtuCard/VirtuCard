@@ -65,7 +65,7 @@ public class GoFish : Game
         // send the cards to the players
         for (int x = 0; x < players.Count; x++)
         {
-            PhotonScripts.NetworkController.SendCardsToPlayer(players[x].username, playerDecks[x].GetAllCards());
+            PhotonScripts.NetworkController.SendCardsToPlayer(players[x].username, playerDecks[x].GetAllCards(), true, false);
         }
         // now all players will be sent 5 cards that do not contain a 4 of a kind
 
@@ -130,19 +130,29 @@ public class GoFish : Game
         {
             // they did not have any cards
             Debug.Log(playerToQuery.username + " did not have any " + card.GetRank() + "s, GoFish");
+            HostData.SetDoShowNotificationWindow(true, playerToQuery.username + " did not have any " + card.GetRank() + "s, GoFish!");
             List<Card> gofishCards = new List<Card>();
             gofishCards.Add(GetDeck(DeckChoices.UNDEALT).PopCard());
-            PhotonScripts.NetworkController.SendCardsToPlayer(currentPlayer.username, gofishCards);
+            PhotonScripts.NetworkController.SendCardsToPlayer(currentPlayer.username, gofishCards, true, true);
             AdvanceTurn(true);
             return false;
         }
         List<Card> stolenCards = QueryPlayerForCards(playerToQuery.username, card.GetRank());
 
+        string notificationMessage = currentPlayer.username + " stole " + stolenCards.Count.ToString() + " card";
+        if (stolenCards.Count > 1)
+        {
+            notificationMessage += "s";
+        }
+        notificationMessage += "!";
+
+        HostData.SetDoShowNotificationWindow(true, notificationMessage);
+
         // take cards from queried player
         PhotonScripts.NetworkController.RemoveCardsFromPlayer(playerToQuery.username, currentPlayer.username, stolenCards);
 
         // give cards to current player
-        PhotonScripts.NetworkController.SendCardsToPlayer(currentPlayer.username, stolenCards);
+        PhotonScripts.NetworkController.SendCardsToPlayer(currentPlayer.username, stolenCards, false, true);
 
         // check if they have 4 of the current rank. If they do, add a point to them and remove those 4 from their deck
         List<Card> fourOfAKind = QueryPlayerForCards(currentPlayer.username, card.GetRank());
@@ -150,6 +160,8 @@ public class GoFish : Game
         {
             currentPlayer.score++;
             // TODO update UI for score
+
+            HostData.SetDoShowNotificationWindow(true, currentPlayer.username + " scored a set of " + card.GetRank() + "s!");
 
             // remove the cards from fourOfAKind from the player
             PhotonScripts.NetworkController.RemoveCardsFromPlayer(currentPlayer.username, null, fourOfAKind);
