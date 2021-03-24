@@ -554,6 +554,20 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 }
             }
         }
+        else if (photonEvent.Code == 20)
+        {
+            // This is if a player has been chosen to win
+            object[] data = (object[])photonEvent.CustomData;
+            string winnerName = (string)data[0];
+            if (winnerName == PhotonNetwork.NickName)
+            {
+                winnerPanel.SetActive(true);
+            }
+            else
+            {
+                Debug.Log("you are not the winner rip");
+            }
+        }
     }
 
 
