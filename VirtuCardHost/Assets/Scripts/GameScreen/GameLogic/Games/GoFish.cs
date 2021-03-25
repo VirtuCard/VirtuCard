@@ -173,11 +173,9 @@ public class GoFish : Game
         if (HasGameEnded())
         {
             Debug.Log("Game has ended");
-            // TODO clean up game
+            PlayerInfo victor = WhoWonTheGame();
+            GameScreenController.DeclareWinner(victor.username, victor.username + " is the Winner With " + victor.score + " Points!");
         }
-
-
-
         return true;
     }
 
@@ -266,5 +264,22 @@ public class GoFish : Game
 
         // 13 total sets need to have been made to end the game
         return (cumulativeScore == 13);
+    }
+
+    private PlayerInfo WhoWonTheGame()
+    {
+        List<PlayerInfo> players = GetAllPlayers();
+
+        int highestScore = 0;
+        PlayerInfo highestPlayer = null;
+        foreach (PlayerInfo player in players)
+        {
+            if (player.score > highestScore)
+            {
+                highestScore = player.score;
+                highestPlayer = player;
+            }
+        }
+        return highestPlayer;
     }
 }

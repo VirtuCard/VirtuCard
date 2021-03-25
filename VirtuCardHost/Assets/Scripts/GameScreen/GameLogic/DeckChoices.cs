@@ -4,5 +4,5 @@ using UnityEngine;
 
 public enum DeckChoices
 {
-    UNDEALT = 0, PLAYED = 1
+    UNDEALT = 0, PLAYED, PONEPLAYED, PONEUNPLAYED, PTWOPLAYED, PTWOUNPLAYED
 };

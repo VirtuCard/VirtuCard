@@ -49,7 +49,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     // this is used to determine if the user has scrolled over to a new card, so it can be used to verify
     private Card previouslySelectedCard;
     bool cardIsValid = false;
-    public Text cardIsValidText;
 
     public Timer timer;
 
@@ -153,7 +152,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
                     previouslySelectedCard = selectedCard;
                     cardIsValid = false;
-                    cardIsValidText.text = "Card is NOT valid";
                 }
             }
         }
@@ -205,7 +203,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     /// </summary>
     public void updateChat()
     {
-        Debug.Log("chat allowed status: " + ClientData.isChatAllowed());
         int chatValue = chatOptions.value;
 
         if (ClientData.isChatAllowed())
@@ -459,14 +456,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 bool isValid = (bool) data[1];
                 Debug.Log("Is Valid: " + isValid);
                 cardIsValid = isValid;
-                if (cardIsValid)
-                {
-                    cardIsValidText.text = "Card is valid";
-                }
-                else
-                {
-                    cardIsValidText.text = "Card is NOT valid";
-                }
             }
         }
         // this is the return for the draw card event
