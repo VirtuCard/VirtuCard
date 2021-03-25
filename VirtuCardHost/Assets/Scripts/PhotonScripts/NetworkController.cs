@@ -272,12 +272,24 @@ namespace PhotonScripts
                 if (wasSkippedDueToTimer)
                 {
                     HostData.SetDoShowNotificationWindow(true, username + " ran out of time");
+                    if (HostData.GetGame().GetGameName().Equals("GoFish"))
+                    {
+                        List<Card> cardList = new List<Card>();
+                        cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
+                        SendCardsToPlayer(username, cardList, true, true);
+                    }
                     HostData.GetGame().ForceAdvanceTurn(true);
                 }
                 else
                 {
                     // skip turn normally
                     HostData.SetDoShowNotificationWindow(true, username + " has skipped their turn");
+                    if (HostData.GetGame().GetGameName().Equals("GoFish"))
+                    {
+                        List<Card> cardList = new List<Card>();
+                        cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
+                        SendCardsToPlayer(username, cardList, true, true);
+                    }
                     HostData.GetGame().AdvanceTurn(true);
                 }
             }
