@@ -4,6 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
+using ExitGames.Client.Photon;
+using PhotonScripts;
+using System;
+using Photon.Realtime;
 
 public class GameScreenController : MonoBehaviour
 {
@@ -17,6 +22,13 @@ public class GameScreenController : MonoBehaviour
 
     public Dropdown chatOptions;
     public Toggle timerToggle;
+
+    public GameObject winnerPanel;
+    public Dropdown winnerDropdown;
+    public GameObject gameOverPanel;
+    public GameObject gameOverText;
+    public GameObject endGamePanel;
+
 
     public GameObject playedCardCarousel;
     public GameObject undealtCardCarousel;
@@ -52,6 +64,8 @@ public class GameScreenController : MonoBehaviour
         timerToggle.SetIsOnWithoutNotify(HostData.IsTimerEnabled());
         timerToggle.onValueChanged.AddListener(delegate { EnableTimer(timerToggle.isOn); });
         timerToggle.gameObject.SetActive(HostData.IsTimerEnabled());
+
+
     }
 
     // Update is called once per frame
@@ -199,4 +213,52 @@ public class GameScreenController : MonoBehaviour
         settingsPanel.SetActive(enabled);
     }
 
+    // Adding functions for endgame button and declare winner button
+
+    public void EndGameClicked()
+    {
+        endGamePanel.SetActive(true);
+    }
+
+    public void KeepPlayingClicked()
+    {
+        endGamePanel.SetActive(false);
+    }
+
+    public void DeclareWinnerClicked()
+    {   
+        winnerPanel.SetActive(true);
+        var allConnectedPlayers = HostData.GetGame().GetAllPlayers();
+        foreach (PlayerInfo player in allConnectedPlayers) {
+            winnerDropdown.options.Add(new Dropdown.OptionData(player.photonPlayer.NickName));
+        }
+    
+    }
+
+    public void ExitClicked()
+    {
+        winnerPanel.SetActive(false);
+    
+    }
+
+    public void DeclareWinnerChoiceClicked()
+    {
+        // this will raise an event
+        Debug.Log("Winner Declared! Congratulations, " +  winnerDropdown.options[winnerDropdown.value].text);
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+        object[] content = new object[] {winnerDropdown.options[winnerDropdown.value].text};
+        PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
+        winnerPanel.SetActive(false);
+        // Display winner message
+        gameOverPanel.SetActive(true);
+        gameOverText.GetComponent<Text>().text = "Congratulations, " + winnerDropdown.options[winnerDropdown.value].text + "!";
+
+    }
+
+    public void ExitGameClicked()
+    {
+        Debug.Log("exit game clicked");
+        PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene(SceneNames.LandingPage, LoadSceneMode.Single);
+    }
 }
