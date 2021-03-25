@@ -517,4 +517,21 @@ public abstract class Game
     {
         gameName = gamename;
     }
+
+    /// <summary>
+    /// This method resets the Undealt cards deck.
+    /// This is done by adding the Played cards deck into the Undealt cards deck and shuffling.
+    /// </summary>
+    public void ResetUndealtCards()
+    {
+        //Obtaining the undealt and played cards decks
+        CardDeck undealt = GetDeck(DeckChoices.UNDEALT);
+        CardDeck played = GetDeck(DeckChoices.PLAYED);
+
+        //Merging the two
+        undealt.AddCards(played);
+
+        //Shuffling
+        undealt.Shuffle();
+    }
 }
