@@ -157,7 +157,6 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
     {
         Debug.Log("Chat Connected!\n");
         _chatClient.Subscribe(new[] {roomcode});
-        SendMessage("hi" + Random.Range(0, 10));
 
         /* Enable chatbox here */
     }

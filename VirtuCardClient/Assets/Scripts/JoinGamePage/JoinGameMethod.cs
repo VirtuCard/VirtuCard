@@ -92,6 +92,9 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
+        // Room join successful
+        ClientData.UserProfile.GamesPlayed++;
+        DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Incremented Games played."); });
         loadingPanel.SetActive(false);
         SceneManager.LoadScene(SceneNames.WaitingScreen);
     }
