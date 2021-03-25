@@ -346,7 +346,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         {
             o.GetComponent<Animator>().Play(animation);
         }
-
+        drawCardBtn.enabled = playCardBtn.enabled = cardsFlipped;
         cardsFlipped = !cardsFlipped;
     }
 
