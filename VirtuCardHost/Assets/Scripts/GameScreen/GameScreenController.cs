@@ -43,9 +43,13 @@ public class GameScreenController : MonoBehaviour
     private int secondsBeforeInitialization = 2;
 
 
+    private static bool isDeclaringWinner = false;
+
+
     // Start is called before the first frame update
     void Start()
     {
+        isDeclaringWinner = false;
         if (HostData.isChatAllowed())
         {
             allOfChatUI.SetActive(true);
@@ -95,6 +99,15 @@ public class GameScreenController : MonoBehaviour
                 notificationWindow.ShowNotification(messages[x]);
             }
             HostData.SetDoShowNotificationWindow(false);
+        }
+
+        if (isDeclaringWinner)
+        {
+            winnerPanel.SetActive(false);
+            // Display winner message
+            gameOverPanel.SetActive(true);
+            gameOverText.GetComponent<Text>().text = "Congratulations, " + winnerDropdown.options[winnerDropdown.value].text + "!";
+            isDeclaringWinner = false;
         }
     }
     
@@ -241,18 +254,26 @@ public class GameScreenController : MonoBehaviour
     
     }
 
+    /// <summary>
+    /// This method ends the game and declares a method.
+    /// </summary>
+    /// <param name="username">The PhotonNetwork.NickName of the user who won the game</param>
+    /// <param name="winningMessage">The message to be displayed</param>
+    public static void DeclareWinner(string username, string winningMessage)
+    {
+        Debug.Log(winningMessage);
+
+        object[] content = new object[] { username };
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
+
+        isDeclaringWinner = true;
+    }
+
     public void DeclareWinnerChoiceClicked()
     {
         // this will raise an event
-        Debug.Log("Winner Declared! Congratulations, " +  winnerDropdown.options[winnerDropdown.value].text);
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        object[] content = new object[] {winnerDropdown.options[winnerDropdown.value].text};
-        PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
-        winnerPanel.SetActive(false);
-        // Display winner message
-        gameOverPanel.SetActive(true);
-        gameOverText.GetComponent<Text>().text = "Congratulations, " + winnerDropdown.options[winnerDropdown.value].text + "!";
-
+        DeclareWinner(winnerDropdown.options[winnerDropdown.value].text, "Winner Declared! Congratulations, " + winnerDropdown.options[winnerDropdown.value].text);
     }
 
     public void ExitGameClicked()
