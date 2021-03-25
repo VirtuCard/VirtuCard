@@ -203,7 +203,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     /// </summary>
     public void updateChat()
     {
-        Debug.Log("chat allowed status: " + ClientData.isChatAllowed());
         int chatValue = chatOptions.value;
 
         if (ClientData.isChatAllowed())
