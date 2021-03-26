@@ -131,14 +131,10 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
 
             StandardCard selectedCard = (StandardCard) cardMenu.GetCurrentlySelectedCard();
-            //cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("RawImage").GetComponent<Outline>().enabled = true;
 
             if (selectedCard != null)
             {
-                Debug.Log("Hi1");
-                cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("RawImage").GetComponent<Outline>().enabled =
-                    true;
-                Debug.Log("Hi2");
+                cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("RawImage").GetComponent<Outline>().enabled = true;
                 if (previouslySelectedCard == null ||
                     previouslySelectedCard.Compare(selectedCard) == false)
                 {
@@ -235,7 +231,14 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private void GoFishQueryButtonClicked()
     {
         StandardCard card = (StandardCard) cardMenu.GetCurrentlySelectedCard();
-        SendCardToHost(card);
+        if (card != null)
+        {
+            SendCardToHost(card);
+        }
+        else
+        {
+            notificationWindow.ShowNotification("Select a Card");
+        }
     }
 
     /// <summary>
