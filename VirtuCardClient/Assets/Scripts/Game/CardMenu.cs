@@ -93,6 +93,11 @@ public class CardMenu : MonoBehaviour
         }
     }
 
+    public void ResizeAndCompressCards()
+    {
+
+    }
+
     /// <summary>
     /// Adds a card to the rightmost side of the carousel.
     /// It automatically reformats after adding.
