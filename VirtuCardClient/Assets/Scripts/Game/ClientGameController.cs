@@ -336,11 +336,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         cardMenu.RemoveCardFromCarousel(cardToRemove);
     }
 
-    public void Reposition()
-    {
-        cardMenu.MoveCarouselToIndex(cardMenu.current_index - 1);
-    }
-
     /// <summary>
     /// This method should called every time the game swaps to the player's turn
     /// It should setup all the necessary things like enabling skip btn, timer, etc...
