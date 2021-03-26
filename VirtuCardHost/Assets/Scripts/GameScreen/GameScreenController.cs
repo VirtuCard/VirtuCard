@@ -284,4 +284,16 @@ public class GameScreenController : MonoBehaviour
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(SceneNames.LandingPage, LoadSceneMode.Single);
     }
+
+    public void GoToGameOverFromEndGame()
+    {
+        endGamePanel.SetActive(false);
+
+        object[] content = new object[] { "nowinner" };
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
+
+        gameOverText.GetComponent<Text>().text = "Game is over.";
+        gameOverPanel.SetActive(true);
+    }
 }

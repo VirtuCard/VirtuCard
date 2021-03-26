@@ -563,6 +563,11 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 winnerAnnounce.GetComponent<Text>().text = "You won!";
                 winnerPanel.SetActive(true);
             }
+            else if (winnerName == "nowinner")
+            {
+                winnerAnnounce.GetComponent<Text>().text = "Game is over.";
+                winnerPanel.SetActive(true);
+            }
             else
             {
                 winnerAnnounce.GetComponent<Text>().text = winnerName + " won. Better luck next time!";
