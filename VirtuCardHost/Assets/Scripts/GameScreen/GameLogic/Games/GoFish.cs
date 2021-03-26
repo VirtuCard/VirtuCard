@@ -129,7 +129,9 @@ public class GoFish : Game
         if (!doesHaveCard)
         {
             // they did not have any cards
-            Debug.Log(playerToQuery.username + " did not have any " + card.GetRank() + "s, GoFish");
+            string rankCaps = Enum.GetName(typeof(StandardCardRank), card.GetRank());
+            string rank = rankCaps.Substring(0, 1).ToUpper() + rankCaps.Substring(1).ToLower();
+            Debug.Log(playerToQuery.username + " did not have any " + rank + "s, GoFish");
             HostData.SetDoShowNotificationWindow(true, playerToQuery.username + " did not have any " + card.GetRank() + "s, GoFish!");
             List<Card> gofishCards = new List<Card>();
             gofishCards.Add(GetDeck(DeckChoices.UNDEALT).PopCard());
@@ -176,7 +178,9 @@ public class GoFish : Game
             currentPlayer.score++;
             // TODO update UI for score
 
-            HostData.SetDoShowNotificationWindow(true, currentPlayer.username + " scored a set of " + card.GetRank() + "s!");
+            string rankCaps = Enum.GetName(typeof(StandardCardRank), card.GetRank());
+            string rank = rankCaps.Substring(0, 1).ToUpper() + rankCaps.Substring(1).ToLower();
+            HostData.SetDoShowNotificationWindow(true, currentPlayer.username + " scored a set of " + rank + "s!");
 
             // remove the cards from fourOfAKind from the player
             PhotonScripts.NetworkController.RemoveCardsFromPlayer(currentPlayer.username, null, fourOfAKind);

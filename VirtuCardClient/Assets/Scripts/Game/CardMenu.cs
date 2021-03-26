@@ -31,7 +31,7 @@ public class CardMenu : MonoBehaviour
 
     public int swipeThrustHold = 30;
 
-    private int current_index;
+    public int current_index;
 
     /// <summary>
     /// Returns the currently selected card or NULL if there are none in the carousel
@@ -72,6 +72,27 @@ public class CardMenu : MonoBehaviour
         return current_index;
     }
 
+    public bool IsIndexInValidPosition()
+    {
+        if (current_index >= 0 && current_index < images.Count)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public void MoveToValidPosition()
+    {
+        if (current_index >= images.Count)
+        {
+            MoveCarouselToIndex(images.Count - 1);
+        }
+        else if (current_index < 0)
+        {
+            MoveCarouselToIndex(0);
+        }
+    }
+
     /// <summary>
     /// Adds a card to the rightmost side of the carousel.
     /// It automatically reformats after adding.
@@ -103,8 +124,8 @@ public class CardMenu : MonoBehaviour
 
     public void RemoveCardFromCarousel(Card newCard)
     {
-        int indexToMoveTo = current_index;
-        for (int x = images.Count - 1; x >= 0; x++)
+        int cardCount = images.Count;
+        for (int x = cardCount - 1; x >= 0; x++)
         {
             // if this image is the card we are looking for
             if (images[x].gameObject.GetComponent<StandardCard>().Compare(newCard) == true)
@@ -113,15 +134,10 @@ public class CardMenu : MonoBehaviour
                 images.RemoveAt(x);
                 Destroy(imageToDestroy);
 
-                if (x == images.Count - 1 && current_index == images.Count - 1)
-                {
-                    indexToMoveTo--;
-                }
+                ReformatCarousel();
                 break;
             }
         }
-        ReformatCarousel();
-        MoveCarouselToIndex(indexToMoveTo);
     }
 
 
@@ -146,7 +162,7 @@ public class CardMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        lerpTimer = lerpTimer + Time.deltaTime;
+        lerpTimer += Time.deltaTime;
 
         if (lerpTimer < 0.333f)
         {
@@ -249,6 +265,11 @@ public class CardMenu : MonoBehaviour
     /// <param name="value"></param>
     public void MoveCarouselToIndex(int value)
     {
+        if (value < 0 || value >= images.Count)
+        {
+            // we don't want to move to an undefined area
+            return;
+        }
         current_index = value;
         lerpTimer = 0;
         lerpPosition = (imageWidth + imageSpacing) * current_index;
