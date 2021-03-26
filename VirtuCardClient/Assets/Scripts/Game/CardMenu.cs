@@ -103,7 +103,8 @@ public class CardMenu : MonoBehaviour
 
     public void RemoveCardFromCarousel(Card newCard)
     {
-        for (int x = 0; x < images.Count; x++)
+        int indexToMoveTo = current_index;
+        for (int x = images.Count - 1; x >= 0; x++)
         {
             // if this image is the card we are looking for
             if (images[x].gameObject.GetComponent<StandardCard>().Compare(newCard) == true)
@@ -111,10 +112,16 @@ public class CardMenu : MonoBehaviour
                 GameObject imageToDestroy = images[x].gameObject;
                 images.RemoveAt(x);
                 Destroy(imageToDestroy);
+
+                if (x == images.Count - 1 && current_index == images.Count - 1)
+                {
+                    indexToMoveTo--;
+                }
                 break;
             }
         }
         ReformatCarousel();
+        MoveCarouselToIndex(indexToMoveTo);
     }
 
 

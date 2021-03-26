@@ -151,6 +151,21 @@ public class GoFish : Game
         // take cards from queried player
         PhotonScripts.NetworkController.RemoveCardsFromPlayer(playerToQuery.username, currentPlayer.username, stolenCards);
 
+        // if they are out of cards, give them another
+        if (playerToQuery.cards.GetCardCount() == 0)
+        {
+            if (HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCardCount() > 0)
+            {
+                List<Card> cardList = new List<Card>();
+                cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
+                PhotonScripts.NetworkController.SendCardsToPlayer(playerToQuery.username, cardList, true, true);
+            }
+            else
+            {
+                HostData.SetDoShowNotificationWindow(true, playerToQuery.username + " is out of cards");
+            }
+        }
+
         // give cards to current player
         PhotonScripts.NetworkController.SendCardsToPlayer(currentPlayer.username, stolenCards, false, true);
 
@@ -185,7 +200,13 @@ public class GoFish : Game
     /// <param name="playerIndex"></param>
     protected override void ForceSkipTurn(int playerIndex)
     {
-        
+        PlayerInfo currentPlayer = GetPlayer(playerIndex);
+        if (HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCardCount() > 0)
+        {
+            List<Card> cardList = new List<Card>();
+            cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
+            PhotonScripts.NetworkController.SendCardsToPlayer(currentPlayer.username, cardList, true, true);
+        }
     }
         
     /// Checks if a player has a 4 of a kind of any specific rank of cards
