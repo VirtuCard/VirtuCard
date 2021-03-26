@@ -27,6 +27,9 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
     public Button[] defaultChats;
     public Text[] defaultChatMessages;
 
+    public Dropdown privChatOption;
+    public RectTransform privChatSize;
+
 
     /// <summary>
     /// This class contains all the methods and fields that are within a single message.
@@ -123,12 +126,35 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
         _chatClient.Connect(appId, "0.1b", new AuthenticationValues(PhotonNetwork.NickName));
         InitializeDefaultChats();
 
+
+        // private message UI
+        privChatSize.offsetMin = new Vector2(privChatSize.offsetMin.x, 995);
+        privChatSize.offsetMax = new Vector2(privChatSize.offsetMax.x, 1085);
+        privChatOption.options.Add(new Dropdown.OptionData("Public chat")); // default
+        List<string> privName = ClientData.GetAllConnectedPlayers();
+        foreach (string namePlayer in privName)
+        {
+            // only add the name if it is not this person
+            if (!namePlayer.Equals(PhotonNetwork.NickName))
+            {
+                privChatOption.options.Add(new Dropdown.OptionData(namePlayer));
+            }
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
         _chatClient.Service();
+    }
+    
+    /// <summary>
+    /// This function gets the person the text of what is inside the dropdown
+    /// </summary> 
+    public string privChatPlayer() {
+        Debug.Log(privChatOption.options[privChatOption.value].text);
+        return privChatOption.options[privChatOption.value].text;
     }
 
     public void sendClicked()
