@@ -77,6 +77,8 @@ public class GameScreenController : MonoBehaviour
     {
         if (HostData.GetGame().IsGameEmpty())
         {
+            HostData.SetGame((GameTypes)Enum.Parse(typeof(GameTypes),
+                   HostData.GetGame().GetGameName()));
             SceneManager.LoadScene(SceneNames.WaitingRoomScreen);
         }
 
