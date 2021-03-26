@@ -68,7 +68,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
         secondsInput.interactable = false;
         minutesInput.interactable = false;
 
-        numPlayers.onValueChanged.AddListener(OnNumPlayersFieldChange);
+        numPlayers.onEndEdit.AddListener(OnNumPlayersFieldChange);
         playerList = NetworkController.ListAllPlayers();
         CreatePlayerList();
         settingsPanel.SetActive(false);
@@ -380,6 +380,8 @@ public class WaitingRoomScreenManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(newValue))
         {
+            HostData.setMaxNumPlayers(HostData.GetGame().GetMaximumNumOfPlayers());
+            numPlayers.SetTextWithoutNotify(HostData.GetGame().GetMaximumNumOfPlayers().ToString());
             return;
         }
 
@@ -387,10 +389,12 @@ public class WaitingRoomScreenManager : MonoBehaviour
         if (!int.TryParse(newValue, out value))
         {
             HostData.setMaxNumPlayers(HostData.GetGame().GetMaximumNumOfPlayers());
+            numPlayers.SetTextWithoutNotify(HostData.GetGame().GetMaximumNumOfPlayers().ToString());
         }
         else
         {
             HostData.setMaxNumPlayers(value);
+            numPlayers.SetTextWithoutNotify(HostData.GetMaxNumPlayers().ToString());
         }
     }
 
