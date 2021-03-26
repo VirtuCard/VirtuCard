@@ -30,8 +30,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public GameObject dropboxUI;
     public RectTransform dropboxSize;
     public GameObject chatPanel;
-    public Dropdown privChatOption;
-    public RectTransform privChatSize;
+    // public Dropdown privChatOption;
+    // public RectTransform privChatSize;
 
     // 3 below are used for if the game is over
     public GameObject winnerPanel;
@@ -100,19 +100,19 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             goFishPanel.SetActive(false);
         }
 
-        // private message UI
-        privChatSize.offsetMin = new Vector2(privChatSize.offsetMin.x, 995);
-        privChatSize.offsetMax = new Vector2(privChatSize.offsetMax.x, 1085);
-        privChatOption.options.Add(new Dropdown.OptionData("Public chat")); // default
-        List<string> privName = ClientData.GetAllConnectedPlayers();
-        foreach (string namePlayer in privName)
-        {
-            // only add the name if it is not this person
-            if (!namePlayer.Equals(PhotonNetwork.NickName))
-            {
-                privChatOption.options.Add(new Dropdown.OptionData(namePlayer));
-            }
-        }
+        // // private message UI
+        // privChatSize.offsetMin = new Vector2(privChatSize.offsetMin.x, 995);
+        // privChatSize.offsetMax = new Vector2(privChatSize.offsetMax.x, 1085);
+        // privChatOption.options.Add(new Dropdown.OptionData("Public chat")); // default
+        // List<string> privName = ClientData.GetAllConnectedPlayers();
+        // foreach (string namePlayer in privName)
+        // {
+        //     // only add the name if it is not this person
+        //     if (!namePlayer.Equals(PhotonNetwork.NickName))
+        //     {
+        //         privChatOption.options.Add(new Dropdown.OptionData(namePlayer));
+        //     }
+        // }
 
         // when winner is announced the button is clicked
         exitGameBtn.onClick.AddListener(delegate() { exitGameBtnOnClick(); });
