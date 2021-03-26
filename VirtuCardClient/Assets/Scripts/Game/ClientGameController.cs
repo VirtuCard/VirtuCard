@@ -190,6 +190,12 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             // exitGameBtn.onClick.AddListener(delegate() { exitGameBtnOnClick(); });
         }
 
+        // keep card menu at a valid index
+        if (!cardMenu.IsIndexInValidPosition())
+        {
+            cardMenu.MoveToValidPosition();
+        }
+
         updateChat();
     }
 
@@ -328,6 +334,11 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     {
         cards.RemoveCard(cardToRemove);
         cardMenu.RemoveCardFromCarousel(cardToRemove);
+    }
+
+    public void Reposition()
+    {
+        cardMenu.MoveCarouselToIndex(cardMenu.current_index - 1);
     }
 
     /// <summary>
