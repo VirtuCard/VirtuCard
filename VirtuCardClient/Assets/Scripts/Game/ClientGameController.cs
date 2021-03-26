@@ -431,6 +431,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private void exitGameBtnOnClick()
     {
         winnerPanel.SetActive(false);
+        PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(SceneNames.JoinGamePage, LoadSceneMode.Single);
     }
 
@@ -559,11 +560,13 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             string winnerName = (string)data[0];
             if (winnerName == PhotonNetwork.NickName)
             {
+                winnerAnnounce.GetComponent<Text>().text = "You won!";
                 winnerPanel.SetActive(true);
             }
             else
             {
-                Debug.Log("you are not the winner rip");
+                winnerAnnounce.GetComponent<Text>().text = winnerName + " won. Better luck next time!";
+                winnerPanel.SetActive(true);
             }
         }
     }
