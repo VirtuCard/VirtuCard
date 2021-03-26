@@ -1,8 +1,6 @@
 ﻿using System;
-using Firebase;
 using Firebase.Auth;
 using Photon.Pun;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace FirebaseScripts
