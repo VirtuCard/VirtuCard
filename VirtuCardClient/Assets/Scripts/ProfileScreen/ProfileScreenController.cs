@@ -15,15 +15,30 @@ public class ProfileScreenController : MonoBehaviour
     public Button editButton;
     public GameObject errorPanel;
 
+    private bool isAnonymous;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        FirebaseScripts.User user = ClientData.UserProfile;
+        isAnonymous = user.IsAnonymous;
+        nameText.text += user.Name;
+        usernameText.text += user.Username;
+        emailText.text += user.Email;
+        gamesPText.text += user.GamesPlayed;
+        gamesWText.text += user.GamesWon;
+        gamesLText.text += user.GamesLost;
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    public void OnEditBtnClicked()
     {
-        
+        if (isAnonymous)
+        {
+            errorPanel.SetActive(true);
+            return;
+        }
+        LoadDifferentScene loadDifferent = new LoadDifferentScene();
+        loadDifferent.ChangeScene("EditScreen");
+        return;
     }
 }
