@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using ExitGames.Client.Photon;
@@ -157,16 +158,30 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
         return privChatOption.options[privChatOption.value].text;
     }
 
+
     public void sendClicked()
     {
         string message = messageSend.text;
-        SendMessage(message);
+        if (String.Compare(privChatPlayer(), "Public chat") == 0) { // public chat
+            SendMessage(message);
+        }
+        else // text is a private message
+        {
+            Debug.Log("Private message! " + privChatPlayer());
+            SendPrivMessage(message);
+        }
+
         messageSend.text = "";
     }
 
     public new void SendMessage(string message)
     {
         _chatClient.PublishMessage(roomcode, message);
+    }
+
+    public new void SendPrivMessage(string message)
+    {
+        _chatClient.SendPrivateMessage(privChatPlayer(), message);
     }
 
     public void DebugReturn(DebugLevel level, string message)
