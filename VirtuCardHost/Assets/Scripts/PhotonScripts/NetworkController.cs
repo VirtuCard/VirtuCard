@@ -23,7 +23,7 @@ namespace PhotonScripts
         // that holds the RoomCode for testing purposes
         private string RoomCodeFileName = "RoomCode.txt";
 
-        public static bool isShuffling = false;
+        public static bool isShuffling;
 
         /* Start is called before the first frame update
     public static void OnCreateButtonClick()
@@ -35,6 +35,7 @@ namespace PhotonScripts
         void Start()
         {
             PhotonNetwork.AddCallbackTarget(this);
+            isShuffling = false;
         }
 
         public override void OnConnectedToMaster()
@@ -184,6 +185,7 @@ namespace PhotonScripts
             //While Loop is used to simulate a pause when SHUFFLE DECK button is clicked
             while (isShuffling)
             {
+                Debug.Log("In PauseLoop");
                 //While is empty to simulate a pause
             }
         
