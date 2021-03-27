@@ -29,6 +29,7 @@ public class GameScreenController : MonoBehaviour
     public GameObject gameOverText;
     public GameObject endGamePanel;
 
+    public Timer timer;
 
     public GameObject playedCardCarousel;
     public GameObject undealtCardCarousel;
@@ -69,7 +70,15 @@ public class GameScreenController : MonoBehaviour
         timerToggle.onValueChanged.AddListener(delegate { EnableTimer(timerToggle.isOn); });
         timerToggle.gameObject.SetActive(HostData.IsTimerEnabled());
 
+        // setup timer
+        //timer.SetupTimer(ClientData.IsTimerEnabled(), ClientData.GetTimerSeconds(), ClientData.GetTimerMinutes(),
+        //    warningThreshold: 30, TimerEarlyWarning, TimerReachedZero);
 
+        // enable the timer on the host side
+        if (HostData.IsTimerEnabled())
+        {
+            
+        }
     }
 
     // Update is called once per frame
