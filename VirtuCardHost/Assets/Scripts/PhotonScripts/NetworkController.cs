@@ -214,7 +214,9 @@ namespace PhotonScripts
                 {
                     string playerToRequestFrom = ((string)data[4]).Trim();
 
-                    string displayMessage = username + " is requesting " + card.GetRank() + "s from " + playerToRequestFrom;
+                    string rankCaps = Enum.GetName(typeof(StandardCardRank), card.GetRank());
+                    string rankText = rankCaps.Substring(0, 1).ToUpper() + rankCaps.Substring(1).ToLower();
+                    string displayMessage = username + " is requesting " + rankText + "s from " + playerToRequestFrom;
                     Debug.Log(displayMessage);
                     HostData.SetDoShowNotificationWindow(true, displayMessage);
 

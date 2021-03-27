@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using FirebaseScripts;
 using System.Threading;
+using Photon.Pun;
 
 public class LoginPageManager : MonoBehaviour
 {
@@ -38,6 +39,11 @@ public class LoginPageManager : MonoBehaviour
         failedPanel.SetActive(false);
         // initialize sceneLoader
         sceneLoader = gameObject.AddComponent<LoadDifferentScene>();
+
+        if (!PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.ConnectUsingSettings();
+        }
 
         // add an event listner for when the login button is clicked
         loginBtn.onClick.AddListener(delegate { loginBtnClicked(); });

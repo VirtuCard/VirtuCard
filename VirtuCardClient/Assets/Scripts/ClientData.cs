@@ -127,13 +127,12 @@ public static class ClientData
         {
             //setChatAllowed((Boolean) propertiesThatChanged["ChatAllowed"]);
             chatAllowed = ((Boolean) propertiesThatChanged["ChatAllowed"]);
-            Debug.Log("Chat is changed from main and it is " + ((Boolean) propertiesThatChanged["ChatAllowed"]));
+            //Debug.Log("Chat is changed from main and it is " + ((Boolean) propertiesThatChanged["ChatAllowed"]));
         }
 
         if (propertiesThatChanged.ContainsKey("HostCanJoin"))
         {
             hostCanJoin = ((Boolean) propertiesThatChanged["HostCanJoin"]);
-            Debug.Log("Hello " + hostCanJoin);
         }
         
     }

@@ -1,8 +1,6 @@
 ﻿using System;
-using Firebase;
 using Firebase.Auth;
 using Photon.Pun;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace FirebaseScripts
@@ -58,7 +56,6 @@ namespace FirebaseScripts
                 {
                     User user1 = new User(s);
                     Debug.Log(user1.ToString());
-                    ClientData.UserProfile = user1;
                     PhotonNetwork.NickName = user1.Username;
                    // DatabaseUtils.updateUser(user1, b => { Debug.Log("Updated with " + b); });
                     callback(true);
