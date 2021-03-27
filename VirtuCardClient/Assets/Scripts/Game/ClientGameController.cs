@@ -102,12 +102,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         exitGameBtn.onClick.AddListener(delegate() { exitGameBtnOnClick(); });
     }
 
-    private void IncrementGamesPlayed()
-    {
-        ClientData.UserProfile.GamesPlayed += 1;
-        DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Added game to total count"); });
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -561,6 +555,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             if (winnerName == PhotonNetwork.NickName)
             {
                 winnerAnnounce.GetComponent<Text>().text = "You won!";
+                ClientData.UserProfile.GamesWon += 1;
+                DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Incremented Games won."); });
+
                 winnerPanel.SetActive(true);
             }
             else if (winnerName == "nowinner")
@@ -570,7 +567,10 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             }
             else
             {
-                winnerAnnounce.GetComponent<Text>().text = winnerName + " won. Better luck next time!";
+                winnerAnnounce.GetComponent<Text>().text = winnerName + " Won. Better luck next time!";
+                ClientData.UserProfile.GamesLost += 1;
+                DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Incremented Games lost."); });
+                
                 winnerPanel.SetActive(true);
             }
         }
