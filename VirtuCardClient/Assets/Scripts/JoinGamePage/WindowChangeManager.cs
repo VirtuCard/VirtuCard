@@ -44,15 +44,7 @@ namespace JoinGamePage
 
         public void OnProfileButtonClick()
         {
-            if (isAnonymous)
-            {
-                CreateErrorMessage("Not allowed",
-                    "You are currently not signed in. You are required to be signed in to view your profile");
-            }
-            else
-            {
-                SceneManager.LoadScene(SceneNames.ProfileScene, LoadSceneMode.Single);
-            }
+            SceneManager.LoadScene(SceneNames.ProfileScene, LoadSceneMode.Single);
         }
 
 
