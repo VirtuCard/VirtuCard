@@ -8,10 +8,12 @@ public class StandardCard : Card
     public StandardCardRank rank;
     public StandardCardSuit suit;
 
+
     public StandardCard(StandardCardRank rank, StandardCardSuit suit)
     {
         this.rank = rank;
         this.suit = suit;
+
     }
 
     /// <summary>

@@ -45,6 +45,8 @@ public class GameScreenController : MonoBehaviour
 
     private static bool isDeclaringWinner = false;
 
+    public GameObject shufflingPanel;
+
 
     // Start is called before the first frame update
     void Start()
@@ -282,4 +284,26 @@ public class GameScreenController : MonoBehaviour
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(SceneNames.LandingPage, LoadSceneMode.Single);
     }
+
+    /// <summary>
+    /// This method will Shuffle the deck when called.
+    /// </summary>
+    public void ShuffleDeckClicked()
+    {
+        Debug.Log("Shuffle Deck Button Clicked");
+
+        //Setting the Shuffling... Panel to visible
+        shufflingPanel.SetActive(true);
+
+        NetworkController.setIsShuffle(true);
+
+        //Calling the Shuffle Method
+        HostData.GetGame().ShuffleDeck(DeckChoices.UNDEALT);
+
+        NetworkController.setIsShuffle(false);    
+       
+        //Setting the Shuffling... Panel to invisible
+        shufflingPanel.SetActive(false);
+    }
+
 }
