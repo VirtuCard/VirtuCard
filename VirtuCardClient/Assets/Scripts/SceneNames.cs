@@ -39,6 +39,11 @@ public static class SceneNames
         get { return "RegisterPage"; }
     }
 
+    public static string EditPage
+    {
+        get { return "EditScreen"; }
+    }
+
     public static string GameScreen
     {
         get { return "GameScreen"; }

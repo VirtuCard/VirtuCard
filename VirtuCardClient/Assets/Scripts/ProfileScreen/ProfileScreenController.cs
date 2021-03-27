@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ProfileScreenController : MonoBehaviour
@@ -37,8 +38,7 @@ public class ProfileScreenController : MonoBehaviour
             errorPanel.SetActive(true);
             return;
         }
-        LoadDifferentScene loadDifferent = new LoadDifferentScene();
-        loadDifferent.ChangeScene("EditScreen");
+        SceneManager.LoadScene(SceneNames.EditPage, LoadSceneMode.Single);
         return;
     }
 }
