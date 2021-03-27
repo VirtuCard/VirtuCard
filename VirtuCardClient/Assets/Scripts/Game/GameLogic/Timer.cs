@@ -109,7 +109,7 @@ public class Timer : MonoBehaviour
     }
 
     /// <summary>
-    /// Enables or disables the timer depending on the value of <paramref name="enable"/>
+    /// Enables or disables the timer visibility and functionality depending on the value of <paramref name="enable"/>
     /// </summary>
     /// <param name="enable"></param>
     public void EnableTimer(bool enable)
