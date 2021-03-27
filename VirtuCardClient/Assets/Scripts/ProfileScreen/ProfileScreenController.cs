@@ -10,6 +10,7 @@ public class ProfileScreenController : MonoBehaviour
     public Text usernameText;
     public Text emailText;
     public Text gamesPText;
+    public Text sceneHeadingText;
     public Text gamesWText;
     public Text gamesLText;
     public Image avatarImage;
@@ -23,6 +24,8 @@ public class ProfileScreenController : MonoBehaviour
     {
         FirebaseScripts.User user = ClientData.UserProfile;
         isAnonymous = user.IsAnonymous;
+        sceneHeadingText.text += user.Username;
+        sceneHeadingText.text += user.Username.EndsWith("s") ? ("' Profile") : ("'s Profile");
         nameText.text += user.Name;
         usernameText.text += user.Username;
         emailText.text += user.Email;
@@ -39,6 +42,5 @@ public class ProfileScreenController : MonoBehaviour
             return;
         }
         SceneManager.LoadScene(SceneNames.EditPage, LoadSceneMode.Single);
-        return;
     }
 }
