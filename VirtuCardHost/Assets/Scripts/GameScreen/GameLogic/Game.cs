@@ -17,6 +17,7 @@ public abstract class Game
     private CardDeck ptwoUnplayed = new CardDeck();
     private List<PlayerInfo> players = new List<PlayerInfo>();
     private string gameName;
+    public static bool didSkipTurn = false;
 
     /// <summary>
     /// This is the constructor template for all objects of type Game
@@ -114,6 +115,7 @@ public abstract class Game
     {
         PlayerInfo currentPlayer = GetPlayerOfCurrentTurn();
         Debug.Log("Setting current turn to " + currentPlayer.photonPlayer.NickName + "'s turn");
+        didSkipTurn = true;
         object[] content = new object[] {currentPlayer.photonPlayer.NickName};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
         PhotonNetwork.RaiseEvent(9, content, raiseEventOptions, SendOptions.SendReliable);
