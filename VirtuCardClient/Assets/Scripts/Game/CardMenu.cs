@@ -146,7 +146,7 @@ public class CardMenu : MonoBehaviour
     public void RemoveCardFromCarousel(Card newCard)
     {
         int cardCount = images.Count;
-        for (int x = cardCount - 1; x >= 0; x++)
+        for (int x = cardCount - 1; x >= 0; x--)
         {
             // if this image is the card we are looking for
             if (images[x].gameObject.GetComponent<StandardCard>().Compare(newCard) == true)
