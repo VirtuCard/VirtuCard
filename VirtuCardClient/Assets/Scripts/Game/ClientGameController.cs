@@ -31,6 +31,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public RectTransform dropboxSize;
     public GameObject chatPanel;
 
+    public GameObject warButton;
+
     // 3 below are used for if the game is over
     public GameObject winnerPanel;
     public Button exitGameBtn;
@@ -76,6 +78,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         if (ClientData.GetGameName() == "GoFish")
         {
             standardPanel.SetActive(false);
+            warButton.SetActive(false);
             goFishPanel.SetActive(true);
 
             List<string> allPlayers = ClientData.GetAllConnectedPlayers();
@@ -92,10 +95,18 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
             goFishQueryButton.onClick.AddListener(GoFishQueryButtonClicked);
         }
+        else if (ClientData.GetGameName() == "War")
+        {
+            warButton.SetActive(true);
+            standardPanel.SetActive(false);
+            goFishPanel.SetActive(false);
+
+        }
         else
         {
             standardPanel.SetActive(true);
             goFishPanel.SetActive(false);
+            warButton.SetActive(false);
         }
 
         // when winner is announced the button is clicked
@@ -643,6 +654,12 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 PhotonNetwork.RaiseEvent(2, content, raiseEventOptions, SendOptions.SendUnreliable);
             }
         }
+    }
+
+    public void FlipCardClicked()
+    {
+        //TODO will send a signal to host to flip the top card over
+        
     }
 
     private void VerifyIfCardCanBePlayed(Card card)
