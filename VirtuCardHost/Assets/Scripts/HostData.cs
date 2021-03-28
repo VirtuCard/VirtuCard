@@ -268,8 +268,6 @@ public static class HostData
         return displayLastCard;
     }
 
-
-    
     public static Hashtable ToHashtable()
     {
         Hashtable table = new Hashtable();

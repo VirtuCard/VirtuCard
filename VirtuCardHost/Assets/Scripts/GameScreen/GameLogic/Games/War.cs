@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Photon.Pun;
+using ExitGames.Client.Photon;
+using PhotonScripts;
+using System;
+using Photon.Realtime;
 
 public class War : Game
 {
@@ -137,10 +142,17 @@ public class War : Game
         if (GetDeck(DeckChoices.PONEUNPLAYED).GetCardCount() == 52)
         {
             // declare a winner with raising an event
+        object[] content = new object[] { "Player one" };
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
+
         }
         else if (GetDeck(DeckChoices.PTWOUNPLAYED).GetCardCount() == 52)
         {
             // declare a winner with raising an event
+        object[] content = new object[] { "Player two" };
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
         }
         return true;
     }

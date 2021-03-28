@@ -29,6 +29,8 @@ public class GameScreenController : MonoBehaviour
     public GameObject gameOverText;
     public GameObject endGamePanel;
 
+    public GameObject warPanel;
+
     public Timer timer;
 
     public GameObject playedCardCarousel;
@@ -85,6 +87,15 @@ public class GameScreenController : MonoBehaviour
                 score = x
             };
             playerUIList.AddPlayerToCarousel(newp);
+        }
+
+        if (HostData.GetGame().GetGameName() == "War")
+        {
+            warPanel.SetActive(true);
+        }
+        else
+        {
+            warPanel.SetActive(false);
         }
     }
 
