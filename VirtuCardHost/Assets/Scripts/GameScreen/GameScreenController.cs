@@ -29,6 +29,7 @@ public class GameScreenController : MonoBehaviour
     public GameObject gameOverText;
     public GameObject endGamePanel;
 
+    public Timer timer;
 
     public GameObject playedCardCarousel;
     public GameObject undealtCardCarousel;
@@ -69,7 +70,9 @@ public class GameScreenController : MonoBehaviour
         timerToggle.onValueChanged.AddListener(delegate { EnableTimer(timerToggle.isOn); });
         timerToggle.gameObject.SetActive(HostData.IsTimerEnabled());
 
-
+        // setup timer
+        timer.SetupTimer(HostData.IsTimerEnabled(), HostData.GetTimerSeconds(), HostData.GetTimerMinutes(),
+            warningThreshold: 30, TimerEarlyWarning, TimerReachedZero);
     }
 
     // Update is called once per frame
@@ -110,6 +113,12 @@ public class GameScreenController : MonoBehaviour
             gameOverPanel.SetActive(true);
             gameOverText.GetComponent<Text>().text = "Congratulations, " + winnerDropdown.options[winnerDropdown.value].text + "!";
             isDeclaringWinner = false;
+        }
+
+        if (Game.didSkipTurn)
+        {
+            timer.StartTimer();
+            Game.didSkipTurn = false;
         }
     }
     
@@ -209,6 +218,7 @@ public class GameScreenController : MonoBehaviour
     /// </summary>
     public void EnableTimer(bool enable)
     {
+        timer.EnableTimer(enable);
         if (HostData.GetTimerSeconds() + HostData.GetTimerMinutes() > 0)
         {
             PhotonScripts.NetworkController.EnableTimer(enable);
@@ -295,5 +305,15 @@ public class GameScreenController : MonoBehaviour
 
         gameOverText.GetComponent<Text>().text = "Game is over.";
         gameOverPanel.SetActive(true);
+    }
+
+    public void TimerEarlyWarning()
+    {
+        // do nothing for now
+    }
+
+    public void TimerReachedZero()
+    {
+        // do nothing right now
     }
 }
