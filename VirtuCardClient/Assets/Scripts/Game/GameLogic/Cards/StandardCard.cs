@@ -73,6 +73,16 @@ public class StandardCard : Card
     }
 
     /// <summary>
+    /// This method copies the card passed as an argument.
+    /// </summary>
+    /// <param name="toCopy"> The card that needs to be copied </param>
+    public override void CopyCard(Card toCopy)
+    {
+        this.rank = ((StandardCard)toCopy).rank;
+        this.suit = ((StandardCard)toCopy).suit;
+    }
+
+    /// <summary>
     /// Returns a nice string in the format
     /// "Rank of Suit"
     /// with rank and suit capitalized
