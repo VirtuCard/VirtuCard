@@ -34,6 +34,33 @@ public class CardDeck
     }
 
     /// <summary>
+    /// Adds an entire decks cards into this deck
+    /// </summary>
+    /// <param name="deck"></param>
+    public void AddCards(CardDeck deck)
+    {
+        cards.AddRange(deck.GetAllCards());
+    }
+
+    /// <summary>
+    /// Returns all the cards within this deck in a list
+    /// </summary>
+    /// <returns></returns>
+    public List<Card> GetAllCards()
+    {
+        return cards;
+    }
+
+    /// <summary>
+    /// Adds an entire list of cards into this deck
+    /// </summary>
+    /// <param name="cards"></param>
+    public void AddCards(List<Card> cards)
+    {
+        AddCards(cards.ToArray());
+    }
+
+    /// <summary>
     /// Adds a single card to the deck.
     /// It does NOT put it in randomly, it appends it to the end of the deck
     /// </summary>
@@ -107,10 +134,57 @@ public class CardDeck
     }
 
     /// <summary>
+    /// <summary>
     /// This method shuffles all the cards in the card deck randomly
     /// </summary>
     public void Shuffle()
     {
-        // TODO implementation
+        CardDeck newDeck = new CardDeck();
+        int DeckSize = cards.Count;
+
+        while (DeckSize >= 0)
+        {
+            Card shuffled = PopCard();
+            newDeck.AddCard(shuffled);
+
+            //Decrementing DeckSize given that a card has been removed from the cards list
+            DeckSize--;
+        }
+        //Adds the newDeck's cards into the empty default deck to complete shuffling
+        AddCards(newDeck);
+    }
+
+    /// <summary>
+    /// The method compares two argument decks against each other to determine if they are identical.
+    /// </summary>
+    /// <param name="deck1"> A deck to compare the latter deck against </param>
+    /// <param name="deck2"> A deck that will be compared against the former deck </param>
+    /// <returns> True if the two decks are equal. Else false. </returns>
+    public static bool IsEqual(CardDeck deck1, CardDeck deck2)
+    {
+        if (deck1.GetCardCount() != deck2.GetCardCount())
+        {
+            return false;
+        }
+
+        for (int i = 0; i < deck1.GetCardCount(); i++)
+        {
+            if (deck1.GetCard(i).Compare(deck2.GetCard(i)) == false)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// This method copies a card deck
+    /// </summary>
+    public void DuplicateDeck(CardDeck toCopy)
+    {
+        for (int i = 0; i < GetCardCount(); i++)
+        {
+            (this.GetCard(i)).CopyCard(toCopy.GetCard(i));
+        }
     }
 }
