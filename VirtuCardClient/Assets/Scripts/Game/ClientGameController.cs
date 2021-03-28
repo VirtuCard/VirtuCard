@@ -108,7 +108,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         // check to see if the player can skip their turn once per frame
         foreach (RectTransform o in cardMenu.images)
         {
-            o.Find("RawImage").GetComponent<Outline>().enabled = false;
+            o.Find("Image").GetComponent<Outline>().enabled = false;
         }
 
         if (ClientData.isCurrentTurn())
@@ -128,7 +128,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
             if (selectedCard != null)
             {
-                cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("RawImage").GetComponent<Outline>().enabled = true;
+                cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("Image").GetComponent<Outline>().enabled = true;
                 if (previouslySelectedCard == null ||
                     previouslySelectedCard.Compare(selectedCard) == false)
                 {
