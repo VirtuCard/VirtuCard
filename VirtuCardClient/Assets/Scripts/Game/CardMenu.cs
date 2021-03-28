@@ -26,12 +26,15 @@ public class CardMenu : MonoBehaviour
     private float screenPosition;
     private float lastScreenPosition;
 
-
     public float imageSpacing = 10;
 
     public int swipeThrustHold = 30;
 
     public int current_index;
+
+    private SpriteRenderer sr;
+    private Sprite mySprite;
+
 
     /// <summary>
     /// Returns the currently selected card or NULL if there are none in the carousel
@@ -107,6 +110,9 @@ public class CardMenu : MonoBehaviour
     public void AddCardToCarousel(Card newCard, CardTypes whichCardType)
     {
         RectTransform newImage = Instantiate(cardTemplate, viewWindow);
+
+        string Path = "Card UI/";
+    
         if (whichCardType == 0)
         {
             newImage.gameObject.AddComponent<StandardCard>();
@@ -115,10 +121,20 @@ public class CardMenu : MonoBehaviour
             StandardCardSuit suit = ((StandardCard)newCard).GetSuit();
             cardVals.SetRank(rank);
             cardVals.SetSuit(suit);
-            Text rankText = newImage.Find("Rank").gameObject.GetComponent<Text>();
-            Text suitText = newImage.Find("Suit").gameObject.GetComponent<Text>();
-            rankText.text = Enum.GetName(typeof(StandardCardRank), rank);
-            suitText.text = Enum.GetName(typeof(StandardCardSuit), suit);
+
+            Path += suit.ToString();
+            Path += "_";
+            Path += rank.ToString();
+
+            newImage.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>(Path);
+
+            //Text rankText = newImage.Find("Rank").gameObject.GetComponent<Text>();
+            //Debug.Log(rankText.ToString());
+            //Text suitText = newImage.Find("Suit").gameObject.GetComponent<Text>();
+            //Debug.Log(suitText.ToString());
+
+            //rankText.text = Enum.GetName(typeof(StandardCardRank), rank);
+            //suitText.text = Enum.GetName(typeof(StandardCardSuit), suit);
         }
         // TODO this is where other types of cards would be implemented
 
