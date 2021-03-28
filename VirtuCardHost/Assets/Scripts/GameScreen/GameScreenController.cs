@@ -36,6 +36,8 @@ public class GameScreenController : MonoBehaviour
     private CardMenu playedCardMenu;
     private CardMenu undealtCardMenu;
 
+    public PlayerList playerUIList;
+
     private bool hasInitializedGame = false;
 
     private float startTime;
@@ -73,6 +75,17 @@ public class GameScreenController : MonoBehaviour
         // setup timer
         timer.SetupTimer(HostData.IsTimerEnabled(), HostData.GetTimerSeconds(), HostData.GetTimerMinutes(),
             warningThreshold: 30, TimerEarlyWarning, TimerReachedZero);
+
+        for (int x = 0; x < 9; x++)
+        {
+            PlayerInfo newp = new PlayerInfo
+            {
+                cards = new CardDeck(),
+                username = "Anonymous000" + x.ToString(),
+                score = x
+            };
+            playerUIList.AddPlayerToCarousel(newp);
+        }
     }
 
     // Update is called once per frame
