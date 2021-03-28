@@ -3,13 +3,8 @@ using UnityEngine.UI;
 using FirebaseScripts;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
-using UnityEngine.UI;
-using System.IO;
 using ExitGames.Client.Photon;
 using Photon.Realtime;
-using ExitGames.Client.Photon;
-using Photon.Realtime;
-using UnityEditor.PackageManager;
 
 //using Photon.Pun;
 
