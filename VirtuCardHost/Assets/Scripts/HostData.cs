@@ -73,6 +73,10 @@ public static class HostData
             {
                 currentGame = new War();
             }
+            else
+            {
+                Debug.Log("Unclear Game: " + gameName);
+            }
 
             /* Here is a sample to add a new game
             else if (gameName == "<insert_other_game>")
@@ -333,5 +337,13 @@ public static class HostData
         table.Add("IsSkipAllowed", skipTurnAllowed);
         //Debug.Log(table.ToString());
         return table;
+    }
+
+    public static void clearGame()
+    {
+        currentGame = null;
+        gameSelected = false;
+        selectedGame = "";
+        joinCode = "";
     }
 }
