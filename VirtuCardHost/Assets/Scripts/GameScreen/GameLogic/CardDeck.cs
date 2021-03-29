@@ -199,6 +199,11 @@ public class CardDeck
         }
     }
 
+    public void RemoveAllCards()
+    {
+        RemoveCards(GetAllCards());
+    }
+
     /// <summary>
     /// This method shuffles all the cards in the card deck randomly
     /// </summary>

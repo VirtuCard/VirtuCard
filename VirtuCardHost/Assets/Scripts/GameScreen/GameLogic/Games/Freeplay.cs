@@ -16,6 +16,8 @@ public class Freeplay : Game
 
     public override void InitializeGame()
     {
+        GetDeck(DeckChoices.UNDEALT).RemoveAllCards();
+
         // This eventually will be hooked up to work with the settings that the host
         // chooses on the freeplay setting screen
         if (HostData.getClubsAllowed())
