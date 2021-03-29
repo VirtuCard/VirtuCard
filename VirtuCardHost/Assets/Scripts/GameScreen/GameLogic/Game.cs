@@ -265,6 +265,7 @@ public abstract class Game
             Debug.LogError("Accessing name outside of bounds in GetPlayerOfCurrentTurn");
             return null;
         }
+
         return players[playerTurnIndex];
     }
 
@@ -412,7 +413,7 @@ public abstract class Game
         {
             return playedCards;
         }
-        else if ((int)whichDeck == 2)
+        else if ((int) whichDeck == 2)
         {
             return ponePlayed;
         }
@@ -467,6 +468,18 @@ public abstract class Game
             {
                 deck.AddCard(new StandardCard(rank, suit));
             }
+        }
+
+        return deck;
+    }
+
+    public CardDeck CreateDeckOfSuit(StandardCardSuit suit)
+    {
+        CardDeck deck = new CardDeck();
+
+        foreach (StandardCardRank rank in (StandardCardRank[]) Enum.GetValues(typeof(StandardCardRank)))
+        {
+            deck.AddCard(new StandardCard(rank, suit));
         }
 
         return deck;

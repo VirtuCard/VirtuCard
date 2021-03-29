@@ -78,6 +78,11 @@ public class GameScreenController : MonoBehaviour
         timer.SetupTimer(HostData.IsTimerEnabled(), HostData.GetTimerSeconds(), HostData.GetTimerMinutes(),
             warningThreshold: 30, TimerEarlyWarning, TimerReachedZero);
 
+        if (HostData.isFreeplay() && !HostData.getDisplayLastCard())
+        { //Hide played card deck here.
+            playedCardCarousel.SetActive(false);
+        }
+
         for (int x = 0; x < 9; x++)
         {
             PlayerInfo newp = new PlayerInfo
