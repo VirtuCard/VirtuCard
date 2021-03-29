@@ -315,6 +315,10 @@ namespace PhotonScripts
                     }
                 }
             }
+            else if (photonEvent.Code == 34)
+            {
+                
+            }
         }
 
         /// <summary>
