@@ -152,7 +152,7 @@ public class War : Game
             // declare a winner with raising an event
         object[] content = new object[] { "Player two" };
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
+        PhotonNetwork.RaiseEvent(45, content, raiseEventOptions, SendOptions.SendUnreliable);
         }
         return true;
     }
