@@ -9,14 +9,17 @@ public class EditScreenController : MonoBehaviour
     public Text nameText;
     public Text usernameText;
     public Text emailText;
-    public Input nameInput;
-    public Input usernameInput;
+    public InputField nameInput;
+    public InputField usernameInput;
     public Text gamesPText;
     public Text sceneHeadingText;
     public Text gamesWText;
     public Text gamesLText;
     public Image avatarImage;
     public Button saveButton;
+    public Button backButton;
+    public Text ErrorPanelHeadingText;
+    public Text ErrorPanelMessageText;
     public GameObject errorPanel;
 
     private bool isAnonymous;
@@ -24,6 +27,8 @@ public class EditScreenController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        backButton.enabled = true;
+        saveButton.enabled = true;
         FirebaseScripts.User user = ClientData.UserProfile;
         isAnonymous = user.IsAnonymous;
         sceneHeadingText.text += user.Username;
@@ -38,12 +43,28 @@ public class EditScreenController : MonoBehaviour
 
     public void OnSaveBtnClicked()
     {
+        Debug.Log("hfe");
         if (isAnonymous)
         {
             errorPanel.SetActive(true);
             return;
         }
         SceneManager.LoadScene(SceneNames.EditPage, LoadSceneMode.Single);
+    }
+
+    public void OnBackButtonClicked()
+    {
+        Debug.Log("hii");
+        if ((usernameInput.text == "" || usernameInput.text == usernameText.text) && 
+            (nameInput.text == "" || nameInput.text == nameText.text))
+        {
+            SceneManager.LoadScene(SceneNames.ProfileScene, LoadSceneMode.Single);
+        }
+        else
+        {
+            errorPanel.SetActive(true);
+           
+        }
     }
 }
 
