@@ -239,6 +239,14 @@ namespace PhotonScripts
                     PlayerInfo player = HostData.GetGame().GetPlayer(username);
                     player.cards.RemoveCard(card);
 
+
+                    StandardCardRank rankName = card.GetRank();
+                    StandardCardSuit suitName = card.GetSuit();
+                    string cardName = suitName.ToString();
+                    cardName += "_";
+                    cardName += rankName.ToString();
+                    HostData.SetLastPlayedCardTexture(cardName);
+
                     HostData.GetGame().DoMove(card, userIndex);
                 }
             }
