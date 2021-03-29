@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using FirebaseScripts;
 using Photon.Pun;
+using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 
@@ -22,6 +23,10 @@ public static class HostData
     private static Game currentGame;
     private static bool gameSelected = false;
     private static User userProfile;
+
+    // last played texture stuff
+    private static Texture lastPlayedCard;
+    private static bool didLastPlayedCardTextureChange = false;
 
     public static User UserProfile
     {
@@ -84,6 +89,29 @@ public static class HostData
             Debug.Log("You have already chosen a game");
             return false;
         }
+    }
+
+    public static bool DidLastPlayedCardTextureUpdate()
+    {
+        return didLastPlayedCardTextureChange;
+    }
+
+    public static void SetLastPlayedCardTexture(string cardName)
+    {
+        didLastPlayedCardTextureChange = true;
+        lastPlayedCard = Resources.Load<Texture>("Card UI/" + cardName.Trim());
+    }
+
+    public static void SetLastPlayedCardTexture(Texture texture)
+    {
+        didLastPlayedCardTextureChange = true;
+        lastPlayedCard = texture;
+    }
+
+    public static Texture GetLastPlayedCardTexture()
+    {
+        didLastPlayedCardTextureChange = false;
+        return lastPlayedCard;
     }
 
     public static void SetDoShowNotificationWindow(bool value, string message = "")
