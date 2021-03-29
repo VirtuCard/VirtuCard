@@ -298,12 +298,14 @@ public class GameScreenController : MonoBehaviour
 
     public void DeclareWinnerClicked()
     {   
+        HostData.clearGame();
+        
         winnerPanel.SetActive(true);
         var allConnectedPlayers = HostData.GetGame().GetAllPlayers();
         foreach (PlayerInfo player in allConnectedPlayers) {
             winnerDropdown.options.Add(new Dropdown.OptionData(player.photonPlayer.NickName));
         }
-    
+        
     }
 
     public void ExitClicked()
@@ -343,6 +345,8 @@ public class GameScreenController : MonoBehaviour
 
     public void GoToGameOverFromEndGame()
     {
+                
+        HostData.clearGame();
         endGamePanel.SetActive(false);
 
         object[] content = new object[] { "nowinner" };

@@ -24,9 +24,11 @@ public class FacebookLogin : MonoBehaviour
             Debug.Log("Hi");
             FB.Init(initCallback, onHideUnity);
         }
-
-        // Already initialized
-        FB.ActivateApp();
+        else
+        {
+            // Already initialized
+            FB.ActivateApp();
+        }
     }
 
     private void initCallback()
@@ -79,6 +81,7 @@ public class FacebookLogin : MonoBehaviour
                         successful = -1;
                         return;
                     }
+
                     AuthUser.FacebookLogin(accessToken.TokenString, val => { successful = val; });
                 }
                 else
