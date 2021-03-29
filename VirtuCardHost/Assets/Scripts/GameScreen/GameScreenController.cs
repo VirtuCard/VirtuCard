@@ -30,6 +30,8 @@ public class GameScreenController : MonoBehaviour
     public GameObject endGamePanel;
 
     public GameObject warPanel;
+    public GameObject goFishPanel;
+    public GameObject standardPanel;
 
     public Timer timer;
 
@@ -95,10 +97,21 @@ public class GameScreenController : MonoBehaviour
         if (HostData.GetGame().GetGameName() == "War")
         {
             warPanel.SetActive(true);
+            standardPanel.SetActive(false);
+            goFishPanel.SetActive(false);
+        }
+        else if (HostData.GetGame().GetGameName().Equals("GoFish"))
+        {
+
+            warPanel.SetActive(false);
+            standardPanel.SetActive(false);
+            goFishPanel.SetActive(true);
         }
         else
         {
             warPanel.SetActive(false);
+            standardPanel.SetActive(true);
+            goFishPanel.SetActive(false);
         }
 
     }
