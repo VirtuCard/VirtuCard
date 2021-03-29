@@ -86,6 +86,9 @@ public class WaitingRoomScreenManager : MonoBehaviour
         chatEnabledToggle.isOn = HostData.isChatAllowed();
         numPlayers.SetTextWithoutNotify(HostData.GetGame().GetMaximumNumOfPlayers().ToString());
 
+        startGameBtn.onClick.AddListener(delegate { StartGameBtnClicked(); });
+        startGameBtn.interactable = false;
+
         //freeplay initialization
         enableHearts.isOn = HostData.getHeartsAllowed();
         enableClubs.isOn = HostData.getClubsAllowed();
@@ -93,9 +96,6 @@ public class WaitingRoomScreenManager : MonoBehaviour
         enableDiamonds.isOn = HostData.getDiamondsAllowed();
         showLastCard.isOn = HostData.getDisplayLastCard();
         isSkipTurnAllowed.isOn = HostData.getSkipTurnAllowed();
-        
-        startGameBtn.onClick.AddListener(delegate { StartGameBtnClicked(); });
-        startGameBtn.interactable = false;
         
         //disables and hides the freeplay button if the gamemode is not freeplay
         if (!HostData.isFreeplay())
