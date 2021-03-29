@@ -43,8 +43,10 @@ public static class HostData
     private static bool areSpadesAllowed = true;
     private static bool areDiamondsAllowed = true;
     private static bool displayLastCard = true;
+    private static bool skipTurnAllowed = true;
+
     // eventually we will add more functionality to freeplay mode but this will do for now
-    
+
     public static bool SetGame(GameTypes gameType)
     {
         if (gameSelected == false)
@@ -66,6 +68,7 @@ public static class HostData
             {
                 currentGame = new War();
             }
+
             /* Here is a sample to add a new game
             else if (gameName == "<insert_other_game>")
             {
@@ -91,6 +94,7 @@ public static class HostData
             notificationWindowMessages.Add(message);
         }
     }
+
     /// <summary>
     /// This gets if the 
     /// </summary>
@@ -103,6 +107,7 @@ public static class HostData
             message = notificationWindowMessages.ToArray();
             notificationWindowMessages.Clear();
         }
+
         return doShowNotificationWindow;
     }
 
@@ -110,26 +115,32 @@ public static class HostData
     {
         return timerSeconds;
     }
+
     public static void SetTimerSeconds(int seconds)
     {
         timerSeconds = seconds;
     }
+
     public static int GetTimerMinutes()
     {
         return timerMinutes;
     }
+
     public static void SetTimerMinutes(int minutes)
     {
         timerMinutes = minutes;
     }
+
     public static void SetIsTimerEnabled(bool isEnabled)
     {
         isTimerEnabled = isEnabled;
     }
+
     public static bool IsTimerEnabled()
     {
         return isTimerEnabled;
     }
+
     public static Game GetGame()
     {
         return currentGame;
@@ -160,7 +171,7 @@ public static class HostData
         if (numPlayers > GetGame().GetMaximumNumOfPlayers())
         {
             maxNumPlayers = GetGame().GetMaximumNumOfPlayers();
-        } 
+        }
         else if (numPlayers < GetGame().GetMinimumNumOfPlayers())
         {
             maxNumPlayers = GetGame().GetMinimumNumOfPlayers();
@@ -189,6 +200,9 @@ public static class HostData
             case 2:
                 selectedGame = "Go Fish";
                 break;
+            case 3:
+                selectedGame = "Freeplay";
+                break;
             default:
                 Debug.LogError("Got unexpected value: " + state);
                 break;
@@ -204,7 +218,7 @@ public static class HostData
     {
         return chatAllowed;
     }
-    
+
     public static void setChatAllowed(bool isChatAllowed)
     {
         chatAllowed = isChatAllowed;
@@ -268,13 +282,31 @@ public static class HostData
         return displayLastCard;
     }
 
+    public static void setSkipTurnAllowed(bool skipturn)
+    {
+        skipTurnAllowed = skipturn;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(ToHashtable());
+        return;
+    }
+
+    public static bool getSkipTurnAllowed()
+    {
+        return skipTurnAllowed;
+    }
+
+
+    public static bool isFreeplay()
+    {
+        return GetGame().GetGameName() == "Freeplay";
+    }
+
     public static Hashtable ToHashtable()
     {
         Hashtable table = new Hashtable();
         table.Add("ChatAllowed", chatAllowed);
         table.Add("HostCanJoin", canHostJoinGame);
+        table.Add("IsSkipAllowed", skipTurnAllowed);
         //Debug.Log(table.ToString());
         return table;
     }
-
 }

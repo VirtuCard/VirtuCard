@@ -18,9 +18,26 @@ public class Freeplay : Game
     {
         // This eventually will be hooked up to work with the settings that the host
         // chooses on the freeplay setting screen
-        CardDeck deck = CreateStandard52Deck();
-        GetDeck(DeckChoices.UNDEALT).AddCards(deck);
-        GetDeck(DeckChoices.UNDEALT).Print();
+        if (HostData.getClubsAllowed())
+        {
+            GetDeck(DeckChoices.UNDEALT).AddCards(CreateDeckOfSuit(StandardCardSuit.CLUBS));
+        }
+
+        if (HostData.getDiamondsAllowed())
+        {
+            GetDeck(DeckChoices.UNDEALT).AddCards(CreateDeckOfSuit(StandardCardSuit.DIAMONDS));
+        }
+
+        if (HostData.getHeartsAllowed())
+        {
+            GetDeck(DeckChoices.UNDEALT).AddCards(CreateDeckOfSuit(StandardCardSuit.HEARTS));
+        }
+
+        if (HostData.getSpadesAllowed())
+        {
+            GetDeck(DeckChoices.UNDEALT).AddCards(CreateDeckOfSuit(StandardCardSuit.SPADES));
+        }
+
         AdvanceTurn(true);
     }
 
@@ -32,17 +49,19 @@ public class Freeplay : Game
 
     public override bool DoMove(Card cardToPlay, int playerIndex)
     {
+        AddCardToDeck(cardToPlay, DeckChoices.PLAYED);
+        AdvanceTurn(true);
         return true;
     }
 
     protected override void ForceSkipTurn(int playerIndex)
     {
-        
+        Debug.Log(GetPlayer(playerIndex).username + " was forcefully skipped by the timer");
     }
 
     public override bool VerifyCanSkip(int playerIndex)
     {
-        return true;
+        return HostData.getSkipTurnAllowed();
     }
 
     /// <summary>
