@@ -222,7 +222,6 @@ public static class HostData
     public static void setChatAllowed(bool isChatAllowed)
     {
         chatAllowed = isChatAllowed;
-        PhotonNetwork.CurrentRoom.SetCustomProperties(ToHashtable());
     }
 
     // Adding settings for freeplay
@@ -285,8 +284,6 @@ public static class HostData
     public static void setSkipTurnAllowed(bool skipturn)
     {
         skipTurnAllowed = skipturn;
-        PhotonNetwork.CurrentRoom.SetCustomProperties(ToHashtable());
-        return;
     }
 
     public static bool getSkipTurnAllowed()
