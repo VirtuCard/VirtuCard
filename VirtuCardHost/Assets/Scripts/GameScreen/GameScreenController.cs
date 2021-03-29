@@ -83,15 +83,11 @@ public class GameScreenController : MonoBehaviour
             playedCardCarousel.SetActive(false);
         }
 
-        for (int x = 0; x < 9; x++)
+        // add in the player list UI
+        List<PlayerInfo> connectedPlayers = HostData.GetGame().GetAllPlayers();
+        foreach (var connectedPlayer in connectedPlayers)
         {
-            PlayerInfo newp = new PlayerInfo
-            {
-                cards = new CardDeck(),
-                username = "Anonymous000" + x.ToString(),
-                score = x
-            };
-            playerUIList.AddPlayerToCarousel(newp);
+            playerUIList.AddPlayerToCarousel(connectedPlayer);
         }
 
         if (HostData.GetGame().GetGameName() == "War")
