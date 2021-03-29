@@ -26,12 +26,15 @@ public class CardMenu : MonoBehaviour
     private float screenPosition;
     private float lastScreenPosition;
 
-
     public float imageSpacing = 10;
 
     public int swipeThrustHold = 30;
 
-    private int current_index;
+    public int current_index;
+
+    private SpriteRenderer sr;
+    private Sprite mySprite;
+
 
     /// <summary>
     /// Returns the currently selected card or NULL if there are none in the carousel
@@ -72,6 +75,32 @@ public class CardMenu : MonoBehaviour
         return current_index;
     }
 
+    public bool IsIndexInValidPosition()
+    {
+        if (current_index >= 0 && current_index < images.Count)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public void MoveToValidPosition()
+    {
+        if (current_index >= images.Count)
+        {
+            MoveCarouselToIndex(images.Count - 1);
+        }
+        else if (current_index < 0)
+        {
+            MoveCarouselToIndex(0);
+        }
+    }
+
+    public void ResizeAndCompressCards()
+    {
+
+    }
+
     /// <summary>
     /// Adds a card to the rightmost side of the carousel.
     /// It automatically reformats after adding.
@@ -81,6 +110,9 @@ public class CardMenu : MonoBehaviour
     public void AddCardToCarousel(Card newCard, CardTypes whichCardType)
     {
         RectTransform newImage = Instantiate(cardTemplate, viewWindow);
+
+        string Path = "Card UI/";
+    
         if (whichCardType == 0)
         {
             newImage.gameObject.AddComponent<StandardCard>();
@@ -89,10 +121,20 @@ public class CardMenu : MonoBehaviour
             StandardCardSuit suit = ((StandardCard)newCard).GetSuit();
             cardVals.SetRank(rank);
             cardVals.SetSuit(suit);
-            Text rankText = newImage.Find("Rank").gameObject.GetComponent<Text>();
-            Text suitText = newImage.Find("Suit").gameObject.GetComponent<Text>();
-            rankText.text = Enum.GetName(typeof(StandardCardRank), rank);
-            suitText.text = Enum.GetName(typeof(StandardCardSuit), suit);
+
+            Path += suit.ToString();
+            Path += "_";
+            Path += rank.ToString();
+
+            newImage.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>(Path);
+
+            //Text rankText = newImage.Find("Rank").gameObject.GetComponent<Text>();
+            //Debug.Log(rankText.ToString());
+            //Text suitText = newImage.Find("Suit").gameObject.GetComponent<Text>();
+            //Debug.Log(suitText.ToString());
+
+            //rankText.text = Enum.GetName(typeof(StandardCardRank), rank);
+            //suitText.text = Enum.GetName(typeof(StandardCardSuit), suit);
         }
         // TODO this is where other types of cards would be implemented
 
@@ -103,7 +145,8 @@ public class CardMenu : MonoBehaviour
 
     public void RemoveCardFromCarousel(Card newCard)
     {
-        for (int x = 0; x < images.Count; x++)
+        int cardCount = images.Count;
+        for (int x = cardCount - 1; x >= 0; x--)
         {
             // if this image is the card we are looking for
             if (images[x].gameObject.GetComponent<StandardCard>().Compare(newCard) == true)
@@ -111,10 +154,11 @@ public class CardMenu : MonoBehaviour
                 GameObject imageToDestroy = images[x].gameObject;
                 images.RemoveAt(x);
                 Destroy(imageToDestroy);
+
+                ReformatCarousel();
                 break;
             }
         }
-        ReformatCarousel();
     }
 
 
@@ -139,7 +183,7 @@ public class CardMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        lerpTimer = lerpTimer + Time.deltaTime;
+        lerpTimer += Time.deltaTime;
 
         if (lerpTimer < 0.333f)
         {
@@ -242,6 +286,11 @@ public class CardMenu : MonoBehaviour
     /// <param name="value"></param>
     public void MoveCarouselToIndex(int value)
     {
+        if (value < 0 || value >= images.Count)
+        {
+            // we don't want to move to an undefined area
+            return;
+        }
         current_index = value;
         lerpTimer = 0;
         lerpPosition = (imageWidth + imageSpacing) * current_index;
