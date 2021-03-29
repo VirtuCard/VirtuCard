@@ -18,15 +18,17 @@ public static class ClientData
     private static int timerMinutes;
     private static int timerSeconds;
     private static List<string> playerNames = new List<string>();
-    
+
     public static List<string> GetAllConnectedPlayers()
     {
         return playerNames;
     }
+
     public static void RemoveConnectedPlayerName(string nameToRemove)
     {
         playerNames.Remove(nameToRemove);
     }
+
     public static void AddConnectedPlayerName(string newName)
     {
         playerNames.Add(newName);
@@ -36,6 +38,7 @@ public static class ClientData
     {
         gameName = name;
     }
+
     public static string GetGameName()
     {
         return gameName;
@@ -51,31 +54,37 @@ public static class ClientData
     {
         return timerSeconds;
     }
+
     public static void SetTimerSeconds(int seconds)
     {
         timerSeconds = seconds;
     }
+
     public static int GetTimerMinutes()
     {
         return timerMinutes;
     }
+
     public static void SetTimerMinutes(int minutes)
     {
         timerMinutes = minutes;
     }
+
     public static void SetIsTimerEnabled(bool isEnabled)
     {
         isTimerEnabled = isEnabled;
     }
+
     public static bool IsTimerEnabled()
     {
         return isTimerEnabled;
     }
+
     public static bool canHostJoin()
     {
         return hostCanJoin;
     }
-    
+
     public static void setJoinCode(string value)
     {
         joinCode = value;
@@ -134,6 +143,10 @@ public static class ClientData
         {
             hostCanJoin = ((Boolean) propertiesThatChanged["HostCanJoin"]);
         }
-        
+
+        if (propertiesThatChanged.ContainsKey("IsSkipAllowed"))
+        {
+            GameRules.setSkipAllowed((Boolean) propertiesThatChanged["IsSkipAllowed"]);
+        }
     }
 }

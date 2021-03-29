@@ -116,7 +116,7 @@ namespace PhotonScripts
             }
 
 
-            if(HostData.GetGame().AddPlayer(newPlayer))
+            if (HostData.GetGame().AddPlayer(newPlayer))
             {
                 Debug.Log("Added new player to game");
             }
@@ -124,6 +124,7 @@ namespace PhotonScripts
             {
                 Debug.Log("Failed to add new player to game");
             }
+
             DoSomething(false);
         }
 
@@ -201,7 +202,7 @@ namespace PhotonScripts
                 // if the game is gofish
                 if (HostData.GetGame().GetGameName().Equals(Enum.GetName(typeof(GameTypes), GameTypes.GoFish)))
                 {
-                    string playerToRequestFrom = ((string)data[4]).Trim();
+                    string playerToRequestFrom = ((string) data[4]).Trim();
 
                     string rankCaps = Enum.GetName(typeof(StandardCardRank), card.GetRank());
                     string rankText = rankCaps.Substring(0, 1).ToUpper() + rankCaps.Substring(1).ToLower();
@@ -216,13 +217,14 @@ namespace PhotonScripts
                     }
                     else
                     {
-                        Debug.Log("Could not find player: \"" + playerToRequestFrom  + "\"");
+                        Debug.Log("Could not find player: \"" + playerToRequestFrom + "\"");
                         var allPlayers = HostData.GetGame().GetAllPlayers();
                         string nameList = "";
                         foreach (var player in allPlayers)
                         {
                             nameList += "\"" + player.username + "\" ";
                         }
+
                         Debug.Log("All connected players: " + nameList.Trim());
                     }
                 }
@@ -280,6 +282,7 @@ namespace PhotonScripts
                         cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
                         SendCardsToPlayer(username, cardList, true, true);
                     }
+
                     HostData.GetGame().ForceAdvanceTurn(true);
                 }
                 else
@@ -292,6 +295,7 @@ namespace PhotonScripts
                         cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
                         SendCardsToPlayer(username, cardList, true, true);
                     }
+
                     HostData.GetGame().AdvanceTurn(true);
                 }
             }
@@ -302,7 +306,8 @@ namespace PhotonScripts
         /// </summary>
         /// <param name="username">PhotonNetwork.NickName of the player to send them to</param>
         /// <param name="cards">Cards to send</param>
-        public static void SendCardsToPlayer(string username, List<Card> cards, bool didDrawFromDeck, bool doShowPlayerNotification)
+        public static void SendCardsToPlayer(string username, List<Card> cards, bool didDrawFromDeck,
+            bool doShowPlayerNotification)
         {
             if (cards[0].GetType().Name == "StandardCard")
             {
@@ -311,9 +316,13 @@ namespace PhotonScripts
                     PlayerInfo player = HostData.GetGame().GetPlayer(username);
                     player.cards.AddCard(card);
 
-                    StandardCard cardToSend = (StandardCard)card;
-                    object[] content = new object[] { username, cards[0].GetType().Name, cardToSend.GetRank(), cardToSend.GetSuit(), didDrawFromDeck, doShowPlayerNotification };
-                    RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+                    StandardCard cardToSend = (StandardCard) card;
+                    object[] content = new object[]
+                    {
+                        username, cards[0].GetType().Name, cardToSend.GetRank(), cardToSend.GetSuit(), didDrawFromDeck,
+                        doShowPlayerNotification
+                    };
+                    RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
                     PhotonNetwork.RaiseEvent(8, content, raiseEventOptions, SendOptions.SendUnreliable);
                 }
             }
@@ -329,7 +338,7 @@ namespace PhotonScripts
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
             PhotonNetwork.RaiseEvent(11, content, raiseEventOptions, SendOptions.SendUnreliable);
         }
-        
+
         /// Removes cards from the user, <paramref name="fromUsername"/>, and sends the string, <paramref name="toUsername"/>
         /// to the client to let them know who removed their cards if they were taken by another player
         /// </summary>
@@ -346,18 +355,19 @@ namespace PhotonScripts
             {
                 toUsername = String.Empty;
             }
+
             content.Add(toUsername);
 
             content.Add(cardsToRemove.Count);
 
             for (int x = 0; x < cardsToRemove.Count; x++)
             {
-                StandardCard card = (StandardCard)cardsToRemove[x];
+                StandardCard card = (StandardCard) cardsToRemove[x];
                 content.Add(card.GetRank());
                 content.Add(card.GetSuit());
             }
 
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
             PhotonNetwork.RaiseEvent(13, content.ToArray(), raiseEventOptions, SendOptions.SendUnreliable);
         }
 
@@ -383,6 +393,7 @@ namespace PhotonScripts
             {
                 hostName = "__CAPACITY__";
             }
+
             object[] content = new object[] {gameMode, hostToggle, maxPlayers, hostName};
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
             PhotonNetwork.RaiseEvent(1, content, raiseEventOptions, SendOptions.SendReliable);
