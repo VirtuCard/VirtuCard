@@ -129,6 +129,9 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
             }
         }
 
+        privChatOption.value = 0;
+        privChatOption.RefreshShownValue();
+
         // testing purpose - don't delete for now.
         //privChatOption.AddOptions(privName);
 
