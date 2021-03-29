@@ -20,6 +20,23 @@ public class PlayerList : MonoBehaviour
 
     public float imageSpacing = 10;
 
+    // Use this for initialization
+    void Start()
+    {
+        imageWidth = (0.75f) * viewWindow.rect.width;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        for (int i = 0; i < playerComponents.Count; i++)
+        {
+            playerComponents[i].image.anchoredPosition = new Vector2(((imageWidth + imageSpacing) * i), 0);
+        }
+
+        UpdateUI();
+    }
+
     /// <summary>
     /// Adds a player to the rightmost side of the carousel.
     /// It automatically reformats after adding.
@@ -42,6 +59,26 @@ public class PlayerList : MonoBehaviour
     }
 
     /// <summary>
+    /// Removes a player from the carousel
+    /// </summary>
+    /// <param name="username">Player to remove</param>
+    public void RemovePlayerFromCarousel(string username)
+    {
+        for (int x = 0; x < playerComponents.Count; x++)
+        {
+            if (playerComponents[x].playerUI.GetPlayerName().Equals(username))
+            {
+                GameObject imageToDestroy = playerComponents[x].image.gameObject;
+                playerComponents.RemoveAt(x);
+                Destroy(imageToDestroy);
+
+                ReformatCarousel();
+                return;
+            }
+        }
+    }
+
+    /// <summary>
     /// Resets the spacing for the cards.
     /// Call if a new card was added/removed
     /// </summary>
@@ -53,18 +90,70 @@ public class PlayerList : MonoBehaviour
         }
     }
 
-    // Use this for initialization
-    void Start()
+    /// <summary>
+    /// Refreshes the UI for each player with their current score and card count
+    /// </summary>
+    private void UpdateUI()
     {
-        imageWidth = (0.75f) * viewWindow.rect.width;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        for (int i = 0; i < playerComponents.Count; i++)
+        // remove disconnected players
+        List<PlayerDisplay> disconnectedPlayers = GetPlayersThatLeft();
+        foreach (var player in disconnectedPlayers)
         {
-            playerComponents[i].image.anchoredPosition = new Vector2(((imageWidth + imageSpacing) * i), 0);
+            RemovePlayerFromCarousel(player.playerUI.GetPlayerName());
+        }
+
+        List<PlayerInfo> actualPlayerList = HostData.GetGame().GetAllPlayers();
+        foreach (var player in actualPlayerList)
+        {
+            var playerComp = GetDisplayFromUsername(player.username);
+            playerComp.playerUI.SetCardCount(player.cards.GetCardCount());
+            playerComp.playerUI.SetScore(player.score);
         }
     }
+
+    /// <summary>
+    /// Returns all the PlayerDisplays of users that have been disconnected
+    /// </summary>
+    /// <returns></returns>
+    private List<PlayerDisplay> GetPlayersThatLeft()
+    {
+        List<PlayerDisplay> disconnectedPlayers = new List<PlayerDisplay>();
+
+        List<PlayerInfo> actualPlayerList = HostData.GetGame().GetAllPlayers();
+        foreach (var display in playerComponents)
+        {
+            bool isConnected = false;
+            foreach (var actualPlayer in actualPlayerList)
+            {
+                if (display.playerUI.GetPlayerName().Equals(actualPlayer.username))
+                {
+                    // if the user is currently connected
+                    isConnected = true;
+                }
+            }
+            if (!isConnected)
+            {
+                disconnectedPlayers.Add(display);
+            }
+        }
+        return disconnectedPlayers;
+    }
+
+    /// <summary>
+    /// Gets the UI display object associated with a player's username
+    /// </summary>
+    /// <param name="username"></param>
+    /// <returns></returns>
+    private PlayerDisplay GetDisplayFromUsername(string username)
+    {
+        foreach (var playerComp in playerComponents)
+        {
+            if (playerComp.playerUI.GetPlayerName().Equals(username))
+            {
+                return playerComp;
+            }
+        }
+        throw new Exception("Player: " + username + " is not associated with a UI component");
+    }
+
 }
