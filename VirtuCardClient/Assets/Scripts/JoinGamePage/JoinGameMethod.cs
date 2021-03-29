@@ -34,6 +34,8 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
 
     public GameObject loadingPanel;
 
+    public bool successfulJoin;
+
 
     void Update()
     {
@@ -47,11 +49,18 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
             CreateErrorMessage("Failed to Connect", "Game is at capacity!");
             makeCapacityError = false;
         }
+
+        if (successfulJoin)
+        {
+            SceneManager.LoadScene(SceneNames.WaitingScreen);
+        }
     }
 
 
     void Start()
     {
+        successfulJoin= false;
+
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.AddCallbackTarget(this);
         errorPanel.SetActive(false);
@@ -95,6 +104,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
     {
         // Room join successful
         ClientData.UserProfile.GamesPlayed += 1;
+        successfulJoin = true;
         DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Incremented Games played."); });
         loadingPanel.SetActive(false);
         SceneManager.LoadScene(SceneNames.WaitingScreen);

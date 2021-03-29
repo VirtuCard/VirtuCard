@@ -167,12 +167,12 @@ namespace PhotonScripts
         // it passes through an array of objects and the client
         // listens for the host call which is currently called
         // by pressing the settings button lol
-        private void OnEnable()
+        public override void OnEnable()
         {
             PhotonNetwork.NetworkingClient.EventReceived += OnSignalSent;
         }
 
-        private void OnDisable()
+        public override void OnDisable()
         {
             PhotonNetwork.NetworkingClient.EventReceived -= OnSignalSent;
         }
