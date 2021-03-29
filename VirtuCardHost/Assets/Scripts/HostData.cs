@@ -23,12 +23,6 @@ public static class HostData
     private static bool gameSelected = false;
     private static User userProfile;
 
-    public static User UserProfile
-    {
-        get => userProfile;
-        set => userProfile = value;
-    }
-
     private static bool isTimerEnabled;
     private static int timerMinutes;
     private static int timerSeconds;
@@ -46,6 +40,11 @@ public static class HostData
     private static bool skipTurnAllowed = true;
 
     // eventually we will add more functionality to freeplay mode but this will do for now
+    public static User UserProfile
+    {
+        get => userProfile;
+        set => userProfile = value;
+    }
 
     public static bool SetGame(GameTypes gameType)
     {
@@ -67,6 +66,10 @@ public static class HostData
             else if (gameName == "War")
             {
                 currentGame = new War();
+            }
+            else
+            {
+                Debug.Log("Unclear Game: " + gameName);
             }
 
             /* Here is a sample to add a new game
@@ -305,5 +308,13 @@ public static class HostData
         table.Add("IsSkipAllowed", skipTurnAllowed);
         //Debug.Log(table.ToString());
         return table;
+    }
+
+    public static void clearGame()
+    {
+        currentGame = null;
+        gameSelected = false;
+        selectedGame = "";
+        joinCode = "";
     }
 }

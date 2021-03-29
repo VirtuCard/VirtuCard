@@ -389,7 +389,14 @@ public class WaitingRoomScreenManager : MonoBehaviour
     public void OnClickGameExit()
     {
         //Implement Close Game lobby code here.
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+        
+        //Tell clients to leave game
+        PhotonNetwork.RaiseEvent(21, null, raiseEventOptions, SendOptions.SendUnreliable);
         PhotonNetwork.LeaveRoom();
+        
+        HostData.clearGame();
+
         SceneManager.LoadScene(SceneNames.LandingPage, LoadSceneMode.Single);
     }
 
