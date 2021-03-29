@@ -25,6 +25,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
     public Toggle enableSpades;
     public Toggle enableDiamonds;
     public Toggle showLastCard;
+    public Toggle isSkipTurnAllowed;
     public Button FreeplaySettingsButton;
 
     // Timer Settings
@@ -60,6 +61,11 @@ public class WaitingRoomScreenManager : MonoBehaviour
             delegate { SpadesToggleValueChanged(enableSpades.isOn); });
         enableDiamonds.onValueChanged.AddListener(
             delegate { DiamondsToggleValueChanged(enableDiamonds.isOn); });
+        showLastCard.onValueChanged.AddListener(
+            delegate { LastCardToggleChanged(showLastCard.isOn);});
+        isSkipTurnAllowed.onValueChanged.AddListener(
+            delegate { SkipTurnToggleValueChanged(isSkipTurnAllowed.isOn);});
+        
         // setup initial timer stuff
         timerEnabledToggle.onValueChanged.AddListener(
             delegate { TimerToggleValueChanged(timerEnabledToggle.isOn); });
@@ -85,12 +91,14 @@ public class WaitingRoomScreenManager : MonoBehaviour
         enableClubs.isOn = HostData.getClubsAllowed();
         enableSpades.isOn = HostData.getSpadesAllowed();
         enableDiamonds.isOn = HostData.getDiamondsAllowed();
-
+        showLastCard.isOn = HostData.getDisplayLastCard();
+        isSkipTurnAllowed.isOn = HostData.getSkipTurnAllowed();
+        
         startGameBtn.onClick.AddListener(delegate { StartGameBtnClicked(); });
         startGameBtn.interactable = false;
         
         //disables and hides the freeplay button if the gamemode is not freeplay
-        if (HostData.GetGame().GetGameName() != "Freeplay")
+        if (!HostData.isFreeplay())
         {
             //FreeplaySettingsButton.enabled = false;
             FreeplaySettingsButton.gameObject.SetActive(false);
@@ -235,6 +243,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
 
     public void StartGameBtnClicked()
     {
+        
         HostData.SetIsTimerEnabled(timerEnabledToggle.isOn);
         if (timerEnabledToggle.isOn)
         {
@@ -352,6 +361,11 @@ public class WaitingRoomScreenManager : MonoBehaviour
     private void LastCardToggleChanged(bool isOn)
     {
         HostData.setDisplayLastCard(isOn);
+    }
+    
+    private void SkipTurnToggleValueChanged(bool isOn)
+    {
+        HostData.setSkipTurnAllowed(isOn);
     }
 
 //End freeplay options
