@@ -40,6 +40,8 @@ public class GameScreenController : MonoBehaviour
 
     public PlayerList playerUIList;
 
+    public RawImage lastPlayedCard;
+
     private bool hasInitializedGame = false;
 
     private float startTime;
@@ -98,6 +100,7 @@ public class GameScreenController : MonoBehaviour
         {
             warPanel.SetActive(false);
         }
+
     }
 
     // Update is called once per frame
@@ -144,6 +147,11 @@ public class GameScreenController : MonoBehaviour
         {
             timer.StartTimer();
             Game.didSkipTurn = false;
+        }
+
+        if (HostData.DidLastPlayedCardTextureUpdate())
+        {
+            lastPlayedCard.texture = HostData.GetLastPlayedCardTexture();
         }
     }
     
