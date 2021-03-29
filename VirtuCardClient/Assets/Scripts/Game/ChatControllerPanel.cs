@@ -91,25 +91,6 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
         currentMessages.Add(ui.GetGameObject());
     }
 
-    // void InitializeDefaultChats()
-    // {
-    //     //More can be added here.
-    //     string[] messages = {"Outstanding Move", "Big OOF", "Well Played"};
-    //     for (int i = 0; i < defaultChats.Length; i++)
-    //     {
-    //         defaultChatMessages[i].text = messages[i];
-    //         int j = i;
-    //         Debug.Log("Sending message to " + privChatPlayer());
-    //         // if (String.Compare(privChatPlayer(), "Public chat") == 0) {
-    //         //     defaultChats[i].onClick.AddListener((() => SendMessage(messages[j])));
-    //         // }
-    //         // else {
-    //         //     defaultChats[i].onClick.AddListener((() => SendPrivMessage(messages[j])));
-    //         // }
-
-    //     }
-    // }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -143,9 +124,13 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
             // only add the name if it is not this person
             if (!namePlayer.Equals(PhotonNetwork.NickName))
             {
+                Debug.Log("should've added ${namePlayer}" + namePlayer);
                 privChatOption.options.Add(new Dropdown.OptionData(namePlayer));
             }
         }
+
+        // testing purpose - don't delete for now.
+        //privChatOption.AddOptions(privName);
 
         // default chats 
         defaultChats[0].onClick.AddListener( delegate { defaultClicked("Outstanding Move"); });
