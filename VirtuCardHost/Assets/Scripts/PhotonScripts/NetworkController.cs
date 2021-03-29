@@ -234,6 +234,11 @@ namespace PhotonScripts
                     Debug.Log("Receiving a Played Card from " + username + ": " + card.ToString());
                     HostData.SetDoShowNotificationWindow(true, username + " played a card");
                     int userIndex = HostData.GetGame().GetPlayerIndex(username);
+
+                    // remove the card from that player's cards
+                    PlayerInfo player = HostData.GetGame().GetPlayer(username);
+                    player.cards.RemoveCard(card);
+
                     HostData.GetGame().DoMove(card, userIndex);
                 }
             }
