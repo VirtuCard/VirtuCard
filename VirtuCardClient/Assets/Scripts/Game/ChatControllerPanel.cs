@@ -91,24 +91,24 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
         currentMessages.Add(ui.GetGameObject());
     }
 
-    void InitializeDefaultChats()
-    {
-        //More can be added here.
-        string[] messages = {"Outstanding Move", "Big OOF", "Well Played"};
-        for (int i = 0; i < defaultChats.Length; i++)
-        {
-            defaultChatMessages[i].text = messages[i];
-            int j = i;
-            Debug.Log("Sending message to " + privChatPlayer());
-            // if (String.Compare(privChatPlayer(), "Public chat") == 0) {
-            //     defaultChats[i].onClick.AddListener((() => SendMessage(messages[j])));
-            // }
-            // else {
-            //     defaultChats[i].onClick.AddListener((() => SendPrivMessage(messages[j])));
-            // }
+    // void InitializeDefaultChats()
+    // {
+    //     //More can be added here.
+    //     string[] messages = {"Outstanding Move", "Big OOF", "Well Played"};
+    //     for (int i = 0; i < defaultChats.Length; i++)
+    //     {
+    //         defaultChatMessages[i].text = messages[i];
+    //         int j = i;
+    //         Debug.Log("Sending message to " + privChatPlayer());
+    //         // if (String.Compare(privChatPlayer(), "Public chat") == 0) {
+    //         //     defaultChats[i].onClick.AddListener((() => SendMessage(messages[j])));
+    //         // }
+    //         // else {
+    //         //     defaultChats[i].onClick.AddListener((() => SendPrivMessage(messages[j])));
+    //         // }
 
-        }
-    }
+    //     }
+    // }
 
     // Start is called before the first frame update
     void Start()
@@ -132,8 +132,6 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
         _chatClient = new ChatClient(this) {ChatRegion = "US"};
         PhotonNetwork.AddCallbackTarget(this);
         _chatClient.Connect(appId, "0.1b", new AuthenticationValues(PhotonNetwork.NickName));
-        //InitializeDefaultChats();
-
 
         // private message UI
         privChatSize.offsetMin = new Vector2(privChatSize.offsetMin.x, 995);
@@ -148,15 +146,11 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
                 privChatOption.options.Add(new Dropdown.OptionData(namePlayer));
             }
         }
-        // InitializeDefaultChats();
 
         // default chats 
         defaultChats[0].onClick.AddListener( delegate { defaultClicked("Outstanding Move"); });
-            //(() => SendMessage("POG")));
         defaultChats[1].onClick.AddListener( delegate { defaultClicked("Big OOF"); });
-            //(() => SendMessage("UNPOG")));
         defaultChats[2].onClick.AddListener( delegate { defaultClicked("Well Played"); });
-            //(() => SendMessage("POGCHAMP")));
         // end of default chat
         
     }
