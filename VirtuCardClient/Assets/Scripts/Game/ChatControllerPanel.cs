@@ -99,7 +99,14 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
         {
             defaultChatMessages[i].text = messages[i];
             int j = i;
-            defaultChats[i].onClick.AddListener((() => SendMessage(messages[j])));
+            Debug.Log("Sending message to " + privChatPlayer());
+            // if (String.Compare(privChatPlayer(), "Public chat") == 0) {
+            //     defaultChats[i].onClick.AddListener((() => SendMessage(messages[j])));
+            // }
+            // else {
+            //     defaultChats[i].onClick.AddListener((() => SendPrivMessage(messages[j])));
+            // }
+
         }
     }
 
@@ -125,7 +132,7 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
         _chatClient = new ChatClient(this) {ChatRegion = "US"};
         PhotonNetwork.AddCallbackTarget(this);
         _chatClient.Connect(appId, "0.1b", new AuthenticationValues(PhotonNetwork.NickName));
-        InitializeDefaultChats();
+        //InitializeDefaultChats();
 
 
         // private message UI
@@ -141,7 +148,17 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
                 privChatOption.options.Add(new Dropdown.OptionData(namePlayer));
             }
         }
+        // InitializeDefaultChats();
 
+        // default chats 
+        defaultChats[0].onClick.AddListener( delegate { defaultClicked("Outstanding Move"); });
+            //(() => SendMessage("POG")));
+        defaultChats[1].onClick.AddListener( delegate { defaultClicked("Big OOF"); });
+            //(() => SendMessage("UNPOG")));
+        defaultChats[2].onClick.AddListener( delegate { defaultClicked("Well Played"); });
+            //(() => SendMessage("POGCHAMP")));
+        // end of default chat
+        
     }
 
     // Update is called once per frame
@@ -161,6 +178,7 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
 
     public void sendClicked()
     {
+
         string message = messageSend.text;
         if (String.Compare(privChatPlayer(), "Public chat") == 0) { // public chat
             SendMessage(message);
@@ -174,6 +192,16 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
         messageSend.text = "";
     }
 
+    public void defaultClicked(string message) {
+        if (String.Compare(privChatPlayer(), "Public chat") == 0) { // public chat
+            SendMessage(message);
+        }
+        else // text is a private message
+        {
+            SendPrivMessage(message);
+        }
+    }
+
     public new void SendMessage(string message)
     {
         _chatClient.PublishMessage(roomcode, message);
@@ -181,6 +209,7 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
 
     public new void SendPrivMessage(string message)
     {
+        Debug.Log("Sending private message to " + privChatPlayer());
         _chatClient.SendPrivateMessage(privChatPlayer(), message);
     }
 
@@ -218,6 +247,12 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
 
     public void OnPrivateMessage(string sender, object message, string channelName)
     {
+        Debug.Log("OnPrivateMessage: {0} ({1}) > {2}" + channelName + " " + sender + " " + message);
+
+        string text = "<color=red>(Private) </color>";
+        text += sender;
+        CreateNewMessage(message.ToString(), text);
+
         /* Ignore */
     }
 
