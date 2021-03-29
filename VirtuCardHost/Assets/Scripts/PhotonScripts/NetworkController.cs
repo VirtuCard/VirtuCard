@@ -267,36 +267,39 @@ namespace PhotonScripts
                 object[] data = (object[]) photonEvent.CustomData;
                 // just get the username in case we need it in the future
                 string username = (string) data[0];
-                bool wasSkippedDueToTimer = false;
-                if (data.Length > 2)
+                if (!string.IsNullOrEmpty(username))
                 {
-                    wasSkippedDueToTimer = (bool) data[1];
-                }
-
-                if (wasSkippedDueToTimer)
-                {
-                    HostData.SetDoShowNotificationWindow(true, username + " ran out of time");
-                    if (HostData.GetGame().GetGameName().Equals("GoFish"))
+                    bool wasSkippedDueToTimer = false;
+                    if (data.Length > 2)
                     {
-                        List<Card> cardList = new List<Card>();
-                        cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
-                        SendCardsToPlayer(username, cardList, true, true);
+                        wasSkippedDueToTimer = (bool) data[1];
                     }
 
-                    HostData.GetGame().ForceAdvanceTurn(true);
-                }
-                else
-                {
-                    // skip turn normally
-                    HostData.SetDoShowNotificationWindow(true, username + " has skipped their turn");
-                    if (HostData.GetGame().GetGameName().Equals("GoFish"))
+                    if (wasSkippedDueToTimer)
                     {
-                        List<Card> cardList = new List<Card>();
-                        cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
-                        SendCardsToPlayer(username, cardList, true, true);
-                    }
+                        HostData.SetDoShowNotificationWindow(true, username + " ran out of time");
+                        if (HostData.GetGame().GetGameName().Equals("GoFish"))
+                        {
+                            List<Card> cardList = new List<Card>();
+                            cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
+                            SendCardsToPlayer(username, cardList, true, true);
+                        }
 
-                    HostData.GetGame().AdvanceTurn(true);
+                        HostData.GetGame().ForceAdvanceTurn(true);
+                    }
+                    else
+                    {
+                        // skip turn normally
+                        HostData.SetDoShowNotificationWindow(true, username + " has skipped their turn");
+                        if (HostData.GetGame().GetGameName().Equals("GoFish"))
+                        {
+                            List<Card> cardList = new List<Card>();
+                            cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
+                            SendCardsToPlayer(username, cardList, true, true);
+                        }
+
+                        HostData.GetGame().AdvanceTurn(true);
+                    }
                 }
             }
         }
