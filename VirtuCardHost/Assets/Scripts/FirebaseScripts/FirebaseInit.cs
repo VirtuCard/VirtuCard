@@ -3,6 +3,7 @@ using System.IO;
 using Firebase;
 using Firebase.Auth;
 using UnityEngine;
+using WebSocketSharp;
 
 namespace FirebaseScripts
 {
@@ -20,6 +21,7 @@ namespace FirebaseScripts
                 return;
             }
 
+
             Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
             {
                 var dependencyStatus = task.Result;
@@ -27,8 +29,22 @@ namespace FirebaseScripts
                 {
                     // Create and hold a reference to your FirebaseApp,
                     // where app is a Firebase.FirebaseApp property of your application class.
-                    string json = File.ReadAllText("Assets/google-services.json");
-                    app = Firebase.FirebaseApp.Create((AppOptions.LoadFromJsonConfig(json)));
+                    AppOptions save;
+                    try
+                    {
+                        Debug.Log("json0");
+                        string json = File.ReadAllText("Assets/google-services.json");
+                        Debug.Log("json1");
+                        save = AppOptions.LoadFromJsonConfig(json);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError("Failed to read");
+                        save = FirebaseApp.DefaultInstance.Options;
+                    }
+
+                    app = Firebase.FirebaseApp.Create(save);
+                    Debug.Log("Operational");
                     AuthUser.SetAuth(FirebaseAuth.GetAuth(app));
                     DatabaseUtils.setApp(app);
 

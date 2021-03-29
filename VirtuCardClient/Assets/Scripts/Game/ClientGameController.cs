@@ -33,6 +33,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     // public Dropdown privChatOption;
     // public RectTransform privChatSize;
 
+    public GameObject warButton;
+
     // 3 below are used for if the game is over
     public GameObject winnerPanel;
     public Button exitGameBtn;
@@ -78,6 +80,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         if (ClientData.GetGameName() == "GoFish")
         {
             standardPanel.SetActive(false);
+            warButton.SetActive(false);
             goFishPanel.SetActive(true);
 
             List<string> allPlayers = ClientData.GetAllConnectedPlayers();
@@ -94,10 +97,18 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
             goFishQueryButton.onClick.AddListener(GoFishQueryButtonClicked);
         }
+        else if (ClientData.GetGameName() == "War")
+        {
+            warButton.SetActive(true);
+            standardPanel.SetActive(false);
+            goFishPanel.SetActive(false);
+
+        }
         else
         {
             standardPanel.SetActive(true);
             goFishPanel.SetActive(false);
+            warButton.SetActive(false);
         }
 
         // // private message UI
@@ -118,19 +129,13 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         exitGameBtn.onClick.AddListener(delegate() { exitGameBtnOnClick(); });
     }
 
-    private void IncrementGamesPlayed()
-    {
-        ClientData.UserProfile.GamesPlayed += 1;
-        DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Added game to total count"); });
-    }
-
     // Update is called once per frame
     void Update()
     {
         // check to see if the player can skip their turn once per frame
         foreach (RectTransform o in cardMenu.images)
         {
-            o.Find("RawImage").GetComponent<Outline>().enabled = false;
+            o.Find("Image").GetComponent<Outline>().enabled = false;
         }
 
         if (ClientData.isCurrentTurn())
@@ -147,14 +152,10 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
 
             StandardCard selectedCard = (StandardCard) cardMenu.GetCurrentlySelectedCard();
-            //cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("RawImage").GetComponent<Outline>().enabled = true;
 
             if (selectedCard != null)
             {
-                Debug.Log("Hi1");
-                cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("RawImage").GetComponent<Outline>().enabled =
-                    true;
-                Debug.Log("Hi2");
+                cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("Image").GetComponent<Outline>().enabled = true;
                 if (previouslySelectedCard == null ||
                     previouslySelectedCard.Compare(selectedCard) == false)
                 {
@@ -210,6 +211,12 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             // exitGameBtn.onClick.AddListener(delegate() { exitGameBtnOnClick(); });
         }
 
+        // keep card menu at a valid index
+        if (!cardMenu.IsIndexInValidPosition())
+        {
+            cardMenu.MoveToValidPosition();
+        }
+
         updateChat();
     }
 
@@ -251,7 +258,14 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private void GoFishQueryButtonClicked()
     {
         StandardCard card = (StandardCard) cardMenu.GetCurrentlySelectedCard();
-        SendCardToHost(card);
+        if (card != null)
+        {
+            SendCardToHost(card);
+        }
+        else
+        {
+            notificationWindow.ShowNotification("Select a Card");
+        }
     }
 
     /// <summary>
@@ -438,6 +452,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private void exitGameBtnOnClick()
     {
         winnerPanel.SetActive(false);
+        PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(SceneNames.JoinGamePage, LoadSceneMode.Single);
     }
 
@@ -566,11 +581,24 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             string winnerName = (string)data[0];
             if (winnerName == PhotonNetwork.NickName)
             {
+                winnerAnnounce.GetComponent<Text>().text = "You won!";
+                ClientData.UserProfile.GamesWon += 1;
+                DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Incremented Games won."); });
+
+                winnerPanel.SetActive(true);
+            }
+            else if (winnerName == "nowinner")
+            {
+                winnerAnnounce.GetComponent<Text>().text = "Game is over.";
                 winnerPanel.SetActive(true);
             }
             else
             {
-                Debug.Log("you are not the winner rip");
+                winnerAnnounce.GetComponent<Text>().text = winnerName + " Won. Better luck next time!";
+                ClientData.UserProfile.GamesLost += 1;
+                DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Incremented Games lost."); });
+                
+                winnerPanel.SetActive(true);
             }
         }
     }
@@ -642,6 +670,12 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 PhotonNetwork.RaiseEvent(2, content, raiseEventOptions, SendOptions.SendUnreliable);
             }
         }
+    }
+
+    public void FlipCardClicked()
+    {
+        //TODO will send a signal to host to flip the top card over
+        
     }
 
     private void VerifyIfCardCanBePlayed(Card card)

@@ -3,10 +3,6 @@ using UnityEngine.UI;
 using FirebaseScripts;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
-using UnityEngine.UI;
-using System.IO;
-using ExitGames.Client.Photon;
-using Photon.Realtime;
 using ExitGames.Client.Photon;
 using Photon.Realtime;
 
@@ -59,7 +55,12 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.AddCallbackTarget(this);
         errorPanel.SetActive(false);
-        DatabaseUtils.getUser(AuthUser.GetUserID(), json => { ClientData.UserProfile = new User(json); });
+        DatabaseUtils.getUser(AuthUser.GetUserID(), json =>
+        {
+            Debug.Log(json);
+            ClientData.UserProfile = new User(json);
+            Debug.Log("User " + ClientData.UserProfile.ToString());
+        });
     }
 
     public void ConnectClientClicked()
@@ -93,7 +94,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         // Room join successful
-        ClientData.UserProfile.GamesPlayed++;
+        ClientData.UserProfile.GamesPlayed += 1;
         DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Incremented Games played."); });
         loadingPanel.SetActive(false);
         SceneManager.LoadScene(SceneNames.WaitingScreen);

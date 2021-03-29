@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using FirebaseScripts;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -29,10 +30,16 @@ public class RegistrationPageManager : MonoBehaviour
     // this controls what scene to go to
     private LoadDifferentScene sceneLoader;
 
-    public GameObject loadingPanel; 
+    public GameObject loadingPanel;
+
     // Start is called before the first frame update
     void Start()
     {
+        if (!PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.ConnectUsingSettings();
+        }
+
         _successful = 0;
         failedPanel.SetActive(false);
         failedPasswordText.enabled = false;
@@ -68,6 +75,7 @@ public class RegistrationPageManager : MonoBehaviour
                 {
                     CreateErrorMessage("Email Already Exists", "This email is already taken. Try another email.");
                 }
+
                 break;
             case -3:
                 CreateErrorMessage("Error", "Something Unexpected Happened");
@@ -119,7 +127,8 @@ public class RegistrationPageManager : MonoBehaviour
                 failedPanel.SetActive(false);
                 // verifiy email is valid and actually register account on firebase.
                 // registers the user and then change the scene to landing page
-                bool didSucceed = false; ;
+                bool didSucceed = false;
+                ;
                 CreateUserAccount(userName, email, password, result => didSucceed = result);
             }
             else
