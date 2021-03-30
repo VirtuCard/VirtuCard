@@ -310,11 +310,12 @@ public class GameScreenController : MonoBehaviour
 
     public void DeclareWinnerClicked()
     {   
-        HostData.clearGame();
+        //HostData.clearGame();
         
         winnerPanel.SetActive(true);
         var allConnectedPlayers = HostData.GetGame().GetAllPlayers();
         foreach (PlayerInfo player in allConnectedPlayers) {
+            Debug.Log(player.photonPlayer.NickName);
             winnerDropdown.options.Add(new Dropdown.OptionData(player.photonPlayer.NickName));
         }
         
@@ -346,6 +347,7 @@ public class GameScreenController : MonoBehaviour
     public void DeclareWinnerChoiceClicked()
     {
         // this will raise an event
+        
         DeclareWinner(winnerDropdown.options[winnerDropdown.value].text, "Winner Declared! Congratulations, " + winnerDropdown.options[winnerDropdown.value].text);
 
     }

@@ -76,7 +76,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
 
         numPlayers.onEndEdit.AddListener(OnNumPlayersFieldChange);
         playerList = NetworkController.ListAllPlayers();
-        CreatePlayerList();
+        //CreatePlayerList();
         settingsPanel.SetActive(false);
         freeplaySettingsPanel.SetActive(false);
         joinCode.text = HostData.GetJoinCode();
