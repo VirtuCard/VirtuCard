@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FirebaseScripts;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -33,6 +34,7 @@ public class ProfileScreenController : MonoBehaviour
     
 
     private bool isAnonymous;
+    private bool success;
 
     // Start is called before the first frame update
     void Start()
@@ -100,7 +102,18 @@ public class ProfileScreenController : MonoBehaviour
             }
             string newUsername = usernameInputText.text;
             string newName = nameInputText.text;
-            Debug.Log(newName + " " + newUsername);
+            DatabaseUtils.updateProperty(AuthUser.GetUserID(), "username", newUsername, s =>
+            {
+                if (!s)
+                {
+                    success = false;
+                }
+                else
+                {
+                    success = true;
+                }
+            });
+            Debug.Log(success);
         }
   
     }
