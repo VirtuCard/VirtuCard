@@ -6,11 +6,14 @@ using UnityEngine.UI;
 
 public class ProfileScreenController : MonoBehaviour
 {
+    [Header("Text")]
     public Text nameText;
     public Text namePlaceholderText;
+    public Text nameInputText;
+    public InputField nameInput;
     public Text usernameText;
     public Text usernamePlaceholderText;
-    public InputField nameInput;
+    public Text usernameInputText;
     public InputField usernameInput;
     public Text emailText;
     public Text gamesPText;
@@ -20,10 +23,12 @@ public class ProfileScreenController : MonoBehaviour
     public Image avatarImage;
     public Button editButton;
     public Button backButton;
-    public Text errorPanelHeadingText;
-    public Text errorPanelMessageText;
-    public GameObject errorPanel;
-    public Text buttonText;
+    public Text editButtonText;
+
+    [Header("Error Panels")]
+    public GameObject anonymousErrorPanel;
+    public GameObject incompleteErrorPanel;
+    
 
     private bool isAnonymous;
 
@@ -31,6 +36,11 @@ public class ProfileScreenController : MonoBehaviour
     void Start()
     {
         FirebaseScripts.User user = ClientData.UserProfile;
+        editButtonText.text = "Edit";
+        nameText.gameObject.SetActive(true);
+        usernameText.gameObject.SetActive(true);
+        nameInput.gameObject.SetActive(false);
+        usernameInput.gameObject.SetActive(false);
         isAnonymous = user.IsAnonymous;
         sceneHeadingText.text += user.Username;
         sceneHeadingText.text += user.Username.EndsWith("s") ? ("' Profile") : ("'s Profile");
@@ -46,30 +56,36 @@ public class ProfileScreenController : MonoBehaviour
     
     public void OnEditBtnClicked()
     {
-        if (isAnonymous)
+        if (editButtonText.text == "Edit")
         {
-            errorPanel.SetActive(true);
-            return;
+            if (isAnonymous)
+            {
+                anonymousErrorPanel.SetActive(true);
+                return;
+            }
+            editButtonText.text = "Submit";
+            nameText.gameObject.SetActive(false);
+            usernameText.gameObject.SetActive(false);
+            nameInput.gameObject.SetActive(true);
+            usernameInput.gameObject.SetActive(true);
         }
-        
-        nameText.gameObject.SetActive(false);
-        usernameText.gameObject.SetActive(false);
-        nameInput.gameObject.SetActive(true);
-        usernameInput.gameObject.SetActive(true);
+        else
+        {
+
+        }
+  
     }
 
     public void OnBackButtonClicked()
     {
-        if ((usernameInput.text == "" || usernameInput.text == usernameText.text) &&
-            (nameInput.text == "" || nameInput.text == nameText.text))
+        if ((usernameInputText.text.Equals("")) &&
+            (nameInputText.text.Equals("")))
         {
             SceneManager.LoadScene(SceneNames.JoinGamePage, LoadSceneMode.Single);
         }
         else
         {
-            errorPanel.SetActive(true);
-            errorPanelHeadingText.text = "Unsaved Changes";
-            errorPanelMessageText.text = "You have some unsaved changes to your profile data. Are you sure you want to go back?";
+            incompleteErrorPanel.SetActive(true);
         }
     }
 }
