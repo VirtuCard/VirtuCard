@@ -28,6 +28,8 @@ public class ProfileScreenController : MonoBehaviour
     [Header("Error Panels")]
     public GameObject anonymousErrorPanel;
     public GameObject incompleteErrorPanel;
+    public Text errorPanelHeadingText;
+    public Text errorPanelMessageText;
     
 
     private bool isAnonymous;
@@ -37,6 +39,10 @@ public class ProfileScreenController : MonoBehaviour
     {
         FirebaseScripts.User user = ClientData.UserProfile;
         editButtonText.text = "Edit";
+        errorPanelHeadingText.text = "Anonymous User";
+        errorPanelMessageText.text = "Anonymous user cannot edit profile data";
+        anonymousErrorPanel.SetActive(false);
+        incompleteErrorPanel.SetActive(false);
         nameText.gameObject.SetActive(true);
         usernameText.gameObject.SetActive(true);
         nameInput.gameObject.SetActive(false);
@@ -71,7 +77,30 @@ public class ProfileScreenController : MonoBehaviour
         }
         else
         {
-
+            if (usernameInputText.Equals("") && nameInputText.Equals(""))
+            {
+                anonymousErrorPanel.SetActive(true);
+                errorPanelHeadingText.text = "Username and Name Blank";
+                errorPanelHeadingText.text = "Username and Name cannot be blank. Please enter a valid username and player name.";
+                return;
+            }
+            if (usernameInputText.Equals(""))
+            {
+                anonymousErrorPanel.SetActive(true);
+                errorPanelHeadingText.text = "Username Blank";
+                errorPanelHeadingText.text = "Username cannot be blank. Please enter a valid username.";
+                return;
+            }
+            if (nameInputText.Equals(""))
+            {
+                anonymousErrorPanel.SetActive(true);
+                errorPanelHeadingText.text = "Player Name Blank";
+                errorPanelHeadingText.text = "Name cannot be blank. Please enter a valid player name.";
+                return;
+            }
+            string newUsername = usernameInputText.text;
+            string newName = nameInputText.text;
+            Debug.Log(newName + " " + newUsername);
         }
   
     }

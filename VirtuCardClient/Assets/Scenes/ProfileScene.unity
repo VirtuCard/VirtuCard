@@ -1511,11 +1511,11 @@ MonoBehaviour:
   avatarImage: {fileID: 991981704}
   editButton: {fileID: 1613011211}
   backButton: {fileID: 255247554}
-  errorPanelHeadingText: {fileID: 657457456}
-  errorPanelMessageText: {fileID: 444537440}
+  editButtonText: {fileID: 2025454395}
   anonymousErrorPanel: {fileID: 1555999170}
   incompleteErrorPanel: {fileID: 765519869}
-  buttonText: {fileID: 2025454395}
+  errorPanelHeadingText: {fileID: 657457456}
+  errorPanelMessageText: {fileID: 444537440}
 --- !u!4 &593501538
 Transform:
   m_ObjectHideFlags: 0
