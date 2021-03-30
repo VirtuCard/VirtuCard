@@ -77,25 +77,25 @@ public class ProfileScreenController : MonoBehaviour
         }
         else
         {
-            if (usernameInputText.Equals("") && nameInputText.Equals(""))
+            if (usernameInputText.text.Equals("") && nameInputText.text.Equals(""))
             {
                 anonymousErrorPanel.SetActive(true);
                 errorPanelHeadingText.text = "Username and Name Blank";
-                errorPanelHeadingText.text = "Username and Name cannot be blank. Please enter a valid username and player name.";
+                errorPanelMessageText.text = "Please enter a valid username and player name.";
                 return;
             }
-            if (usernameInputText.Equals(""))
+            if (usernameInputText.text.Equals(""))
             {
                 anonymousErrorPanel.SetActive(true);
                 errorPanelHeadingText.text = "Username Blank";
-                errorPanelHeadingText.text = "Username cannot be blank. Please enter a valid username.";
+                errorPanelMessageText.text = "Please enter a valid username.";
                 return;
             }
-            if (nameInputText.Equals(""))
+            if (nameInputText.text.Equals(""))
             {
                 anonymousErrorPanel.SetActive(true);
                 errorPanelHeadingText.text = "Player Name Blank";
-                errorPanelHeadingText.text = "Name cannot be blank. Please enter a valid player name.";
+                errorPanelMessageText.text = "Please enter a valid player name.";
                 return;
             }
             string newUsername = usernameInputText.text;
