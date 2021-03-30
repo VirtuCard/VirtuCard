@@ -44,6 +44,12 @@ public class GameScreenController : MonoBehaviour
 
     public RawImage lastPlayedCard;
 
+    //War last played cards
+    public RawImage lastPlayedDeckOne;
+    public RawImage lastPlayedDeckTwo;
+    public static Texture textureOne;
+    public static Texture textureTwo;
+
     private bool hasInitializedGame = false;
 
     private float startTime;
@@ -166,6 +172,10 @@ public class GameScreenController : MonoBehaviour
         {
             lastPlayedCard.texture = HostData.GetLastPlayedCardTexture();
         }
+
+        lastPlayedDeckOne.texture = textureOne;
+        lastPlayedDeckTwo.texture = textureTwo;
+
     }
     
     public void updatingChat() {
