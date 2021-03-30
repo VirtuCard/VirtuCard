@@ -15,6 +15,7 @@ namespace PhotonScripts
         private int RoomCodeLength = 6;
         private GameObject eventTest;
 
+        private int warPlayer = 0;
         //Field for Host's RoomCode.
         //Format: ABCDEF
         private string RoomCode = "";
@@ -317,7 +318,16 @@ namespace PhotonScripts
             }
             else if (photonEvent.Code == 34)
             {
-                
+                // War implementation
+                HostData.GetGame().DoMove(null, warPlayer);
+                if (warPlayer == 0)
+                {
+                    warPlayer++;
+                }
+                else
+                {
+                    warPlayer = 0;
+                }
             }
         }
 
