@@ -676,7 +676,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     {
         //TODO will send a signal to host to flip the top card over
         Debug.Log("FlipCardClicked!");
-        object[] content = {"flipcardlicked"};
+        object[] content = {PhotonNetwork.NickName};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
         PhotonNetwork.RaiseEvent(34, content, raiseEventOptions, SendOptions.SendUnreliable);
     }
