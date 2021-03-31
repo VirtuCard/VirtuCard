@@ -45,7 +45,7 @@ public class CardMenu : MonoBehaviour
         if (images.Count == 0)
         {
             return null;
-        } 
+        }
 
         StandardCard stdCard = images[current_index].gameObject.GetComponent<StandardCard>();
         if (stdCard != null)
@@ -81,6 +81,7 @@ public class CardMenu : MonoBehaviour
         {
             return true;
         }
+
         return false;
     }
 
@@ -98,7 +99,6 @@ public class CardMenu : MonoBehaviour
 
     public void ResizeAndCompressCards()
     {
-
     }
 
     /// <summary>
@@ -112,21 +112,22 @@ public class CardMenu : MonoBehaviour
         RectTransform newImage = Instantiate(cardTemplate, viewWindow);
 
         string Path = "Card UI/";
-    
+
         if (whichCardType == 0)
         {
             newImage.gameObject.AddComponent<StandardCard>();
             StandardCard cardVals = newImage.gameObject.GetComponent<StandardCard>();
-            StandardCardRank rank = ((StandardCard)newCard).GetRank();
-            StandardCardSuit suit = ((StandardCard)newCard).GetSuit();
+            StandardCardRank rank = ((StandardCard) newCard).GetRank();
+            StandardCardSuit suit = ((StandardCard) newCard).GetSuit();
             cardVals.SetRank(rank);
             cardVals.SetSuit(suit);
 
             Path += suit.ToString();
             Path += "_";
             Path += rank.ToString();
-
+            
             newImage.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>(Path);
+            
 
             //Text rankText = newImage.Find("Rank").gameObject.GetComponent<Text>();
             //Debug.Log(rankText.ToString());
@@ -152,13 +153,33 @@ public class CardMenu : MonoBehaviour
             if (images[x].gameObject.GetComponent<StandardCard>().Compare(newCard) == true)
             {
                 GameObject imageToDestroy = images[x].gameObject;
-                images.RemoveAt(x);
-                Destroy(imageToDestroy);
+                // Replacing this:
+                // images.RemoveAt(x);
+                // Destroy(imageToDestroy);
 
-                ReformatCarousel();
+                // With animation that calls Destroy on Exit upon completing
+                string animation = "CardAnimationClientDelete";
+                imageToDestroy.GetComponent<Animator>().Play(animation);
+
+                //Sets the delay before restructuring the carousel. Currently right after animation completion
+                float delay = imageToDestroy.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
+                StartCoroutine(ReformatCarousel(delay, x));
+
+                // ReformatCarousel();
                 break;
             }
         }
+    }
+
+    /// <summary>
+    /// IEnumerator version of Reformat Carousel, useful in making the cards before moving around
+    /// </summary>
+    private IEnumerator ReformatCarousel(float seconds, int index)
+
+    {
+        yield return new WaitForSeconds(seconds);
+        images.RemoveAt(index);
+        ReformatCarousel();
     }
 
 
@@ -193,7 +214,7 @@ public class CardMenu : MonoBehaviour
 
         RectTransform transform = this.gameObject.GetComponent<RectTransform>();
 
-        if (Input.GetMouseButtonDown(0) && 
+        if (Input.GetMouseButtonDown(0) &&
             Input.mousePosition.y <= transform.position.y + (transform.rect.height / 2) &&
             Input.mousePosition.y >= transform.position.y - (transform.rect.height / 2))
         {
@@ -240,7 +261,8 @@ public class CardMenu : MonoBehaviour
             {
                 if (current_index == 0)
                 {
-                    lerpTimer = 0; lerpPosition = 0;
+                    lerpTimer = 0;
+                    lerpPosition = 0;
                 }
                 else
                 {
@@ -277,6 +299,7 @@ public class CardMenu : MonoBehaviour
                 lerpTimer = 0;
             }
         }
+
         dragAmount = 0;
     }
 
@@ -291,6 +314,7 @@ public class CardMenu : MonoBehaviour
             // we don't want to move to an undefined area
             return;
         }
+
         current_index = value;
         lerpTimer = 0;
         lerpPosition = (imageWidth + imageSpacing) * current_index;
