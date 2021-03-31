@@ -24,6 +24,7 @@ namespace GameScreen.ChatPanel
         public GameObject messageParent;
 
         public List<GameObject> placeholders;
+        public static List<string> systemMessages;
         private int messageCounter = 0;
 
         /// <summary>
@@ -95,12 +96,14 @@ namespace GameScreen.ChatPanel
         // Start is called before the first frame update
         void Start()
         {
+            systemMessages = new List<string>();
             // set the currentMessages to contain the placeholders
             currentMessages = new List<GameObject>();
             currentMessages.AddRange(placeholders);
             roomcode = HostData.GetJoinCode();
 
             _chatClient = new ChatClient(this) {ChatRegion = "US"};
+            //For left room callback
             PhotonNetwork.AddCallbackTarget(this);
             _chatClient.Connect(appId, "0.1b", new AuthenticationValues(PhotonNetwork.NickName + " (Host)"));
         }
@@ -109,11 +112,12 @@ namespace GameScreen.ChatPanel
 
         private void Update()
         {
-            if (Random.Range(0, 10) == 4)
-            {
-            }
-
             _chatClient.Service();
+            if (systemMessages.Count > 0)
+            {
+                SendMessage(systemMessages[0]);
+                systemMessages.RemoveAt(0);
+            }
         }
 
         public int getMessageCount()
@@ -186,11 +190,6 @@ namespace GameScreen.ChatPanel
         public void OnUserUnsubscribed(string channel, string user)
         {
             /* Ignore */
-        }
-
-        public override void OnPlayerLeftRoom(Player otherPlayer)
-        {
-            SendMessage(otherPlayer.NickName + " has left the room.");
         }
 
         /// START UNIT TEST
