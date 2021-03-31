@@ -205,6 +205,19 @@ public abstract class Game
         return -1;
     }
 
+    public bool containsPlayer(Player player)
+    {
+        foreach (var person in players)
+        {
+            if (person.username.Equals(player.NickName))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /*
     /// <summary>
     /// Adds a new player to the game logic.
