@@ -326,7 +326,13 @@ namespace PhotonScripts
             {
                 // War implementation
                 // This should capture the signal from the flip card button press
-                HostData.GetGame().DoMove(null, warPlayer);
+
+                object[] data = (object[]) photonEvent.CustomData;
+                // just get the username in case we need it in the future
+                string username = (string) data[0];
+
+                HostData.GetGame().DoMove(null, HostData.GetGame().GetPlayerIndex(username));
+                /*
                 if (warPlayer == 0)
                 {
                     warPlayer++;
@@ -335,6 +341,7 @@ namespace PhotonScripts
                 {
                     warPlayer = 0;
                 }
+                */
             }
         }
 
