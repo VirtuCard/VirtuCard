@@ -61,7 +61,8 @@ namespace GameScreen.ChatPanel
             }
 
             /// this is for testing purposes
-            public string GetText() {
+            public string GetText()
+            {
                 return messageText.text;
             }
 
@@ -101,7 +102,7 @@ namespace GameScreen.ChatPanel
 
             _chatClient = new ChatClient(this) {ChatRegion = "US"};
             PhotonNetwork.AddCallbackTarget(this);
-            _chatClient.Connect(appId, "0.1b", new AuthenticationValues( PhotonNetwork.NickName + " (Host)"));
+            _chatClient.Connect(appId, "0.1b", new AuthenticationValues(PhotonNetwork.NickName + " (Host)"));
         }
 
         // Update is called once per frame
@@ -115,8 +116,9 @@ namespace GameScreen.ChatPanel
             _chatClient.Service();
         }
 
-        public int getMessageCount() {
-            return messageCounter; 
+        public int getMessageCount()
+        {
+            return messageCounter;
         }
 
         public new void SendMessage(string message)
@@ -148,6 +150,7 @@ namespace GameScreen.ChatPanel
 
         public void OnGetMessages(string channelName, string[] senders, object[] messages)
         {
+            Debug.Log("message");
             for (int i = 0; i < messages.Length; i++)
             {
                 Debug.Log(messages[i]);
@@ -192,11 +195,13 @@ namespace GameScreen.ChatPanel
 
         /// START UNIT TEST
         /// The next two methods are for unit tests only
-        public string setAndGetTextTest(string text) {
+        public string setAndGetTextTest(string text)
+        {
             MessageUI ui = new MessageUI(messageTemplate, messageParent);
             ui.SetText(text);
             return ui.GetText();
         }
+
         /// end of testing
     }
 }
