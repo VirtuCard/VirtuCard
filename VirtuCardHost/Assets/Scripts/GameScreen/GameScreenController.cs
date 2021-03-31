@@ -63,6 +63,8 @@ public class GameScreenController : MonoBehaviour
     private static bool isDeclaringWinner = false;
     private static bool isGameEnded = true;
 
+    public static bool doFlipWarCards = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -211,8 +213,40 @@ public class GameScreenController : MonoBehaviour
                 goFishDeckCardsUI[2].SetActive(false);
             }
         }
+
+        if (doFlipWarCards)
+        {
+            StartCoroutine(DelayCards());
+            doFlipWarCards = false;
+        }
+
     }
     
+    private IEnumerator DelayCards()
+    {
+        yield return new WaitForSeconds(3);
+
+        GameScreenController.textureOne = Resources.Load<Texture>("Card UI/" + "SingleCardBack");
+        GameScreenController.textureTwo = Resources.Load<Texture>("Card UI/" + "SingleCardBack");
+
+        if (HostData.GetGame().GetDeck(DeckChoices.PONEUNPLAYED).GetCardCount() == 52)
+        {
+        // declare a winner with raising an event
+        object[] content = new object[] { "Player one" };
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
+
+        }
+        else if (HostData.GetGame().GetDeck(DeckChoices.PTWOUNPLAYED).GetCardCount() == 52)
+        {
+        // declare a winner with raising an event
+        object[] content = new object[] { "Player two" };
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
+        }
+
+    }
+
     public void updatingChat() {
         int chatValue = chatOptions.value;
         if (chatValue == 0) // normal chat
