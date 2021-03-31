@@ -59,12 +59,14 @@ public class GameScreenController : MonoBehaviour
 
 
     private static bool isDeclaringWinner = false;
+    private static bool isGameEnded = true;
 
 
     // Start is called before the first frame update
     void Start()
     {
         isDeclaringWinner = false;
+        isGameEnded = true;
         if (HostData.isChatAllowed())
         {
             allOfChatUI.SetActive(true);
@@ -125,7 +127,7 @@ public class GameScreenController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (HostData.GetGame().IsGameEmpty())
+        if (HostData.GetGame().IsGameEmpty() && isGameEnded)
         {
             HostData.SetGame((GameTypes)Enum.Parse(typeof(GameTypes),
                    HostData.GetGame().GetGameName()));
@@ -308,11 +310,12 @@ public class GameScreenController : MonoBehaviour
 
     public void DeclareWinnerClicked()
     {   
-        HostData.clearGame();
+        //HostData.clearGame();
         
         winnerPanel.SetActive(true);
         var allConnectedPlayers = HostData.GetGame().GetAllPlayers();
         foreach (PlayerInfo player in allConnectedPlayers) {
+            Debug.Log(player.photonPlayer.NickName);
             winnerDropdown.options.Add(new Dropdown.OptionData(player.photonPlayer.NickName));
         }
         
@@ -338,12 +341,15 @@ public class GameScreenController : MonoBehaviour
         PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
 
         isDeclaringWinner = true;
+        isGameEnded = false;
     }
 
     public void DeclareWinnerChoiceClicked()
     {
         // this will raise an event
+        
         DeclareWinner(winnerDropdown.options[winnerDropdown.value].text, "Winner Declared! Congratulations, " + winnerDropdown.options[winnerDropdown.value].text);
+
     }
 
     public void ExitGameClicked()
@@ -363,6 +369,7 @@ public class GameScreenController : MonoBehaviour
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
         PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
 
+        isGameEnded = false;
         gameOverText.GetComponent<Text>().text = "Game is over.";
         gameOverPanel.SetActive(true);
     }

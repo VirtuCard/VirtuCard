@@ -319,6 +319,7 @@ namespace PhotonScripts
             else if (photonEvent.Code == 34)
             {
                 // War implementation
+                // This should capture the signal from the flip card button press
                 HostData.GetGame().DoMove(null, warPlayer);
                 if (warPlayer == 0)
                 {
