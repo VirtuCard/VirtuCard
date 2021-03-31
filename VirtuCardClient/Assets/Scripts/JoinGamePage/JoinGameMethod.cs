@@ -111,7 +111,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
         ClientData.UserProfile.GamesPlayed += 1;
         successfulJoin = 1;
         DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Incremented Games played."); });
-        loadingPanel.SetActive(false);
+        if (loadingPanel != null){        loadingPanel.SetActive(false);}
         SceneManager.LoadScene(SceneNames.WaitingScreen);
     }
 
