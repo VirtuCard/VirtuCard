@@ -341,6 +341,7 @@ public static class HostData
 
     public static void clearGame()
     {
+        currentGame.ClearPlayers();
         currentGame = null;
         gameSelected = false;
         selectedGame = "";
