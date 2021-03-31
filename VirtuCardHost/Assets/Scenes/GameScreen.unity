@@ -3745,7 +3745,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &782601043
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7683,6 +7683,10 @@ MonoBehaviour:
   warPanel: {fileID: 1608588498}
   goFishPanel: {fileID: 782601042}
   standardPanel: {fileID: 1871200034}
+  goFishDeckCardsUI:
+  - {fileID: 1547064517}
+  - {fileID: 2099542769}
+  - {fileID: 1672666388}
   timer: {fileID: 399291014}
   playedCardCarousel: {fileID: 1647277465}
   undealtCardCarousel: {fileID: 914865752}

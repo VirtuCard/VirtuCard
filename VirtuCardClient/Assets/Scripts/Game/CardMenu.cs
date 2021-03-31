@@ -154,7 +154,7 @@ public class CardMenu : MonoBehaviour
             {
                 GameObject imageToDestroy = images[x].gameObject;
                 // Replacing this:
-                // images.RemoveAt(x);
+                images.RemoveAt(x);
                 // Destroy(imageToDestroy);
 
                 // With animation that calls Destroy on Exit upon completing
@@ -178,7 +178,7 @@ public class CardMenu : MonoBehaviour
 
     {
         yield return new WaitForSeconds(seconds);
-        images.RemoveAt(index);
+        //images.RemoveAt(index);
         ReformatCarousel();
     }
 

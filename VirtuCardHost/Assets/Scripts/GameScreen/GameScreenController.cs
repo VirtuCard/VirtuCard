@@ -33,6 +33,8 @@ public class GameScreenController : MonoBehaviour
     public GameObject goFishPanel;
     public GameObject standardPanel;
 
+    public List<GameObject> goFishDeckCardsUI;
+
     public Timer timer;
 
     public GameObject playedCardCarousel;
@@ -115,6 +117,10 @@ public class GameScreenController : MonoBehaviour
             warPanel.SetActive(false);
             standardPanel.SetActive(false);
             goFishPanel.SetActive(true);
+
+            goFishDeckCardsUI[0].SetActive(true);
+            goFishDeckCardsUI[1].SetActive(true);
+            goFishDeckCardsUI[2].SetActive(true);
         }
         else
         {
@@ -179,6 +185,35 @@ public class GameScreenController : MonoBehaviour
 
         lastPlayedDeckOne.texture = textureOne;
         lastPlayedDeckTwo.texture = textureTwo;
+
+        if (goFishPanel.activeInHierarchy)
+        {
+            int cardCount = HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCardCount();
+            if (cardCount > 3)
+            {
+                goFishDeckCardsUI[0].SetActive(true);
+                goFishDeckCardsUI[1].SetActive(true);
+                goFishDeckCardsUI[2].SetActive(true);
+            }
+            else if (cardCount == 2)
+            {
+                goFishDeckCardsUI[0].SetActive(true);
+                goFishDeckCardsUI[1].SetActive(true);
+                goFishDeckCardsUI[2].SetActive(false);
+            }
+            else if (cardCount == 1)
+            {
+                goFishDeckCardsUI[0].SetActive(true);
+                goFishDeckCardsUI[1].SetActive(false);
+                goFishDeckCardsUI[2].SetActive(false);
+            }
+            else if (cardCount == 0)
+            {
+                goFishDeckCardsUI[0].SetActive(false);
+                goFishDeckCardsUI[1].SetActive(false);
+                goFishDeckCardsUI[2].SetActive(false);
+            }
+        }
     }
 
     public void updatingChat()
