@@ -51,7 +51,8 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
         if (successfulJoin == 1)
         {
             SceneManager.LoadScene(SceneNames.WaitingScreen);
-        } else if (successfulJoin == -1)
+        }
+        else if (successfulJoin == -1)
         {
             ClientData.setJoinCode("");
             CreateErrorMessage("Failed to Connect", "Room Code is Invalid!");
@@ -111,7 +112,11 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
         ClientData.UserProfile.GamesPlayed += 1;
         successfulJoin = 1;
         DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Incremented Games played."); });
-        if (loadingPanel != null){        loadingPanel.SetActive(false);}
+        if (loadingPanel != null)
+        {
+            loadingPanel.SetActive(false);
+        }
+
         SceneManager.LoadScene(SceneNames.WaitingScreen);
     }
 
