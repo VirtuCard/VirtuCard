@@ -83,6 +83,7 @@ public class GameScreenController : MonoBehaviour
         undealtCardMenu = undealtCardCarousel.GetComponent<CardMenu>();
 
         // setup settings menu
+        chatOptions.onValueChanged.AddListener(e => updatingChat());
         settingsPanel.SetActive(false);
         timerToggle.SetIsOnWithoutNotify(HostData.IsTimerEnabled());
         timerToggle.onValueChanged.AddListener(delegate { EnableTimer(timerToggle.isOn); });
@@ -93,7 +94,8 @@ public class GameScreenController : MonoBehaviour
             warningThreshold: 30, TimerEarlyWarning, TimerReachedZero);
 
         if (HostData.isFreeplay() && !HostData.getDisplayLastCard())
-        { //Hide played card deck here.
+        {
+            //Hide played card deck here.
             playedCardCarousel.SetActive(false);
         }
 
@@ -112,7 +114,6 @@ public class GameScreenController : MonoBehaviour
         }
         else if (HostData.GetGame().GetGameName().Equals("GoFish"))
         {
-
             warPanel.SetActive(false);
             standardPanel.SetActive(false);
             goFishPanel.SetActive(true);
@@ -134,8 +135,8 @@ public class GameScreenController : MonoBehaviour
     {
         if (HostData.GetGame().IsGameEmpty() && isGameEnded)
         {
-            HostData.SetGame((GameTypes)Enum.Parse(typeof(GameTypes),
-                   HostData.GetGame().GetGameName()));
+            // HostData.GetGame().ClearAll();
+            HostData.resetGame();
             SceneManager.LoadScene(SceneNames.WaitingRoomScreen);
         }
 
@@ -147,7 +148,7 @@ public class GameScreenController : MonoBehaviour
         }
 
         DisplayCards();
-        updatingChat();
+        // updatingChat(); If chatOptions aren't updating, reenable this.
 
         // if the notification window should be shown
         string[] messages = new string[] { };
@@ -157,6 +158,7 @@ public class GameScreenController : MonoBehaviour
             {
                 notificationWindow.ShowNotification(messages[x]);
             }
+
             HostData.SetDoShowNotificationWindow(false);
         }
 
@@ -165,7 +167,8 @@ public class GameScreenController : MonoBehaviour
             winnerPanel.SetActive(false);
             // Display winner message
             gameOverPanel.SetActive(true);
-            gameOverText.GetComponent<Text>().text = "Congratulations, " + winnerDropdown.options[winnerDropdown.value].text + "!";
+            gameOverText.GetComponent<Text>().text =
+                "Congratulations, " + winnerDropdown.options[winnerDropdown.value].text + "!";
             isDeclaringWinner = false;
         }
 
@@ -212,8 +215,9 @@ public class GameScreenController : MonoBehaviour
             }
         }
     }
-    
-    public void updatingChat() {
+
+    public void updatingChat()
+    {
         int chatValue = chatOptions.value;
         if (chatValue == 0) // normal chat
         {
@@ -230,6 +234,8 @@ public class GameScreenController : MonoBehaviour
             HostData.setChatAllowed(true);
             chatPanel.SetActive(false);
         }
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(HostData.ToHashtable());
     }
 
     public void DisplayCards()
@@ -342,22 +348,21 @@ public class GameScreenController : MonoBehaviour
     }
 
     public void DeclareWinnerClicked()
-    {   
+    {
         //HostData.clearGame();
-        
+
         winnerPanel.SetActive(true);
         var allConnectedPlayers = HostData.GetGame().GetAllPlayers();
-        foreach (PlayerInfo player in allConnectedPlayers) {
+        foreach (PlayerInfo player in allConnectedPlayers)
+        {
             Debug.Log(player.photonPlayer.NickName);
             winnerDropdown.options.Add(new Dropdown.OptionData(player.photonPlayer.NickName));
         }
-        
     }
 
     public void ExitClicked()
     {
         winnerPanel.SetActive(false);
-    
     }
 
     /// <summary>
@@ -369,8 +374,8 @@ public class GameScreenController : MonoBehaviour
     {
         Debug.Log(winningMessage);
 
-        object[] content = new object[] { username };
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        object[] content = new object[] {username};
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
         PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
 
         isDeclaringWinner = true;
@@ -380,26 +385,26 @@ public class GameScreenController : MonoBehaviour
     public void DeclareWinnerChoiceClicked()
     {
         // this will raise an event
-        
-        DeclareWinner(winnerDropdown.options[winnerDropdown.value].text, "Winner Declared! Congratulations, " + winnerDropdown.options[winnerDropdown.value].text);
 
+        DeclareWinner(winnerDropdown.options[winnerDropdown.value].text,
+            "Winner Declared! Congratulations, " + winnerDropdown.options[winnerDropdown.value].text);
     }
 
     public void ExitGameClicked()
     {
         Debug.Log("exit game clicked");
+        HostData.clearGame();
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(SceneNames.LandingPage, LoadSceneMode.Single);
     }
 
     public void GoToGameOverFromEndGame()
     {
-                
         HostData.clearGame();
         endGamePanel.SetActive(false);
 
-        object[] content = new object[] { "nowinner" };
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        object[] content = new object[] {"nowinner"};
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
         PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
 
         isGameEnded = false;
