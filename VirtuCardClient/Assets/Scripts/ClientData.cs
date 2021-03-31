@@ -149,4 +149,14 @@ public static class ClientData
             GameRules.setSkipAllowed((Boolean) propertiesThatChanged["IsSkipAllowed"]);
         }
     }
+
+    public static void ClearInformation()
+    {
+        joinCode = "";
+        currentPlayerTurn = "";
+        isCurrentlyTurn = false;
+        chatAllowed = true;
+        hostCanJoin = true;
+        gameName = "";
+    }
 }
