@@ -554,4 +554,20 @@ public abstract class Game
     {
         players.Clear();
     }
+
+    /// <summary>
+    /// If any class has necessary components to be cleared, it can override this class,
+    /// call base.ClearAll() and under that perform its necessary tasks
+    /// </summary>
+    public virtual void ClearAll()
+    {
+        playerTurnIndex = 0;
+        players = new List<PlayerInfo>();
+        playedCards = new CardDeck();
+        undealtCards = new CardDeck();
+        ponePlayed = new CardDeck();
+        ptwoPlayed = new CardDeck();
+        poneUnplayed = new CardDeck();
+        ptwoUnplayed = new CardDeck();
+    }
 }
