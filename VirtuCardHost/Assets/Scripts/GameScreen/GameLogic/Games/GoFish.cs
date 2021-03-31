@@ -133,10 +133,52 @@ public class GoFish : Game
             string rank = rankCaps.Substring(0, 1).ToUpper() + rankCaps.Substring(1).ToLower();
             Debug.Log(playerToQuery.username + " did not have any " + rank + "s, GoFish");
             HostData.SetDoShowNotificationWindow(true, playerToQuery.username + " did not have any " + card.GetRank() + "s, GoFish!");
-            List<Card> gofishCards = new List<Card>();
-            gofishCards.Add(GetDeck(DeckChoices.UNDEALT).PopCard());
-            PhotonScripts.NetworkController.SendCardsToPlayer(currentPlayer.username, gofishCards, true, true);
+            if (GetDeck(DeckChoices.UNDEALT).GetCardCount() > 0)
+            {
+                List<Card> gofishCards = new List<Card>();
+                gofishCards.Add(GetDeck(DeckChoices.UNDEALT).PopCard());
+                PhotonScripts.NetworkController.SendCardsToPlayer(currentPlayer.username, gofishCards, true, true);
+
+                // check if they have 4 of the current rank. If they do, add a point to them and remove those 4 from their deck
+                List<Card> fourOfAKindList = QueryPlayerForCards(currentPlayer.username, card.GetRank());
+                if (fourOfAKindList.Count == 4)
+                {
+                    currentPlayer.score++;
+
+                    HostData.SetDoShowNotificationWindow(true, currentPlayer.username + " scored a set of " + rank + "s!");
+
+                    // remove the cards from fourOfAKind from the player
+                    PhotonScripts.NetworkController.RemoveCardsFromPlayer(currentPlayer.username, null, fourOfAKindList);
+
+                    // if they are out of cards, give them another
+                    if (currentPlayer.cards.GetCardCount() == 0)
+                    {
+                        if (GetDeck(DeckChoices.UNDEALT).GetCardCount() > 0)
+                        {
+                            List<Card> cardList = new List<Card>();
+                            cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
+                            PhotonScripts.NetworkController.SendCardsToPlayer(currentPlayer.username, cardList, true, true);
+                        }
+                        else
+                        {
+                            HostData.SetDoShowNotificationWindow(true, currentPlayer.username + " is out of cards");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                HostData.SetDoShowNotificationWindow(true, "Card pile is empty");
+            }
             AdvanceTurn(true);
+
+            if (HasGameEnded())
+            {
+                Debug.Log("Game has ended");
+                PlayerInfo victor = WhoWonTheGame();
+                GameScreenController.DeclareWinner(victor.username, victor.username + " is the Winner With " + victor.score + " Points!");
+            }
+
             return false;
         }
         List<Card> stolenCards = QueryPlayerForCards(playerToQuery.username, card.GetRank());
@@ -156,7 +198,7 @@ public class GoFish : Game
         // if they are out of cards, give them another
         if (playerToQuery.cards.GetCardCount() == 0)
         {
-            if (HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCardCount() > 0)
+            if (GetDeck(DeckChoices.UNDEALT).GetCardCount() > 0)
             {
                 List<Card> cardList = new List<Card>();
                 cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
@@ -184,6 +226,21 @@ public class GoFish : Game
 
             // remove the cards from fourOfAKind from the player
             PhotonScripts.NetworkController.RemoveCardsFromPlayer(currentPlayer.username, null, fourOfAKind);
+
+            // if they are out of cards, give them another
+            if (currentPlayer.cards.GetCardCount() == 0)
+            {
+                if (GetDeck(DeckChoices.UNDEALT).GetCardCount() > 0)
+                {
+                    List<Card> cardList = new List<Card>();
+                    cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
+                    PhotonScripts.NetworkController.SendCardsToPlayer(currentPlayer.username, cardList, true, true);
+                }
+                else
+                {
+                    HostData.SetDoShowNotificationWindow(true, currentPlayer.username + " is out of cards");
+                }
+            }
         }
 
         // do not advance the turn because they stole some cards
