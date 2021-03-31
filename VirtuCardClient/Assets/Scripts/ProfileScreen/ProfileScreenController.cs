@@ -28,22 +28,24 @@ public class ProfileScreenController : MonoBehaviour
 
     [Header("Error Panels")]
     public GameObject anonymousErrorPanel;
+    public GameObject successPanel;
     public GameObject incompleteErrorPanel;
     public Text errorPanelHeadingText;
     public Text errorPanelMessageText;
     
 
     private bool isAnonymous;
-    private bool success;
+    public static int success = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        FirebaseScripts.User user = ClientData.UserProfile;
+        User user = ClientData.UserProfile;
         editButtonText.text = "Edit";
         errorPanelHeadingText.text = "Anonymous User";
         errorPanelMessageText.text = "Anonymous user cannot edit profile data";
         anonymousErrorPanel.SetActive(false);
+        successPanel.SetActive(false);
         incompleteErrorPanel.SetActive(false);
         nameText.gameObject.SetActive(true);
         usernameText.gameObject.SetActive(true);
@@ -61,7 +63,31 @@ public class ProfileScreenController : MonoBehaviour
         gamesWText.text += user.GamesWon;
         gamesLText.text += user.GamesLost;
     }
-    
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (success == 1)
+        {
+            successPanel.SetActive(true);
+        }
+        else if (success == -1)
+        {
+            anonymousErrorPanel.SetActive(true);
+            errorPanelHeadingText.text = "Username in use";
+            errorPanelMessageText.text = "Please enter another username.";
+        }
+        else if (success == -2)
+        {
+            anonymousErrorPanel.SetActive(true);
+        }
+        else
+        {
+            anonymousErrorPanel.SetActive(false);
+            successPanel.SetActive(false);
+        }
+    }
+
     public void OnEditBtnClicked()
     {
         if (editButtonText.text == "Edit")
@@ -81,6 +107,7 @@ public class ProfileScreenController : MonoBehaviour
         {
             if (usernameInputText.text.Equals("") && nameInputText.text.Equals(""))
             {
+                success = -2;
                 anonymousErrorPanel.SetActive(true);
                 errorPanelHeadingText.text = "Username and Name Blank";
                 errorPanelMessageText.text = "Please enter a valid username and player name.";
@@ -88,6 +115,7 @@ public class ProfileScreenController : MonoBehaviour
             }
             if (usernameInputText.text.Equals(""))
             {
+                success = -2;
                 anonymousErrorPanel.SetActive(true);
                 errorPanelHeadingText.text = "Username Blank";
                 errorPanelMessageText.text = "Please enter a valid username.";
@@ -95,6 +123,7 @@ public class ProfileScreenController : MonoBehaviour
             }
             if (nameInputText.text.Equals(""))
             {
+                success = -2;
                 anonymousErrorPanel.SetActive(true);
                 errorPanelHeadingText.text = "Player Name Blank";
                 errorPanelMessageText.text = "Please enter a valid player name.";
@@ -102,20 +131,29 @@ public class ProfileScreenController : MonoBehaviour
             }
             string newUsername = usernameInputText.text;
             string newName = nameInputText.text;
-            DatabaseUtils.updateProperty(AuthUser.GetUserID(), "username", newUsername, s =>
+            DatabaseUtils.findUsername(newUsername, val =>
             {
-                if (!s)
+                if (val != null)
                 {
-                    success = false;
+                    success = -1;
+                    return;
                 }
                 else
                 {
-                    success = true;
+                    success = 1;
+                    ClientData.UserProfile.Username = usernameInputText.text;
+                    ClientData.UserProfile.Name = nameInputText.text;
+                    DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Updated username and name"); });
                 }
             });
-            Debug.Log(success);
         }
   
+    }
+
+    public void onOKButtonClicked()
+    {
+        success = 0;
+        SceneManager.LoadScene(SceneNames.JoinGamePage, LoadSceneMode.Single);
     }
 
     public void OnBackButtonClicked()
@@ -129,5 +167,10 @@ public class ProfileScreenController : MonoBehaviour
         {
             incompleteErrorPanel.SetActive(true);
         }
+    }
+
+    public void onErrorPanelClose()
+    {
+        success = 0;
     }
 }
