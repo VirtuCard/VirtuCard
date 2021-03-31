@@ -108,6 +108,13 @@ namespace PhotonScripts
         {
             Debug.Log("-----PLAYER ENTERED-----");
             Debug.Log(newPlayer.ToString());
+            
+            if (HostData.GetGame().containsPlayer(newPlayer))
+            {
+                Debug.Log("-----DUPLICATE | NOT ADDED-----");
+                DoSomething(false);
+                return;
+            }
 
             // see if the game is already at capacity
             if (HostData.GetGame().GetNumOfPlayers() >= HostData.GetMaxNumPlayers())
@@ -115,7 +122,6 @@ namespace PhotonScripts
                 Debug.Log("Game at capacity");
                 DoSomething(true);
             }
-
 
             if (HostData.GetGame().AddPlayer(newPlayer))
             {
