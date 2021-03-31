@@ -90,7 +90,7 @@ public static class HostData
         }
         else
         {
-            Debug.Log("You have already chosen a game");
+            Debug.LogError("You have already chosen a game");
             return false;
         }
     }
@@ -341,10 +341,16 @@ public static class HostData
 
     public static void clearGame()
     {
+        HostData.GetGame().ClearAll();
         currentGame.ClearPlayers();
         currentGame = null;
         gameSelected = false;
         selectedGame = "";
         joinCode = "";
+    }
+
+    public static void resetGame()
+    {
+        currentGame.ClearPlayers();
     }
 }
