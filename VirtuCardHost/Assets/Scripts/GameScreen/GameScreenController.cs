@@ -83,6 +83,7 @@ public class GameScreenController : MonoBehaviour
         undealtCardMenu = undealtCardCarousel.GetComponent<CardMenu>();
 
         // setup settings menu
+        chatOptions.onValueChanged.AddListener(e => updatingChat());
         settingsPanel.SetActive(false);
         timerToggle.SetIsOnWithoutNotify(HostData.IsTimerEnabled());
         timerToggle.onValueChanged.AddListener(delegate { EnableTimer(timerToggle.isOn); });
@@ -147,7 +148,7 @@ public class GameScreenController : MonoBehaviour
         }
 
         DisplayCards();
-        updatingChat();
+        // updatingChat(); If chatOptions aren't updating, reenable this.
 
         // if the notification window should be shown
         string[] messages = new string[] { };
@@ -230,6 +231,7 @@ public class GameScreenController : MonoBehaviour
             HostData.setChatAllowed(true);
             chatPanel.SetActive(false);
         }
+        PhotonNetwork.CurrentRoom.SetCustomProperties(HostData.ToHashtable());
     }
 
     public void DisplayCards()
