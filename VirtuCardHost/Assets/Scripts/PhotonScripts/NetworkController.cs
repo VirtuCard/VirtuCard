@@ -6,6 +6,7 @@ using Photon.Realtime;
 using UnityEngine;
 using ExitGames.Client.Photon;
 using System;
+using GameScreen.ChatPanel;
 
 namespace PhotonScripts
 {
@@ -138,7 +139,7 @@ namespace PhotonScripts
         public override void OnPlayerLeftRoom(Player playerToDisconnect)
         {
             Debug.Log("-----PLAYER LEFT (" + playerToDisconnect.NickName + ")-----");
-
+            ChatPanelController.systemMessages.Add( playerToDisconnect.NickName + " has left the room");
             HostData.GetGame().DisconnectPlayerFromGame(playerToDisconnect);
         }
 
