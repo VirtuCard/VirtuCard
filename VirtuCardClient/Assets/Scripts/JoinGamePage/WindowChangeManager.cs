@@ -28,6 +28,7 @@ namespace JoinGamePage
 
         void Start()
         {
+            ClientData.ClearInformation();
             isAnonymous = false;
             errorPanel.SetActive(false);
             DatabaseUtils.getUser(AuthUser.GetUserID(), json =>

@@ -63,7 +63,6 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        ClientData.ClearInformation();
         successfulJoin = 0;
 
         PhotonNetwork.ConnectUsingSettings();
