@@ -24,6 +24,8 @@ namespace PhotonScripts
         // that holds the RoomCode for testing purposes
         private string RoomCodeFileName = "RoomCode.txt";
 
+        public static bool isShuffling;
+
         /* Start is called before the first frame update
     public static void OnCreateButtonClick()
     {
@@ -180,6 +182,13 @@ namespace PhotonScripts
 
         private void OnSignalSent(EventData photonEvent)
         {
+
+            while (isShuffling)
+            {
+                //Debug.Log("In PauseLoop");
+                //While is empty to simulate a pause
+            }
+
             if (photonEvent.Code == 1)
             {
                 object[] data = (object[]) photonEvent.CustomData;
@@ -428,6 +437,11 @@ namespace PhotonScripts
             object[] content = new object[] {gameMode, hostToggle, maxPlayers, hostName};
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
             PhotonNetwork.RaiseEvent(1, content, raiseEventOptions, SendOptions.SendReliable);
+        }
+
+        public static void setIsShuffle(bool newBool)
+        {
+            isShuffling = newBool;
         }
     }
 }
