@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using FirebaseScripts;
 using Photon.Pun;
+using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 
@@ -22,6 +23,10 @@ public static class HostData
     private static Game currentGame;
     private static bool gameSelected = false;
     private static User userProfile;
+
+    // last played texture stuff
+    private static Texture lastPlayedCard;
+    private static bool didLastPlayedCardTextureChange = false;
 
     public static User UserProfile
     {
@@ -68,6 +73,10 @@ public static class HostData
             {
                 currentGame = new War();
             }
+            else
+            {
+                Debug.Log("Unclear Game: " + gameName);
+            }
 
             /* Here is a sample to add a new game
             else if (gameName == "<insert_other_game>")
@@ -84,6 +93,29 @@ public static class HostData
             Debug.Log("You have already chosen a game");
             return false;
         }
+    }
+
+    public static bool DidLastPlayedCardTextureUpdate()
+    {
+        return didLastPlayedCardTextureChange;
+    }
+
+    public static void SetLastPlayedCardTexture(string cardName)
+    {
+        didLastPlayedCardTextureChange = true;
+        lastPlayedCard = Resources.Load<Texture>("Card UI/" + cardName.Trim());
+    }
+
+    public static void SetLastPlayedCardTexture(Texture texture)
+    {
+        didLastPlayedCardTextureChange = true;
+        lastPlayedCard = texture;
+    }
+
+    public static Texture GetLastPlayedCardTexture()
+    {
+        didLastPlayedCardTextureChange = false;
+        return lastPlayedCard;
     }
 
     public static void SetDoShowNotificationWindow(bool value, string message = "")
@@ -222,7 +254,6 @@ public static class HostData
     public static void setChatAllowed(bool isChatAllowed)
     {
         chatAllowed = isChatAllowed;
-        PhotonNetwork.CurrentRoom.SetCustomProperties(ToHashtable());
     }
 
     // Adding settings for freeplay
@@ -285,8 +316,6 @@ public static class HostData
     public static void setSkipTurnAllowed(bool skipturn)
     {
         skipTurnAllowed = skipturn;
-        PhotonNetwork.CurrentRoom.SetCustomProperties(ToHashtable());
-        return;
     }
 
     public static bool getSkipTurnAllowed()
@@ -308,5 +337,14 @@ public static class HostData
         table.Add("IsSkipAllowed", skipTurnAllowed);
         //Debug.Log(table.ToString());
         return table;
+    }
+
+    public static void clearGame()
+    {
+        currentGame.ClearPlayers();
+        currentGame = null;
+        gameSelected = false;
+        selectedGame = "";
+        joinCode = "";
     }
 }

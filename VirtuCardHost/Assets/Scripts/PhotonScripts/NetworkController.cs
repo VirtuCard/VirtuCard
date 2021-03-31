@@ -15,6 +15,7 @@ namespace PhotonScripts
         private int RoomCodeLength = 6;
         private GameObject eventTest;
 
+        private int warPlayer = 0;
         //Field for Host's RoomCode.
         //Format: ABCDEF
         private string RoomCode = "";
@@ -167,12 +168,12 @@ namespace PhotonScripts
         // it passes through an array of objects and the client
         // listens for the host call which is currently called
         // by pressing the settings button lol
-        private void OnEnable()
+        public override void OnEnable()
         {
             PhotonNetwork.NetworkingClient.EventReceived += OnSignalSent;
         }
 
-        private void OnDisable()
+        public override void OnDisable()
         {
             PhotonNetwork.NetworkingClient.EventReceived -= OnSignalSent;
         }
@@ -234,6 +235,19 @@ namespace PhotonScripts
                     Debug.Log("Receiving a Played Card from " + username + ": " + card.ToString());
                     HostData.SetDoShowNotificationWindow(true, username + " played a card");
                     int userIndex = HostData.GetGame().GetPlayerIndex(username);
+
+                    // remove the card from that player's cards
+                    PlayerInfo player = HostData.GetGame().GetPlayer(username);
+                    player.cards.RemoveCard(card);
+
+
+                    StandardCardRank rankName = card.GetRank();
+                    StandardCardSuit suitName = card.GetSuit();
+                    string cardName = suitName.ToString();
+                    cardName += "_";
+                    cardName += rankName.ToString();
+                    HostData.SetLastPlayedCardTexture(cardName);
+
                     HostData.GetGame().DoMove(card, userIndex);
                 }
             }
@@ -300,6 +314,20 @@ namespace PhotonScripts
 
                         HostData.GetGame().AdvanceTurn(true);
                     }
+                }
+            }
+            else if (photonEvent.Code == 34)
+            {
+                // War implementation
+                // This should capture the signal from the flip card button press
+                HostData.GetGame().DoMove(null, warPlayer);
+                if (warPlayer == 0)
+                {
+                    warPlayer++;
+                }
+                else
+                {
+                    warPlayer = 0;
                 }
             }
         }

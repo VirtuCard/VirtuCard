@@ -549,4 +549,9 @@ public abstract class Game
         //Shuffling
         undealt.Shuffle();
     }
+
+    public void ClearPlayers()
+    {
+        players.Clear();
+    }
 }

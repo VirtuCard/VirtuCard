@@ -62,10 +62,10 @@ public class WaitingRoomScreenManager : MonoBehaviour
         enableDiamonds.onValueChanged.AddListener(
             delegate { DiamondsToggleValueChanged(enableDiamonds.isOn); });
         showLastCard.onValueChanged.AddListener(
-            delegate { LastCardToggleChanged(showLastCard.isOn);});
+            delegate { LastCardToggleChanged(showLastCard.isOn); });
         isSkipTurnAllowed.onValueChanged.AddListener(
-            delegate { SkipTurnToggleValueChanged(isSkipTurnAllowed.isOn);});
-        
+            delegate { SkipTurnToggleValueChanged(isSkipTurnAllowed.isOn); });
+
         // setup initial timer stuff
         timerEnabledToggle.onValueChanged.AddListener(
             delegate { TimerToggleValueChanged(timerEnabledToggle.isOn); });
@@ -76,7 +76,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
 
         numPlayers.onEndEdit.AddListener(OnNumPlayersFieldChange);
         playerList = NetworkController.ListAllPlayers();
-        CreatePlayerList();
+        //CreatePlayerList();
         settingsPanel.SetActive(false);
         freeplaySettingsPanel.SetActive(false);
         joinCode.text = HostData.GetJoinCode();
@@ -96,14 +96,13 @@ public class WaitingRoomScreenManager : MonoBehaviour
         enableDiamonds.isOn = HostData.getDiamondsAllowed();
         showLastCard.isOn = HostData.getDisplayLastCard();
         isSkipTurnAllowed.isOn = HostData.getSkipTurnAllowed();
-        
+
         //disables and hides the freeplay button if the gamemode is not freeplay
         if (!HostData.isFreeplay())
         {
             //FreeplaySettingsButton.enabled = false;
             FreeplaySettingsButton.gameObject.SetActive(false);
         }
-        
     }
 
     // Update is called once per frame
@@ -243,7 +242,6 @@ public class WaitingRoomScreenManager : MonoBehaviour
 
     public void StartGameBtnClicked()
     {
-        
         HostData.SetIsTimerEnabled(timerEnabledToggle.isOn);
         if (timerEnabledToggle.isOn)
         {
@@ -274,6 +272,11 @@ public class WaitingRoomScreenManager : MonoBehaviour
         // send content
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
         PhotonNetwork.RaiseEvent(6, content.ToArray(), raiseEventOptions, SendOptions.SendUnreliable);
+
+        if (PhotonNetwork.CurrentRoom != null)
+        {
+            PhotonNetwork.CurrentRoom.SetCustomProperties(HostData.ToHashtable());
+        }
 
         // change the scene to the gamescreen
         SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
@@ -352,7 +355,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
     {
         HostData.setSpadesAllowed(isOn);
     }
-       
+
     private void DiamondsToggleValueChanged(bool isOn)
     {
         HostData.setDiamondsAllowed(isOn);
@@ -362,7 +365,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
     {
         HostData.setDisplayLastCard(isOn);
     }
-    
+
     private void SkipTurnToggleValueChanged(bool isOn)
     {
         HostData.setSkipTurnAllowed(isOn);
@@ -386,7 +389,14 @@ public class WaitingRoomScreenManager : MonoBehaviour
     public void OnClickGameExit()
     {
         //Implement Close Game lobby code here.
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+        
+        //Tell clients to leave game
+        PhotonNetwork.RaiseEvent(21, null, raiseEventOptions, SendOptions.SendUnreliable);
         PhotonNetwork.LeaveRoom();
+        
+        HostData.clearGame();
+
         SceneManager.LoadScene(SceneNames.LandingPage, LoadSceneMode.Single);
     }
 
