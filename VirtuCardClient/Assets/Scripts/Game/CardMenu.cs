@@ -254,7 +254,7 @@ public class CardMenu : MonoBehaviour
             images[i].anchoredPosition = new Vector2(screenPosition + ((imageWidth + imageSpacing) * i), 0);
         }
 
-        lastCreatedCard.GetComponentInChildren<RawImage>().texture = Resources.Load<Texture>(Path);
+        lastCreatedCard.Find("Front").GetComponent<RawImage>().texture = Resources.Load<Texture>(Path);
     }
 
     private void OnSwipeComplete()
