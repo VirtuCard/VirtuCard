@@ -156,7 +156,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
             if (selectedCard != null)
             {
-                cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("Front").GetComponent<Outline>().enabled = true;
                 if (previouslySelectedCard == null ||
                     previouslySelectedCard.Compare(selectedCard) == false)
                 {
@@ -171,6 +170,15 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                     previouslySelectedCard = selectedCard;
                     cardIsValid = false;
                 }
+                if (cardIsValid)
+                {
+                    cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("Front").GetComponent<Outline>().effectColor = Color.blue;
+                }
+                else
+                {
+                    cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("Front").GetComponent<Outline>().effectColor = Color.red;
+                }
+                cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("Front").GetComponent<Outline>().enabled = true;
             }
         }
         else
