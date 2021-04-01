@@ -18,7 +18,6 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
 
     public GameObject inputField;
     public GameObject errorCode;
-    bool successfulConnect = true;
 
     public GameObject errorPanel;
     public GameObject errorTitle;
@@ -34,8 +33,12 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
 
     public GameObject loadingPanel;
 
-    public bool successfulJoin;
+    public int successfulJoin;
 
+    private bool doSetGameInfo = false;
+    private string maxPlayerString = "";
+    private string gameModeString = "";
+    private string welcomePlayerString = "";
 
     void Update()
     {
@@ -50,19 +53,31 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
             makeCapacityError = false;
         }
 
-        if (successfulJoin)
+        if (successfulJoin == 1)
         {
             SceneManager.LoadScene(SceneNames.WaitingScreen);
+        }
+        else if (successfulJoin == -1)
+        {
+            ClientData.setJoinCode("");
+            CreateErrorMessage("Failed to Connect", "Room Code is Invalid!");
+        }
+
+        successfulJoin = 0;
+
+        if (doSetGameInfo)
+        {
+            MaxPlayersText.GetComponent<Text>().text = maxPlayerString;
+            GameModeText.GetComponent<Text>().text = gameModeString;
+            welcomePlayer.GetComponent<Text>().text = welcomePlayerString;
         }
     }
 
 
     void Start()
     {
-        successfulJoin= false;
+        successfulJoin = 0;
 
-        PhotonNetwork.ConnectUsingSettings();
-        PhotonNetwork.AddCallbackTarget(this);
         errorPanel.SetActive(false);
         DatabaseUtils.getUser(AuthUser.GetUserID(), json =>
         {
@@ -70,6 +85,8 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
             ClientData.UserProfile = new User(json);
             Debug.Log("User " + ClientData.UserProfile.ToString());
         });
+        PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.AddCallbackTarget(this);
     }
 
     public void ConnectClientClicked()
@@ -96,6 +113,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
+        successfulJoin = -1;
         ClientData.setJoinCode("");
         CreateErrorMessage("Failed to Connect", "Room Code is Invalid!");
     }
@@ -104,9 +122,13 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
     {
         // Room join successful
         ClientData.UserProfile.GamesPlayed += 1;
-        successfulJoin = true;
+        successfulJoin = 1;
         DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Incremented Games played."); });
-        loadingPanel.SetActive(false);
+        if (loadingPanel != null)
+        {
+            loadingPanel.SetActive(false);
+        }
+
         SceneManager.LoadScene(SceneNames.WaitingScreen);
     }
 
@@ -152,9 +174,10 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
             {
             }
 
-            MaxPlayersText.GetComponent<Text>().text = s;
-            GameModeText.GetComponent<Text>().text = "" + players;
-            welcomePlayer.GetComponent<Text>().text = "Welcome, " + clientName + "!";
+            maxPlayerString = s;
+            gameModeString = players.ToString();
+            welcomePlayerString = "Welcome, " + clientName + "!";
+            doSetGameInfo = true;
 
             if (hostName.Equals("__CAPACITY__"))
             {

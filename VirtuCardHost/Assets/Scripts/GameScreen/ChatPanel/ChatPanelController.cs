@@ -24,6 +24,7 @@ namespace GameScreen.ChatPanel
         public GameObject messageParent;
 
         public List<GameObject> placeholders;
+        public static List<string> systemMessages;
         private int messageCounter = 0;
 
         /// <summary>
@@ -61,7 +62,8 @@ namespace GameScreen.ChatPanel
             }
 
             /// this is for testing purposes
-            public string GetText() {
+            public string GetText()
+            {
                 return messageText.text;
             }
 
@@ -94,29 +96,33 @@ namespace GameScreen.ChatPanel
         // Start is called before the first frame update
         void Start()
         {
+            systemMessages = new List<string>();
             // set the currentMessages to contain the placeholders
             currentMessages = new List<GameObject>();
             currentMessages.AddRange(placeholders);
             roomcode = HostData.GetJoinCode();
 
             _chatClient = new ChatClient(this) {ChatRegion = "US"};
+            //For left room callback
             PhotonNetwork.AddCallbackTarget(this);
-            _chatClient.Connect(appId, "0.1b", new AuthenticationValues( PhotonNetwork.NickName + " (Host)"));
+            _chatClient.Connect(appId, "0.1b", new AuthenticationValues(PhotonNetwork.NickName + " (Host)"));
         }
 
         // Update is called once per frame
 
         private void Update()
         {
-            if (Random.Range(0, 10) == 4)
-            {
-            }
-
             _chatClient.Service();
+            if (systemMessages.Count > 0)
+            {
+                SendMessage(systemMessages[0]);
+                systemMessages.RemoveAt(0);
+            }
         }
 
-        public int getMessageCount() {
-            return messageCounter; 
+        public int getMessageCount()
+        {
+            return messageCounter;
         }
 
         public new void SendMessage(string message)
@@ -148,6 +154,7 @@ namespace GameScreen.ChatPanel
 
         public void OnGetMessages(string channelName, string[] senders, object[] messages)
         {
+            Debug.Log("message");
             for (int i = 0; i < messages.Length; i++)
             {
                 Debug.Log(messages[i]);
@@ -185,18 +192,15 @@ namespace GameScreen.ChatPanel
             /* Ignore */
         }
 
-        public override void OnPlayerLeftRoom(Player otherPlayer)
-        {
-            SendMessage(otherPlayer.NickName + " has left the room.");
-        }
-
         /// START UNIT TEST
         /// The next two methods are for unit tests only
-        public string setAndGetTextTest(string text) {
+        public string setAndGetTextTest(string text)
+        {
             MessageUI ui = new MessageUI(messageTemplate, messageParent);
             ui.SetText(text);
             return ui.GetText();
         }
+
         /// end of testing
     }
 }

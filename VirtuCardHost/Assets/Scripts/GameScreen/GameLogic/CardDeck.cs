@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CardDeck
@@ -18,6 +19,7 @@ public class CardDeck
         {
             cards[x].Print();
         }
+
         Debug.Log("\n");
     }
 
@@ -35,6 +37,7 @@ public class CardDeck
                 return true;
             }
         }
+
         return false;
     }
 
@@ -106,6 +109,7 @@ public class CardDeck
         {
             return cards[index];
         }
+
         throw new System.Exception("Card Deck of size: " + cards.Count + " does not contain card at index: " + index);
     }
 
@@ -118,11 +122,12 @@ public class CardDeck
     {
         foreach (Card card in cards)
         {
-            if (((StandardCard)card).GetRank() == rank)
+            if (((StandardCard) card).GetRank() == rank)
             {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -137,7 +142,7 @@ public class CardDeck
 
         foreach (Card card in cards)
         {
-            if (((StandardCard)card).GetRank() == rank)
+            if (((StandardCard) card).GetRank() == rank)
             {
                 list.Add(card);
             }
@@ -145,7 +150,7 @@ public class CardDeck
 
         return list;
     }
-    
+
     /// <summary>
     /// Returns all the cards within this deck in a list
     /// </summary>
@@ -200,9 +205,12 @@ public class CardDeck
         }
     }
 
+
     public void RemoveAllCards()
     {
-        RemoveCards(GetAllCards());
+        //RemoveCards(GetAllCards());
+        cards.Clear();
+
     }
 
     /// <summary>
@@ -210,21 +218,9 @@ public class CardDeck
     /// </summary>
     public void Shuffle()
     {
-        CardDeck newDeck = new CardDeck();
-        int DeckSize = cards.Count;
-        
-        while (DeckSize >= 0)
-        {
-            Card shuffled = PopCard();
-            newDeck.AddCard(shuffled);
-
-            //Decrementing DeckSize given that a card has been removed from the cards list
-            //DeckSize--;
-        }
-        //Adds the newDeck's cards into the empty default deck to complete shuffling
-        AddCards(newDeck);
+        cards = cards.OrderBy(x => Random.value).ToList();
     }
-    
+
     /// <summary>
     /// The method compares two argument decks against each other to determine if they are identical.
     /// </summary>
@@ -245,6 +241,7 @@ public class CardDeck
                 return false;
             }
         }
+
         return true;
     }
 
