@@ -105,4 +105,7 @@ public class StandardCard : Card
     {
         return "STANDARD CARD (" + Enum.GetName(typeof(StandardCardRank), GetRank()) + " of " + Enum.GetName(typeof(StandardCardSuit), GetSuit()) + ")";
     }
+
+
+
 }
