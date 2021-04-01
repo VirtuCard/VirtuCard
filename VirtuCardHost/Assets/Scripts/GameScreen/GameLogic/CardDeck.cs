@@ -104,6 +104,7 @@ public class CardDeck
     /// <returns></returns>
     public Card GetCard(int index)
     {
+        Debug.Log("card deck size: " + cards.Count);
         if (index < cards.Count && index >= 0)
         {
             return cards[index];
@@ -251,7 +252,7 @@ public class CardDeck
     {
         for (int i = 0; i < GetCardCount(); i++)
         {
-            (this.GetCard(i)).CopyCard(toCopy.GetCard(i));
+            (GetCard(i)).CopyCard(toCopy.GetCard(i));
         }
     }
 }
