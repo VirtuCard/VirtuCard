@@ -27,6 +27,7 @@ public class ProfileScreenController : MonoBehaviour
     public Text editButtonText;
 
     [Header("Error Panels")]
+    public GameObject errorPanel;
     public GameObject anonymousErrorPanel;
     public GameObject successPanel;
     public GameObject incompleteErrorPanel;
@@ -44,7 +45,7 @@ public class ProfileScreenController : MonoBehaviour
         editButtonText.text = "Edit";
         errorPanelHeadingText.text = "Anonymous User";
         errorPanelMessageText.text = "Anonymous user cannot edit profile data";
-        anonymousErrorPanel.SetActive(false);
+        errorPanel.SetActive(false);
         successPanel.SetActive(false);
         incompleteErrorPanel.SetActive(false);
         nameText.gameObject.SetActive(true);
@@ -73,17 +74,17 @@ public class ProfileScreenController : MonoBehaviour
         }
         else if (success == -1)
         {
-            anonymousErrorPanel.SetActive(true);
+            errorPanel.SetActive(true);
             errorPanelHeadingText.text = "Username in use";
             errorPanelMessageText.text = "Please enter another username.";
         }
         else if (success == -2)
         {
-            anonymousErrorPanel.SetActive(true);
+            errorPanel.SetActive(true);
         }
         else
         {
-            anonymousErrorPanel.SetActive(false);
+            errorPanel.SetActive(false);
             successPanel.SetActive(false);
         }
     }
@@ -108,7 +109,7 @@ public class ProfileScreenController : MonoBehaviour
             if (usernameInputText.text.Equals("") && nameInputText.text.Equals(""))
             {
                 success = -2;
-                anonymousErrorPanel.SetActive(true);
+                errorPanel.SetActive(true);
                 errorPanelHeadingText.text = "Username and Name Blank";
                 errorPanelMessageText.text = "Please enter a valid username and player name.";
                 return;
@@ -116,7 +117,7 @@ public class ProfileScreenController : MonoBehaviour
             if (usernameInputText.text.Equals(""))
             {
                 success = -2;
-                anonymousErrorPanel.SetActive(true);
+                errorPanel.SetActive(true);
                 errorPanelHeadingText.text = "Username Blank";
                 errorPanelMessageText.text = "Please enter a valid username.";
                 return;
@@ -124,7 +125,7 @@ public class ProfileScreenController : MonoBehaviour
             if (nameInputText.text.Equals(""))
             {
                 success = -2;
-                anonymousErrorPanel.SetActive(true);
+                errorPanel.SetActive(true);
                 errorPanelHeadingText.text = "Player Name Blank";
                 errorPanelMessageText.text = "Please enter a valid player name.";
                 return;
