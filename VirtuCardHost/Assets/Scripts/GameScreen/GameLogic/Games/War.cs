@@ -27,8 +27,8 @@ public class War : Game
     private static RawImage lastPlayedDeckOne;
     private static RawImage lastPlayedDeckTwo;
 
-    private string p1Name;
-    private string p2Name;
+    public static string p1Name;
+    public static string p2Name;
 
     private int firstPlayerIndex;
 
@@ -140,7 +140,7 @@ public class War : Game
     public override bool DoMove(Card cardToPlay, int playerIndex)
     {
         //bool firstTurnHappened = true;
-        if (playerIndex != firstPlayerIndex && firstTurnHappened)
+        if (firstTurnHappened)
         {
             StandardCard toPlay = (StandardCard) GetDeck(DeckChoices.PONEUNPLAYED).GetCard(0);
             GetDeck(DeckChoices.PONEUNPLAYED).RemoveCard(0);
@@ -183,21 +183,23 @@ public class War : Game
             {
                 //AdvanceTurn(true);
                 Debug.Log("cards are the same");
+                HostData.SetDoShowNotificationWindow(true, "Cards are the Same Rank!");
             }
             else if (first > second)
             {
                 Debug.Log("card on left is higher than card on the right");
-            // Player one has won the turn with a higher ranking card
+                HostData.SetDoShowNotificationWindow(true, "Left Card is Higher!");
+                // Player one has won the turn with a higher ranking card
 
                 // This takes all of player 2's played cards and adds it to player
                 // 1's unplayed deck
-            
-            /*
-                for (int i = 0; i < GetDeck(DeckChoices.PTWOPLAYED).GetCardCount(); i++)
-                {
-                    GetDeck(DeckChoices.PONEUNPLAYED).AddCard(GetDeck(DeckChoices.PTWOPLAYED).PopCard());
-                }
-            */
+
+                /*
+                    for (int i = 0; i < GetDeck(DeckChoices.PTWOPLAYED).GetCardCount(); i++)
+                    {
+                        GetDeck(DeckChoices.PONEUNPLAYED).AddCard(GetDeck(DeckChoices.PTWOPLAYED).PopCard());
+                    }
+                */
                 GetDeck(DeckChoices.PONEUNPLAYED).AddCards(GetDeck(DeckChoices.PTWOPLAYED));
                 GetDeck(DeckChoices.PTWOPLAYED).RemoveAllCards();
                 // This takes the cards from player 1's played cards and adds it to player
@@ -222,6 +224,7 @@ public class War : Game
             {
             // Player two has won the turn with a higher ranking card
                 Debug.Log("Card on the right is higher than the card on the left");
+                HostData.SetDoShowNotificationWindow(true, "Right Card is Higher!");
                 // This takes all of the cards from the player ones played deck and adds it
                 // to player 2's unplayed deck
                 /*

@@ -197,7 +197,17 @@ public class GameScreenController : MonoBehaviour
 
         if (HostData.DidLastPlayedCardTextureUpdate())
         {
-            lastPlayedCard.texture = HostData.GetLastPlayedCardTexture();
+            if (HostData.GetGame().GetGameName().Equals("Freeplay"))
+            {
+                if (HostData.getDisplayLastCard())
+                {
+                    lastPlayedCard.texture = HostData.GetLastPlayedCardTexture();
+                }
+            }
+            else
+            {
+                lastPlayedCard.texture = HostData.GetLastPlayedCardTexture();
+            }
         }
 
         lastPlayedDeckOne.texture = textureOne;

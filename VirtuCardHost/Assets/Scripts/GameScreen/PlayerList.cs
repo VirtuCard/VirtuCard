@@ -103,11 +103,40 @@ public class PlayerList : MonoBehaviour
         }
 
         List<PlayerInfo> actualPlayerList = HostData.GetGame().GetAllPlayers();
-        foreach (var player in actualPlayerList)
+
+        if (HostData.GetGame().GetGameName().Equals("War"))
         {
-            var playerComp = GetDisplayFromUsername(player.username);
-            playerComp.playerUI.SetCardCount(player.cards.GetCardCount());
-            playerComp.playerUI.SetScore(player.score);
+            int p1Unplayed = HostData.GetGame().GetDeck(DeckChoices.PONEUNPLAYED).GetCardCount();
+            int p1Played = HostData.GetGame().GetDeck(DeckChoices.PONEPLAYED).GetCardCount();
+            int p2Unplayed = HostData.GetGame().GetDeck(DeckChoices.PTWOUNPLAYED).GetCardCount();
+            int p2Played = HostData.GetGame().GetDeck(DeckChoices.PTWOPLAYED).GetCardCount();
+
+            int p1TotalCards = p1Unplayed + p1Played;
+            int p2TotalCards = p2Unplayed + p2Played;
+
+            foreach (var player in actualPlayerList)
+            {
+                var playerComp = GetDisplayFromUsername(player.username);
+                if (player.username.Equals(War.p1Name))
+                {
+                    playerComp.playerUI.SetCardCount(p1TotalCards);
+                    playerComp.playerUI.SetScore(p1TotalCards);
+                }
+                else
+                {
+                    playerComp.playerUI.SetCardCount(p2TotalCards);
+                    playerComp.playerUI.SetScore(p2TotalCards);
+                }
+            }
+        }
+        else
+        {
+            foreach (var player in actualPlayerList)
+            {
+                var playerComp = GetDisplayFromUsername(player.username);
+                playerComp.playerUI.SetCardCount(player.cards.GetCardCount());
+                playerComp.playerUI.SetScore(player.score);
+            }
         }
     }
 
