@@ -30,6 +30,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public GameObject dropboxUI;
     public RectTransform dropboxSize;
     public GameObject chatPanel;
+    public CanvasGroup chatCanvas;
     // public Dropdown privChatOption;
     // public RectTransform privChatSize;
 
@@ -135,7 +136,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         // check to see if the player can skip their turn once per frame
         foreach (RectTransform o in cardMenu.images)
         {
-            o.Find("Image").GetComponent<Outline>().enabled = false;
+            o.Find("Front").GetComponent<Outline>().enabled = false;
         }
 
         if (ClientData.isCurrentTurn())
@@ -155,7 +156,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
             if (selectedCard != null)
             {
-                cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("Image").GetComponent<Outline>().enabled = true;
                 if (previouslySelectedCard == null ||
                     previouslySelectedCard.Compare(selectedCard) == false)
                 {
@@ -170,6 +170,15 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                     previouslySelectedCard = selectedCard;
                     cardIsValid = false;
                 }
+                if (cardIsValid)
+                {
+                    cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("Front").GetComponent<Outline>().effectColor = Color.blue;
+                }
+                else
+                {
+                    cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("Front").GetComponent<Outline>().effectColor = Color.red;
+                }
+                cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("Front").GetComponent<Outline>().enabled = true;
             }
         }
         else
@@ -237,20 +246,23 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             {
                 dropboxSize.offsetMin = new Vector2(dropboxSize.offsetMin.x, 950);
                 dropboxSize.offsetMax = new Vector2(dropboxSize.offsetMax.x, 1040);
-                chatPanel.SetActive(true);
+                // chatPanel.SetActive(true);
+                chatCanvas.GetComponent<CanvasGroup>().alpha = 1;
             }
             else if (chatValue == 1) // hide chat
             {
-                dropboxSize.offsetMin = new Vector2(dropboxSize.offsetMin.x, -1130);
-                dropboxSize.offsetMax = new Vector2(dropboxSize.offsetMax.x, -1040);
-                chatPanel.SetActive(false);
+                dropboxSize.offsetMin = new Vector2(dropboxSize.offsetMin.x, -130);
+                dropboxSize.offsetMax = new Vector2(dropboxSize.offsetMax.x, -20);
+                // chatPanel.SetActive(false);
+                chatCanvas.GetComponent<CanvasGroup>().alpha = 0;
             }
         }
         else
         {
-            // chat is not allowed from the host
+            // chat is disabled from the host
             chatDisableSign.SetActive(true);
-            chatPanel.SetActive(false);
+            chatCanvas.GetComponent<CanvasGroup>().alpha = 0;
+            // chatPanel.SetActive(false);
             dropboxUI.SetActive(false);
         }
     }
@@ -676,7 +688,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     {
         //TODO will send a signal to host to flip the top card over
         Debug.Log("FlipCardClicked!");
-        object[] content = {"flipcardlicked"};
+        object[] content = {PhotonNetwork.NickName};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
         PhotonNetwork.RaiseEvent(34, content, raiseEventOptions, SendOptions.SendUnreliable);
     }
