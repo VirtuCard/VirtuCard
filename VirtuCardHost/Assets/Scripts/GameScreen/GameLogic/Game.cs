@@ -320,7 +320,7 @@ public abstract class Game
         {
             players.Remove(playerToDisconnect);
         }
-
+        
         AddCardsToDeck(playerToDisconnect.cards.GetAllCards().ToArray(), DeckChoices.UNDEALT);
         ShuffleDeck(DeckChoices.UNDEALT);
     }
