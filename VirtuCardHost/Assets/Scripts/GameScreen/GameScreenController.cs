@@ -53,6 +53,8 @@ public class GameScreenController : MonoBehaviour
     public static Texture textureOne;
     public static Texture textureTwo;
 
+    public Button DeclareWinnerButton;
+
     private bool hasInitializedGame = false;
 
     private float startTime;
@@ -135,6 +137,14 @@ public class GameScreenController : MonoBehaviour
         chatOptions.RefreshShownValue();
         chatPlace.offsetMin = new Vector2(chatPlace.offsetMin.x, -230);
         chatPlace.offsetMax = new Vector2(chatPlace.offsetMax.x, -165);
+
+
+        
+        if (!HostData.isFreeplay())
+        {
+            DeclareWinnerButton.gameObject.SetActive(false);
+        }
+        
     }
 
     // Update is called once per frame
@@ -438,7 +448,7 @@ public class GameScreenController : MonoBehaviour
     public void ExitGameClicked()
     {
         Debug.Log("exit game clicked");
-        HostData.clearGame();
+        //HostData.clearGame();
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(SceneNames.LandingPage, LoadSceneMode.Single);
     }
