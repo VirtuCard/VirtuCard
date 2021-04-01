@@ -31,8 +31,12 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public RectTransform dropboxSize;
     public GameObject chatPanel;
     public CanvasGroup chatCanvas;
-    // public Dropdown privChatOption;
-    // public RectTransform privChatSize;
+    
+    // hide/unhide chat in the settings
+    public GameObject hideChatPanel;
+    public Button hideChatBtn;
+    public GameObject unhideChatPanel;
+    public Button unhideChatBtn;
 
     public GameObject warButton;
 
@@ -66,14 +70,16 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        // ClientData.setChatAllowed(false);
-
         PhotonNetwork.AddCallbackTarget(this);
         skipBtn.onClick.AddListener(delegate() { SkipBtnClicked(); });
         playCardBtn.onClick.AddListener(delegate() { PlayCardBtnClicked(); });
         drawCardBtn.onClick.AddListener(delegate() { DrawCardBtnClicked(); });
         SetCanSkipBtn(ClientData.isCurrentTurn());
         cardMenu = cardCarousel.GetComponent<CardMenu>();
+
+        // chat in the settings
+        hideChatBtn.onClick.AddListener(delegate() { hideChatSettings(); });
+        unhideChatBtn.onClick.AddListener(delegate() { unhideChatSettings(); });
 
         // setup timer
         timer.SetupTimer(ClientData.IsTimerEnabled(), ClientData.GetTimerSeconds(), ClientData.GetTimerMinutes(),
@@ -112,22 +118,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             warButton.SetActive(false);
         }
 
-        // // private message UI
-        // privChatSize.offsetMin = new Vector2(privChatSize.offsetMin.x, 995);
-        // privChatSize.offsetMax = new Vector2(privChatSize.offsetMax.x, 1085);
-        // privChatOption.options.Add(new Dropdown.OptionData("Public chat")); // default
-        // List<string> privName = ClientData.GetAllConnectedPlayers();
-        // foreach (string namePlayer in privName)
-        // {
-        //     // only add the name if it is not this person
-        //     if (!namePlayer.Equals(PhotonNetwork.NickName))
-        //     {
-        //         privChatOption.options.Add(new Dropdown.OptionData(namePlayer));
-        //     }
-        // }
-
         // when winner is announced the button is clicked
         exitGameBtn.onClick.AddListener(delegate() { exitGameBtnOnClick(); });
+        
     }
 
     // Update is called once per frame
@@ -226,6 +219,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             cardMenu.MoveToValidPosition();
         }
 
+        // need this here or chat won't update if host disables char
         updateChat();
     }
 
@@ -613,6 +607,24 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 winnerPanel.SetActive(true);
             }
         }
+    }
+
+    /// <summary>
+    /// hide and unhide chat in the settings for the next two functions
+    /// </summary>
+
+    public void hideChatSettings() {
+        chatOptions.value = 1;
+        updateChat();
+        hideChatPanel.SetActive(false);
+        unhideChatPanel.SetActive(true);
+    }
+
+    public void unhideChatSettings() {
+        chatOptions.value = 0;
+        updateChat();
+        hideChatPanel.SetActive(true);
+        unhideChatPanel.SetActive(false);
     }
 
 
