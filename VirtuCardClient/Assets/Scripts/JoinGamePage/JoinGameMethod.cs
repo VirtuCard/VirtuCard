@@ -35,6 +35,11 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
 
     public int successfulJoin;
 
+    private bool doSetGameInfo = false;
+    private string maxPlayerString = "";
+    private string gameModeString = "";
+    private string welcomePlayerString = "";
+
     void Update()
     {
         if (makeError)
@@ -59,6 +64,13 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
         }
 
         successfulJoin = 0;
+
+        if (doSetGameInfo)
+        {
+            MaxPlayersText.GetComponent<Text>().text = maxPlayerString;
+            GameModeText.GetComponent<Text>().text = gameModeString;
+            welcomePlayer.GetComponent<Text>().text = welcomePlayerString;
+        }
     }
 
 
@@ -66,8 +78,6 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
     {
         successfulJoin = 0;
 
-        PhotonNetwork.ConnectUsingSettings();
-        PhotonNetwork.AddCallbackTarget(this);
         errorPanel.SetActive(false);
         DatabaseUtils.getUser(AuthUser.GetUserID(), json =>
         {
@@ -75,6 +85,8 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
             ClientData.UserProfile = new User(json);
             Debug.Log("User " + ClientData.UserProfile.ToString());
         });
+        PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.AddCallbackTarget(this);
     }
 
     public void ConnectClientClicked()
@@ -162,9 +174,10 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
             {
             }
 
-            MaxPlayersText.GetComponent<Text>().text = s;
-            GameModeText.GetComponent<Text>().text = "" + players;
-            welcomePlayer.GetComponent<Text>().text = "Welcome, " + clientName + "!";
+            maxPlayerString = s;
+            gameModeString = players.ToString();
+            welcomePlayerString = "Welcome, " + clientName + "!";
+            doSetGameInfo = true;
 
             if (hostName.Equals("__CAPACITY__"))
             {
