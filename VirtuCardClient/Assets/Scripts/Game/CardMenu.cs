@@ -34,6 +34,8 @@ public class CardMenu : MonoBehaviour
 
     private SpriteRenderer sr;
     private Sprite mySprite;
+    private RectTransform lastCreatedCard;
+    private string Path;
 
 
     /// <summary>
@@ -111,7 +113,7 @@ public class CardMenu : MonoBehaviour
     {
         RectTransform newImage = Instantiate(cardTemplate, viewWindow);
 
-        string Path = "Card UI/";
+        Path = "Card UI/";
 
         if (whichCardType == 0)
         {
@@ -125,8 +127,10 @@ public class CardMenu : MonoBehaviour
             Path += suit.ToString();
             Path += "_";
             Path += rank.ToString();
-            
-            newImage.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>(Path);
+
+
+            lastCreatedCard = newImage;
+            //newImage.GetComponentInChildren<RawImage>().texture = Resources.Load<Texture>(Path);
             
 
             //Text rankText = newImage.Find("Rank").gameObject.GetComponent<Text>();
@@ -249,6 +253,8 @@ public class CardMenu : MonoBehaviour
         {
             images[i].anchoredPosition = new Vector2(screenPosition + ((imageWidth + imageSpacing) * i), 0);
         }
+
+        lastCreatedCard.Find("Front").GetComponent<RawImage>().texture = Resources.Load<Texture>(Path);
     }
 
     private void OnSwipeComplete()
