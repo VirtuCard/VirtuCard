@@ -16,6 +16,7 @@ public class GameScreenController : MonoBehaviour
 
     public GameObject allOfChatUI;
     public GameObject chatPanel;
+    public CanvasGroup chatCanvas;
     public Text currentPlayer;
 
     public GameObject settingsPanel;
@@ -54,6 +55,11 @@ public class GameScreenController : MonoBehaviour
     public static Texture textureTwo;
 
     public Button DeclareWinnerButton;
+
+    public CanvasGroup placeholder0;
+    public CanvasGroup placeholder1;
+    public CanvasGroup placeholder2;
+    public CanvasGroup placeholder3;
 
     private bool hasInitializedGame = false;
 
@@ -135,10 +141,8 @@ public class GameScreenController : MonoBehaviour
         }
 
         chatOptions.RefreshShownValue();
-        chatPlace.offsetMin = new Vector2(chatPlace.offsetMin.x, -230);
-        chatPlace.offsetMax = new Vector2(chatPlace.offsetMax.x, -165);
-
-
+        chatPlace.offsetMin = new Vector2(chatPlace.offsetMin.x, 150);
+        chatPlace.offsetMax = new Vector2(chatPlace.offsetMax.x, 215);
         
         if (!HostData.isFreeplay())
         {
@@ -280,24 +284,39 @@ public class GameScreenController : MonoBehaviour
         // chatOptions.RefreshShownValue();
         if (chatValue == 0) // normal chat
         {
-            chatPlace.offsetMin = new Vector2(chatPlace.offsetMin.x, -230);
-            chatPlace.offsetMax = new Vector2(chatPlace.offsetMax.x, -165);
+            chatPlace.offsetMin = new Vector2(chatPlace.offsetMin.x, 150);
+            chatPlace.offsetMax = new Vector2(chatPlace.offsetMax.x, 215);
             HostData.setChatAllowed(true);
-            chatPanel.SetActive(true);
+            // chatPanel.SetActive(true);
+            chatCanvas.GetComponent<CanvasGroup>().alpha = 1;
+            placeholder0.GetComponent<CanvasGroup>().alpha = 1;
+            // placeholder1.GetComponent<CanvasGroup>().alpha = 1;
+            // placeholder2.GetComponent<CanvasGroup>().alpha = 1;
+            // placeholder3.GetComponent<CanvasGroup>().alpha = 1;
         }
         else if (chatValue == 1) // disable chat
         {
-            chatPlace.offsetMin = new Vector2(chatPlace.offsetMin.x, -805);
-            chatPlace.offsetMax = new Vector2(chatPlace.offsetMax.x, -740);
+            chatPlace.offsetMin = new Vector2(chatPlace.offsetMin.x, 150);
+            chatPlace.offsetMax = new Vector2(chatPlace.offsetMax.x, 215);
             HostData.setChatAllowed(false);
-            chatPanel.SetActive(false);
+            // chatPanel.SetActive(false);
+            chatCanvas.GetComponent<CanvasGroup>().alpha = 0;
+            placeholder0.GetComponent<CanvasGroup>().alpha = 0;
+            //placeholder1.GetComponent<CanvasGroup>().alpha = 0;
+            //placeholder2.GetComponent<CanvasGroup>().alpha = 0;
+            //placeholder3.GetComponent<CanvasGroup>().alpha = 0;
         }
         else // mute chat
         {
-            chatPlace.offsetMin = new Vector2(chatPlace.offsetMin.x, -805);
-            chatPlace.offsetMax = new Vector2(chatPlace.offsetMax.x, -740);
+            chatPlace.offsetMin = new Vector2(chatPlace.offsetMin.x, 150);
+            chatPlace.offsetMax = new Vector2(chatPlace.offsetMax.x, 215);
             HostData.setChatAllowed(true);
-            chatPanel.SetActive(false);
+            // chatPanel.SetActive(false);
+            chatCanvas.GetComponent<CanvasGroup>().alpha = 0;
+            placeholder0.GetComponent<CanvasGroup>().alpha = 0;
+            // placeholder1.GetComponent<CanvasGroup>().alpha = 0;
+            // placeholder2.GetComponent<CanvasGroup>().alpha = 0;
+            // placeholder3.GetComponent<CanvasGroup>().alpha = 0;
         }
 
         PhotonNetwork.CurrentRoom.SetCustomProperties(HostData.ToHashtable());

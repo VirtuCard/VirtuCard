@@ -30,6 +30,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public GameObject dropboxUI;
     public RectTransform dropboxSize;
     public GameObject chatPanel;
+    public CanvasGroup chatCanvas;
     // public Dropdown privChatOption;
     // public RectTransform privChatSize;
 
@@ -237,20 +238,23 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             {
                 dropboxSize.offsetMin = new Vector2(dropboxSize.offsetMin.x, 950);
                 dropboxSize.offsetMax = new Vector2(dropboxSize.offsetMax.x, 1040);
-                chatPanel.SetActive(true);
+                // chatPanel.SetActive(true);
+                chatCanvas.GetComponent<CanvasGroup>().alpha = 1;
             }
             else if (chatValue == 1) // hide chat
             {
-                dropboxSize.offsetMin = new Vector2(dropboxSize.offsetMin.x, -1130);
-                dropboxSize.offsetMax = new Vector2(dropboxSize.offsetMax.x, -1040);
-                chatPanel.SetActive(false);
+                dropboxSize.offsetMin = new Vector2(dropboxSize.offsetMin.x, -130);
+                dropboxSize.offsetMax = new Vector2(dropboxSize.offsetMax.x, -20);
+                // chatPanel.SetActive(false);
+                chatCanvas.GetComponent<CanvasGroup>().alpha = 0;
             }
         }
         else
         {
-            // chat is not allowed from the host
+            // chat is disabled from the host
             chatDisableSign.SetActive(true);
-            chatPanel.SetActive(false);
+            chatCanvas.GetComponent<CanvasGroup>().alpha = 0;
+            // chatPanel.SetActive(false);
             dropboxUI.SetActive(false);
         }
     }
