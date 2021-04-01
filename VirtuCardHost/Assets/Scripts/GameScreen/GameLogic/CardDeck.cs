@@ -101,6 +101,7 @@ public class CardDeck
     /// <returns></returns>
     public Card GetCard(int index)
     {
+        Debug.Log("card deck size: " + cards.Count);
         if (index < cards.Count && index >= 0)
         {
             return cards[index];
@@ -218,7 +219,7 @@ public class CardDeck
             newDeck.AddCard(shuffled);
 
             //Decrementing DeckSize given that a card has been removed from the cards list
-            DeckSize--;
+            //DeckSize--;
         }
         //Adds the newDeck's cards into the empty default deck to complete shuffling
         AddCards(newDeck);
@@ -254,7 +255,7 @@ public class CardDeck
     {
         for (int i = 0; i < GetCardCount(); i++)
         {
-            (this.GetCard(i)).CopyCard(toCopy.GetCard(i));
+            (GetCard(i)).CopyCard(toCopy.GetCard(i));
         }
     }
 }
