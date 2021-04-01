@@ -800,6 +800,10 @@ MonoBehaviour:
   dropboxSize: {fileID: 504077118}
   chatPanel: {fileID: 1958468103}
   chatCanvas: {fileID: 1958468108}
+  hideChatPanel: {fileID: 1400224778}
+  hideChatBtn: {fileID: 1400224777}
+  unhideChatPanel: {fileID: 1165306587}
+  unhideChatBtn: {fileID: 1165306589}
   warButton: {fileID: 102378320}
   winnerPanel: {fileID: 171645464}
   exitGameBtn: {fileID: 2018423521}
@@ -6104,19 +6108,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1165306590}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1958468108}
-        m_TargetAssemblyTypeName: UnityEngine.CanvasGroup, UnityEngine
-        m_MethodName: set_alpha
-        m_Mode: 4
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 1
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1165306590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6907,6 +6899,10 @@ PrefabInstance:
       value: Timer, ScriptsAssembly
       objectReference: {fileID: 0}
     - target: {fileID: 7294379117366218234, guid: 6cdcf894ab519384f9ecf504ece55973, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7294379117366218234, guid: 6cdcf894ab519384f9ecf504ece55973, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 4
       objectReference: {fileID: 0}
@@ -6956,6 +6952,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1400224777 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7294379117366218234, guid: 6cdcf894ab519384f9ecf504ece55973, type: 3}
+  m_PrefabInstance: {fileID: 1400224772}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400224778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1400224778 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6038800798896097720, guid: 6cdcf894ab519384f9ecf504ece55973, type: 3}
+  m_PrefabInstance: {fileID: 1400224772}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1413802463 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 627736516168496412, guid: 7df27b85d8ebafd42947f7917b67fea3, type: 3}
