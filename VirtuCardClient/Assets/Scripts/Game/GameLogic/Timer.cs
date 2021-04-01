@@ -30,12 +30,39 @@ public class Timer : MonoBehaviour
     private Action earlyWarningCallback;
     private Action finishedCallback;
 
+    //Settings Panel options
+    private bool hideTimer;
+    public Button hideButton;
+    public Button unHideButton;
+
     // Start is called before the first frame update
     void Start()
     {
+        hideTimer = false;
+        hideButton.gameObject.SetActive(true);
+        unHideButton.gameObject.SetActive(false);
+
         // these values are set in SetupTimer()
         minutesText.text = "-1";
         secondsText.text = "-1";
+    }
+
+    public void onButtonClick()
+    {
+        if (hideTimer)
+        {
+            timerPanel.SetActive(false);
+            hideButton.gameObject.SetActive(false);
+            unHideButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            timerPanel.SetActive(true);
+            hideButton.gameObject.SetActive(true);
+            unHideButton.gameObject.SetActive(false);
+        }
+
+        hideTimer = !hideTimer;
     }
 
 
@@ -47,7 +74,8 @@ public class Timer : MonoBehaviour
     /// <param name="minutes"></param>
     /// <param name="earlyWarningCallback"></param>
     /// <param name="finishedCallback"></param>
-    public void SetupTimer(bool isInPlay, int seconds, int minutes, int warningThreshold, Action earlyWarningCallback, Action finishedCallback)
+    public void SetupTimer(bool isInPlay, int seconds, int minutes, int warningThreshold, Action earlyWarningCallback,
+        Action finishedCallback)
     {
         // set it active if it is in play
         this.isInPlay = isInPlay;
@@ -80,7 +108,7 @@ public class Timer : MonoBehaviour
     public void StartTimer()
     {
         UpdateText();
-        secondsRemaining = (float)totalSeconds;
+        secondsRemaining = (float) totalSeconds;
         isCountingDown = true;
         alreadySentEarlyWarning = false;
 
@@ -119,7 +147,7 @@ public class Timer : MonoBehaviour
         if (enable)
         {
             // reset the timer to full values
-            secondsRemaining = (float)totalSeconds;
+            secondsRemaining = (float) totalSeconds;
 
             // set panel color
             timerPanel.GetComponent<Image>().color = timerColor;
@@ -160,16 +188,17 @@ public class Timer : MonoBehaviour
         {
             return false;
         }
+
         return true;
     }
-    
+
     /// <summary>
     /// Updates the text on the timer panel to reflect current minutes and seconds remaining
     /// </summary>
     private void UpdateText()
     {
-        minutesText.text = ((int)(secondsRemaining / 60)).ToString();
-        secondsText.text = ((int)(secondsRemaining % 60)).ToString();
+        minutesText.text = ((int) (secondsRemaining / 60)).ToString();
+        secondsText.text = ((int) (secondsRemaining % 60)).ToString();
     }
 
     // Update is called once per frame
@@ -207,6 +236,7 @@ public class Timer : MonoBehaviour
                 UpdateText();
             }
         }
+
         // disable warning panel after secondsToShowWarningPanel number of seconds
         if (warningPanel.active)
         {
