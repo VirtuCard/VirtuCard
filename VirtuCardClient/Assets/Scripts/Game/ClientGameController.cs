@@ -135,7 +135,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         // check to see if the player can skip their turn once per frame
         foreach (RectTransform o in cardMenu.images)
         {
-            o.Find("Image").GetComponent<Outline>().enabled = false;
+            o.Find("Front").GetComponent<Outline>().enabled = false;
         }
 
         if (ClientData.isCurrentTurn())
@@ -155,7 +155,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
             if (selectedCard != null)
             {
-                cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("Image").GetComponent<Outline>().enabled = true;
+                cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("Front").GetComponent<Outline>().enabled = true;
                 if (previouslySelectedCard == null ||
                     previouslySelectedCard.Compare(selectedCard) == false)
                 {
@@ -676,7 +676,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     {
         //TODO will send a signal to host to flip the top card over
         Debug.Log("FlipCardClicked!");
-        object[] content = {"flipcardlicked"};
+        object[] content = {PhotonNetwork.NickName};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
         PhotonNetwork.RaiseEvent(34, content, raiseEventOptions, SendOptions.SendUnreliable);
     }

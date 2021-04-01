@@ -204,9 +204,12 @@ public class CardDeck
         }
     }
 
+
     public void RemoveAllCards()
     {
-        RemoveCards(GetAllCards());
+        //RemoveCards(GetAllCards());
+        cards.Clear();
+
     }
 
     /// <summary>
