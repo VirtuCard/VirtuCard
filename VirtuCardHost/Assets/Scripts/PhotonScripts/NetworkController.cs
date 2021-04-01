@@ -17,6 +17,7 @@ namespace PhotonScripts
         private GameObject eventTest;
 
         private int warPlayer = 0;
+
         //Field for Host's RoomCode.
         //Format: ABCDEF
         private string RoomCode = "";
@@ -109,7 +110,7 @@ namespace PhotonScripts
         {
             Debug.Log("-----PLAYER ENTERED-----");
             Debug.Log(newPlayer.ToString());
-            
+
             if (HostData.GetGame().containsPlayer(newPlayer))
             {
                 Debug.Log("-----DUPLICATE | NOT ADDED-----");
@@ -139,7 +140,11 @@ namespace PhotonScripts
         public override void OnPlayerLeftRoom(Player playerToDisconnect)
         {
             Debug.Log("-----PLAYER LEFT (" + playerToDisconnect.NickName + ")-----");
-            ChatPanelController.systemMessages.Add( playerToDisconnect.NickName + " has left the room");
+            if (!ChatPanelController.systemMessages.Contains(playerToDisconnect.NickName + " has left the room"))
+            {
+                ChatPanelController.systemMessages.Add(playerToDisconnect.NickName + " has left the room");
+            }
+
             HostData.GetGame().DisconnectPlayerFromGame(playerToDisconnect);
         }
 
