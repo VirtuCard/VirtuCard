@@ -38,7 +38,7 @@ public class Timer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        hideTimer = false;
+        hideTimer = true;
         hideButton.gameObject.SetActive(true);
         unHideButton.gameObject.SetActive(false);
 
