@@ -33,7 +33,6 @@ public class ProfileScreenController : MonoBehaviour
     public GameObject incompleteErrorPanel;
     public Text errorPanelHeadingText;
     public Text errorPanelMessageText;
-    
 
     private bool isAnonymous;
     public static int success = 0;
