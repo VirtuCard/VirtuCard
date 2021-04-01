@@ -34,10 +34,15 @@ public class CardMenu : MonoBehaviour
 
     private SpriteRenderer sr;
     private Sprite mySprite;
-    private RectTransform lastCreatedCard;
-    private bool setLastCreatedCard = false;
     private string Path;
 
+    private struct CardsToAssignTexture
+    {
+        public string texturePath;
+        public RectTransform cardTransform;
+    }
+
+    private List<CardsToAssignTexture> cardsToAssignTextures = new List<CardsToAssignTexture>();
 
     /// <summary>
     /// Returns the currently selected card or NULL if there are none in the carousel
@@ -130,18 +135,7 @@ public class CardMenu : MonoBehaviour
             Path += rank.ToString();
 
 
-            lastCreatedCard = newImage;
-            setLastCreatedCard = true;
-            //newImage.GetComponentInChildren<RawImage>().texture = Resources.Load<Texture>(Path);
-
-
-            //Text rankText = newImage.Find("Rank").gameObject.GetComponent<Text>();
-            //Debug.Log(rankText.ToString());
-            //Text suitText = newImage.Find("Suit").gameObject.GetComponent<Text>();
-            //Debug.Log(suitText.ToString());
-
-            //rankText.text = Enum.GetName(typeof(StandardCardRank), rank);
-            //suitText.text = Enum.GetName(typeof(StandardCardSuit), suit);
+            cardsToAssignTextures.Add(new CardsToAssignTexture { cardTransform = newImage, texturePath = Path });
         }
         // TODO this is where other types of cards would be implemented
 
@@ -256,10 +250,11 @@ public class CardMenu : MonoBehaviour
             images[i].anchoredPosition = new Vector2(screenPosition + ((imageWidth + imageSpacing) * i), 0);
         }
 
-        if (setLastCreatedCard)
+        int cardCountToSet = cardsToAssignTextures.Count;
+        for (int x = cardCountToSet - 1; x >= 0; x--)
         {
-            lastCreatedCard.Find("Front").GetComponent<RawImage>().texture = Resources.Load<Texture>(Path);
-            setLastCreatedCard = false;
+            cardsToAssignTextures[x].cardTransform.Find("Front").GetComponent<RawImage>().texture = Resources.Load<Texture>(cardsToAssignTextures[x].texturePath);
+            cardsToAssignTextures.RemoveAt(x);
         }
     }
 
