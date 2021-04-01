@@ -7477,6 +7477,7 @@ MonoBehaviour:
   lastPlayedDeckOne: {fileID: 1700927559}
   lastPlayedDeckTwo: {fileID: 1017583998}
   DeclareWinnerButton: {fileID: 1833295446}
+  MessageContent: {fileID: 2795817756387795938}
   placeholder0: {fileID: 2795817756387795937}
   placeholder1: {fileID: 2795817756387795934}
   placeholder2: {fileID: 2795817756387795933}
@@ -9245,7 +9246,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2795817756845872958, guid: 3cf453fb80752d24e9c428e944168fca, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2795817756845872958, guid: 3cf453fb80752d24e9c428e944168fca, type: 3}
       propertyPath: m_AnchorMin.x
@@ -9253,7 +9254,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2795817756845872958, guid: 3cf453fb80752d24e9c428e944168fca, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2795817756845872958, guid: 3cf453fb80752d24e9c428e944168fca, type: 3}
       propertyPath: m_SizeDelta.x
@@ -9293,11 +9294,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2795817756845872958, guid: 3cf453fb80752d24e9c428e944168fca, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 226.5839
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2795817756845872958, guid: 3cf453fb80752d24e9c428e944168fca, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -288.4735
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2795817756845872958, guid: 3cf453fb80752d24e9c428e944168fca, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -9447,6 +9448,11 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1 &2795817756387795938 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2795817756218041449, guid: 3cf453fb80752d24e9c428e944168fca, type: 3}
+  m_PrefabInstance: {fileID: 2795817756387795925}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8533035956784311593
 PrefabInstance:
   m_ObjectHideFlags: 0

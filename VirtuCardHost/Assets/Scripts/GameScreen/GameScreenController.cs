@@ -17,6 +17,7 @@ public class GameScreenController : MonoBehaviour
     public GameObject allOfChatUI;
     public GameObject chatPanel;
     public CanvasGroup chatCanvas;
+    public GameObject MessageContent;
     public Text currentPlayer;
 
     public GameObject settingsPanel;
@@ -55,11 +56,6 @@ public class GameScreenController : MonoBehaviour
     public static Texture textureTwo;
 
     public Button DeclareWinnerButton;
-
-    public CanvasGroup placeholder0;
-    public CanvasGroup placeholder1;
-    public CanvasGroup placeholder2;
-    public CanvasGroup placeholder3;
 
     private bool hasInitializedGame = false;
 
@@ -289,10 +285,7 @@ public class GameScreenController : MonoBehaviour
             HostData.setChatAllowed(true);
             // chatPanel.SetActive(true);
             chatCanvas.GetComponent<CanvasGroup>().alpha = 1;
-            placeholder0.GetComponent<CanvasGroup>().alpha = 1;
-            // placeholder1.GetComponent<CanvasGroup>().alpha = 1;
-            // placeholder2.GetComponent<CanvasGroup>().alpha = 1;
-            // placeholder3.GetComponent<CanvasGroup>().alpha = 1;
+            MessageContent.SetActive(true);
         }
         else if (chatValue == 1) // disable chat
         {
@@ -301,10 +294,7 @@ public class GameScreenController : MonoBehaviour
             HostData.setChatAllowed(false);
             // chatPanel.SetActive(false);
             chatCanvas.GetComponent<CanvasGroup>().alpha = 0;
-            placeholder0.GetComponent<CanvasGroup>().alpha = 0;
-            //placeholder1.GetComponent<CanvasGroup>().alpha = 0;
-            //placeholder2.GetComponent<CanvasGroup>().alpha = 0;
-            //placeholder3.GetComponent<CanvasGroup>().alpha = 0;
+            MessageContent.SetActive(false);
         }
         else // mute chat
         {
@@ -313,10 +303,7 @@ public class GameScreenController : MonoBehaviour
             HostData.setChatAllowed(true);
             // chatPanel.SetActive(false);
             chatCanvas.GetComponent<CanvasGroup>().alpha = 0;
-            placeholder0.GetComponent<CanvasGroup>().alpha = 0;
-            // placeholder1.GetComponent<CanvasGroup>().alpha = 0;
-            // placeholder2.GetComponent<CanvasGroup>().alpha = 0;
-            // placeholder3.GetComponent<CanvasGroup>().alpha = 0;
+            MessageContent.SetActive(false);
         }
 
         PhotonNetwork.CurrentRoom.SetCustomProperties(HostData.ToHashtable());
