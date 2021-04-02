@@ -20,6 +20,7 @@ public static class HostData
     private static int maxNumPlayers = 5;
     private static string joinCode;
     private static bool chatAllowed = true;
+    private static bool chatMute = false;
     private static Game currentGame;
     private static bool gameSelected = false;
     private static User userProfile;
@@ -254,6 +255,15 @@ public static class HostData
     public static void setChatAllowed(bool isChatAllowed)
     {
         chatAllowed = isChatAllowed;
+    }
+
+    public static bool isChatMute()
+    {
+        return chatMute;
+    }
+
+    public static void setChatMute(bool isChatMute) {
+        chatMute = isChatMute;
     }
 
     // Adding settings for freeplay
