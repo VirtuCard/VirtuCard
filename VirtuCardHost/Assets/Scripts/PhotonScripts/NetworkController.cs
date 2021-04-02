@@ -7,6 +7,7 @@ using UnityEngine;
 using ExitGames.Client.Photon;
 using System;
 using GameScreen.ChatPanel;
+using Random = UnityEngine.Random;
 
 namespace PhotonScripts
 {
@@ -28,6 +29,8 @@ namespace PhotonScripts
 
         public static bool isShuffling;
 
+        public static int count;
+
         /* Start is called before the first frame update
     public static void OnCreateButtonClick()
     {
@@ -37,6 +40,7 @@ namespace PhotonScripts
 
         void Start()
         {
+            count = 0;
             PhotonNetwork.AddCallbackTarget(this);
         }
 
@@ -49,6 +53,18 @@ namespace PhotonScripts
         void OnServerConnect()
         {
             DoSomething(false);
+        }
+
+        private void Update()
+        {
+            if (count > 0)
+            {
+                if (Random.Range(0, 120) == 1)
+                {
+                    DoSomething(false);
+                    count--;
+                }
+            }
         }
 
         /// generateCode()
@@ -110,6 +126,7 @@ namespace PhotonScripts
 
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
+            count = 3;
             Debug.Log("-----PLAYER ENTERED-----");
             Debug.Log(newPlayer.ToString());
 
