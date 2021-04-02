@@ -218,20 +218,16 @@ public class GameScreenController : MonoBehaviour
 
         if (doPlayedAnimation)
         {
-            Debug.LogError("Here1");
             lastPlayedCard.gameObject.SetActive(true);
-            Debug.LogError("Here2");
             doPlayedAnimation = false;
             if (HostData.GetGame().GetGameName().Equals("Freeplay"))
             {
                 if (HostData.getDisplayLastCard())
                 {
-                    Debug.LogError("Here3");
                     lastPlayedCard.texture = HostData.GetLastPlayedCardTexture();
                 }
                 else
                 {
-                    Debug.LogError("Here4");
                     lastPlayedCard.texture = Resources.Load<Texture>("Card UI/SingleCardBack");
                     // call this just to reset the texture boolean
                     HostData.GetLastPlayedCardTexture();
@@ -239,10 +235,8 @@ public class GameScreenController : MonoBehaviour
             }
             else
             {
-                Debug.LogError("Here5");
                 lastPlayedCard.texture = HostData.GetLastPlayedCardTexture();
             }
-            Debug.LogError("Here6");
         }
         if (HostData.DidLastPlayedCardTextureUpdate())
         {
