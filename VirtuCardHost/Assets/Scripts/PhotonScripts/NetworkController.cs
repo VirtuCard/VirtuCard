@@ -116,7 +116,8 @@ namespace PhotonScripts
             if (HostData.GetGame().containsPlayer(newPlayer))
             {
                 Debug.Log("-----DUPLICATE | NOT ADDED-----");
-                DoSomething(false);
+                StartCoroutine(SendRoomInfoToClients(false));
+                //DoSomething(false);
                 return;
             }
 
@@ -124,7 +125,8 @@ namespace PhotonScripts
             if (HostData.GetGame().GetNumOfPlayers() >= HostData.GetMaxNumPlayers())
             {
                 Debug.Log("Game at capacity");
-                DoSomething(true);
+                StartCoroutine(SendRoomInfoToClients(false));
+                //DoSomething(true);
             }
 
             if (HostData.GetGame().AddPlayer(newPlayer))
@@ -136,7 +138,8 @@ namespace PhotonScripts
                 Debug.Log("Failed to add new player to game");
             }
 
-            DoSomething(false);
+            StartCoroutine(SendRoomInfoToClients(false));
+            //DoSomething(false);
         }
 
         public override void OnPlayerLeftRoom(Player playerToDisconnect)
@@ -442,6 +445,13 @@ namespace PhotonScripts
             object[] content = new object[] {username, isValid};
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
             PhotonNetwork.RaiseEvent(5, content, raiseEventOptions, SendOptions.SendUnreliable);
+        }
+
+        public IEnumerator SendRoomInfoToClients(bool isRoomAtCapacity)
+        {
+            yield return new WaitForSeconds(2);
+
+            DoSomething(isRoomAtCapacity);
         }
 
         public void DoSomething(bool isRoomAtCapacity)

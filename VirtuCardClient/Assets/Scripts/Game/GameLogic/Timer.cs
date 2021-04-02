@@ -49,20 +49,23 @@ public class Timer : MonoBehaviour
 
     public void onButtonClick()
     {
-        if (hideTimer)
+        if (isInPlay)
         {
-            timerPanel.SetActive(false);
-            hideButton.gameObject.SetActive(false);
-            unHideButton.gameObject.SetActive(true);
-        }
-        else
-        {
-            timerPanel.SetActive(true);
-            hideButton.gameObject.SetActive(true);
-            unHideButton.gameObject.SetActive(false);
-        }
+            if (hideTimer)
+            {
+                timerPanel.SetActive(false);
+                hideButton.gameObject.SetActive(false);
+                unHideButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                timerPanel.SetActive(true);
+                hideButton.gameObject.SetActive(true);
+                unHideButton.gameObject.SetActive(false);
+            }
 
-        hideTimer = !hideTimer;
+            hideTimer = !hideTimer;
+        }
     }
 
 
