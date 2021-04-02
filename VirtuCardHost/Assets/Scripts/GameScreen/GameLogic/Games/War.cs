@@ -104,33 +104,6 @@ public class War : Game
         return false;
     }
 
-    /*
-    private IENUMERATOR DelayCards()
-    {
-        yield return new WaitForSeconds(3);
-
-        GameScreenController.textureOne = Resources.Load<Texture>("Card UI/" + "SingleCardBack");
-        GameScreenController.textureTwo = Resources.Load<Texture>("Card UI/" + "SingleCardBack");
-
-        if (GetDeck(DeckChoices.PONEUNPLAYED).GetCardCount() == 52)
-        {
-        // declare a winner with raising an event
-        object[] content = new object[] { "Player one" };
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
-
-        }
-        else if (GetDeck(DeckChoices.PTWOUNPLAYED).GetCardCount() == 52)
-        {
-        // declare a winner with raising an event
-        object[] content = new object[] { "Player two" };
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
-        }
-
-    }
-    */
-
      /// <summary>
     /// This method is called when a player plays a card
     /// </summary>
@@ -152,8 +125,6 @@ public class War : Game
             string cardFileName = toPlay.GetSuit().ToString() + "_" + toPlay.GetRank().ToString();
             GameScreenController.textureOne = Resources.Load<Texture>("Card UI/" + cardFileName);
 
-            //AdvanceTurn(true);
-            //didDoMoveFirst = false;
             firstTurnHappened = false;
         }
         else
@@ -170,8 +141,6 @@ public class War : Game
 
             StandardCard firstCard = (StandardCard) GetDeck(DeckChoices.PONEPLAYED).GetCard(GetDeck(DeckChoices.PONEPLAYED).GetCardCount() - 1);
             StandardCard secondCard = (StandardCard) GetDeck(DeckChoices.PTWOPLAYED).GetCard(GetDeck(DeckChoices.PTWOPLAYED).GetCardCount() - 1);
-            //Debug.Log("LEFT TOP DECK " + firstCard.GetSuit().ToString() + "_" + toPlay.GetRank().ToString());
-            //Debug.Log("RIGHT TOP DECK " + secondCard.GetSuit().ToString() + "_" + toPlay.GetRank().ToString());
 
             Debug.Log("LEFT TOP DECK RANK "  + (int) firstCard.GetRank());
             Debug.Log("RIGHT TOP DECK RANK "  + (int) secondCard.GetRank());
@@ -184,6 +153,7 @@ public class War : Game
                 //AdvanceTurn(true);
                 Debug.Log("cards are the same");
                 HostData.SetDoShowNotificationWindow(true, "Cards are the Same Rank!");
+                firstTurnHappened = true;
             }
             else if (first > second)
             {
@@ -193,32 +163,14 @@ public class War : Game
 
                 // This takes all of player 2's played cards and adds it to player
                 // 1's unplayed deck
-
-                /*
-                    for (int i = 0; i < GetDeck(DeckChoices.PTWOPLAYED).GetCardCount(); i++)
-                    {
-                        GetDeck(DeckChoices.PONEUNPLAYED).AddCard(GetDeck(DeckChoices.PTWOPLAYED).PopCard());
-                    }
-                */
                 GetDeck(DeckChoices.PONEUNPLAYED).AddCards(GetDeck(DeckChoices.PTWOPLAYED));
                 GetDeck(DeckChoices.PTWOPLAYED).RemoveAllCards();
                 // This takes the cards from player 1's played cards and adds it to player
-                // 1's unplayed deck
-                /*
-                for (int i = 0; i < GetDeck(DeckChoices.PONEPLAYED).GetCardCount(); i++)
-                {
-                    GetDeck(DeckChoices.PONEUNPLAYED).AddCard(GetDeck(DeckChoices.PONEPLAYED).PopCard());
-                }
-                */
-                //AdvanceTurn(true);
                 GetDeck(DeckChoices.PONEUNPLAYED).AddCards(GetDeck(DeckChoices.PONEPLAYED));
                 GetDeck(DeckChoices.PONEPLAYED).RemoveAllCards();
 
-                //StartCoroutine(DelayCards());
                 GameScreenController.doFlipWarCards = true;
-
-                // reset textures since someone has won the deck
-                
+                firstTurnHappened = true;
             }
             else if (first < second)
             {
@@ -227,57 +179,21 @@ public class War : Game
                 HostData.SetDoShowNotificationWindow(true, "Right Card is Higher!");
                 // This takes all of the cards from the player ones played deck and adds it
                 // to player 2's unplayed deck
-                /*
-                for (int i = 0; i < GetDeck(DeckChoices.PONEPLAYED).GetCardCount(); i++)
-                {
-                    GetDeck(DeckChoices.PTWOUNPLAYED).AddCard(GetDeck(DeckChoices.PONEPLAYED).PopCard());
-                }
-                */
                 GetDeck(DeckChoices.PTWOUNPLAYED).AddCards(GetDeck(DeckChoices.PONEPLAYED));
                 GetDeck(DeckChoices.PONEPLAYED).RemoveAllCards();
                 // This takes the cards from player 2's played cards and adds it to player
                 // 2's unplayed deck
-                /*
-                for (int i = 0; i < GetDeck(DeckChoices.PONEPLAYED).GetCardCount(); i++)
-                {
-                    GetDeck(DeckChoices.PTWOUNPLAYED).AddCard(GetDeck(DeckChoices.PTWOPLAYED).PopCard());
-                }
-                */
                 //AdvanceTurn(true);
                 GetDeck(DeckChoices.PTWOUNPLAYED).AddCards(GetDeck(DeckChoices.PTWOPLAYED));
                 GetDeck(DeckChoices.PTWOPLAYED).RemoveAllCards();
 
                 // reset textures since someone has won the deck
 
-                //StartCoroutine(DelayCards());
                 GameScreenController.doFlipWarCards = true;
-
-                //GameScreenController.textureOne = Resources.Load<Texture>("Card UI/" + "SingleCardBack");
-                //GameScreenController.textureTwo = Resources.Load<Texture>("Card UI/" + "SingleCardBack");
                 firstTurnHappened = true;
             } 
             firstTurnHappened = true;
-            //didDoMoveFirst = true;
         }
-        
-        /*
-        // checks to see if a player has won
-        if (GetDeck(DeckChoices.PONEUNPLAYED).GetCardCount() == 52)
-        {
-            // declare a winner with raising an event
-        object[] content = new object[] { "Player one" };
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
-
-        }
-        else if (GetDeck(DeckChoices.PTWOUNPLAYED).GetCardCount() == 52)
-        {
-            // declare a winner with raising an event
-        object[] content = new object[] { "Player two" };
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
-        }
-        */
         AdvanceTurn(true);
         return true;
     

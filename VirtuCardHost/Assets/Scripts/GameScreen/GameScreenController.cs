@@ -70,6 +70,8 @@ public class GameScreenController : MonoBehaviour
 
     public static bool doFlipWarCards = false;
 
+    public Button shuffleButton;
+
 
     // Start is called before the first frame update
     void Start()
@@ -118,6 +120,7 @@ public class GameScreenController : MonoBehaviour
             warPanel.SetActive(true);
             standardPanel.SetActive(false);
             goFishPanel.SetActive(false);
+            shuffleButton.gameObject.SetActive(false);
         }
         else if (HostData.GetGame().GetGameName().Equals("GoFish"))
         {
@@ -128,12 +131,14 @@ public class GameScreenController : MonoBehaviour
             goFishDeckCardsUI[0].SetActive(true);
             goFishDeckCardsUI[1].SetActive(true);
             goFishDeckCardsUI[2].SetActive(true);
+            shuffleButton.gameObject.SetActive(false);
         }
         else
         {
             warPanel.SetActive(false);
             standardPanel.SetActive(true);
             goFishPanel.SetActive(false);
+            shuffleButton.gameObject.SetActive(true);
         }
 
         chatOptions.RefreshShownValue();
@@ -157,7 +162,15 @@ public class GameScreenController : MonoBehaviour
             SceneManager.LoadScene(SceneNames.WaitingRoomScreen);
         }
 
-        currentPlayer.GetComponent<Text>().text = HostData.GetGame().GetPlayerOfCurrentTurn().username + "'s Turn";
+        try
+        {
+            currentPlayer.GetComponent<Text>().text = HostData.GetGame().GetPlayerOfCurrentTurn().username + "'s Turn";
+        }
+        catch(Exception ex)
+        {
+            Debug.LogError("GameScreenController.cs error: " + ex.Message);
+        }
+
         if (hasInitializedGame == false && startTime + secondsBeforeInitialization <= Time.time)
         {
             hasInitializedGame = true;
