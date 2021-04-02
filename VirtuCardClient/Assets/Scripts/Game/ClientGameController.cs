@@ -242,6 +242,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 dropboxSize.offsetMax = new Vector2(dropboxSize.offsetMax.x, 1040);
                 // chatPanel.SetActive(true);
                 chatCanvas.GetComponent<CanvasGroup>().alpha = 1;
+                hideChatPanel.SetActive(true);
+                unhideChatPanel.SetActive(false);
             }
             else if (chatValue == 1) // hide chat
             {
@@ -249,6 +251,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 dropboxSize.offsetMax = new Vector2(dropboxSize.offsetMax.x, -20);
                 // chatPanel.SetActive(false);
                 chatCanvas.GetComponent<CanvasGroup>().alpha = 0;
+                hideChatPanel.SetActive(false);
+                unhideChatPanel.SetActive(true);
             }
         }
         else
