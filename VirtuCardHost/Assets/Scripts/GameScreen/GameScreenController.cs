@@ -72,6 +72,8 @@ public class GameScreenController : MonoBehaviour
 
     public Button shuffleButton;
 
+    private bool doPlayedAnimation = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -214,19 +216,32 @@ public class GameScreenController : MonoBehaviour
             Game.didSkipTurn = false;
         }
 
-        if (HostData.DidLastPlayedCardTextureUpdate())
+        if (doPlayedAnimation)
         {
+            lastPlayedCard.gameObject.SetActive(true);
+            doPlayedAnimation = false;
             if (HostData.GetGame().GetGameName().Equals("Freeplay"))
             {
                 if (HostData.getDisplayLastCard())
                 {
                     lastPlayedCard.texture = HostData.GetLastPlayedCardTexture();
                 }
+                else
+                {
+                    lastPlayedCard.texture = Resources.Load<Texture>("Card UI/SingleCardBack");
+                    // call this just to reset the texture boolean
+                    HostData.GetLastPlayedCardTexture();
+                }
             }
             else
             {
                 lastPlayedCard.texture = HostData.GetLastPlayedCardTexture();
             }
+        }
+        if (HostData.DidLastPlayedCardTextureUpdate())
+        {
+            doPlayedAnimation = true;
+            lastPlayedCard.gameObject.SetActive(false);
         }
 
         lastPlayedDeckOne.texture = textureOne;

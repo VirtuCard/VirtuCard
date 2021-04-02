@@ -98,9 +98,17 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
     {
         loadingPanel.SetActive(true);
         joinCode = inputField.GetComponent<Text>().text;
+
+        if ((joinCode == null) || (joinCode.Equals("")))
+        {
+            successfulJoin = -1;
+        }
+
         Debug.Log("Join Code is: " + joinCode);
         ConnectClientToServer(joinCode);
     }
+
+ 
 
     /// <summary>
     /// This method connects the client to the server
