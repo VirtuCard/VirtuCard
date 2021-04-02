@@ -48,6 +48,9 @@ public class War : Game
     /// </summary>
     public override void InitializeGame()
     {
+        GameScreenController.textureOne = Resources.Load<Texture>("Card UI/SingleCardBack");
+        GameScreenController.textureTwo = Resources.Load<Texture>("Card UI/SingleCardBack");
+
         CardDeck OGDeck = CreateStandard52Deck();
         CardDeck poneUnplayed = new CardDeck();
         for (int i = 0; i < 26; i++)

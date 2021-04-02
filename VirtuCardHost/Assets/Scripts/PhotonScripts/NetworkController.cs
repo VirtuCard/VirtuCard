@@ -116,6 +116,7 @@ namespace PhotonScripts
             if (HostData.GetGame().containsPlayer(newPlayer))
             {
                 Debug.Log("-----DUPLICATE | NOT ADDED-----");
+                DoSomething(false);
                 StartCoroutine(SendRoomInfoToClients(false));
                 //DoSomething(false);
                 return;
@@ -138,6 +139,7 @@ namespace PhotonScripts
                 Debug.Log("Failed to add new player to game");
             }
 
+            DoSomething(false);
             StartCoroutine(SendRoomInfoToClients(false));
             //DoSomething(false);
         }
@@ -197,7 +199,6 @@ namespace PhotonScripts
 
         private void OnSignalSent(EventData photonEvent)
         {
-
             while (isShuffling)
             {
                 //Debug.Log("In PauseLoop");
@@ -328,15 +329,18 @@ namespace PhotonScripts
                     else
                     {
                         // skip turn normally
-                        HostData.SetDoShowNotificationWindow(true, username + " has skipped their turn");
-                        if (HostData.GetGame().GetGameName().Equals("GoFish"))
+                        if (!int.TryParse(username, out _))
                         {
-                            List<Card> cardList = new List<Card>();
-                            cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
-                            SendCardsToPlayer(username, cardList, true, true);
-                        }
+                            HostData.SetDoShowNotificationWindow(true, username + " has skipped their turn");
+                            if (HostData.GetGame().GetGameName().Equals("GoFish"))
+                            {
+                                List<Card> cardList = new List<Card>();
+                                cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
+                                SendCardsToPlayer(username, cardList, true, true);
+                            }
 
-                        HostData.GetGame().AdvanceTurn(true);
+                            HostData.GetGame().AdvanceTurn(true);
+                        }
                     }
                 }
             }
@@ -471,6 +475,11 @@ namespace PhotonScripts
         public static void setIsShuffle(bool newBool)
         {
             isShuffling = newBool;
+        }
+
+        private void OnDestroy()
+        {
+            Debug.LogError("Network Controller is being destroyed. This is not ideal.");
         }
     }
 }
