@@ -483,14 +483,14 @@ public class GameScreenController : MonoBehaviour
     public void ExitGameClicked()
     {
         Debug.Log("exit game clicked");
-        //HostData.clearGame();
+        HostData.clearGame();
         PhotonNetwork.LeaveRoom();
-        SceneManager.LoadScene(SceneNames.LandingPage, LoadSceneMode.Single);
+        SceneManager.LoadScene(SceneNames.LandingPage);
     }
 
     public void GoToGameOverFromEndGame()
     {
-        HostData.clearGame();
+        // HostData.clearGame();
         endGamePanel.SetActive(false);
 
         object[] content = new object[] {"nowinner"};

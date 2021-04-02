@@ -152,6 +152,7 @@ public static class ClientData
 
     public static void ClearInformation()
     {
+        playerNames = new List<string>();
         joinCode = "";
         currentPlayerTurn = "";
         isCurrentlyTurn = false;

@@ -7,8 +7,7 @@ using UnityEngine.UI;
 
 public class ProfileScreenController : MonoBehaviour
 {
-    [Header("Text")]
-    public Text nameText;
+    [Header("Text")] public Text nameText;
     public Text namePlaceholderText;
     public Text nameInputText;
     public InputField nameInput;
@@ -26,8 +25,7 @@ public class ProfileScreenController : MonoBehaviour
     public Button backButton;
     public Text editButtonText;
 
-    [Header("Error Panels")]
-    public GameObject errorPanel;
+    [Header("Error Panels")] public GameObject errorPanel;
     public GameObject anonymousErrorPanel;
     public GameObject successPanel;
     public GameObject incompleteErrorPanel;
@@ -97,6 +95,7 @@ public class ProfileScreenController : MonoBehaviour
                 anonymousErrorPanel.SetActive(true);
                 return;
             }
+
             editButtonText.text = "Submit";
             nameText.gameObject.SetActive(false);
             usernameText.gameObject.SetActive(false);
@@ -113,41 +112,41 @@ public class ProfileScreenController : MonoBehaviour
                 errorPanelMessageText.text = "Please enter a valid username and player name.";
                 return;
             }
-            if (usernameInputText.text.Equals(""))
-            {
-                success = -2;
-                errorPanel.SetActive(true);
-                errorPanelHeadingText.text = "Username Blank";
-                errorPanelMessageText.text = "Please enter a valid username.";
-                return;
-            }
-            if (nameInputText.text.Equals(""))
-            {
-                success = -2;
-                errorPanel.SetActive(true);
-                errorPanelHeadingText.text = "Player Name Blank";
-                errorPanelMessageText.text = "Please enter a valid player name.";
-                return;
-            }
+
+
             string newUsername = usernameInputText.text;
             string newName = nameInputText.text;
+            
+            if (usernameInputText.text.Equals(""))
+            {
+                newUsername = ClientData.UserProfile.Username;
+            }
+
+            if (nameInputText.text.Equals(""))
+            {
+                newName = ClientData.UserProfile.Name;
+            }
+
             DatabaseUtils.findUsername(newUsername, val =>
             {
-                if (val != null)
+                if (val != null && newUsername != ClientData.UserProfile.Username)
                 {
                     success = -1;
-                    return;
                 }
                 else
                 {
                     success = 1;
-                    ClientData.UserProfile.Username = usernameInputText.text;
-                    ClientData.UserProfile.Name = nameInputText.text;
-                    DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Updated username and name"); });
+                    ClientData.UserProfile.Username = newUsername;
+                    ClientData.UserProfile.Name = newName;
+                    DatabaseUtils.RemoveUserWithID(ClientData.UserProfile.UserId,
+                        c =>
+                        {
+                            DatabaseUtils.addUser(ClientData.UserProfile,
+                                b => { Debug.Log("Updated username and name"); });
+                        });
                 }
             });
         }
-  
     }
 
     public void onOKButtonClicked()
