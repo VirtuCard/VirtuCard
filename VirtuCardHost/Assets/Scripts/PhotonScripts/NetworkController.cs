@@ -117,7 +117,7 @@ namespace PhotonScripts
             {
                 Debug.Log("-----DUPLICATE | NOT ADDED-----");
                 DoSomething(false);
-                StartCoroutine(SendRoomInfoToClients(false));
+                //StartCoroutine(SendRoomInfoToClients(false));
                 //DoSomething(false);
                 return;
             }
@@ -126,8 +126,8 @@ namespace PhotonScripts
             if (HostData.GetGame().GetNumOfPlayers() >= HostData.GetMaxNumPlayers())
             {
                 Debug.Log("Game at capacity");
-                StartCoroutine(SendRoomInfoToClients(false));
-                //DoSomething(true);
+                //StartCoroutine(SendRoomInfoToClients(true));
+                DoSomething(true);
             }
 
             if (HostData.GetGame().AddPlayer(newPlayer))
@@ -140,7 +140,7 @@ namespace PhotonScripts
             }
 
             DoSomething(false);
-            StartCoroutine(SendRoomInfoToClients(false));
+            //StartCoroutine(SendRoomInfoToClients(false));
             //DoSomething(false);
         }
 
