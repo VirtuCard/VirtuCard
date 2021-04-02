@@ -194,7 +194,6 @@ namespace PhotonScripts
 
         private void OnSignalSent(EventData photonEvent)
         {
-
             while (isShuffling)
             {
                 //Debug.Log("In PauseLoop");
@@ -325,15 +324,18 @@ namespace PhotonScripts
                     else
                     {
                         // skip turn normally
-                        HostData.SetDoShowNotificationWindow(true, username + " has skipped their turn");
-                        if (HostData.GetGame().GetGameName().Equals("GoFish"))
+                        if (!int.TryParse(username, out _))
                         {
-                            List<Card> cardList = new List<Card>();
-                            cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
-                            SendCardsToPlayer(username, cardList, true, true);
-                        }
+                            HostData.SetDoShowNotificationWindow(true, username + " has skipped their turn");
+                            if (HostData.GetGame().GetGameName().Equals("GoFish"))
+                            {
+                                List<Card> cardList = new List<Card>();
+                                cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
+                                SendCardsToPlayer(username, cardList, true, true);
+                            }
 
-                        HostData.GetGame().AdvanceTurn(true);
+                            HostData.GetGame().AdvanceTurn(true);
+                        }
                     }
                 }
             }
