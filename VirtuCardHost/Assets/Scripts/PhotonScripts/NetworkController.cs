@@ -116,6 +116,7 @@ namespace PhotonScripts
             if (HostData.GetGame().containsPlayer(newPlayer))
             {
                 Debug.Log("-----DUPLICATE | NOT ADDED-----");
+                DoSomething(false);
                 StartCoroutine(SendRoomInfoToClients(false));
                 //DoSomething(false);
                 return;
@@ -138,6 +139,7 @@ namespace PhotonScripts
                 Debug.Log("Failed to add new player to game");
             }
 
+            DoSomething(false);
             StartCoroutine(SendRoomInfoToClients(false));
             //DoSomething(false);
         }
@@ -473,6 +475,11 @@ namespace PhotonScripts
         public static void setIsShuffle(bool newBool)
         {
             isShuffling = newBool;
+        }
+
+        private void OnDestroy()
+        {
+            Debug.LogError("Network Controller is being destroyed. This is not ideal.");
         }
     }
 }
