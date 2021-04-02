@@ -70,6 +70,11 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
             MaxPlayersText.GetComponent<Text>().text = maxPlayerString;
             GameModeText.GetComponent<Text>().text = gameModeString;
             welcomePlayer.GetComponent<Text>().text = welcomePlayerString;
+
+            if (loadingPanel != null)
+            {
+                loadingPanel.SetActive(false);
+            }
         }
     }
 
@@ -124,10 +129,12 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
         ClientData.UserProfile.GamesPlayed += 1;
         successfulJoin = 1;
         DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Incremented Games played."); });
+        /* Moved this where the OnSignal code of 1 is received
         if (loadingPanel != null)
         {
             loadingPanel.SetActive(false);
         }
+        */
 
         SceneManager.LoadScene(SceneNames.WaitingScreen);
     }
