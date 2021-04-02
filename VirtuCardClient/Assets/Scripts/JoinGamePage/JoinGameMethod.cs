@@ -34,6 +34,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
     public GameObject loadingPanel;
 
     public int successfulJoin;
+    public bool joined = false;
 
     private bool doSetGameInfo = false;
     private string maxPlayerString = "";
@@ -42,6 +43,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
 
     void Update()
     {
+        joined = false;
         if (makeError)
         {
             CreateErrorMessage("Failed to Connect", "Host is not allowed to join!");
@@ -108,7 +110,6 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
         ConnectClientToServer(joinCode);
     }
 
- 
 
     /// <summary>
     /// This method connects the client to the server
@@ -134,9 +135,13 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         // Room join successful
-        ClientData.UserProfile.GamesPlayed += 1;
-        successfulJoin = 1;
-        DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Incremented Games played."); });
+        if (!joined)
+        {
+            ClientData.UserProfile.GamesPlayed += 1;
+            successfulJoin = 1;
+            joined = true;
+            DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Incremented Games played."); });
+        }
         /* Moved this where the OnSignal code of 1 is received
         if (loadingPanel != null)
         {
