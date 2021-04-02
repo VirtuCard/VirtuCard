@@ -35,6 +35,8 @@ public class ShuffleButtonScript : MonoBehaviour
         NetworkController.setIsShuffle(true);
 
         //Calling the Shuffle Method
+        HostData.GetGame().AddCardsToDeck(HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetAllCards().ToArray(), DeckChoices.UNDEALT);
+        HostData.GetGame().GetDeck(DeckChoices.PLAYED).RemoveAllCards();
         HostData.GetGame().ShuffleDeck(DeckChoices.UNDEALT);
 
         NetworkController.setIsShuffle(false);
@@ -54,7 +56,11 @@ public class ShuffleButtonScript : MonoBehaviour
 
         shufflingPanel.SetActive(true);
 
+        HostData.GetGame().AddCardsToDeck(HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetAllCards().ToArray(), DeckChoices.UNDEALT);
+        HostData.GetGame().GetDeck(DeckChoices.PLAYED).RemoveAllCards();
         HostData.GetGame().ShuffleDeck(DeckChoices.UNDEALT);
+        
+        HostData.SetLastPlayedCardTexture("SingleCardBack");
 
         yield return new WaitForSeconds(2);
 
