@@ -81,6 +81,12 @@ public class GameScreenController : MonoBehaviour
         if (HostData.isChatAllowed())
         {
             allOfChatUI.SetActive(true);
+
+            // check if chat is muted from the waiting setting screen
+            if (HostData.isChatMute()) {
+                chatOptions.value = 2;
+                updatingChat();
+            }
         }
         else
         {

@@ -6086,7 +6086,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 1, g: 0.74509805, b: 0.16470589, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -6874,6 +6874,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: ClientGameController, ScriptsAssembly
       objectReference: {fileID: 0}
+    - target: {fileID: 803680666117689106, guid: 6cdcf894ab519384f9ecf504ece55973, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3632249083641669642, guid: 6cdcf894ab519384f9ecf504ece55973, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -6897,6 +6901,14 @@ PrefabInstance:
     - target: {fileID: 3694639651208144552, guid: 6cdcf894ab519384f9ecf504ece55973, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Timer, ScriptsAssembly
+      objectReference: {fileID: 0}
+    - target: {fileID: 6038800798896097720, guid: 6cdcf894ab519384f9ecf504ece55973, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6435271050519535049, guid: 6cdcf894ab519384f9ecf504ece55973, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7294379117366218234, guid: 6cdcf894ab519384f9ecf504ece55973, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size

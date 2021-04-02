@@ -17,6 +17,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
     public Toggle canHostJoinToggle;
 
     public Toggle chatEnabledToggle;
+    public Toggle chatMuteToggle;
 
     //Freeplay settings
     public GameObject freeplaySettingsPanel;
@@ -52,6 +53,9 @@ public class WaitingRoomScreenManager : MonoBehaviour
         chatEnabledToggle.onValueChanged.AddListener(
             delegate { ChatToggleValueChanged(chatEnabledToggle.isOn); });
 
+        chatMuteToggle.onValueChanged.AddListener(
+            delegate { ChatMuteToggleValueChanged(chatMuteToggle.isOn); });
+
         //  Freeplay listeners
         enableHearts.onValueChanged.AddListener(
             delegate { HeartsToggleValueChanged(enableHearts.isOn); });
@@ -84,6 +88,8 @@ public class WaitingRoomScreenManager : MonoBehaviour
         currPlayerCount.text = "0 players";
         canHostJoinToggle.isOn = HostData.CanHostJoinGame();
         chatEnabledToggle.isOn = HostData.isChatAllowed();
+        // might get deleted
+        chatMuteToggle.isOn = HostData.isChatMute();
         numPlayers.SetTextWithoutNotify(HostData.GetGame().GetMaximumNumOfPlayers().ToString());
 
         startGameBtn.onClick.AddListener(delegate { StartGameBtnClicked(); });
@@ -425,6 +431,10 @@ public class WaitingRoomScreenManager : MonoBehaviour
     private void CanHostJoinToggleValueChanged(bool state)
     {
         HostData.setCanHostJoinGame(state);
+    }
+
+    private void ChatMuteToggleValueChanged(bool state) {
+        HostData.setChatMute(state);
     }
 
     private void ChatToggleValueChanged(bool state)
