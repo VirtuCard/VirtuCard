@@ -28,7 +28,8 @@ public class LandingPageManager : MonoBehaviour
             delegate { CanHostJoinToggleValueChanged(canHostJoinToggle.isOn); });
 
         string[] gameNames = Enum.GetNames(typeof(GameTypes));
-        foreach (string gameName in gameNames) {
+        foreach (string gameName in gameNames)
+        {
             gameChoiceDropdown.options.Add(new Dropdown.OptionData(gameName));
         }
         //gameChoiceDropdown.options.Add(new Dropdown.OptionData("Freeplay"));
@@ -36,20 +37,22 @@ public class LandingPageManager : MonoBehaviour
         //gameChoiceDropdown.options.Add(new Dropdown.OptionData("Go Fish"));
 
         gameChoiceDropdown.onValueChanged.AddListener(GameChoiceValueChanged);
-        
+
         if (!PhotonNetwork.IsConnected)
         {
             PhotonNetwork.ConnectUsingSettings();
         }
-        DatabaseUtils.getUser(AuthUser.GetUserID(), json =>
-        {
-            HostData.UserProfile = new User(json);
-        });
+
+        DatabaseUtils.getUser(AuthUser.GetUserID(), json => { HostData.UserProfile = new User(json); });
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.ConnectUsingSettings();
+        }
     }
 
     /// OnCreateButtonClick()
@@ -60,12 +63,13 @@ public class LandingPageManager : MonoBehaviour
         //PhotonNetwork.ConnectUsingSettings();    //Connecting to Photon Master Servers
         if (PhotonNetwork.IsConnectedAndReady)
         {
-            Debug.Assert(HostData.SetGame((GameTypes)Enum.Parse(typeof(GameTypes),
+            Debug.Assert(HostData.SetGame((GameTypes) Enum.Parse(typeof(GameTypes),
                 gameChoiceDropdown.options[gameChoiceDropdown.value].text)));
 
             string RoomCode = NetworkController.generateCode(); //Generating Room Code string and storing it
             HostData.setMaxNumPlayers(HostData.GetGame().GetMaximumNumOfPlayers());
-            NetworkController.CreateAndJoinRoom(RoomCode, HostData.GetGame().GetMaximumNumOfPlayers()); //Creating Photon Room with Generated Code
+            NetworkController.CreateAndJoinRoom(RoomCode,
+                HostData.GetGame().GetMaximumNumOfPlayers()); //Creating Photon Room with Generated Code
 
             HostData.setJoinCode(RoomCode);
             SceneManager.LoadScene(SceneNames.WaitingRoomScreen, LoadSceneMode.Single);
