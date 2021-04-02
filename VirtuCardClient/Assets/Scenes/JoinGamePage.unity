@@ -163,6 +163,7 @@ MonoBehaviour:
   GameModeText: {fileID: 0}
   welcomePlayer: {fileID: 0}
   loadingPanel: {fileID: 851760185}
+  successfulJoin: 0
 --- !u!4 &8607835
 Transform:
   m_ObjectHideFlags: 0
@@ -1897,6 +1898,10 @@ PrefabInstance:
     - target: {fileID: 250185324080153623, guid: 8db71afdddea586478fbf00ae039f6ca, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 250185324302209101, guid: 8db71afdddea586478fbf00ae039f6ca, type: 3}
+      propertyPath: m_Name
+      value: ErrorMessage
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8db71afdddea586478fbf00ae039f6ca, type: 3}
