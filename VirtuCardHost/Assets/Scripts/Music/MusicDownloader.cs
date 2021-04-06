@@ -6,12 +6,21 @@ using VideoLibrary;
 using UnityEngine.UI;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Services;
+using Google.Apis.Upload;
+using Google.Apis.Util.Store;
+using Google.Apis.YouTube.v3;
+using Google.Apis.YouTube.v3.Data;
+using System.Threading.Tasks;
+using System;
 
 public class MusicDownloader : MonoBehaviour
 {
     public readonly static string MUSIC_FOLDER = "MusicFiles/";
 
     public Button theButton;
+    public InputField textInput;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +36,133 @@ public class MusicDownloader : MonoBehaviour
 
     public void DoTheThing()
     {
-        //SaveVideoToDiskAsync(VIDEO_URL_HERE);
+        DownloadSong(textInput.text);
+    }
+
+    /// <summary>
+    /// This downloads the first youtube video matching the keyword into the music folder
+    /// </summary>
+    /// <param name="keyword"></param>
+    public async void DownloadSong(string keyword)
+    {
+        string url = await FindVideoUrlAsync(keyword);
+
+        string debugMsg = String.IsNullOrEmpty(url) ? "URL not found for " + keyword : "URL found: " + url;
+        Debug.Log(debugMsg);
+
+        SaveVideoToDiskAsync(url);
+    }
+
+    /// <summary>
+    /// This finds the youtube video url for the <paramref name="keywordToSearchFor"/>.
+    /// </summary>
+    /// <param name="keywordToSearchFor">The youtube keyword or string of keywords to search for</param>
+    /// <returns></returns>
+    public async Task<string> FindVideoUrlAsync(string keywordToSearchFor)
+    {
+        var youtubeService = new YouTubeService(new BaseClientService.Initializer()
+        {
+            ApiKey = "AIzaSyCSXouAZn244EUDSW-M1iJI2UemWnSEdkI",
+            ApplicationName = this.GetType().ToString()
+        });
+
+        var searchListRequest = youtubeService.Search.List("snippet");
+        searchListRequest.Q = keywordToSearchFor; // Replace with your search term.
+        searchListRequest.MaxResults = 1;
+
+        // Call the search.list method to retrieve results matching the specified query term.
+        var searchListResponse = await searchListRequest.ExecuteAsync();
+
+        List<string> videoLinks = new List<string>();
+        List<string> channels = new List<string>();
+        List<string> playlists = new List<string>();
+
+        // Add each result to the appropriate list, and then display the lists of
+        // matching videos, channels, and playlists.
+        foreach (var searchResult in searchListResponse.Items)
+        {
+            switch (searchResult.Id.Kind)
+            {
+                case "youtube#video":
+                    videoLinks.Add(String.Format("https://www.youtube.com/watch?v={0}", searchResult.Id.VideoId));
+                    break;
+
+                case "youtube#channel":
+                    channels.Add(String.Format("{0} ({1})", searchResult.Snippet.Title, searchResult.Id.ChannelId));
+                    break;
+
+                case "youtube#playlist":
+                    playlists.Add(String.Format("{0} ({1})", searchResult.Snippet.Title, searchResult.Id.PlaylistId));
+                    break;
+            }
+        }
+        if (videoLinks.Count == 0)
+        {
+            return String.Empty;
+        }
+        return videoLinks.First();
+    }
+
+    /// <summary>
+    /// Retrieves the youtube video from the link and writes it to the music folder
+    /// </summary>
+    /// <param name="link">The URI to the video</param>
+    public async void SaveVideoToDiskAsync(string link)
+    {
+        var youTube = YouTube.Default; // starting point for YouTube actions
+        var videoInfo = await youTube.GetVideoAsync(link);
+        File.WriteAllBytes(MUSIC_FOLDER + videoInfo.FullName, videoInfo.GetBytes());
+    }
+
+    /// <summary>
+    /// This finds the youtube video url for the <paramref name="keywordToSearchFor"/>.
+    /// Warning this will be slow due to being synchronous. Use <see cref="FindVideoUrlAsync(string)"/> instead.
+    /// </summary>
+    /// <param name="keywordToSearchFor"></param>
+    /// <returns></returns>
+    private string FindVideoUrl(string keywordToSearchFor)
+    {
+        var youtubeService = new YouTubeService(new BaseClientService.Initializer()
+        {
+            ApiKey = "AIzaSyCSXouAZn244EUDSW-M1iJI2UemWnSEdkI",
+            ApplicationName = this.GetType().ToString()
+        });
+
+        var searchListRequest = youtubeService.Search.List("snippet");
+        searchListRequest.Q = keywordToSearchFor; // Replace with your search term.
+        searchListRequest.MaxResults = 1;
+
+        // Call the search.list method to retrieve results matching the specified query term.
+        var searchListResponse = searchListRequest.Execute();
+
+        List<string> videoLinks = new List<string>();
+        List<string> channels = new List<string>();
+        List<string> playlists = new List<string>();
+
+        // Add each result to the appropriate list, and then display the lists of
+        // matching videos, channels, and playlists.
+        foreach (var searchResult in searchListResponse.Items)
+        {
+            switch (searchResult.Id.Kind)
+            {
+                case "youtube#video":
+                    videoLinks.Add(String.Format("https://www.youtube.com/watch?v={0}", searchResult.Id.VideoId));
+                    break;
+
+                case "youtube#channel":
+                    channels.Add(String.Format("{0} ({1})", searchResult.Snippet.Title, searchResult.Id.ChannelId));
+                    break;
+
+                case "youtube#playlist":
+                    playlists.Add(String.Format("{0} ({1})", searchResult.Snippet.Title, searchResult.Id.PlaylistId));
+                    break;
+            }
+        }
+        if (videoLinks.Count == 0)
+        {
+            return String.Empty;
+        }
+        return videoLinks.First();
     }
 
     /// <summary>
@@ -40,16 +175,5 @@ public class MusicDownloader : MonoBehaviour
         var youTube = YouTube.Default; // starting point for YouTube actions
         var video = youTube.GetVideo(link); // gets a Video object with info about the video
         File.WriteAllBytes(MUSIC_FOLDER + video.FullName, video.GetBytes());
-    }
-
-    /// <summary>
-    /// Retrieves the youtube video from the link and writes it to the music folder
-    /// </summary>
-    /// <param name="link">The URI to the video</param>
-    public async void SaveVideoToDiskAsync(string link)
-    {
-        var youTube = YouTube.Default; // starting point for YouTube actions
-        var videoInfo = await youTube.GetVideoAsync(link);
-        File.WriteAllBytes(MUSIC_FOLDER + videoInfo.FullName, videoInfo.GetBytes());
     }
 }
