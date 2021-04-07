@@ -1,17 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using VideoLibrary;
 using UnityEngine.UI;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
-using Google.Apis.Upload;
-using Google.Apis.Util.Store;
 using Google.Apis.YouTube.v3;
-using Google.Apis.YouTube.v3.Data;
 using System.Threading.Tasks;
 using System;
 
@@ -19,9 +13,12 @@ public class MusicDownloader : MonoBehaviour
 {
     public readonly static string MUSIC_FOLDER = "MusicFiles/";
 
+    /*
+    Commenting out Button/Text input for now
     public Button theButton;
     public InputField textInput;
-
+    */
+    
     public class VideoReturnInfo
     {
         public string songName;
@@ -31,18 +28,17 @@ public class MusicDownloader : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        theButton.onClick.AddListener(delegate { DoTheThing(); });
+      //  theButton.onClick.AddListener(delegate { DoTheThing(); });
     }
 
     // Update is called once per frame
     void Update()
     {
-
     }
 
     public void DoTheThing()
     {
-        DownloadSong(textInput.text);
+    //    DownloadSong(textInput.text);
     }
 
     /// <summary>
@@ -98,12 +94,15 @@ public class MusicDownloader : MonoBehaviour
             switch (searchResult.Id.Kind)
             {
                 case "youtube#video":
-                    returnInfo.songName = searchResult.Snippet.Title;
+                    // Removing any thing that can cause issues with file IO
+                    returnInfo.songName =
+                        searchResult.Snippet.Title.Replace(":", "").Replace("*", "").Replace("\"", "");
                     returnInfo.videoUrl = String.Format("https://www.youtube.com/watch?v={0}", searchResult.Id.VideoId);
                     didSucceed = true;
                     break;
             }
         }
+
         if (didSucceed)
             return returnInfo;
         return null;
@@ -117,6 +116,11 @@ public class MusicDownloader : MonoBehaviour
     {
         var youTube = YouTube.Default; // starting point for YouTube actions
         var videoInfo = await youTube.GetVideoAsync(link);
+        if (!Directory.Exists(MUSIC_FOLDER))
+        {
+            Directory.CreateDirectory(MUSIC_FOLDER); // Creates directory, if not present
+        }
+
         File.WriteAllBytes(MUSIC_FOLDER + fileName, videoInfo.GetBytes());
     }
 
@@ -164,10 +168,12 @@ public class MusicDownloader : MonoBehaviour
                     break;
             }
         }
+
         if (videoLinks.Count == 0)
         {
             return String.Empty;
         }
+
         return videoLinks.First();
     }
 
