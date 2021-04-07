@@ -168,7 +168,7 @@ namespace GameScreen.ChatPanel
         public void OnPrivateMessage(string sender, object message, string channelName)
         {
             //Any private messages that come here are considered song requests currently.
-            songController.SearchAndAddSong(message.ToString());
+            songController.SearchAndAddSong(message.ToString(), sender);
         }
 
         public void OnSubscribed(string[] channels, bool[] results)

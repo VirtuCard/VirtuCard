@@ -610,6 +610,23 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 
                 winnerPanel.SetActive(true);
             }
+        } else if (photonEvent.Code == 27) // Music Message
+        {
+            // This is if a player has been chosen to win
+            object[] data = (object[])photonEvent.CustomData;
+            string clientName = (string)data[0];
+            bool result = (bool) data[1];
+            if (clientName == PhotonNetwork.NickName)
+            {
+                if (result)
+                {
+                    notificationWindow.ShowNotification("Song has been added!");
+                }
+                else
+                {
+                    notificationWindow.ShowNotification("Song not found!");
+                }
+            }
         }
     }
 
