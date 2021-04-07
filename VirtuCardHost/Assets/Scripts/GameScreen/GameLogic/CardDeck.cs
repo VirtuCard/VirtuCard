@@ -104,7 +104,7 @@ public class CardDeck
     /// <returns></returns>
     public Card GetCard(int index)
     {
-        Debug.Log("card deck size: " + cards.Count);
+     //   Debug.Log("card deck size: " + cards.Count);
         if (index < cards.Count && index >= 0)
         {
             return cards[index];
