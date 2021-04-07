@@ -108,7 +108,7 @@ namespace GameScreen.ChatPanel
             _chatClient = new ChatClient(this) {ChatRegion = "US"};
             //For left room callback
             PhotonNetwork.AddCallbackTarget(this);
-            _chatClient.Connect(appId, "0.1b", new AuthenticationValues(PhotonNetwork.NickName + " (Host)"));
+            _chatClient.Connect(appId, "0.1b", new AuthenticationValues("System (Host)"));
         }
 
         // Update is called once per frame
@@ -161,18 +161,13 @@ namespace GameScreen.ChatPanel
             for (int i = 0; i < messages.Length; i++)
             {
                 Debug.Log(messages[i]);
-                //Debugging step TODO: Remove this
-                if (messages[i].ToString().Contains("Justin"))
-                {
-                    songController.SearchAndAddSong(messages[i].ToString());
-                }
                 CreateNewMessage(messages[i].ToString(), senders[i]);
             }
         }
 
         public void OnPrivateMessage(string sender, object message, string channelName)
         {
-            //Any private messages come here
+            //Any private messages that come here are considered song requests currently.
             songController.SearchAndAddSong(message.ToString());
         }
 
