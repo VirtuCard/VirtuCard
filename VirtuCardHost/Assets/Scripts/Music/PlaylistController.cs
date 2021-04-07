@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -109,14 +112,31 @@ namespace Music
         }
 
         //Called by Chat controller
-        public void SearchAndAddSong(string songName)
+        public void SearchAndAddSong(string songName, string sender)
         {
             downloader.DownloadSong(songName).ContinueWith(foundSong =>
             {
+                if (foundSong.Result == null)
+                {
+                    //Error case
+                    Debug.Log("Not found!");
+                    NotifyClient(sender, false);
+                    return;
+                }
+
                 Debug.Log("Song Added: " + songName);
                 songNames.Add(foundSong.Result);
+                HostData.SetDoShowNotificationWindow(true, "The song: " + songName + " is added by " + sender);
+                NotifyClient(sender, true);
                 //Update can pick it from here and show it in UI 
             });
+        }
+
+        public void NotifyClient(string sender, bool result)
+        {
+            object[] content = new object[] { sender, result };
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(27, content, raiseEventOptions, SendOptions.SendUnreliable);
         }
     }
 }
