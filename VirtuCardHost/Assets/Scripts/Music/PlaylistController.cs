@@ -12,10 +12,12 @@ namespace Music
     {
         public VideoPlayer player;
         public GameObject musicPanel;
-        public GameObject songsListPanel;
         public Button playButton;
         public Button pauseButton;
         public Text currentSongName;
+
+        public GameObject songsListPanel;
+        public GameObject songTemplate;
 
         //Songs list. Should match name of song in MusicFiles/<Name>
         public List<string> songNames;
@@ -33,21 +35,37 @@ namespace Music
 
         private void Update()
         {
-            // UI (scroll panel) update
-
-
-            // Played songs update
+            // Playback songs update
+            /*
             if (!player.isPlaying)
             {
                 if (songNames.Count > 0)
                 {
                     //TODO: Not complete, songs will be played from here. Also forgot to take pause case
+                    //Enabling this effectively empties the list. 
                     player.source = VideoSource.Url;
                     player.url = MusicDownloader.MUSIC_FOLDER + songNames[0];
 
                     player.Play();
                     songNames.RemoveAt(0);
                 }
+            }*/
+
+            // UI (scroll panel) update
+            // Remove all old children
+            while (songsListPanel.transform.childCount > 0)
+            {
+                DestroyImmediate(songsListPanel.transform.GetChild(0).gameObject);
+            }
+
+            // Add songs to song panel
+            foreach (string songName in songNames)
+            {
+                GameObject songView = Instantiate(songTemplate, songsListPanel.transform);
+                songView.transform.Find("SongName").gameObject.GetComponent<Text>().text = songName;
+                songView.transform.Find("DeleteSong").gameObject.GetComponent<Button>().onClick
+                    .AddListener(delegate { onRemoveSongButtonClick(songName); });
+                songView.SetActive(true);
             }
         }
 
@@ -95,6 +113,7 @@ namespace Music
         {
             downloader.DownloadSong(songName).ContinueWith(foundSong =>
             {
+                Debug.Log("Song Added: " + songName);
                 songNames.Add(foundSong.Result);
                 //Update can pick it from here and show it in UI 
             });
