@@ -22,6 +22,12 @@ public class MusicDownloader : MonoBehaviour
     public Button theButton;
     public InputField textInput;
 
+    public class VideoReturnInfo
+    {
+        public string songName;
+        public string videoUrl;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,17 +46,26 @@ public class MusicDownloader : MonoBehaviour
     }
 
     /// <summary>
-    /// This downloads the first youtube video matching the keyword into the music folder
+    /// This downloads the first youtube video matching the keyword into the music folder.
+    /// Returns the name of the file that the video was saved under
     /// </summary>
     /// <param name="keyword"></param>
-    public async void DownloadSong(string keyword)
+    /// <returns></returns>
+    public async Task<string> DownloadSong(string keyword)
     {
-        string url = await FindVideoUrlAsync(keyword);
+        var returnInfo = await FindVideoUrlAsync(keyword);
 
-        string debugMsg = String.IsNullOrEmpty(url) ? "URL not found for " + keyword : "URL found: " + url;
-        Debug.Log(debugMsg);
+        if (String.IsNullOrEmpty(returnInfo.videoUrl))
+        {
+            Debug.Log("URL not found for " + keyword);
+            return null;
+        }
 
-        SaveVideoToDiskAsync(url);
+        Debug.Log("URL found: " + returnInfo.videoUrl);
+
+        string fileNameToSaveAs = returnInfo.songName + ".mp4";
+        SaveVideoToDiskAsync(returnInfo.videoUrl, fileNameToSaveAs);
+        return fileNameToSaveAs;
     }
 
     /// <summary>
@@ -58,7 +73,7 @@ public class MusicDownloader : MonoBehaviour
     /// </summary>
     /// <param name="keywordToSearchFor">The youtube keyword or string of keywords to search for</param>
     /// <returns></returns>
-    public async Task<string> FindVideoUrlAsync(string keywordToSearchFor)
+    public async Task<VideoReturnInfo> FindVideoUrlAsync(string keywordToSearchFor)
     {
         var youtubeService = new YouTubeService(new BaseClientService.Initializer()
         {
@@ -73,9 +88,8 @@ public class MusicDownloader : MonoBehaviour
         // Call the search.list method to retrieve results matching the specified query term.
         var searchListResponse = await searchListRequest.ExecuteAsync();
 
-        List<string> videoLinks = new List<string>();
-        List<string> channels = new List<string>();
-        List<string> playlists = new List<string>();
+        VideoReturnInfo returnInfo = new VideoReturnInfo();
+        bool didSucceed = false;
 
         // Add each result to the appropriate list, and then display the lists of
         // matching videos, channels, and playlists.
@@ -84,34 +98,26 @@ public class MusicDownloader : MonoBehaviour
             switch (searchResult.Id.Kind)
             {
                 case "youtube#video":
-                    videoLinks.Add(String.Format("https://www.youtube.com/watch?v={0}", searchResult.Id.VideoId));
-                    break;
-
-                case "youtube#channel":
-                    channels.Add(String.Format("{0} ({1})", searchResult.Snippet.Title, searchResult.Id.ChannelId));
-                    break;
-
-                case "youtube#playlist":
-                    playlists.Add(String.Format("{0} ({1})", searchResult.Snippet.Title, searchResult.Id.PlaylistId));
+                    returnInfo.songName = searchResult.Snippet.Title;
+                    returnInfo.videoUrl = String.Format("https://www.youtube.com/watch?v={0}", searchResult.Id.VideoId);
+                    didSucceed = true;
                     break;
             }
         }
-        if (videoLinks.Count == 0)
-        {
-            return String.Empty;
-        }
-        return videoLinks.First();
+        if (didSucceed)
+            return returnInfo;
+        return null;
     }
 
     /// <summary>
     /// Retrieves the youtube video from the link and writes it to the music folder
     /// </summary>
     /// <param name="link">The URI to the video</param>
-    public async void SaveVideoToDiskAsync(string link)
+    public async void SaveVideoToDiskAsync(string link, string fileName)
     {
         var youTube = YouTube.Default; // starting point for YouTube actions
         var videoInfo = await youTube.GetVideoAsync(link);
-        File.WriteAllBytes(MUSIC_FOLDER + videoInfo.FullName, videoInfo.GetBytes());
+        File.WriteAllBytes(MUSIC_FOLDER + fileName, videoInfo.GetBytes());
     }
 
     /// <summary>
@@ -170,10 +176,10 @@ public class MusicDownloader : MonoBehaviour
     /// Warning this will be very slow being it is synchronous. Use <see cref="SaveVideoToDiskAsync(string)"/> instead
     /// </summary>
     /// <param name="link">The URI to the video</param>
-    public void SaveVideoToDisk(string link)
+    public void SaveVideoToDisk(string link, string fileName)
     {
         var youTube = YouTube.Default; // starting point for YouTube actions
         var video = youTube.GetVideo(link); // gets a Video object with info about the video
-        File.WriteAllBytes(MUSIC_FOLDER + video.FullName, video.GetBytes());
+        File.WriteAllBytes(MUSIC_FOLDER + fileName, video.GetBytes());
     }
 }
