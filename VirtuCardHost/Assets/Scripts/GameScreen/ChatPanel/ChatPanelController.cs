@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using ExitGames.Client.Photon;
+using Music;
 using Photon.Chat;
 using Photon.Pun;
 using Photon.Realtime;
@@ -26,6 +27,8 @@ namespace GameScreen.ChatPanel
         public List<GameObject> placeholders;
         public static List<string> systemMessages;
         private int messageCounter = 0;
+
+        public PlaylistController songController;
 
         /// <summary>
         /// This class contains all the methods and fields that are within a single message.
@@ -158,13 +161,19 @@ namespace GameScreen.ChatPanel
             for (int i = 0; i < messages.Length; i++)
             {
                 Debug.Log(messages[i]);
+                //Debugging step TODO: Remove this
+                if (messages[i].ToString().Contains("Justin"))
+                {
+                    songController.SearchAndAddSong(messages[i].ToString());
+                }
                 CreateNewMessage(messages[i].ToString(), senders[i]);
             }
         }
 
         public void OnPrivateMessage(string sender, object message, string channelName)
         {
-            /* Ignore */
+            //Any private messages come here
+            songController.SearchAndAddSong(message.ToString());
         }
 
         public void OnSubscribed(string[] channels, bool[] results)
