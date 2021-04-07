@@ -94,7 +94,6 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
     // Start is called before the first frame update
     void Start()
     {
-
         // set the currentMessages to contain the placeholders
         currentMessages = new List<GameObject>();
         currentMessages.AddRange(placeholders);
@@ -136,11 +135,10 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
         //privChatOption.AddOptions(privName);
 
         // default chats 
-        defaultChats[0].onClick.AddListener( delegate { defaultClicked("Outstanding Move"); });
-        defaultChats[1].onClick.AddListener( delegate { defaultClicked("Big OOF"); });
-        defaultChats[2].onClick.AddListener( delegate { defaultClicked("Well Played"); });
+        defaultChats[0].onClick.AddListener(delegate { defaultClicked("Outstanding Move"); });
+        defaultChats[1].onClick.AddListener(delegate { defaultClicked("Big OOF"); });
+        defaultChats[2].onClick.AddListener(delegate { defaultClicked("Well Played"); });
         // end of default chat
-        
     }
 
     // Update is called once per frame
@@ -148,11 +146,12 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
     {
         _chatClient.Service();
     }
-    
+
     /// <summary>
     /// This function gets the person the text of what is inside the dropdown
     /// </summary> 
-    public string privChatPlayer() {
+    public string privChatPlayer()
+    {
         Debug.Log(privChatOption.options[privChatOption.value].text);
         return privChatOption.options[privChatOption.value].text;
     }
@@ -160,9 +159,10 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
 
     public void sendClicked()
     {
-
         string message = messageSend.text;
-        if (String.Compare(privChatPlayer(), "Public chat") == 0) { // public chat
+        if (String.Compare(privChatPlayer(), "Public chat") == 0)
+        {
+            // public chat
             SendMessage(message);
         }
         else // text is a private message
@@ -174,8 +174,11 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
         messageSend.text = "";
     }
 
-    public void defaultClicked(string message) {
-        if (String.Compare(privChatPlayer(), "Public chat") == 0) { // public chat
+    public void defaultClicked(string message)
+    {
+        if (String.Compare(privChatPlayer(), "Public chat") == 0)
+        {
+            // public chat
             SendMessage(message);
         }
         else // text is a private message
@@ -186,13 +189,27 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
 
     public new void SendMessage(string message)
     {
-        _chatClient.PublishMessage(roomcode, message);
+        if (message.StartsWith("!play "))
+        {
+            SendSystemMessage(message.Substring("!play ".Length));
+            // Check if the message starts with "!play ", if it does,
+            // send it to the system specifically instead.
+        }
+        else
+        {
+            _chatClient.PublishMessage(roomcode, message);
+        }
     }
 
     public new void SendPrivMessage(string message)
     {
         Debug.Log("Sending private message to " + privChatPlayer());
         _chatClient.SendPrivateMessage(privChatPlayer(), message);
+    }
+
+    private new void SendSystemMessage(string message)
+    {
+        _chatClient.SendPrivateMessage("System (Host)", message);
     }
 
     public void DebugReturn(DebugLevel level, string message)
@@ -231,11 +248,26 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
     {
         Debug.Log("OnPrivateMessage: {0} ({1}) > {2}" + channelName + " " + sender + " " + message);
 
-        string text = "<color=red>(Private) </color>";
-        text += sender;
-        CreateNewMessage(message.ToString(), text);
+        string text;
+        if (channelName.Contains("System (Host)"))
+        {
+            text = "<color=fuchsia>(Song Request) </color>";
+            text += sender;
+            // If this is a song request, show it as so in the chat too. 
+        }
+        else
+        {
+            text = "<color=red>(Private) </color>";
+            text += sender;
+            if (sender.Equals(PhotonNetwork.NickName))
+            {
+                text += "<color=red> to </color>";
+                text += channelName.Split(':')[1];
+                // If you're the sender, indicate who the message is being sent to.
+            }
+        }
 
-        /* Ignore */
+        CreateNewMessage(message.ToString(), text);
     }
 
     public void OnSubscribed(string[] channels, bool[] results)
