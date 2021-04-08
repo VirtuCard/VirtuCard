@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
@@ -24,6 +26,9 @@ namespace Music
 
         //Songs list. Should match name of song in MusicFiles/<Name>
         public List<string> songNames;
+        private bool songSourceSet;
+        private bool isPaused = false;
+        private bool justSwappedSongs = false;
 
         //Downlaoder
         private MusicDownloader downloader;
@@ -31,13 +36,53 @@ namespace Music
         private void Start()
         {
             musicPanel.SetActive(false);
+            songSourceSet = false;
+            isPaused = false;
+            justSwappedSongs = false;
             songNames = new List<string>();
-            downloader = gameObject.AddComponent<MusicDownloader>();
-            // Since object is MonoBehavior, instantiating occurs this way. Perhaps make non Monobehavior? 
+            downloader = new MusicDownloader();
+
+            // delete all songs in the folder
+            System.IO.DirectoryInfo di = new DirectoryInfo(MusicDownloader.MUSIC_FOLDER);
+            foreach (FileInfo file in di.GetFiles())
+            {
+                file.Delete();
+            }
         }
 
         private void Update()
         {
+            // if the song source is not set and the song list is not empty
+            if (MusicDownloader.fileBeingWritten == false && songSourceSet == false && songNames.Count > 0 && player.isPlaying == false)
+            {
+                PlaySong(songNames[0]);
+            }
+            else if (songSourceSet == true && isPaused == false && player.isPlaying == false && justSwappedSongs == false)
+            {
+                // it has finished playing, so play the next one and delete the old one
+
+                // delete song that just finished playing
+                File.Delete(MusicDownloader.MUSIC_FOLDER + songNames[0]);
+                songNames.RemoveAt(0);
+
+
+                // play next song
+                if (songNames.Count > 0)
+                {
+                    PlaySong(songNames[0]);
+                }
+                else
+                {
+                    // end of playlist
+                    songSourceSet = false;
+                    justSwappedSongs = false;
+                }
+            }
+
+            if (player.isPlaying)
+            {
+                justSwappedSongs = false;
+            }
             // Playback songs update
             /*
             if (!player.isPlaying)
@@ -72,6 +117,26 @@ namespace Music
             }
         }
 
+        private void PlaySong(string songName)
+        {
+            songSourceSet = true;
+            justSwappedSongs = true;
+            player.source = VideoSource.Url;
+            player.url = MusicDownloader.MUSIC_FOLDER + songName;
+
+            if (!isPaused)
+            {
+                player.Play();
+                playButton.gameObject.SetActive(false);
+                pauseButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                playButton.gameObject.SetActive(true);
+                pauseButton.gameObject.SetActive(false);
+            }
+        }
+
         public void onMusicButtonClick()
         {
             musicPanel.SetActive(!musicPanel.activeSelf);
@@ -80,6 +145,7 @@ namespace Music
         public void onPlayButtonClick()
         {
             player.Play();
+            isPaused = false;
             playButton.gameObject.SetActive(false);
             pauseButton.gameObject.SetActive(true);
         }
@@ -87,6 +153,7 @@ namespace Music
         public void onPauseButtonClick()
         {
             player.Pause();
+            isPaused = true;
             pauseButton.gameObject.SetActive(false);
             playButton.gameObject.SetActive(true);
         }
@@ -130,6 +197,26 @@ namespace Music
                 NotifyClient(sender, true);
                 //Update can pick it from here and show it in UI 
             });
+        }
+
+        //Called by Chat controller
+        public async void SearchAndAddSongAsync(string songName, string sender)
+        {
+            string fileName = await downloader.DownloadSong(songName);
+            //await Task.Delay(10000);
+            
+            if (fileName == null)
+            {
+                //Error case
+                Debug.Log("Not found!");
+                NotifyClient(sender, false);
+                return;
+            }
+
+            Debug.Log("Song Added: " + songName);
+            songNames.Add(fileName);
+            HostData.SetDoShowNotificationWindow(true, "The song: " + songName + " is added by " + sender);
+            NotifyClient(sender, true);
         }
 
         public void NotifyClient(string sender, bool result)
