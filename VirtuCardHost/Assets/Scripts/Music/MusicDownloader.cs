@@ -9,15 +9,11 @@ using Google.Apis.YouTube.v3;
 using System.Threading.Tasks;
 using System;
 
-public class MusicDownloader : MonoBehaviour
+public class MusicDownloader
 {
     public readonly static string MUSIC_FOLDER = "MusicFiles/";
-
-    /*
-    Commenting out Button/Text input for now
-    public Button theButton;
-    public InputField textInput;
-    */
+    public static bool fileBeingWritten = false;
+    private YouTubeService youtubeService;
     
     public class VideoReturnInfo
     {
@@ -25,20 +21,13 @@ public class MusicDownloader : MonoBehaviour
         public string videoUrl;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public MusicDownloader()
     {
-      //  theButton.onClick.AddListener(delegate { DoTheThing(); });
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
-    public void DoTheThing()
-    {
-    //    DownloadSong(textInput.text);
+        youtubeService = new YouTubeService(new BaseClientService.Initializer()
+        {
+            ApiKey = "AIzaSyCSXouAZn244EUDSW-M1iJI2UemWnSEdkI",
+            ApplicationName = this.GetType().ToString()
+        });
     }
 
     /// <summary>
@@ -60,8 +49,8 @@ public class MusicDownloader : MonoBehaviour
         Debug.Log("URL found: " + returnInfo.videoUrl);
 
         string fileNameToSaveAs = returnInfo.songName + ".mp4";
-        SaveVideoToDiskAsync(returnInfo.videoUrl, fileNameToSaveAs);
-        return fileNameToSaveAs;
+        string fileNameSavedAs = await SaveVideoToDiskFastAsync(returnInfo.videoUrl, fileNameToSaveAs);
+        return fileNameSavedAs;
     }
 
     /// <summary>
@@ -71,12 +60,6 @@ public class MusicDownloader : MonoBehaviour
     /// <returns></returns>
     public async Task<VideoReturnInfo> FindVideoUrlAsync(string keywordToSearchFor)
     {
-        var youtubeService = new YouTubeService(new BaseClientService.Initializer()
-        {
-            ApiKey = "AIzaSyCSXouAZn244EUDSW-M1iJI2UemWnSEdkI",
-            ApplicationName = this.GetType().ToString()
-        });
-
         var searchListRequest = youtubeService.Search.List("snippet");
         searchListRequest.Q = keywordToSearchFor; // Replace with your search term.
         searchListRequest.MaxResults = 1;
@@ -112,8 +95,9 @@ public class MusicDownloader : MonoBehaviour
     /// Retrieves the youtube video from the link and writes it to the music folder
     /// </summary>
     /// <param name="link">The URI to the video</param>
-    public async void SaveVideoToDiskAsync(string link, string fileName)
+    public async Task<string> SaveVideoToDiskAsync(string link, string fileName)
     {
+        fileBeingWritten = true;
         var youTube = YouTube.Default; // starting point for YouTube actions
         var videoInfo = await youTube.GetVideoAsync(link);
         if (!Directory.Exists(MUSIC_FOLDER))
@@ -122,6 +106,46 @@ public class MusicDownloader : MonoBehaviour
         }
 
         File.WriteAllBytes(MUSIC_FOLDER + fileName, videoInfo.GetBytes());
+        fileBeingWritten = false;
+        return fileName;
+    }
+
+    /// <summary>
+    /// Retrieves the youtube video from the link and writes it to the music folder
+    /// </summary>
+    /// <param name="link">The URI to the video</param>
+    public async Task<string> SaveVideoToDiskFastAsync(string link, string fileName)
+    {
+        fileBeingWritten = true;
+        var youTube = YouTube.Default; // starting point for YouTube actions
+        var videoInfo = await youTube.GetVideoAsync(link);
+
+        if (!Directory.Exists(MUSIC_FOLDER))
+        {
+            Directory.CreateDirectory(MUSIC_FOLDER); // Creates directory, if not present
+        }
+
+        SaveToDiskAsync(MUSIC_FOLDER + fileName, videoInfo.GetBytes(), (int)videoInfo.ContentLength);
+        /*using (FileStream sourceStream = new FileStream(MUSIC_FOLDER + fileName,
+            FileMode.Create, FileAccess.Write, FileShare.None,
+            bufferSize: 4096, useAsync: true))
+        {
+            await sourceStream.WriteAsync(videoInfo.GetBytes(), 0, (int)videoInfo.ContentLength);
+        };*/
+
+        //File.WriteAllBytes(MUSIC_FOLDER + fileName, minResolution.GetBytes());
+        return fileName;
+    }
+
+    public async void SaveToDiskAsync(string filePath, byte[] bytes, int count)
+    {
+        using (FileStream sourceStream = new FileStream(filePath,
+               FileMode.Create, FileAccess.Write, FileShare.None,
+               bufferSize: 20000, useAsync: true))
+        {
+            await sourceStream.WriteAsync(bytes, 0, count);
+        };
+        fileBeingWritten = false;
     }
 
     /// <summary>
