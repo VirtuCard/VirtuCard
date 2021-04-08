@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using ExitGames.Client.Photon;
 using Photon.Pun;
@@ -10,6 +12,7 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEngine.Video;
 using Button = UnityEngine.UI.Button;
+using Random = UnityEngine.Random;
 
 namespace Music
 {
@@ -53,11 +56,13 @@ namespace Music
         private void Update()
         {
             // if the song source is not set and the song list is not empty
-            if (MusicDownloader.fileBeingWritten == false && songSourceSet == false && songNames.Count > 0 && player.isPlaying == false)
+            if (MusicDownloader.fileBeingWritten == false && songSourceSet == false && songNames.Count > 0 &&
+                player.isPlaying == false)
             {
                 PlaySong(songNames[0]);
             }
-            else if (songSourceSet == true && isPaused == false && player.isPlaying == false && justSwappedSongs == false)
+            else if (songSourceSet == true && isPaused == false && player.isPlaying == false &&
+                     justSwappedSongs == false)
             {
                 // it has finished playing, so play the next one and delete the old one
 
@@ -83,21 +88,6 @@ namespace Music
             {
                 justSwappedSongs = false;
             }
-            // Playback songs update
-            /*
-            if (!player.isPlaying)
-            {
-                if (songNames.Count > 0)
-                {
-                    //TODO: Not complete, songs will be played from here. Also forgot to take pause case
-                    //Enabling this effectively empties the list. 
-                    player.source = VideoSource.Url;
-                    player.url = MusicDownloader.MUSIC_FOLDER + songNames[0];
-
-                    player.Play();
-                    songNames.RemoveAt(0);
-                }
-            }*/
 
             // UI (scroll panel) update
             // Remove all old children
@@ -119,14 +109,15 @@ namespace Music
 
         private void PlaySong(string songName)
         {
+            currentSongName.text = songName;
             songSourceSet = true;
             justSwappedSongs = true;
             player.source = VideoSource.Url;
             player.url = MusicDownloader.MUSIC_FOLDER + songName;
+            StartCoroutine(PlaySong());
 
             if (!isPaused)
             {
-                player.Play();
                 playButton.gameObject.SetActive(false);
                 pauseButton.gameObject.SetActive(true);
             }
@@ -134,6 +125,20 @@ namespace Music
             {
                 playButton.gameObject.SetActive(true);
                 pauseButton.gameObject.SetActive(false);
+            }
+        }
+
+        IEnumerator PlaySong()
+        {
+            player.Prepare();
+            while (!player.isPrepared)
+            {
+                yield return null;
+            }
+
+            if (!isPaused)
+            {
+                player.Play();
             }
         }
 
@@ -170,7 +175,12 @@ namespace Music
 
         public void onShuffleButtonClick()
         {
-            //TODO
+            if (songNames.Count > 1)
+            {
+                songNames = songNames.OrderBy(x => Random.value).ToList();
+                player.Stop();
+                PlaySong(songNames[0]);
+            }
         }
 
         public void onRemoveSongButtonClick(string songName)
@@ -204,7 +214,7 @@ namespace Music
         {
             string fileName = await downloader.DownloadSong(songName);
             //await Task.Delay(10000);
-            
+
             if (fileName == null)
             {
                 //Error case
@@ -221,8 +231,8 @@ namespace Music
 
         public void NotifyClient(string sender, bool result)
         {
-            object[] content = new object[] { sender, result };
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            object[] content = new object[] {sender, result};
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
             PhotonNetwork.RaiseEvent(27, content, raiseEventOptions, SendOptions.SendUnreliable);
         }
     }
