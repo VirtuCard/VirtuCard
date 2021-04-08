@@ -11,7 +11,7 @@ using System;
 
 public class MusicDownloader
 {
-    public readonly static string MUSIC_FOLDER = Application.streamingAssetsPath + "MusicFiles/";
+    public readonly static string MUSIC_FOLDER = Application.streamingAssetsPath + "/MusicFiles/";
     // Useful for build
     public static bool fileBeingWritten = false;
     private YouTubeService youtubeService;
