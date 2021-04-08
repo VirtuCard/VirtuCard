@@ -154,7 +154,7 @@ RectTransform:
   m_Children:
   - {fileID: 1421439609}
   m_Father: {fileID: 886186184}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2527,7 +2527,7 @@ RectTransform:
   m_Children:
   - {fileID: 546070906}
   m_Father: {fileID: 886186184}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2761,7 +2761,7 @@ RectTransform:
   m_Children:
   - {fileID: 1724926309}
   m_Father: {fileID: 886186184}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3615,7 +3615,7 @@ VideoPlayer:
   m_TimeReference: 0
   m_TargetMaterialRenderer: {fileID: 0}
   m_TargetMaterialProperty: _MainTex
-  m_RenderMode: 2
+  m_RenderMode: 4
   m_AspectRatio: 2
   m_DataSource: 0
   m_PlaybackSpeed: 1
@@ -4337,6 +4337,7 @@ RectTransform:
   - {fileID: 1515003708}
   - {fileID: 1833295445}
   - {fileID: 1004853179}
+  - {fileID: 1423016255}
   - {fileID: 1893984049}
   - {fileID: 643289}
   - {fileID: 1905671657}
@@ -4346,7 +4347,6 @@ RectTransform:
   - {fileID: 1957149628}
   - {fileID: 8533035956784311594}
   - {fileID: 1726948614}
-  - {fileID: 1423016255}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6460,7 +6460,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 250185324080153623, guid: 5052ef4875c445249bb36f7d8f49ecce, type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 250185324080153623, guid: 5052ef4875c445249bb36f7d8f49ecce, type: 3}
       propertyPath: m_AnchorMax.x
@@ -6843,7 +6843,7 @@ RectTransform:
   - {fileID: 1415718838}
   - {fileID: 554688062}
   m_Father: {fileID: 886186184}
-  m_RootOrder: 22
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8926,7 +8926,7 @@ RectTransform:
   m_Children:
   - {fileID: 1853248298}
   m_Father: {fileID: 886186184}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9094,7 +9094,7 @@ RectTransform:
   m_Children:
   - {fileID: 1033213661}
   m_Father: {fileID: 886186184}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -9248,7 +9248,7 @@ RectTransform:
   - {fileID: 2013671788}
   - {fileID: 1962624714}
   m_Father: {fileID: 886186184}
-  m_RootOrder: 19
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9905,7 +9905,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2254860521943916066, guid: 6b8fe9a19b8026843a6e637d1b3bf836, type: 3}
       propertyPath: m_RootOrder
-      value: 21
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 2254860521943916066, guid: 6b8fe9a19b8026843a6e637d1b3bf836, type: 3}
       propertyPath: m_AnchorMax.x
@@ -10121,7 +10121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8040706282024832537, guid: 6b8fe9a19b8026843a6e637d1b3bf836, type: 3}
       propertyPath: m_Text
-      value: Never Gonna Give You Up
+      value: Add a song to the queue using !play <song>
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b8fe9a19b8026843a6e637d1b3bf836, type: 3}
@@ -10538,7 +10538,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8533035958298610540, guid: 20af2d1746248c241a6a29973282cd3d, type: 3}
       propertyPath: m_RootOrder
-      value: 20
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 8533035958298610540, guid: 20af2d1746248c241a6a29973282cd3d, type: 3}
       propertyPath: m_AnchorMax.x

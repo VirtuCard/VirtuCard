@@ -11,7 +11,8 @@ using System;
 
 public class MusicDownloader
 {
-    public readonly static string MUSIC_FOLDER = "MusicFiles/";
+    public readonly static string MUSIC_FOLDER = Application.streamingAssetsPath + "MusicFiles/";
+    // Useful for build
     public static bool fileBeingWritten = false;
     private YouTubeService youtubeService;
     
@@ -104,7 +105,7 @@ public class MusicDownloader
         {
             Directory.CreateDirectory(MUSIC_FOLDER); // Creates directory, if not present
         }
-
+        
         File.WriteAllBytes(MUSIC_FOLDER + fileName, videoInfo.GetBytes());
         fileBeingWritten = false;
         return fileName;
