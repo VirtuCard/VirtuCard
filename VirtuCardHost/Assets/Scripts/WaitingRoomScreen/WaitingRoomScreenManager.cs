@@ -45,6 +45,10 @@ public class WaitingRoomScreenManager : MonoBehaviour
     private List<GameObject> textBoxes = new List<GameObject>();
     public Button startGameBtn;
 
+    // Invite Friends Panel
+    public GameObject inviteFriendsPanel;
+    public Button inviteFriendsBtn;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -83,6 +87,7 @@ public class WaitingRoomScreenManager : MonoBehaviour
         //CreatePlayerList();
         settingsPanel.SetActive(false);
         freeplaySettingsPanel.SetActive(false);
+        inviteFriendsPanel.SetActive(false);
         joinCode.text = HostData.GetJoinCode();
         selectedGame.text = HostData.GetGame().GetGameName();
         currPlayerCount.text = "0 players";
@@ -391,7 +396,6 @@ public class WaitingRoomScreenManager : MonoBehaviour
         settingsPanel.SetActive(false);
     }
 
-
     public void OnClickGameExit()
     {
         //Implement Close Game lobby code here.
@@ -441,4 +445,17 @@ public class WaitingRoomScreenManager : MonoBehaviour
     {
         HostData.setChatAllowed(state);
     }
+
+    // Invite Friends Functionality
+
+    public void OnInviteFriendsClicked()
+    {
+        inviteFriendsPanel.SetActive(true);
+    }
+
+    public void OnExitFriendPanelClicked()
+    {
+        inviteFriendsPanel.SetActive(false);
+    }
+
 }
