@@ -165,7 +165,20 @@ namespace Music
 
         public void onSkipButtonClick()
         {
-            //TODO
+            if (songNames.Count > 0)
+            {
+                player.Stop();
+                songNames.RemoveAt(0);
+                if (songNames.Count > 0)
+                {
+                    PlaySong(songNames[0]);
+                }
+                else
+                {
+                    songSourceSet = false;
+                    justSwappedSongs = false;
+                }
+            }
         }
 
         public void onClearAllButtonClick()
