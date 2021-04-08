@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
+using RenderHeads.Media.AVProVideo;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEngine.Video;
@@ -18,7 +20,8 @@ namespace Music
 {
     public class PlaylistController : MonoBehaviour
     {
-        public VideoPlayer player;
+  //      public VideoPlayer player;
+        public MediaPlayer mediaPlayer;
         public GameObject musicPanel;
         public Button playButton;
         public Button pauseButton;
@@ -57,11 +60,11 @@ namespace Music
         {
             // if the song source is not set and the song list is not empty
             if (MusicDownloader.fileBeingWritten == false && songSourceSet == false && songNames.Count > 0 &&
-                player.isPlaying == false)
+                mediaPlayer.Control.IsPlaying() == false)
             {
                 PlaySong(songNames[0]);
             }
-            else if (songSourceSet == true && isPaused == false && player.isPlaying == false &&
+            else if (songSourceSet == true && isPaused == false && mediaPlayer.Control.IsPlaying()  == false &&
                      justSwappedSongs == false)
             {
                 // it has finished playing, so play the next one and delete the old one
@@ -84,7 +87,7 @@ namespace Music
                 }
             }
 
-            if (player.isPlaying)
+            if (mediaPlayer.Control.IsPlaying() )
             {
                 justSwappedSongs = false;
             }
@@ -112,10 +115,16 @@ namespace Music
             currentSongName.text = songName;
             songSourceSet = true;
             justSwappedSongs = true;
+
+            bool isOpening = mediaPlayer.OpenMedia(
+                    new MediaPath(MusicDownloader.MUSIC_FOLDER + songName,
+                        MediaPathType.AbsolutePathOrURL), autoPlay: true);
+            
+            /* 
             player.source = VideoSource.Url;
             player.url = MusicDownloader.MUSIC_FOLDER + songName;
             StartCoroutine(PlaySong());
-
+*/
             if (!isPaused)
             {
                 playButton.gameObject.SetActive(false);
@@ -127,7 +136,7 @@ namespace Music
                 pauseButton.gameObject.SetActive(false);
             }
         }
-
+/*
         IEnumerator PlaySong()
         {
             player.Prepare();
@@ -141,7 +150,7 @@ namespace Music
                 player.Play();
             }
         }
-
+*/
         public void onMusicButtonClick()
         {
             musicPanel.SetActive(!musicPanel.activeSelf);
@@ -149,7 +158,7 @@ namespace Music
 
         public void onPlayButtonClick()
         {
-            player.Play();
+            mediaPlayer.Play();
             isPaused = false;
             playButton.gameObject.SetActive(false);
             pauseButton.gameObject.SetActive(true);
@@ -157,7 +166,7 @@ namespace Music
 
         public void onPauseButtonClick()
         {
-            player.Pause();
+            mediaPlayer.Pause();
             isPaused = true;
             pauseButton.gameObject.SetActive(false);
             playButton.gameObject.SetActive(true);
@@ -167,7 +176,8 @@ namespace Music
         {
             if (songNames.Count > 0)
             {
-                player.Stop();
+                mediaPlayer.Stop();
+                File.Delete(MusicDownloader.MUSIC_FOLDER + songNames[0]);
                 songNames.RemoveAt(0);
                 if (songNames.Count > 0)
                 {
@@ -191,7 +201,7 @@ namespace Music
             if (songNames.Count > 1)
             {
                 songNames = songNames.OrderBy(x => Random.value).ToList();
-                player.Stop();
+                mediaPlayer.Stop();
                 PlaySong(songNames[0]);
             }
         }
