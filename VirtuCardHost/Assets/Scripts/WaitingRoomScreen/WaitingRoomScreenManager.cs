@@ -458,4 +458,9 @@ public class WaitingRoomScreenManager : MonoBehaviour
         inviteFriendsPanel.SetActive(false);
     }
 
+    public void PopulateList()
+    {
+        
+    }
+
 }
