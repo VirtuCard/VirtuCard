@@ -31,6 +31,8 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
     public Dropdown privChatOption;
     public RectTransform privChatSize;
 
+    private int profanityChecker = 0;
+
 
     /// <summary>
     /// This class contains all the methods and fields that are within a single message.
@@ -101,10 +103,36 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
         sendBtn.onClick.AddListener(delegate
         {
             string message = messageSend.text;
+            profanityChecker = 0;
+
+            // makes everything lowercase to check the swear words
+            string tempMessage = message.ToLower();
+
+            // checks if it has a bad word
+            for (int i = 0; i < badWords.Count; i++)
+            {
+                if (tempMessage.Contains(badWords[i]))
+                {
+                    profanityChecker = 1;
+                }
+            }
+
+            // for UMANG
+            // if profanity is allowed 
+            // profanityChecker = 0;
+
             // does not send the message if it's blank
-            if (message != "")
+            if ((message != "") && (profanityChecker == 0))
             {
                 sendClicked();
+            }
+
+            // when there is a bad message
+            if (profanityChecker == 1)
+            {
+                Debug.Log("Naught word detected!");
+                _chatClient.SendPrivateMessage(PhotonNetwork.NickName, "WATCH YOUR LANGUAGE. THIS IS A WARNING");
+                messageSend.text = "";
             }
         });
 
@@ -130,9 +158,6 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
 
         privChatOption.value = 0;
         privChatOption.RefreshShownValue();
-
-        // testing purpose - don't delete for now.
-        //privChatOption.AddOptions(privName);
 
         // default chats 
         defaultChats[0].onClick.AddListener(delegate { defaultClicked("Outstanding Move"); });
@@ -257,15 +282,23 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
         }
         else
         {
-            text = "<color=red>(Private) </color>";
-            text += sender;
-            if (sender.Equals(PhotonNetwork.NickName))
+            if (profanityChecker == 0)
             {
-                text += "<color=red> to </color>";
-                text += channelName.Split(':')[1];
-                // If you're the sender, indicate who the message is being sent to.
+                text = "<color=red>(Private) </color>";
+                text += sender;
+                if (sender.Equals(PhotonNetwork.NickName))
+                {
+                    text += "<color=red> to </color>";
+                    text += channelName.Split(':')[1];
+                    // If you're the sender, indicate who the message is being sent to.
+                }
+            }
+            else // this is a swear word message to the person
+            {
+                text = "<color=red>HOST</color>";
             }
         }
+
 
         CreateNewMessage(message.ToString(), text);
     }
@@ -299,4 +332,9 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
     {
         _chatClient.Disconnect();
     }
+
+    // don't use the word hell because I don't want Hello being a bad word
+    // make it all lower case
+    public List<string> badWords = new List<string>(new string[] 
+        { "fuck", "shit", "bitch", "cunt", "ryan", "iu", "ass", "@ss" });
 }
