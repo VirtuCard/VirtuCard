@@ -60,11 +60,11 @@ namespace Music
         {
             // if the song source is not set and the song list is not empty
             if (MusicDownloader.fileBeingWritten == false && songSourceSet == false && songNames.Count > 0 &&
-                mediaPlayer.Control.IsPlaying() == false)
+                (mediaPlayer.Control.IsPlaying() == false || mediaPlayer.Control.IsFinished() == true))
             {
                 PlaySong(songNames[0]);
             }
-            else if (songSourceSet == true && isPaused == false && mediaPlayer.Control.IsPlaying()  == false &&
+            else if (songSourceSet == true && isPaused == false && mediaPlayer.Control.IsFinished() == true &&
                      justSwappedSongs == false)
             {
                 // it has finished playing, so play the next one and delete the old one
@@ -85,15 +85,17 @@ namespace Music
                     songSourceSet = false;
                     justSwappedSongs = false;
                 }
+                ReformatPlaylist();
             }
 
-            if (mediaPlayer.Control.IsPlaying() )
+            if (mediaPlayer.Control.IsPlaying())
             {
                 justSwappedSongs = false;
             }
 
             // UI (scroll panel) update
             // Remove all old children
+            /*
             while (songsListPanel.transform.childCount > 0)
             {
                 DestroyImmediate(songsListPanel.transform.GetChild(0).gameObject);
@@ -108,6 +110,7 @@ namespace Music
                     .AddListener(delegate { onRemoveSongButtonClick(songName); });
                 songView.SetActive(true);
             }
+            */
         }
 
         private void PlaySong(string songName)
@@ -158,10 +161,13 @@ namespace Music
 
         public void onPlayButtonClick()
         {
-            mediaPlayer.Play();
-            isPaused = false;
-            playButton.gameObject.SetActive(false);
-            pauseButton.gameObject.SetActive(true);
+            if (songNames.Count > 0)
+            {
+                mediaPlayer.Play();
+                isPaused = false;
+                playButton.gameObject.SetActive(false);
+                pauseButton.gameObject.SetActive(true);
+            }
         }
 
         public void onPauseButtonClick()
@@ -193,7 +199,14 @@ namespace Music
 
         public void onClearAllButtonClick()
         {
-            //TODO
+            if (songNames.Count > 0)
+            {
+                songNames.Clear();
+                mediaPlayer.Stop();
+                playButton.gameObject.SetActive(true);
+                pauseButton.gameObject.SetActive(false);
+                ReformatPlaylist();
+            }
         }
 
         public void onShuffleButtonClick()
@@ -208,28 +221,49 @@ namespace Music
 
         public void onRemoveSongButtonClick(string songName)
         {
-            //TODO   
+            if (currentSongName.text.Equals(songName))
+            {
+                mediaPlayer.Stop();
+                // if it is the current song playing
+                songNames.RemoveAt(0);
+                File.Delete(MusicDownloader.MUSIC_FOLDER + songName);
+                if (songNames.Count > 0)
+                {
+                    PlaySong(songNames[0]);
+                }
+                else
+                {
+                    currentSongName.text = String.Empty;
+                    songSourceSet = false;
+                    justSwappedSongs = false;
+                    playButton.gameObject.SetActive(true);
+                    pauseButton.gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                songNames.Remove(songName);
+                File.Delete(MusicDownloader.MUSIC_FOLDER + songName);
+            }
+            ReformatPlaylist();
         }
 
-        //Called by Chat controller
-        public void SearchAndAddSong(string songName, string sender)
+        public void ReformatPlaylist()
         {
-            downloader.DownloadSong(songName).ContinueWith(foundSong =>
+            while (songsListPanel.transform.childCount > 0)
             {
-                if (foundSong.Result == null)
-                {
-                    //Error case
-                    Debug.Log("Not found!");
-                    NotifyClient(sender, false);
-                    return;
-                }
+                DestroyImmediate(songsListPanel.transform.GetChild(0).gameObject);
+            }
 
-                Debug.Log("Song Added: " + songName);
-                songNames.Add(foundSong.Result);
-                HostData.SetDoShowNotificationWindow(true, "The song: " + songName + " is added by " + sender);
-                NotifyClient(sender, true);
-                //Update can pick it from here and show it in UI 
-            });
+            // Add songs to song panel
+            foreach (string songName in songNames)
+            {
+                GameObject songView = Instantiate(songTemplate, songsListPanel.transform);
+                songView.transform.Find("SongName").gameObject.GetComponent<Text>().text = songName;
+                songView.transform.Find("DeleteSong").gameObject.GetComponent<Button>().onClick
+                    .AddListener(delegate { onRemoveSongButtonClick(songName); });
+                songView.SetActive(true);
+            }
         }
 
         //Called by Chat controller
@@ -248,6 +282,15 @@ namespace Music
 
             Debug.Log("Song Added: " + songName);
             songNames.Add(fileName);
+
+            // add the UI panel for the new song
+            GameObject songView = Instantiate(songTemplate, songsListPanel.transform);
+            songView.transform.Find("SongName").gameObject.GetComponent<Text>().text = fileName;
+            songView.transform.Find("DeleteSong").gameObject.GetComponent<Button>().onClick
+                .AddListener(delegate { onRemoveSongButtonClick(fileName); });
+            songView.SetActive(true);
+
+            // send out notifications
             HostData.SetDoShowNotificationWindow(true, "The song: " + songName + " is added by " + sender);
             NotifyClient(sender, true);
         }
