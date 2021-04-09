@@ -9,6 +9,7 @@ using Photon.Pun;
 using System;
 using Photon.Realtime;
 
+
 public class WaitingRoomScreenManager : MonoBehaviour
 {
     //Settings
@@ -47,7 +48,9 @@ public class WaitingRoomScreenManager : MonoBehaviour
 
     // Invite Friends Panel
     public GameObject inviteFriendsPanel;
-    public Button inviteFriendsBtn;
+    public Button inviteAllFriendsButton;
+    public Button inviteSpecificFriendButton;
+    public Dropdown invitePlayerDropdown;
 
     // Start is called before the first frame update
     void Start()
@@ -451,6 +454,11 @@ public class WaitingRoomScreenManager : MonoBehaviour
     public void OnInviteFriendsClicked()
     {
         inviteFriendsPanel.SetActive(true);
+        
+        //TODO Populate the Friends Dropdown
+        //public List<string> friendsToAdd = HostData.UserProfile.Friends;
+        
+
     }
 
     public void OnExitFriendPanelClicked()
@@ -458,9 +466,5 @@ public class WaitingRoomScreenManager : MonoBehaviour
         inviteFriendsPanel.SetActive(false);
     }
 
-    public void PopulateList()
-    {
-        
-    }
 
 }
