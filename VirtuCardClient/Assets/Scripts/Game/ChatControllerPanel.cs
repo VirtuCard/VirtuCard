@@ -32,6 +32,7 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
     public RectTransform privChatSize;
 
     private int profanityChecker = 0;
+    private int warningCounter = 0;
 
 
     /// <summary>
@@ -59,9 +60,9 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
 
         public void SetText(string message)
         {
-            if (message.Length > 44)
+            if (message.Length > 56)
             {
-                message = message.Substring(0, 41);
+                message = message.Substring(0, 53);
                 message += "...";
             }
 
@@ -96,43 +97,69 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
     // Start is called before the first frame update
     void Start()
     {
+        // reset when the new game starts
+        warningCounter = 0;
         // set the currentMessages to contain the placeholders
         currentMessages = new List<GameObject>();
         currentMessages.AddRange(placeholders);
 
         sendBtn.onClick.AddListener(delegate
         {
-            string message = messageSend.text;
-            profanityChecker = 0;
+            if (warningCounter < 3) {
+                string message = messageSend.text;
+                profanityChecker = 0;
 
-            // makes everything lowercase to check the swear words
-            string tempMessage = message.ToLower();
+                // makes everything lowercase to check the swear words
+                string tempMessage = message.ToLower();
 
-            // checks if it has a bad word
-            for (int i = 0; i < badWords.Count; i++)
-            {
-                if (tempMessage.Contains(badWords[i]))
+                // checks if it has a bad word
+                for (int i = 0; i < badWords.Count; i++)
                 {
-                    profanityChecker = 1;
+                    if (tempMessage.Contains(badWords[i]))
+                    {
+                        profanityChecker = 1;
+                    }
+                }
+
+                // for UMANG
+                // if profanity is allowed 
+                // profanityChecker = 0;
+
+                // does not send the message if it's blank
+                if ((message != "") && (profanityChecker == 0))
+                {
+                    sendClicked();
+                }
+
+                string warningMessage;
+                
+                switch (warningCounter)
+                {
+                    case 0:
+                        warningMessage = "WATCH YOUR LANGUAGE. THIS IS THE FIRST WARNING";
+                        break;
+                    case 1:
+                        warningMessage = "WATCH YOUR LANGUAGE. THIS IS THE SECOND WARNING";
+                        break;
+                    default:
+                        warningMessage = "YOU ARE NOW BANNED FROM CHAT";
+                        break;
+
+                }
+
+                // when there is a bad message
+                if (profanityChecker == 1)
+                {
+                    Debug.Log("Naught word detected!");
+                    _chatClient.SendPrivateMessage(PhotonNetwork.NickName, warningMessage);
+                    messageSend.text = "";
+                    warningCounter++;
                 }
             }
-
-            // for UMANG
-            // if profanity is allowed 
-            // profanityChecker = 0;
-
-            // does not send the message if it's blank
-            if ((message != "") && (profanityChecker == 0))
+            else // the person has been banned from chatting for the rest of the game.
             {
-                sendClicked();
-            }
-
-            // when there is a bad message
-            if (profanityChecker == 1)
-            {
-                Debug.Log("Naught word detected!");
-                _chatClient.SendPrivateMessage(PhotonNetwork.NickName, "WATCH YOUR LANGUAGE. THIS IS A WARNING");
-                messageSend.text = "";
+                // invalidMove.GetComponent<CanvasGroup>().alpha = 1;
+                // StartCoroutine(FadeCanvas(invalidMove, invalidMove.alpha, 0));
             }
         });
 
@@ -331,6 +358,27 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
     public override void OnLeftRoom()
     {
         _chatClient.Disconnect();
+    }
+
+    /// <summary>
+    /// This is the code to update the fade in or fade out for the Canvas Group
+    /// </summary>
+    public IEnumerator FadeCanvas(CanvasGroup cg, float start, float end, float lerpTime = 1.0f)
+    {
+        float _timeStartedLerping = Time.time;
+        float timeSinceStarted = Time.time - _timeStartedLerping;
+        float percentageComplete = timeSinceStarted / lerpTime;
+
+        while (true)
+        {
+            timeSinceStarted = Time.time - _timeStartedLerping;
+            percentageComplete = timeSinceStarted / lerpTime;
+
+            float currentValue = Mathf.Lerp(start, end, percentageComplete);
+            cg.alpha = currentValue;
+            if (percentageComplete >= 1) break;
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     // don't use the word hell because I don't want Hello being a bad word
