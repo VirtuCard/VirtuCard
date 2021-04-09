@@ -526,9 +526,9 @@ public class GameScreenController : MonoBehaviour
         PhotonNetwork.RaiseEvent(35, content, raiseEventOptions, SendOptions.SendUnreliable);
 
         //TODO reset all game information
-        //Start();
+        HostData.GetGame().ClearAll();
 
-    
+            
     }
 
     public void TimerEarlyWarning()
