@@ -50,7 +50,7 @@ public class MusicDownloader
         Debug.Log("URL found: " + returnInfo.videoUrl);
 
         string fileNameToSaveAs = returnInfo.songName + ".mp4";
-        string fileNameSavedAs = await SaveVideoToDiskFastAsync(returnInfo.videoUrl, fileNameToSaveAs);
+        string fileNameSavedAs = await SaveVideoToDiskAsync(returnInfo.videoUrl, fileNameToSaveAs);
         return fileNameSavedAs;
     }
 
@@ -101,40 +101,16 @@ public class MusicDownloader
         fileBeingWritten = true;
         var youTube = YouTube.Default; // starting point for YouTube actions
         var videoInfo = await youTube.GetVideoAsync(link);
-        if (!Directory.Exists(MUSIC_FOLDER))
-        {
-            Directory.CreateDirectory(MUSIC_FOLDER); // Creates directory, if not present
-        }
-        
-        File.WriteAllBytes(MUSIC_FOLDER + fileName, videoInfo.GetBytes());
-        fileBeingWritten = false;
-        return fileName;
-    }
-
-    /// <summary>
-    /// Retrieves the youtube video from the link and writes it to the music folder
-    /// </summary>
-    /// <param name="link">The URI to the video</param>
-    public async Task<string> SaveVideoToDiskFastAsync(string link, string fileName)
-    {
-        fileBeingWritten = true;
-        var youTube = YouTube.Default; // starting point for YouTube actions
-        var videoInfo = await youTube.GetVideoAsync(link);
 
         if (!Directory.Exists(MUSIC_FOLDER))
         {
             Directory.CreateDirectory(MUSIC_FOLDER); // Creates directory, if not present
         }
 
-        SaveToDiskAsync(MUSIC_FOLDER + fileName, videoInfo.GetBytes(), (int)videoInfo.ContentLength);
-        /*using (FileStream sourceStream = new FileStream(MUSIC_FOLDER + fileName,
-            FileMode.Create, FileAccess.Write, FileShare.None,
-            bufferSize: 4096, useAsync: true))
+        if (!File.Exists(MUSIC_FOLDER + fileName))
         {
-            await sourceStream.WriteAsync(videoInfo.GetBytes(), 0, (int)videoInfo.ContentLength);
-        };*/
-
-        //File.WriteAllBytes(MUSIC_FOLDER + fileName, minResolution.GetBytes());
+            SaveToDiskAsync(MUSIC_FOLDER + fileName, videoInfo.GetBytes(), (int)videoInfo.ContentLength);
+        }
         return fileName;
     }
 
