@@ -4,11 +4,13 @@ using FirebaseScripts;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using ExitGames.Client.Photon;
+using Photon.Chat;
 using Photon.Realtime;
+using AuthenticationValues = Photon.Chat.AuthenticationValues;
 
 //using Photon.Pun;
 
-public class JoinGameMethod : MonoBehaviourPunCallbacks
+public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
 {
     /// <summary>
     /// This method grabs the code that the user input
@@ -40,6 +42,38 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
     private string maxPlayerString = "";
     private string gameModeString = "";
     private string welcomePlayerString = "";
+
+    // Invite panels
+    public GameObject invitePanel;
+    public Text inviteText; // Ensure it's in the format "GameName\nInviteeName"
+    public Button acceptButton;
+    public Button rejectButton;
+
+    // Invite chat things
+    private ChatClient _chatClient;
+    public string appId = "50b55aec-e283-413b-88eb-c86a27dfb8b2";
+    public static readonly string WAITING_ROOM_CODE = "57d3424a0242ac130003";
+
+
+    void Start()
+    {
+        successfulJoin = 0;
+
+        errorPanel.SetActive(false);
+        DatabaseUtils.getUser(AuthUser.GetUserID(), json =>
+        {
+            Debug.Log(json);
+            ClientData.UserProfile = new User(json);
+            Debug.Log("User " + ClientData.UserProfile.ToString());
+        });
+
+        PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.AddCallbackTarget(this);
+
+        _chatClient = new ChatClient(this) {ChatRegion = "US"};
+        _chatClient.Connect(appId, "0.1b", new AuthenticationValues(ClientData.UserProfile.Username));
+        rejectButton.onClick.AddListener(delegate { RejectInvite(); });
+    }
 
     void Update()
     {
@@ -81,29 +115,15 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
     }
 
 
-    void Start()
-    {
-        successfulJoin = 0;
-
-        errorPanel.SetActive(false);
-        DatabaseUtils.getUser(AuthUser.GetUserID(), json =>
-        {
-            Debug.Log(json);
-            ClientData.UserProfile = new User(json);
-            Debug.Log("User " + ClientData.UserProfile.ToString());
-        });
-        PhotonNetwork.ConnectUsingSettings();
-        PhotonNetwork.AddCallbackTarget(this);
-    }
-
     public void ConnectClientClicked()
     {
         loadingPanel.SetActive(true);
         joinCode = inputField.GetComponent<Text>().text;
 
-        if ((joinCode == null) || (joinCode.Equals("")))
+        if ((joinCode == null) || (joinCode.Equals("")) || (joinCode.Length != 6))
         {
             successfulJoin = -1;
+            return;
         }
 
         Debug.Log("Join Code is: " + joinCode);
@@ -248,5 +268,85 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks
         object[] content = new object[] {"hello darkness", true, 2};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
         PhotonNetwork.RaiseEvent(1, content, raiseEventOptions, SendOptions.SendUnreliable);
+    }
+
+    public void OpenInvitePanel(RoomInvite invite)
+    {
+        inviteText.text = invite.GameName + "\n" + invite.HostName;
+        acceptButton.onClick.AddListener(delegate { AcceptInvite(invite.RoomCode); });
+        invitePanel.SetActive(true);
+    }
+
+    public void AcceptInvite(string roomCode)
+    {
+        //Attempt joining room and disconnect from chat?
+    }
+
+    public void RejectInvite()
+    {
+        acceptButton.onClick.RemoveAllListeners();
+        invitePanel.SetActive(false);
+        inviteText.text = "";
+    }
+
+    public void DebugReturn(DebugLevel level, string message)
+    {
+        Debug.Log(message);
+    }
+
+    public void OnDisconnected()
+    {
+        Debug.Log("Waiting Room Invites Disconnected!\n");
+    }
+
+    public void OnConnected()
+    {
+        if (!_chatClient.CanChat)
+        {
+            return; // There are two OnConnected calls, making sure we've got the right one
+        }
+
+        Debug.Log("Waiting Room Invites Connected!\n");
+        _chatClient.Subscribe(new[] {WAITING_ROOM_CODE});
+    }
+
+    public void OnChatStateChange(ChatState state)
+    {
+        /* Ignore */
+    }
+
+    public void OnGetMessages(string channelName, string[] senders, object[] messages)
+    {
+        /* TODO: Put message to RoomInvite and check if user is invited */
+    }
+
+    public void OnPrivateMessage(string sender, object message, string channelName)
+    {
+        /* Ignore */
+    }
+
+    public void OnSubscribed(string[] channels, bool[] results)
+    {
+        Debug.Log("Subscribed to Waiting Room!");
+    }
+
+    public void OnUnsubscribed(string[] channels)
+    {
+        /* Ignore */
+    }
+
+    public void OnStatusUpdate(string user, int status, bool gotMessage, object message)
+    {
+        /* Ignore */
+    }
+
+    public void OnUserSubscribed(string channel, string user)
+    {
+        /* Ignore */
+    }
+
+    public void OnUserUnsubscribed(string channel, string user)
+    {
+        /* Ignore */
     }
 }
