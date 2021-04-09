@@ -628,6 +628,17 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 }
             }
         }
+        else if (photonEvent.Code == 35)
+        {
+            object[] data = (object[])photonEvent.CustomData;
+            string winnerName = (string)data[0];
+
+            winnerPanel.SetActive(false);
+
+            //TODO CLEAR CARDS
+            
+        }
+
     }
 
     /// <summary>

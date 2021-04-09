@@ -517,6 +517,20 @@ public class GameScreenController : MonoBehaviour
         gameOverPanel.SetActive(true);
     }
 
+    public void OnPlayAgainClicked()
+    {
+        gameOverPanel.SetActive(false);
+
+        object[] content = new object[] {"playagain"};
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+        PhotonNetwork.RaiseEvent(35, content, raiseEventOptions, SendOptions.SendUnreliable);
+
+        //TODO reset all game information
+        //Start();
+
+    
+    }
+
     public void TimerEarlyWarning()
     {
         // do nothing for now
