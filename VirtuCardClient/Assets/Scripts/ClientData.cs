@@ -18,6 +18,7 @@ public static class ClientData
     private static int timerMinutes;
     private static int timerSeconds;
     private static List<string> playerNames = new List<string>();
+    private static bool hideChat = false;
 
     public static List<string> GetAllConnectedPlayers()
     {
@@ -93,6 +94,16 @@ public static class ClientData
     public static string getJoinCode()
     {
         return joinCode;
+    }
+
+    public static void setHideChat(bool isHide)
+    {
+        hideChat = isHide;
+    }
+
+    public static bool getHideChat()
+    {
+        return hideChat;
     }
 
     public static void setCurrentTurn(bool value)

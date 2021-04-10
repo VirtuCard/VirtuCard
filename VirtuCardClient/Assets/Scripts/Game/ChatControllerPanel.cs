@@ -15,9 +15,12 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
     private List<GameObject> currentMessages;
 
     public InputField messageSend;
+    public GameObject messageSendObject;
     public Button sendBtn;
+    public GameObject sendBtnObject;
     public GameObject messageTemplate;
     public GameObject messageParent;
+    public CanvasGroup bannedSign;
 
     public string roomcode;
     private ChatClient _chatClient;
@@ -105,62 +108,7 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
 
         sendBtn.onClick.AddListener(delegate
         {
-            if (warningCounter < 3) {
-                string message = messageSend.text;
-                profanityChecker = 0;
-
-                // makes everything lowercase to check the swear words
-                string tempMessage = message.ToLower();
-
-                // checks if it has a bad word
-                for (int i = 0; i < badWords.Count; i++)
-                {
-                    if (tempMessage.Contains(badWords[i]))
-                    {
-                        profanityChecker = 1;
-                    }
-                }
-
-                // for UMANG
-                // if profanity is allowed 
-                // profanityChecker = 0;
-
-                // does not send the message if it's blank
-                if ((message != "") && (profanityChecker == 0))
-                {
-                    sendClicked();
-                }
-
-                string warningMessage;
-                
-                switch (warningCounter)
-                {
-                    case 0:
-                        warningMessage = "WATCH YOUR LANGUAGE. THIS IS THE FIRST WARNING";
-                        break;
-                    case 1:
-                        warningMessage = "WATCH YOUR LANGUAGE. THIS IS THE SECOND WARNING";
-                        break;
-                    default:
-                        warningMessage = "YOU ARE NOW BANNED FROM CHAT";
-                        break;
-
-                }
-
-                // when there is a bad message
-                if (profanityChecker == 1)
-                {
-                    Debug.Log("Naught word detected!");
-                    _chatClient.SendPrivateMessage(PhotonNetwork.NickName, warningMessage);
-                    messageSend.text = "";
-                    warningCounter++;
-                }
-            }
-            else // the person has been banned from chatting for the rest of the game.
-            {
-                // invalidMove.GetComponent<CanvasGroup>().alpha = 1;
-                // StartCoroutine(FadeCanvas(invalidMove, invalidMove.alpha, 0));
-            }
+            sendBtnClicked();
         });
 
         roomcode = ClientData.getJoinCode();
@@ -197,6 +145,11 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
     void Update()
     {
         _chatClient.Service();
+
+        // probably better way to do this, but this is here for now
+        // btn is not available if the chat is hidden
+        sendBtnObject.SetActive(!ClientData.getHideChat());
+        messageSendObject.SetActive(!ClientData.getHideChat());
     }
 
     /// <summary>
@@ -206,6 +159,66 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
     {
         Debug.Log(privChatOption.options[privChatOption.value].text);
         return privChatOption.options[privChatOption.value].text;
+    }
+
+    public void sendBtnClicked() {
+        if (warningCounter < 3) {
+                string message = messageSend.text;
+                profanityChecker = 0;
+
+                // makes everything lowercase to check the swear words
+                string tempMessage = message.ToLower();
+
+                // checks if it has a bad word
+                for (int i = 0; i < badWords.Count; i++)
+                {
+                    if (tempMessage.Contains(badWords[i]))
+                    {
+                        profanityChecker = 1;
+                    }
+                }
+
+                // for UMANG
+                // if profanity is allowed 
+                // profanityChecker = 0;
+
+                // does not send the message if it's blank
+                if ((message != "") && (profanityChecker == 0))
+                {
+                    sendClicked();
+                }
+
+                string warningMessage;
+                
+                switch (warningCounter)
+                {
+                    case 0:
+                        warningMessage = "WATCH YOUR LANGUAGE. THIS IS A WARNING";
+                        break;
+                    case 1:
+                        warningMessage = "WATCH YOUR LANGUAGE. THIS IS THE LAST WARNING";
+                        break;
+                    default:
+                        warningMessage = "YOU ARE NOW BANNED FROM CHAT";
+                        break;
+
+                }
+
+                // when there is a bad message
+                if (profanityChecker == 1)
+                {
+                    Debug.Log("Naught word detected!");
+                    _chatClient.SendPrivateMessage(PhotonNetwork.NickName, warningMessage);
+                    messageSend.text = "";
+                    warningCounter++;
+                }
+            }
+            else // the person has been banned from chatting for the rest of the game.
+            {
+                bannedSign.GetComponent<CanvasGroup>().alpha = 1;
+                StartCoroutine(FadeCanvas(bannedSign, bannedSign.alpha, 0));
+                messageSend.text = "";
+            }
     }
 
 
@@ -228,14 +241,23 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
 
     public void defaultClicked(string message)
     {
-        if (String.Compare(privChatPlayer(), "Public chat") == 0)
+        if (warningCounter < 3)
         {
-            // public chat
-            SendMessage(message);
-        }
-        else // text is a private message
+            if (String.Compare(privChatPlayer(), "Public chat") == 0)
+            {
+                // public chat
+                SendMessage(message);
+            }
+            else // text is a private message
+            {
+                SendPrivMessage(message);
+            }
+        } 
+        else // person is banned from chat
         {
-            SendPrivMessage(message);
+            bannedSign.GetComponent<CanvasGroup>().alpha = 1;
+            StartCoroutine(FadeCanvas(bannedSign, bannedSign.alpha, 0));
+            messageSend.text = "";
         }
     }
 
