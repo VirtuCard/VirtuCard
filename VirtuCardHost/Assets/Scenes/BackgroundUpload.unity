@@ -1136,7 +1136,7 @@ GameObject:
   - component: {fileID: 1585934595}
   - component: {fileID: 1585934594}
   m_Layer: 0
-  m_Name: LoginPageManager
+  m_Name: FileUploadPageManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1151,21 +1151,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1585934593}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 898140a0a2c867f4482adf70d0b14154, type: 3}
+  m_Script: {fileID: 11500000, guid: a412b1402a535974ab79bd0de977e220, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usernameInput: {fileID: 0}
-  passwordInput: {fileID: 0}
-  loginBtn: {fileID: 742068670}
-  successBtn: {fileID: 0}
-  successPanel: {fileID: 0}
-  failedPanel: {fileID: 2059228131}
-  errorTitle: {fileID: 1360133086}
-  errorMessage: {fileID: 742394594}
-  successMessage: {fileID: 0}
-  CorrectCred: 0
-  IncorrectCred: 0
-  loadingPanel: {fileID: 1625602809}
 --- !u!4 &1585934595
 Transform:
   m_ObjectHideFlags: 0
@@ -1360,11 +1348,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6881f224cc53874899894cc88dfc45a, type: 3}
---- !u!1 &1625602809 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 250185324080153622, guid: c6881f224cc53874899894cc88dfc45a, type: 3}
-  m_PrefabInstance: {fileID: 1625602808}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1625602810 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 250185324080153623, guid: c6881f224cc53874899894cc88dfc45a, type: 3}
