@@ -244,6 +244,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 chatCanvas.GetComponent<CanvasGroup>().alpha = 1;
                 hideChatPanel.SetActive(true);
                 unhideChatPanel.SetActive(false);
+                ClientData.setHideChat(false);
             }
             else if (chatValue == 1) // hide chat
             {
@@ -253,6 +254,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 chatCanvas.GetComponent<CanvasGroup>().alpha = 0;
                 hideChatPanel.SetActive(false);
                 unhideChatPanel.SetActive(true);
+                ClientData.setHideChat(true);
             }
         }
         else
