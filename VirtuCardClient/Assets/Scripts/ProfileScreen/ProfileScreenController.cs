@@ -168,6 +168,16 @@ public class ProfileScreenController : MonoBehaviour
         }
     }
 
+    public void OnLeaderboardButtonClicked()
+    {
+        if (isAnonymous)
+        {
+            anonymousErrorPanel.SetActive(true);
+            return;
+        }
+        SceneManager.LoadScene(SceneNames.LeaderboardPage, LoadSceneMode.Single);
+    }
+
     public void onErrorPanelClose()
     {
         success = 0;

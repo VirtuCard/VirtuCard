@@ -53,6 +53,10 @@ public static class SceneNames
     {
         get { return "WaitingScreen"; }
     }
+    public static string LeaderboardPage
+    {
+        get { return "LeaderboardPage"; }
+    }
 
     public static string SetUpAccount
     {
