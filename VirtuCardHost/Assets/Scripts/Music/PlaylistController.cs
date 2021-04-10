@@ -20,6 +20,8 @@ namespace Music
 {
     public class PlaylistController : MonoBehaviour
     {
+        private readonly static string EMPTY_MESSAGE = "Add a song to the queue using !play <song>";  
+        
   //      public VideoPlayer player;
         public MediaPlayer mediaPlayer;
         public GameObject musicPanel;
@@ -58,6 +60,11 @@ namespace Music
 
         private void Update()
         {
+            if (songNames.Count == 0)
+            {
+                currentSongName.text = EMPTY_MESSAGE;
+                // Should i return here? If there's noticeable lag while running maybe add a return here 
+            }
             // if the song source is not set and the song list is not empty
             if (MusicDownloader.fileBeingWritten == false && songSourceSet == false && songNames.Count > 0 &&
                 (mediaPlayer.Control.IsPlaying() == false || mediaPlayer.Control.IsFinished() == true))
@@ -123,11 +130,6 @@ namespace Music
                     new MediaPath(MusicDownloader.MUSIC_FOLDER + songName,
                         MediaPathType.AbsolutePathOrURL), autoPlay: true);
             
-            /* 
-            player.source = VideoSource.Url;
-            player.url = MusicDownloader.MUSIC_FOLDER + songName;
-            StartCoroutine(PlaySong());
-*/
             if (!isPaused)
             {
                 playButton.gameObject.SetActive(false);
@@ -139,24 +141,11 @@ namespace Music
                 pauseButton.gameObject.SetActive(false);
             }
         }
-/*
-        IEnumerator PlaySong()
-        {
-            player.Prepare();
-            while (!player.isPrepared)
-            {
-                yield return null;
-            }
 
-            if (!isPaused)
-            {
-                player.Play();
-            }
-        }
-*/
         public void onMusicButtonClick()
         {
             musicPanel.SetActive(!musicPanel.activeSelf);
+            ReformatPlaylist();
         }
 
         public void onPlayButtonClick()
@@ -183,7 +172,7 @@ namespace Music
             if (songNames.Count > 0)
             {
                 mediaPlayer.Stop();
-                File.Delete(MusicDownloader.MUSIC_FOLDER + songNames[0]);
+                string storeName = songNames[0];
                 songNames.RemoveAt(0);
                 if (songNames.Count > 0)
                 {
@@ -194,6 +183,9 @@ namespace Music
                     songSourceSet = false;
                     justSwappedSongs = false;
                 }
+                ReformatPlaylist();
+                // Keep file deletion for the end
+                File.Delete(MusicDownloader.MUSIC_FOLDER + storeName);
             }
         }
 
@@ -217,6 +209,7 @@ namespace Music
                 mediaPlayer.Stop();
                 PlaySong(songNames[0]);
             }
+            ReformatPlaylist();
         }
 
         public void onRemoveSongButtonClick(string songName)
