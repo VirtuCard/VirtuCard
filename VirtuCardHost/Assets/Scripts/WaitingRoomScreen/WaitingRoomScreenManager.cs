@@ -7,10 +7,12 @@ using ExitGames.Client.Photon;
 using PhotonScripts;
 using Photon.Pun;
 using System;
+using Photon.Chat;
 using Photon.Realtime;
+using AuthenticationValues = Photon.Chat.AuthenticationValues;
 
 
-public class WaitingRoomScreenManager : MonoBehaviour
+public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
 {
     //Settings
     public GameObject settingsPanel;
@@ -51,6 +53,11 @@ public class WaitingRoomScreenManager : MonoBehaviour
     public Button inviteAllFriendsButton;
     public Button inviteSpecificFriendButton;
     public Dropdown invitePlayerDropdown;
+
+    // Invite stuff
+    private ChatClient _chatClient;
+    public string appId = "50b55aec-e283-413b-88eb-c86a27dfb8b2";
+    public static readonly string WAITING_ROOM_CODE = "57d3424a0242ac130003"; 
 
     // Start is called before the first frame update
     void Start()
@@ -117,6 +124,10 @@ public class WaitingRoomScreenManager : MonoBehaviour
             //FreeplaySettingsButton.enabled = false;
             FreeplaySettingsButton.gameObject.SetActive(false);
         }
+        
+        // Chat stuff
+        _chatClient = new ChatClient(this) {ChatRegion = "US"};
+        _chatClient.Connect(appId, "0.1b", new AuthenticationValues("System (Host)"));
     }
 
     // Update is called once per frame
@@ -291,6 +302,9 @@ public class WaitingRoomScreenManager : MonoBehaviour
         {
             PhotonNetwork.CurrentRoom.SetCustomProperties(HostData.ToHashtable());
         }
+        
+        //Disconnect from chat
+        _chatClient.Disconnect();
 
         // change the scene to the gamescreen
         SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
@@ -409,7 +423,8 @@ public class WaitingRoomScreenManager : MonoBehaviour
         PhotonNetwork.LeaveRoom();
         
         HostData.clearGame();
-
+        _chatClient.Disconnect();
+        
         SceneManager.LoadScene(SceneNames.LandingPage, LoadSceneMode.Single);
     }
 
@@ -466,5 +481,65 @@ public class WaitingRoomScreenManager : MonoBehaviour
         inviteFriendsPanel.SetActive(false);
     }
 
+    public void SendInvite(List<string> invites)
+    {
+        _chatClient.PublishMessage(WAITING_ROOM_CODE, RoomInvite.CreateInvite(invites).GetDictInvite());
+    }
 
+    public void DebugReturn(DebugLevel level, string message)
+    {
+        Debug.Log(message);
+    }
+
+    public void OnDisconnected()
+    {
+        Debug.Log("Waiting Room Invites Disconnected!\n");
+    }
+
+    public void OnConnected()
+    {
+        Debug.Log("Waiting Room Invites Connected!\n");
+        _chatClient.Subscribe(new[] {WAITING_ROOM_CODE});
+    }
+
+    public void OnChatStateChange(ChatState state)
+    {
+        /* Ignore */
+    }
+
+    public void OnGetMessages(string channelName, string[] senders, object[] messages)
+    {
+        /* Ignore */ 
+        /* This only sends messages */
+    }
+
+    public void OnPrivateMessage(string sender, object message, string channelName)
+    {
+        /* Ignore */
+    }
+
+    public void OnSubscribed(string[] channels, bool[] results)
+    {
+        Debug.Log("Subscribed to Waiting Room!");
+    }
+
+    public void OnUnsubscribed(string[] channels)
+    {
+        /* Ignore */
+    }
+
+    public void OnStatusUpdate(string user, int status, bool gotMessage, object message)
+    {
+        /* Ignore */
+    }
+
+    public void OnUserSubscribed(string channel, string user)
+    {
+        /* Ignore */
+    }
+
+    public void OnUserUnsubscribed(string channel, string user)
+    {
+        /* Ignore */
+    }
 }

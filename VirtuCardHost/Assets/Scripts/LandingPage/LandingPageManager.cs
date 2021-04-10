@@ -7,6 +7,7 @@ using Photon.Realtime;
 using System.Threading;
 using PhotonScripts;
 using System;
+using Photon.Chat;
 
 public class LandingPageManager : MonoBehaviour
 {
@@ -43,7 +44,10 @@ public class LandingPageManager : MonoBehaviour
             PhotonNetwork.ConnectUsingSettings();
         }
 
-        DatabaseUtils.getUser(AuthUser.GetUserID(), json => { HostData.UserProfile = new User(json); });
+        DatabaseUtils.getUser(AuthUser.GetUserID(), json =>
+        {
+            HostData.UserProfile = new User(json);
+        });
     }
 
     // Update is called once per frame
