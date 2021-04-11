@@ -61,6 +61,10 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
     public Button inviteSpecificFriendButton;
     public Dropdown invitePlayerDropdown;
 
+    // Invite Sent Panel
+    public GameObject inviteSentPanel;
+    public Text playersInvited;
+
     private User user;
     private List<User> friends = new List<User>();
 
@@ -501,6 +505,34 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
         toInvite.Add(playerToInvite);
         //Debug.Log(toInvite[0]);
         SendInvite(toInvite);
+        inviteFriendsPanel.SetActive(false);
+        inviteSentPanel.SetActive(true);
+        playersInvited.GetComponent<Text>().text = "Successfully invited " + playerToInvite + "!";
+    }
+
+    public void OnAllFriendsInvited()
+    {
+        user = HostData.UserProfile;
+        int targetFriendCount = user.Friends.Count;
+
+        List<string> toInvite = new List<string>();
+
+        foreach (string friendName in user.Friends)
+        {
+            toInvite.Add(friendName);
+        }
+
+        SendInvite(toInvite);
+
+        inviteFriendsPanel.SetActive(false);
+        inviteSentPanel.SetActive(true);
+        playersInvited.GetComponent<Text>().text = "All of your friends were invited!";
+    }
+
+    public void CloseInviteSentPanel()
+    {
+        inviteSentPanel.SetActive(false);
+        inviteFriendsPanel.SetActive(true);
     }
 
     public void AddFriend(User friend)
