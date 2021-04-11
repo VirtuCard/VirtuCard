@@ -53,6 +53,12 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public CanvasGroup invalidMove;
     public GameObject loadingPanel;
 
+    public Button boilerUp;
+    public GameObject animationObject;
+    public AudioSource BoilerAudio;
+    public Button IUSucks;
+    public AudioSource IUAudio;
+
     public List<Card> CardList;
 
     // this is used to determine if the user has scrolled over to a new card, so it can be used to verify
@@ -67,6 +73,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private bool gameOver = false;
     private bool cardsFlipped = false;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -80,6 +87,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         // chat in the settings
         hideChatBtn.onClick.AddListener(delegate() { hideChatSettings(); });
         unhideChatBtn.onClick.AddListener(delegate() { unhideChatSettings(); });
+
+        boilerUp.onClick.AddListener(delegate() { boilerUpBtnPressed(); });
+        IUSucks.onClick.AddListener(delegate() { IUSucksBtnPressed(); });
 
         // setup timer
         timer.SetupTimer(ClientData.IsTimerEnabled(), ClientData.GetTimerSeconds(), ClientData.GetTimerMinutes(),
@@ -201,16 +211,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         {
             winnerPanel.SetActive(true);
             winnerAnnounce.GetComponent<Text>().text = "YOU WON!";
-
-            // if (the current player is the winner) {
-            //   winnerAnnounce.GetComponent<Text>().text = "YOU WON!";
-            //}
-            // // or you didn't win
-            // else
-            // {
-            //   winnerAnnounce.GetComponent<Text>().text = winner's username + " has won the game!";
-            // }
-            // exitGameBtn.onClick.AddListener(delegate() { exitGameBtnOnClick(); });
         }
 
         // keep card menu at a valid index
@@ -240,21 +240,22 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             {
                 dropboxSize.offsetMin = new Vector2(dropboxSize.offsetMin.x, 950);
                 dropboxSize.offsetMax = new Vector2(dropboxSize.offsetMax.x, 1040);
-                // chatPanel.SetActive(true);
                 chatCanvas.GetComponent<CanvasGroup>().alpha = 1;
                 hideChatPanel.SetActive(true);
                 unhideChatPanel.SetActive(false);
                 ClientData.setHideChat(false);
+
+                animationObject.SetActive(false);
             }
             else if (chatValue == 1) // hide chat
             {
                 dropboxSize.offsetMin = new Vector2(dropboxSize.offsetMin.x, -130);
                 dropboxSize.offsetMax = new Vector2(dropboxSize.offsetMax.x, -20);
-                // chatPanel.SetActive(false);
                 chatCanvas.GetComponent<CanvasGroup>().alpha = 0;
                 hideChatPanel.SetActive(false);
                 unhideChatPanel.SetActive(true);
                 ClientData.setHideChat(true);
+                animationObject.SetActive(true);
             }
         }
         else
@@ -681,6 +682,17 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             if (percentageComplete >= 1) break;
             yield return new WaitForEndOfFrame();
         }
+    }
+
+    private void boilerUpBtnPressed()
+    {
+        
+        BoilerAudio.Play();
+    }
+
+    private void IUSucksBtnPressed()
+    {
+        IUAudio.Play();
     }
 
     /// <summary>
