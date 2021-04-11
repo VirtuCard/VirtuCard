@@ -74,6 +74,11 @@ public class GameScreenController : MonoBehaviour
 
     private bool doPlayedAnimation = false;
 
+    [Header("Background Changing")]
+    public Button setBackgroundBtn;
+    public Button defBackgroundBtn;
+    public RawImage mainCanvasImage;
+
 
     // Start is called before the first frame update
     void Start()
