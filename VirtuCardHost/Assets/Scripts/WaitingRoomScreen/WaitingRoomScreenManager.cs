@@ -497,9 +497,10 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
     {
         List<string> toInvite =  new List<string>();
         string playerToInvite = invitePlayerDropdown.options[invitePlayerDropdown.value].text;
-        Debug.Log(playerToInvite);
+        //Debug.Log(playerToInvite);
         toInvite.Add(playerToInvite);
-        //Debug.Log(toInvite);
+        //Debug.Log(toInvite[0]);
+        SendInvite(toInvite);
     }
 
     public void AddFriend(User friend)
