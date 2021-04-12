@@ -292,11 +292,6 @@ public class GameScreenController : MonoBehaviour
             doFlipWarCards = false;
         }
 
-        if (setBackground)
-        {
-            StartCoroutine(ChangeBackground());
-            setBackground = false;
-        }
     }
 
     private IEnumerator ChangeBackground()
@@ -307,11 +302,11 @@ public class GameScreenController : MonoBehaviour
             string path = "";
             if (filePath.StartsWith(Application.dataPath))
             {
-                 path = "Assets" + filePath.Substring(Application.dataPath.Length);
+                path = filePath.Substring(Application.dataPath.Length + 1);
             }
             mainCanvasImage.color = Color.white;
-            Debug.Log(filePath);
-            mainCanvasImage.texture = Resources.Load<Texture>(filePath);
+            Debug.Log(path);
+            mainCanvasImage.texture = Resources.Load<Texture>(path);
         }
     }
     
@@ -520,16 +515,29 @@ public class GameScreenController : MonoBehaviour
     /// <summary>
     /// This method is called when the Change background button is clicked
     /// </summary>
-    public void onUploadButtonClicked()
+    public void UploadButtonClicked()
     {
-        filePath = EditorUtility.OpenFilePanel("Select your custom background", "", "png");
+        filePath = EditorUtility.OpenFilePanel("Select your custom background", "", "png,jpg,jpeg,");
+        Texture2D tex = null;
+        byte[] fileData;
+
+        if (File.Exists(filePath))
+        {
+            fileData = File.ReadAllBytes(filePath);
+            tex = new Texture2D(2, 2);
+            tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
+        }
+        Debug.Log(filePath);
+        Debug.Log(tex);
+        mainCanvasImage.color = Color.white;
+        mainCanvasImage.texture = tex;
         setBackground = true;
     }
 
     /// <summary>
     /// This method is called when the Default background button is clicked
     /// </summary>
-    public void onDefButtonClicked()
+    public void DefButtonClicked()
     {
         mainCanvasImage.texture = null;
         mainCanvasImage.color = new Color(10, 108, 3);
