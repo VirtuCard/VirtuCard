@@ -9,6 +9,8 @@ using ExitGames.Client.Photon;
 using PhotonScripts;
 using System;
 using Photon.Realtime;
+using UnityEditor;
+using System.IO;
 
 public class GameScreenController : MonoBehaviour
 {
@@ -78,6 +80,8 @@ public class GameScreenController : MonoBehaviour
     public Button setBackgroundBtn;
     public Button defBackgroundBtn;
     public RawImage mainCanvasImage;
+    string filePath;
+    public bool setBackground;
 
 
     // Start is called before the first frame update
@@ -85,6 +89,7 @@ public class GameScreenController : MonoBehaviour
     {
         isDeclaringWinner = false;
         isGameEnded = true;
+        setBackground = false;
         if (HostData.isChatAllowed())
         {
             allOfChatUI.SetActive(true);
@@ -287,6 +292,27 @@ public class GameScreenController : MonoBehaviour
             doFlipWarCards = false;
         }
 
+        if (setBackground)
+        {
+            StartCoroutine(ChangeBackground());
+            setBackground = false;
+        }
+    }
+
+    private IEnumerator ChangeBackground()
+    {
+        yield return new WaitForSeconds(3);
+        if (filePath.Length != 0)
+        {
+            string path = "";
+            if (filePath.StartsWith(Application.dataPath))
+            {
+                 path = "Assets" + filePath.Substring(Application.dataPath.Length);
+            }
+            mainCanvasImage.color = Color.white;
+            Debug.Log(filePath);
+            mainCanvasImage.texture = Resources.Load<Texture>(filePath);
+        }
     }
     
     private IEnumerator DelayCards()
@@ -491,7 +517,23 @@ public class GameScreenController : MonoBehaviour
         isDeclaringWinner = true;
         isGameEnded = false;
     }
+    /// <summary>
+    /// This method is called when the Change background button is clicked
+    /// </summary>
+    public void onUploadButtonClicked()
+    {
+        filePath = EditorUtility.OpenFilePanel("Select your custom background", "", "png");
+        setBackground = true;
+    }
 
+    /// <summary>
+    /// This method is called when the Default background button is clicked
+    /// </summary>
+    public void onDefButtonClicked()
+    {
+        mainCanvasImage.texture = null;
+        mainCanvasImage.color = new Color(10, 108, 3);
+    }
     public void DeclareWinnerChoiceClicked()
     {
         // this will raise an event
