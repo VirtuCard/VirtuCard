@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Firebase;
 using Firebase.Database;
 using UnityEngine;
@@ -252,6 +253,85 @@ namespace FirebaseScripts
                     });
                 }
             });
+        }
+
+
+        public static void GetUserFromName(string name, Action<User> callback)
+        {
+            DatabaseReference usernamesRef = realtime.GetReference("usernames/");
+
+            usernamesRef.Child(name).Child("userId").GetValueAsync().ContinueWith(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogError("Failed to get username value from Firebase Database");
+                }
+                else if (task.IsCompleted)
+                {
+                    string id = task.Result.Value.ToString();
+                    //callback(id);
+
+                    DatabaseReference usersRef = realtime.GetReference("users/" + id);
+
+                    usersRef.GetValueAsync().ContinueWith(task =>
+                    {
+                        if (task.IsFaulted)
+                        {
+                            Debug.LogError("Failed to Connect to Firebase Database");
+                            callback(null);
+                        }
+                        else if (task.IsCompleted)
+                        {
+                            DataSnapshot snapshot = task.Result;
+                            // We know this will be a dictionary
+                            string values = snapshot.GetRawJsonValue();
+                            User userFound = new User(values);
+                            callback(userFound);
+                        }
+                    });
+                }
+            });
+            /*
+
+            usernamesRef.Child(name).Child("userId").GetValueAsync().ContinueWith(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogError("Failed to get username value from Firebase Database");
+                }
+                else if (task.IsCompleted)
+                {
+                    string userId = task.Result.Value.ToString();
+                    return userId;
+                    usersRef.Child(userId).GetValueAsync().;
+                    
+                    
+                    
+                    .RemoveValueAsync().ContinueWith(task =>
+                    {
+                        if (task.IsFaulted)
+                        {
+                            Debug.LogError("Failed to delete usuerId from users/ in Firebase Database");
+                            callback(false);
+                        }
+                        else if (task.IsCompleted)
+                        {
+                            usernamesRef.Child(username).RemoveValueAsync().ContinueWith(task =>
+                            {
+                                if (task.IsFaulted)
+                                {
+                                    Debug.LogError("Failed to delete username from usernames/ in Firebase Database");
+                                    callback(false);
+                                }
+                                else if (task.IsCompleted)
+                                {
+                                    callback(true);
+                                }
+                            });
+                        }
+                    });
+                }
+            });*/
         }
     }
 }
