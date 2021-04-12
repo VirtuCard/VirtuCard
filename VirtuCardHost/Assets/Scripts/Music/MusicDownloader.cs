@@ -12,10 +12,11 @@ using System;
 public class MusicDownloader
 {
     public readonly static string MUSIC_FOLDER = Application.streamingAssetsPath + "/MusicFiles/";
+
     // Useful for build
     public static bool fileBeingWritten = false;
     private YouTubeService youtubeService;
-    
+
     public class VideoReturnInfo
     {
         public string songName;
@@ -41,7 +42,7 @@ public class MusicDownloader
     {
         var returnInfo = await FindVideoUrlAsync(keyword);
 
-        if (String.IsNullOrEmpty(returnInfo.videoUrl))
+        if (string.IsNullOrEmpty(returnInfo.videoUrl))
         {
             Debug.Log("URL not found for " + keyword);
             return null;
@@ -102,6 +103,12 @@ public class MusicDownloader
         var youTube = YouTube.Default; // starting point for YouTube actions
         var videoInfo = await youTube.GetVideoAsync(link);
 
+        if (videoInfo.Info.LengthSeconds / 60 > 7)
+        {
+            Debug.Log("Video selected is not a song.");
+            return null;
+        }
+
         if (!Directory.Exists(MUSIC_FOLDER))
         {
             Directory.CreateDirectory(MUSIC_FOLDER); // Creates directory, if not present
@@ -109,19 +116,22 @@ public class MusicDownloader
 
         if (!File.Exists(MUSIC_FOLDER + fileName))
         {
-            SaveToDiskAsync(MUSIC_FOLDER + fileName, videoInfo.GetBytes(), (int)videoInfo.ContentLength);
+            SaveToDiskAsync(MUSIC_FOLDER + fileName, videoInfo.GetBytes(), (int) videoInfo.ContentLength);
         }
+
         return fileName;
     }
 
     public async void SaveToDiskAsync(string filePath, byte[] bytes, int count)
     {
         using (FileStream sourceStream = new FileStream(filePath,
-               FileMode.Create, FileAccess.Write, FileShare.None,
-               bufferSize: 20000, useAsync: true))
+            FileMode.Create, FileAccess.Write, FileShare.None,
+            bufferSize: 20000, useAsync: true))
         {
             await sourceStream.WriteAsync(bytes, 0, count);
-        };
+        }
+
+        ;
         fileBeingWritten = false;
     }
 
