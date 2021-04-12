@@ -9,6 +9,8 @@ using ExitGames.Client.Photon;
 using PhotonScripts;
 using System;
 using Photon.Realtime;
+using UnityEditor;
+using System.IO;
 
 public class GameScreenController : MonoBehaviour
 {
@@ -74,12 +76,20 @@ public class GameScreenController : MonoBehaviour
 
     private bool doPlayedAnimation = false;
 
+    [Header("Background Changing")]
+    public Button setBackgroundBtn;
+    public Button defBackgroundBtn;
+    public RawImage mainCanvasImage;
+    string filePath;
+    public bool setBackground;
 
     // Start is called before the first frame update
     void Start()
     {
         isDeclaringWinner = false;
         isGameEnded = true;
+        setBackground = false;
+        defBackgroundBtn.interactable = false;
         if (HostData.isChatAllowed())
         {
             allOfChatUI.SetActive(true);
@@ -157,7 +167,6 @@ public class GameScreenController : MonoBehaviour
         {
             DeclareWinnerButton.gameObject.SetActive(false);
         }
-        
     }
 
     // Update is called once per frame
@@ -281,7 +290,6 @@ public class GameScreenController : MonoBehaviour
             StartCoroutine(DelayCards());
             doFlipWarCards = false;
         }
-
     }
     
     private IEnumerator DelayCards()
@@ -486,7 +494,43 @@ public class GameScreenController : MonoBehaviour
         isDeclaringWinner = true;
         isGameEnded = false;
     }
+    /// <summary>
+    /// This method is called when the Change background button is clicked
+    /// </summary>
+    public void UploadButtonClicked()
+    {
+        filePath = EditorUtility.OpenFilePanel("Select your custom background", "", "png,jpg,jpeg,");
+        if (filePath.Length != 0)
+        {
+            Texture2D tex = null;
+            byte[] fileData;
 
+            if (File.Exists(filePath))
+            {
+                fileData = File.ReadAllBytes(filePath);
+                tex = new Texture2D(2, 2);
+                tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
+            }
+            Debug.Log(filePath);
+            Debug.Log(tex);
+            mainCanvasImage.color = Color.white;
+            mainCanvasImage.texture = tex;
+            setBackground = true;
+            defBackgroundBtn.interactable = true;
+        }
+    }
+
+    /// <summary>
+    /// This method is called when the Default background button is clicked
+    /// </summary>
+    public void DefButtonClicked()
+    {
+        Debug.Log(mainCanvasImage.texture);
+        mainCanvasImage.texture = null;
+        mainCanvasImage.color = new Color(0.03921569f, 0.4235294f, 0.01176471f, 1);
+        defBackgroundBtn.interactable = false;
+        setBackground = false;
+    }
     public void DeclareWinnerChoiceClicked()
     {
         // this will raise an event
