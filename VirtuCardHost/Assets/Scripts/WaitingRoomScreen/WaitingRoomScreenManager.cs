@@ -10,6 +10,13 @@ using System;
 using Photon.Chat;
 using Photon.Realtime;
 using AuthenticationValues = Photon.Chat.AuthenticationValues;
+using FirebaseScripts;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
@@ -54,11 +61,18 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
     public Button inviteSpecificFriendButton;
     public Dropdown invitePlayerDropdown;
 
+    // Invite Sent Panel
+    public GameObject inviteSentPanel;
+    public Text playersInvited;
+
+    private User user;
+    private List<User> friends = new List<User>();
+
     // Invite stuff
     private ChatClient _chatClient;
     public string appId = "50b55aec-e283-413b-88eb-c86a27dfb8b2";
     public static readonly string WAITING_ROOM_CODE = "57d3424a0242ac130003"; 
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -466,14 +480,74 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
 
     // Invite Friends Functionality
 
+    //public List<string> friendsToAdd = HostData.UserProfile.Friends;
+        
+    
+
     public void OnInviteFriendsClicked()
     {
         inviteFriendsPanel.SetActive(true);
-        
-        //TODO Populate the Friends Dropdown
-        //public List<string> friendsToAdd = HostData.UserProfile.Friends;
-        
+        user = HostData.UserProfile;
+        int targetFriendCount = user.Friends.Count;
 
+        List<PlayerInfo> allConnectedPlayers = HostData.GetGame().GetAllPlayers();
+        //content.Add(allConnectedPlayers.Count);
+
+        foreach (string friendName in user.Friends)
+        {
+            //Poplulate the friend dropdown box
+            
+            for (int x = 0; x < allConnectedPlayers.Count; x++)
+            {
+                if (friendName != allConnectedPlayers[x].username)
+                {
+                    invitePlayerDropdown.options.Add(new Dropdown.OptionData(friendName));
+                }
+            }
+        }
+    }
+
+    public void OnSpecificFriendInvited()
+    {
+        List<string> toInvite =  new List<string>();
+        string playerToInvite = invitePlayerDropdown.options[invitePlayerDropdown.value].text;
+        //Debug.Log(playerToInvite);
+        toInvite.Add(playerToInvite);
+        //Debug.Log(toInvite[0]);
+        SendInvite(toInvite);
+        inviteFriendsPanel.SetActive(false);
+        inviteSentPanel.SetActive(true);
+        playersInvited.GetComponent<Text>().text = "Successfully invited " + playerToInvite + "!";
+    }
+
+    public void OnAllFriendsInvited()
+    {
+        user = HostData.UserProfile;
+        int targetFriendCount = user.Friends.Count;
+
+        List<string> toInvite = new List<string>();
+
+        foreach (string friendName in user.Friends)
+        {
+            toInvite.Add(friendName);
+        }
+
+        SendInvite(toInvite);
+
+        inviteFriendsPanel.SetActive(false);
+        inviteSentPanel.SetActive(true);
+        playersInvited.GetComponent<Text>().text = "All of your friends were invited!";
+    }
+
+    public void CloseInviteSentPanel()
+    {
+        inviteSentPanel.SetActive(false);
+        inviteFriendsPanel.SetActive(true);
+    }
+
+    public void AddFriend(User friend)
+    {
+        friends.Add(friend);
     }
 
     public void OnExitFriendPanelClicked()

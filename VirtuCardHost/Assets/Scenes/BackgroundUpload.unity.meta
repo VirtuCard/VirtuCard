@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:VirtuCardHost/Assets/Scenes/BackgroundUpload.unity.meta
 guid: 48d8766e715eaeb459d28fae214dbaa4
+=======
+guid: 60a57e999bdb87a4babd832c1d3a8db6
+folderAsset: yes
+>>>>>>> master:VirtuCardClient/Assets/Scripts/LeaderboardPage.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

@@ -53,6 +53,12 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public CanvasGroup invalidMove;
     public GameObject loadingPanel;
 
+    public Button boilerUp;
+    public GameObject animationObject;
+    public AudioSource BoilerAudio;
+    public Button IUSucks;
+    public AudioSource IUAudio;
+
     public List<Card> CardList;
 
     // this is used to determine if the user has scrolled over to a new card, so it can be used to verify
@@ -63,9 +69,16 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
     public NotificationWindow notificationWindow;
 
+    public Image boilerCoolDown;
+    public Image IUCoolDown;
+    public CanvasGroup animationCooldown;
+    private bool isCoolDown;
+    private float cooldownSeconds = 60;
+
     private bool wasCurrentlyTurn = false;
     private bool gameOver = false;
     private bool cardsFlipped = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -80,6 +93,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         // chat in the settings
         hideChatBtn.onClick.AddListener(delegate() { hideChatSettings(); });
         unhideChatBtn.onClick.AddListener(delegate() { unhideChatSettings(); });
+
+        boilerUp.onClick.AddListener(delegate() { boilerUpBtnPressed(); });
+        IUSucks.onClick.AddListener(delegate() { IUSucksBtnPressed(); });
 
         // setup timer
         timer.SetupTimer(ClientData.IsTimerEnabled(), ClientData.GetTimerSeconds(), ClientData.GetTimerMinutes(),
@@ -201,16 +217,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         {
             winnerPanel.SetActive(true);
             winnerAnnounce.GetComponent<Text>().text = "YOU WON!";
-
-            // if (the current player is the winner) {
-            //   winnerAnnounce.GetComponent<Text>().text = "YOU WON!";
-            //}
-            // // or you didn't win
-            // else
-            // {
-            //   winnerAnnounce.GetComponent<Text>().text = winner's username + " has won the game!";
-            // }
-            // exitGameBtn.onClick.AddListener(delegate() { exitGameBtnOnClick(); });
         }
 
         // keep card menu at a valid index
@@ -221,6 +227,20 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
         // need this here or chat won't update if host disables char
         updateChat();
+
+        // button cooldown code after the animations have been pressed
+        if (isCoolDown)
+        {
+            boilerCoolDown.fillAmount += 1 / cooldownSeconds * Time.deltaTime;
+            IUCoolDown.fillAmount += 1 / cooldownSeconds * Time.deltaTime;
+
+            if (boilerCoolDown.fillAmount >= 1)
+            {
+                IUCoolDown.fillAmount = 0;
+                boilerCoolDown.fillAmount = 0;
+                isCoolDown = false;
+            }
+        }
     }
 
     /// <summary>
@@ -240,21 +260,22 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             {
                 dropboxSize.offsetMin = new Vector2(dropboxSize.offsetMin.x, 950);
                 dropboxSize.offsetMax = new Vector2(dropboxSize.offsetMax.x, 1040);
-                // chatPanel.SetActive(true);
                 chatCanvas.GetComponent<CanvasGroup>().alpha = 1;
                 hideChatPanel.SetActive(true);
                 unhideChatPanel.SetActive(false);
                 ClientData.setHideChat(false);
+
+                animationObject.SetActive(false);
             }
             else if (chatValue == 1) // hide chat
             {
                 dropboxSize.offsetMin = new Vector2(dropboxSize.offsetMin.x, -130);
                 dropboxSize.offsetMax = new Vector2(dropboxSize.offsetMax.x, -20);
-                // chatPanel.SetActive(false);
                 chatCanvas.GetComponent<CanvasGroup>().alpha = 0;
                 hideChatPanel.SetActive(false);
                 unhideChatPanel.SetActive(true);
                 ClientData.setHideChat(true);
+                animationObject.SetActive(true);
             }
         }
         else
@@ -262,8 +283,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             // chat is disabled from the host
             chatDisableSign.SetActive(true);
             chatCanvas.GetComponent<CanvasGroup>().alpha = 0;
-            // chatPanel.SetActive(false);
             dropboxUI.SetActive(false);
+
+            animationObject.SetActive(false);
         }
     }
 
@@ -680,6 +702,34 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             cg.alpha = currentValue;
             if (percentageComplete >= 1) break;
             yield return new WaitForEndOfFrame();
+        }
+    }
+
+    private void boilerUpBtnPressed()
+    {
+        // only plays when it is not during the cooldown
+        if (!isCoolDown) {
+            BoilerAudio.Play();
+            isCoolDown = true;
+        }
+        else // cool down in place
+        {
+            animationCooldown.GetComponent<CanvasGroup>().alpha = 1;
+            StartCoroutine(FadeCanvas(animationCooldown, animationCooldown.alpha, 0));
+        }
+    }
+
+    private void IUSucksBtnPressed()
+    {
+        // onlt plays when it is not during the cooldown
+        if (!isCoolDown) { 
+            IUAudio.Play();
+            isCoolDown = true;
+        }
+        else // cool down in place
+        {
+            animationCooldown.GetComponent<CanvasGroup>().alpha = 1;
+            StartCoroutine(FadeCanvas(animationCooldown, animationCooldown.alpha, 0));
         }
     }
 
