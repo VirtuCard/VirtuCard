@@ -83,13 +83,13 @@ public class GameScreenController : MonoBehaviour
     string filePath;
     public bool setBackground;
 
-
     // Start is called before the first frame update
     void Start()
     {
         isDeclaringWinner = false;
         isGameEnded = true;
         setBackground = false;
+        defBackgroundBtn.interactable = false;
         if (HostData.isChatAllowed())
         {
             allOfChatUI.SetActive(true);
@@ -167,7 +167,6 @@ public class GameScreenController : MonoBehaviour
         {
             DeclareWinnerButton.gameObject.SetActive(false);
         }
-        
     }
 
     // Update is called once per frame
@@ -290,23 +289,6 @@ public class GameScreenController : MonoBehaviour
         {
             StartCoroutine(DelayCards());
             doFlipWarCards = false;
-        }
-
-    }
-
-    private IEnumerator ChangeBackground()
-    {
-        yield return new WaitForSeconds(3);
-        if (filePath.Length != 0)
-        {
-            string path = "";
-            if (filePath.StartsWith(Application.dataPath))
-            {
-                path = filePath.Substring(Application.dataPath.Length + 1);
-            }
-            mainCanvasImage.color = Color.white;
-            Debug.Log(path);
-            mainCanvasImage.texture = Resources.Load<Texture>(path);
         }
     }
     
@@ -534,6 +516,7 @@ public class GameScreenController : MonoBehaviour
             mainCanvasImage.color = Color.white;
             mainCanvasImage.texture = tex;
             setBackground = true;
+            defBackgroundBtn.interactable = true;
         }
     }
 
@@ -545,6 +528,8 @@ public class GameScreenController : MonoBehaviour
         Debug.Log(mainCanvasImage.texture);
         mainCanvasImage.texture = null;
         mainCanvasImage.color = new Color(0.03921569f, 0.4235294f, 0.01176471f, 1);
+        defBackgroundBtn.interactable = false;
+        setBackground = false;
     }
     public void DeclareWinnerChoiceClicked()
     {
