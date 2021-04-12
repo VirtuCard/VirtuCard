@@ -318,7 +318,7 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
         }
         
         //Disconnect from chat
-        _chatClient.Disconnect();
+        _chatClient.Unsubscribe(new[] {WAITING_ROOM_CODE});
 
         // change the scene to the gamescreen
         SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
