@@ -490,10 +490,20 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
         user = HostData.UserProfile;
         int targetFriendCount = user.Friends.Count;
 
+        List<PlayerInfo> allConnectedPlayers = HostData.GetGame().GetAllPlayers();
+        //content.Add(allConnectedPlayers.Count);
+
         foreach (string friendName in user.Friends)
         {
             //Poplulate the friend dropdown box
-            invitePlayerDropdown.options.Add(new Dropdown.OptionData(friendName));
+            
+            for (int x = 0; x < allConnectedPlayers.Count; x++)
+            {
+                if (friendName != allConnectedPlayers[x].username)
+                {
+                    invitePlayerDropdown.options.Add(new Dropdown.OptionData(friendName));
+                }
+            }
         }
     }
 
