@@ -69,6 +69,12 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
     public NotificationWindow notificationWindow;
 
+    public Image boilerCoolDown;
+    public Image IUCoolDown;
+    public CanvasGroup animationCooldown;
+    private bool isCoolDown;
+    private float cooldownSeconds = 60;
+
     private bool wasCurrentlyTurn = false;
     private bool gameOver = false;
     private bool cardsFlipped = false;
@@ -221,6 +227,20 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
         // need this here or chat won't update if host disables char
         updateChat();
+
+        // button cooldown code after the animations have been pressed
+        if (isCoolDown)
+        {
+            boilerCoolDown.fillAmount += 1 / cooldownSeconds * Time.deltaTime;
+            IUCoolDown.fillAmount += 1 / cooldownSeconds * Time.deltaTime;
+
+            if (boilerCoolDown.fillAmount >= 1)
+            {
+                IUCoolDown.fillAmount = 0;
+                boilerCoolDown.fillAmount = 0;
+                isCoolDown = false;
+            }
+        }
     }
 
     /// <summary>
@@ -263,8 +283,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             // chat is disabled from the host
             chatDisableSign.SetActive(true);
             chatCanvas.GetComponent<CanvasGroup>().alpha = 0;
-            // chatPanel.SetActive(false);
             dropboxUI.SetActive(false);
+
+            animationObject.SetActive(false);
         }
     }
 
@@ -686,13 +707,30 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
     private void boilerUpBtnPressed()
     {
-        
-        BoilerAudio.Play();
+        // only plays when it is not during the cooldown
+        if (!isCoolDown) {
+            BoilerAudio.Play();
+            isCoolDown = true;
+        }
+        else // cool down in place
+        {
+            animationCooldown.GetComponent<CanvasGroup>().alpha = 1;
+            StartCoroutine(FadeCanvas(animationCooldown, animationCooldown.alpha, 0));
+        }
     }
 
     private void IUSucksBtnPressed()
     {
-        IUAudio.Play();
+        // onlt plays when it is not during the cooldown
+        if (!isCoolDown) { 
+            IUAudio.Play();
+            isCoolDown = true;
+        }
+        else // cool down in place
+        {
+            animationCooldown.GetComponent<CanvasGroup>().alpha = 1;
+            StartCoroutine(FadeCanvas(animationCooldown, animationCooldown.alpha, 0));
+        }
     }
 
     /// <summary>
