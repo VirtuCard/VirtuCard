@@ -9,6 +9,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
+using UnityEditor;
+using System.IO;
 
 public class ClientGameController : MonoBehaviourPunCallbacks
 {
@@ -78,6 +80,13 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private bool wasCurrentlyTurn = false;
     private bool gameOver = false;
     private bool cardsFlipped = false;
+
+    [Header("Card Back Changing")]
+    public Button setCardBackBtn;
+    public Button defCardBackBtn;
+    public RawImage cardBackImage;
+    string filePath;
+    public bool setCardBack;
 
 
     // Start is called before the first frame update
@@ -681,6 +690,44 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         updateChat();
         hideChatPanel.SetActive(true);
         unhideChatPanel.SetActive(false);
+    }
+
+    /// <summary>
+    /// This method is called when the Change card back button is clicked
+    /// </summary>
+    public void UploadButtonClicked()
+    {
+        filePath = EditorUtility.OpenFilePanel("Select your custom card back", "", "png,jpg,jpeg,");
+        if (filePath.Length != 0)
+        {
+            Texture2D tex = null;
+            byte[] fileData;
+
+            if (File.Exists(filePath))
+            {
+                fileData = File.ReadAllBytes(filePath);
+                tex = new Texture2D(2, 2);
+                tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
+            }
+            Debug.Log(filePath);
+            Debug.Log(tex);
+            cardBackImage.color = Color.white;
+            cardBackImage.texture = tex;
+            setCardBack = true;
+            defCardBackBtn.interactable = true;
+        }
+    }
+
+    /// <summary>
+    /// This method is called when the Default card back button is clicked
+    /// </summary>
+    public void DefButtonClicked()
+    {
+        Debug.Log(cardBackImage.texture);
+        cardBackImage.texture = null;
+        cardBackImage.color = new Color(0.03921569f, 0.4235294f, 0.01176471f, 1);
+        defCardBackBtn.interactable = false;
+        setCardBack = false;
     }
 
 
