@@ -518,20 +518,23 @@ public class GameScreenController : MonoBehaviour
     public void UploadButtonClicked()
     {
         filePath = EditorUtility.OpenFilePanel("Select your custom background", "", "png,jpg,jpeg,");
-        Texture2D tex = null;
-        byte[] fileData;
-
-        if (File.Exists(filePath))
+        if (filePath.Length != 0)
         {
-            fileData = File.ReadAllBytes(filePath);
-            tex = new Texture2D(2, 2);
-            tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
+            Texture2D tex = null;
+            byte[] fileData;
+
+            if (File.Exists(filePath))
+            {
+                fileData = File.ReadAllBytes(filePath);
+                tex = new Texture2D(2, 2);
+                tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
+            }
+            Debug.Log(filePath);
+            Debug.Log(tex);
+            mainCanvasImage.color = Color.white;
+            mainCanvasImage.texture = tex;
+            setBackground = true;
         }
-        Debug.Log(filePath);
-        Debug.Log(tex);
-        mainCanvasImage.color = Color.white;
-        mainCanvasImage.texture = tex;
-        setBackground = true;
     }
 
     /// <summary>
@@ -539,8 +542,9 @@ public class GameScreenController : MonoBehaviour
     /// </summary>
     public void DefButtonClicked()
     {
+        Debug.Log(mainCanvasImage.texture);
         mainCanvasImage.texture = null;
-        mainCanvasImage.color = new Color(10, 108, 3);
+        mainCanvasImage.color = new Color(0.03921569f, 0.4235294f, 0.01176471f, 1);
     }
     public void DeclareWinnerChoiceClicked()
     {
