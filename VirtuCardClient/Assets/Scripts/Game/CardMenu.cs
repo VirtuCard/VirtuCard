@@ -36,6 +36,9 @@ public class CardMenu : MonoBehaviour
     private Sprite mySprite;
     private string Path;
 
+    private bool setCardBack;
+    private string backPath;
+
     private struct CardsToAssignTexture
     {
         public string texturePath;
