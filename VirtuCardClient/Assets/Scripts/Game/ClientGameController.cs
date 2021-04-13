@@ -87,12 +87,18 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public RawImage cardBackImage;
     string filePath;
     public bool setCardBack;
+    public Texture defBack;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        setCardBack = false;
+        defCardBackBtn.interactable = false;
         PhotonNetwork.AddCallbackTarget(this);
+
+        defBack = Resources.Load<Texture>("Card UI/CardBack");
+
         skipBtn.onClick.AddListener(delegate() { SkipBtnClicked(); });
         playCardBtn.onClick.AddListener(delegate() { PlayCardBtnClicked(); });
         drawCardBtn.onClick.AddListener(delegate() { DrawCardBtnClicked(); });
@@ -105,6 +111,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
         boilerUp.onClick.AddListener(delegate() { boilerUpBtnPressed(); });
         IUSucks.onClick.AddListener(delegate() { IUSucksBtnPressed(); });
+
 
         // setup timer
         timer.SetupTimer(ClientData.IsTimerEnabled(), ClientData.GetTimerSeconds(), ClientData.GetTimerMinutes(),
@@ -151,11 +158,18 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+        defBack = Resources.Load<Texture>("Card UI/CardBack");
         // check to see if the player can skip their turn once per frame
         foreach (RectTransform o in cardMenu.images)
         {
             o.Find("Front").GetComponent<Outline>().enabled = false;
         }
+
+/*        if (setCardBack)
+        {
+            StartCoroutine(SetDefCardBack());
+            setCardBack = false;
+        }*/
 
         if (ClientData.isCurrentTurn())
         {
@@ -698,6 +712,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public void UploadButtonClicked()
     {
         filePath = EditorUtility.OpenFilePanel("Select your custom card back", "", "png,jpg,jpeg,");
+        Debug.Log(filePath);
         cardMenu.backPath = filePath;
         if (filePath.Length != 0)
         {
@@ -714,8 +729,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 o.Find("Back").GetComponent<RawImage>().texture = tex;
             }
         }
-        cardMenu.setCardBack = true;
-        setCardBack = true;
+        setCardBack = false;
         defCardBackBtn.interactable = true;
     }
 
@@ -724,11 +738,24 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     /// </summary>
     public void DefButtonClicked()
     {
-        Debug.Log(cardBackImage.texture);
-        cardBackImage.texture = null;
-        cardBackImage.color = new Color(0.03921569f, 0.4235294f, 0.01176471f, 1);
+        Debug.Log("uvbsiubvi");
+        StartCoroutine(SetDefCardBack());
+        cardMenu.backPath = "";
+        foreach (RectTransform o in cardMenu.images)
+        {
+            o.Find("Back").GetComponent<RawImage>().texture = defBack;
+        }
+        setCardBack = true;
         defCardBackBtn.interactable = false;
-        setCardBack = false;
+    }
+
+    public IEnumerator SetDefCardBack()
+    {
+        yield return new WaitForSeconds(3);
+        foreach (RectTransform o in cardMenu.images)
+        {
+            o.Find("Back").GetComponent<RawImage>().texture = Resources.Load<Texture>("Card UI/CardBack");
+        }
     }
 
 
