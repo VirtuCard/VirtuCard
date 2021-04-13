@@ -208,6 +208,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
             Debug.Log(hostName);
 
             string clientName = PhotonNetwork.NickName;
+            ClientData.HostName = hostName;
 
             ClientData.SetGameName(s);
             if (s == "War")
