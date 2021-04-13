@@ -106,10 +106,7 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
         currentMessages = new List<GameObject>();
         currentMessages.AddRange(placeholders);
 
-        sendBtn.onClick.AddListener(delegate
-        {
-            sendBtnClicked();
-        });
+        sendBtn.onClick.AddListener(delegate { sendBtnClicked(); });
 
         roomcode = ClientData.getJoinCode();
         _chatClient = new ChatClient(this) {ChatRegion = "US"};
@@ -120,7 +117,7 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
         privChatSize.offsetMin = new Vector2(privChatSize.offsetMin.x, 995);
         privChatSize.offsetMax = new Vector2(privChatSize.offsetMax.x, 1085);
         privChatOption.options.Add(new Dropdown.OptionData("Public chat")); // default
-        List<string> privName = ClientData.GetAllConnectedPlayers();
+        var privName = ClientData.GetAllConnectedPlayers();
         foreach (string namePlayer in privName)
         {
             // only add the name if it is not this person
@@ -150,6 +147,8 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
         // btn is not available if the chat is hidden
         sendBtnObject.SetActive(!ClientData.getHideChat());
         messageSendObject.SetActive(!ClientData.getHideChat());
+
+        privChatOption.options.RemoveAll(optionData => !ClientData.GetAllConnectedPlayers().Contains(optionData.text));
     }
 
     /// <summary>
@@ -161,64 +160,65 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
         return privChatOption.options[privChatOption.value].text;
     }
 
-    public void sendBtnClicked() {
-        if (warningCounter < 3) {
-                string message = messageSend.text;
-                profanityChecker = 0;
+    public void sendBtnClicked()
+    {
+        if (warningCounter < 3)
+        {
+            string message = messageSend.text;
+            profanityChecker = 0;
 
-                // makes everything lowercase to check the swear words
-                string tempMessage = message.ToLower();
+            // makes everything lowercase to check the swear words
+            string tempMessage = message.ToLower();
 
-                // checks if it has a bad word
-                for (int i = 0; i < badWords.Count; i++)
-                {
-                    if (tempMessage.Contains(badWords[i]))
-                    {
-                        profanityChecker = 1;
-                    }
-                }
-
-                // for UMANG
-                // if profanity is allowed 
-                // profanityChecker = 0;
-
-                // does not send the message if it's blank
-                if ((message != "") && (profanityChecker == 0))
-                {
-                    sendClicked();
-                }
-
-                string warningMessage;
-                
-                switch (warningCounter)
-                {
-                    case 0:
-                        warningMessage = "WATCH YOUR LANGUAGE. THIS IS A WARNING";
-                        break;
-                    case 1:
-                        warningMessage = "WATCH YOUR LANGUAGE. THIS IS THE LAST WARNING";
-                        break;
-                    default:
-                        warningMessage = "YOU ARE NOW BANNED FROM CHAT";
-                        break;
-
-                }
-
-                // when there is a bad message
-                if (profanityChecker == 1)
-                {
-                    Debug.Log("Naught word detected!");
-                    _chatClient.SendPrivateMessage(PhotonNetwork.NickName, warningMessage);
-                    messageSend.text = "";
-                    warningCounter++;
-                }
-            }
-            else // the person has been banned from chatting for the rest of the game.
+            // checks if it has a bad word
+            for (int i = 0; i < badWords.Count; i++)
             {
-                bannedSign.GetComponent<CanvasGroup>().alpha = 1;
-                StartCoroutine(FadeCanvas(bannedSign, bannedSign.alpha, 0));
-                messageSend.text = "";
+                if (tempMessage.Contains(badWords[i]))
+                {
+                    profanityChecker = 1;
+                }
             }
+
+            // for UMANG
+            // if profanity is allowed 
+            // profanityChecker = 0;
+
+            // does not send the message if it's blank
+            if ((message != "") && (profanityChecker == 0))
+            {
+                sendClicked();
+            }
+
+            string warningMessage;
+
+            switch (warningCounter)
+            {
+                case 0:
+                    warningMessage = "WATCH YOUR LANGUAGE. THIS IS A WARNING";
+                    break;
+                case 1:
+                    warningMessage = "WATCH YOUR LANGUAGE. THIS IS THE LAST WARNING";
+                    break;
+                default:
+                    warningMessage = "YOU ARE NOW BANNED FROM CHAT";
+                    break;
+            }
+
+            // when there is a bad message
+            if (profanityChecker == 1)
+            {
+                Debug.Log("Naught word detected!");
+                _chatClient.SendPrivateMessage(PhotonNetwork.NickName, warningMessage);
+                messageSend.text = "";
+                warningCounter++;
+            }
+        }
+        else // the person has been banned from chatting for the rest of the game.
+        {
+            bannedSign.GetComponent<CanvasGroup>().alpha = 1;
+            StartCoroutine(FadeCanvas(bannedSign, bannedSign.alpha, 0));
+            messageSend.text = "";
+        }
     }
 
 
@@ -252,7 +252,7 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
             {
                 SendPrivMessage(message);
             }
-        } 
+        }
         else // person is banned from chat
         {
             bannedSign.GetComponent<CanvasGroup>().alpha = 1;
@@ -405,6 +405,6 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
 
     // don't use the word hell because I don't want Hello being a bad word
     // make it all lower case
-    public List<string> badWords = new List<string>(new string[] 
-        { "fuck", "shit", "bitch", "cunt", "ryan", "iu", "ass", "@ss" });
+    public List<string> badWords = new List<string>(new string[]
+        {"fuck", "shit", "bitch", "cunt", "ryan", "iu", "ass", "@ss"});
 }
