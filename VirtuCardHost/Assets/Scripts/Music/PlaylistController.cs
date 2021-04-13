@@ -20,9 +20,9 @@ namespace Music
 {
     public class PlaylistController : MonoBehaviour
     {
-        private readonly static string EMPTY_MESSAGE = "Add a song to the queue using !play <song>";  
-        
-  //      public VideoPlayer player;
+        private readonly static string EMPTY_MESSAGE = "Add a song to the queue using !play <song>";
+
+        //      public VideoPlayer player;
         public MediaPlayer mediaPlayer;
         public GameObject musicPanel;
         public Button playButton;
@@ -65,6 +65,7 @@ namespace Music
                 currentSongName.text = EMPTY_MESSAGE;
                 // Should i return here? If there's noticeable lag while running maybe add a return here 
             }
+
             // if the song source is not set and the song list is not empty
             if (MusicDownloader.fileBeingWritten == false && songSourceSet == false && songNames.Count > 0 &&
                 (mediaPlayer.Control.IsPlaying() == false || mediaPlayer.Control.IsFinished() == true))
@@ -92,6 +93,7 @@ namespace Music
                     songSourceSet = false;
                     justSwappedSongs = false;
                 }
+
                 ReformatPlaylist();
             }
 
@@ -127,9 +129,9 @@ namespace Music
             justSwappedSongs = true;
 
             bool isOpening = mediaPlayer.OpenMedia(
-                    new MediaPath(MusicDownloader.MUSIC_FOLDER + songName,
-                        MediaPathType.AbsolutePathOrURL), autoPlay: true);
-            
+                new MediaPath(MusicDownloader.MUSIC_FOLDER + songName,
+                    MediaPathType.AbsolutePathOrURL), autoPlay: true);
+
             if (!isPaused)
             {
                 playButton.gameObject.SetActive(false);
@@ -183,6 +185,7 @@ namespace Music
                     songSourceSet = false;
                     justSwappedSongs = false;
                 }
+
                 ReformatPlaylist();
                 // Keep file deletion for the end
                 File.Delete(MusicDownloader.MUSIC_FOLDER + storeName);
@@ -201,6 +204,11 @@ namespace Music
             }
         }
 
+        public void onMuteButtonClick()
+        {
+            mediaPlayer.AudioVolume = mediaPlayer.AudioVolume == 0.0f ? 1.0f : 0.0f;
+        }
+
         public void onShuffleButtonClick()
         {
             if (songNames.Count > 1)
@@ -209,6 +217,7 @@ namespace Music
                 mediaPlayer.Stop();
                 PlaySong(songNames[0]);
             }
+
             ReformatPlaylist();
         }
 
@@ -238,6 +247,7 @@ namespace Music
                 songNames.Remove(songName);
                 File.Delete(MusicDownloader.MUSIC_FOLDER + songName);
             }
+
             ReformatPlaylist();
         }
 
