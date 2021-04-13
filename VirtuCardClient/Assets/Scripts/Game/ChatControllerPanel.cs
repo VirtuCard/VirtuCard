@@ -148,7 +148,9 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
         sendBtnObject.SetActive(!ClientData.getHideChat());
         messageSendObject.SetActive(!ClientData.getHideChat());
 
-        privChatOption.options.RemoveAll(optionData => !ClientData.GetAllConnectedPlayers().Contains(optionData.text));
+        privChatOption.options.RemoveAll(optionData =>
+            !ClientData.GetAllConnectedPlayers().Contains(optionData.text) && !optionData.text.Equals("Public chat")
+        );
     }
 
     /// <summary>
