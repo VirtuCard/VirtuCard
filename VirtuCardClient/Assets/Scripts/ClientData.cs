@@ -14,6 +14,7 @@ public static class ClientData
     private static bool hostCanJoin;
     private static User userProfile;
     private static string gameName = "";
+    private static string hostName = "";
     private static bool isTimerEnabled;
     private static int timerMinutes;
     private static int timerSeconds;
@@ -161,6 +162,12 @@ public static class ClientData
         }
     }
 
+    public static string HostName
+    {
+        get => hostName;
+        set => hostName = value;
+    }
+
     public static void ClearInformation()
     {
         playerNames = new List<string>();
@@ -170,5 +177,6 @@ public static class ClientData
         chatAllowed = true;
         hostCanJoin = true;
         gameName = "";
+        hostName = "";
     }
 }
