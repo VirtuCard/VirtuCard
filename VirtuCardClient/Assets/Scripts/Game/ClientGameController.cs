@@ -257,10 +257,10 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         // button cooldown code after the animations have been pressed
         if (isCoolDown)
         {
-            boilerCoolDown.fillAmount += 1 / cooldownSeconds * Time.deltaTime;
-            IUCoolDown.fillAmount += 1 / cooldownSeconds * Time.deltaTime;
+            boilerCoolDown.fillAmount -= 1 / cooldownSeconds * Time.deltaTime;
+            IUCoolDown.fillAmount -= 1 / cooldownSeconds * Time.deltaTime;
 
-            if (boilerCoolDown.fillAmount >= 1)
+            if (boilerCoolDown.fillAmount <= 0)
             {
                 IUCoolDown.fillAmount = 0;
                 boilerCoolDown.fillAmount = 0;
@@ -790,6 +790,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         if (!isCoolDown)
         {
             BoilerAudio.Play();
+            IUCoolDown.fillAmount = 1;
+            boilerCoolDown.fillAmount = 1;
             isCoolDown = true;
         }
         else // cool down in place
@@ -805,6 +807,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         if (!isCoolDown)
         {
             IUAudio.Play();
+            IUCoolDown.fillAmount = 1;
+            boilerCoolDown.fillAmount = 1;
             isCoolDown = true;
         }
         else // cool down in place
