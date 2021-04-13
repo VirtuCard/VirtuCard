@@ -9,8 +9,9 @@ using ExitGames.Client.Photon;
 using PhotonScripts;
 using System;
 using Photon.Realtime;
-using UnityEditor;
 using System.IO;
+using SFB;
+
 
 public class GameScreenController : MonoBehaviour
 {
@@ -76,8 +77,7 @@ public class GameScreenController : MonoBehaviour
 
     private bool doPlayedAnimation = false;
 
-    [Header("Background Changing")]
-    public Button setBackgroundBtn;
+    [Header("Background Changing")] public Button setBackgroundBtn;
     public Button defBackgroundBtn;
     public RawImage mainCanvasImage;
     string filePath;
@@ -95,7 +95,8 @@ public class GameScreenController : MonoBehaviour
             allOfChatUI.SetActive(true);
 
             // check if chat is muted from the waiting setting screen
-            if (HostData.isChatMute()) {
+            if (HostData.isChatMute())
+            {
                 chatOptions.value = 2;
                 updatingChat();
             }
@@ -162,7 +163,7 @@ public class GameScreenController : MonoBehaviour
         chatOptions.RefreshShownValue();
         chatPlace.offsetMin = new Vector2(chatPlace.offsetMin.x, 150);
         chatPlace.offsetMax = new Vector2(chatPlace.offsetMax.x, 215);
-        
+
         if (!HostData.isFreeplay())
         {
             DeclareWinnerButton.gameObject.SetActive(false);
@@ -183,7 +184,7 @@ public class GameScreenController : MonoBehaviour
         {
             currentPlayer.GetComponent<Text>().text = HostData.GetGame().GetPlayerOfCurrentTurn().username + "'s Turn";
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Debug.LogError("GameScreenController.cs error: " + ex.Message);
         }
@@ -247,6 +248,7 @@ public class GameScreenController : MonoBehaviour
                 lastPlayedCard.texture = HostData.GetLastPlayedCardTexture();
             }
         }
+
         if (HostData.DidLastPlayedCardTextureUpdate())
         {
             doPlayedAnimation = true;
@@ -291,7 +293,7 @@ public class GameScreenController : MonoBehaviour
             doFlipWarCards = false;
         }
     }
-    
+
     private IEnumerator DelayCards()
     {
         yield return new WaitForSeconds(3);
@@ -301,23 +303,22 @@ public class GameScreenController : MonoBehaviour
 
         if (HostData.GetGame().GetDeck(DeckChoices.PONEUNPLAYED).GetCardCount() == 52)
         {
-        // declare a winner with raising an event
-        object[] content = new object[] { "Player one" };
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
-
+            // declare a winner with raising an event
+            object[] content = new object[] {"Player one"};
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+            PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
         }
         else if (HostData.GetGame().GetDeck(DeckChoices.PTWOUNPLAYED).GetCardCount() == 52)
         {
-        // declare a winner with raising an event
-        object[] content = new object[] { "Player two" };
-        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
+            // declare a winner with raising an event
+            object[] content = new object[] {"Player two"};
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+            PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
         }
-
     }
 
-    public void updatingChat() {
+    public void updatingChat()
+    {
         int chatValue = chatOptions.value;
         // chatOptions.RefreshShownValue();
         if (chatValue == 0) // normal chat
@@ -494,23 +495,40 @@ public class GameScreenController : MonoBehaviour
         isDeclaringWinner = true;
         isGameEnded = false;
     }
+
     /// <summary>
     /// This method is called when the Change background button is clicked
     /// </summary>
     public void UploadButtonClicked()
     {
-        filePath = EditorUtility.OpenFilePanel("Select your custom background", "", "png,jpg,jpeg,");
+//         filePath = EditorUtility.OpenFilePanel("Select your custom background", "", "png,jpg,jpeg,");
+
+        var extensions = new[]
+        {
+            new ExtensionFilter("Image Files", "png", "jpg", "jpeg"),
+        };
+        var files = StandaloneFileBrowser.OpenFilePanel("Select your custom background", "", extensions, false);
+        if (files.Length > 0)
+        {
+            filePath = files[0];
+        }
+        else
+        {
+            filePath = "";
+        }
+
+
         if (filePath.Length != 0)
         {
             Texture2D tex = null;
             byte[] fileData;
-
             if (File.Exists(filePath))
             {
                 fileData = File.ReadAllBytes(filePath);
                 tex = new Texture2D(2, 2);
                 tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
             }
+
             Debug.Log(filePath);
             Debug.Log(tex);
             mainCanvasImage.color = Color.white;
@@ -531,6 +549,7 @@ public class GameScreenController : MonoBehaviour
         defBackgroundBtn.interactable = false;
         setBackground = false;
     }
+
     public void DeclareWinnerChoiceClicked()
     {
         // this will raise an event
@@ -571,8 +590,6 @@ public class GameScreenController : MonoBehaviour
 
         //TODO reset all game information
         HostData.GetGame().ClearAll();
-
-            
     }
 
     public void TimerEarlyWarning()
