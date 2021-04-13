@@ -148,6 +148,10 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             o.Find("Front").GetComponent<Outline>().enabled = false;
         }
 
+        // Remove players that have left game
+        goFishNamesDropdown.options.RemoveAll(optionData =>
+            !ClientData.GetAllConnectedPlayers().Contains(optionData.text));
+
         if (ClientData.isCurrentTurn())
         {
             loadingPanel.SetActive(false);
@@ -839,6 +843,10 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             !ClientData.GetAllConnectedPlayers().Contains(otherPlayerNickName))
         {
             EndGame();
+        }
+        else
+        {
+            ClientData.RemoveConnectedPlayerName(otherPlayer.NickName);
         }
     }
 
