@@ -106,7 +106,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         drawCardBtn.onClick.AddListener(delegate() { DrawCardBtnClicked(); });
         SetCanSkipBtn(ClientData.isCurrentTurn());
         cardMenu = cardCarousel.GetComponent<CardMenu>();
-
         // chat in the settings
         hideChatBtn.onClick.AddListener(delegate() { hideChatSettings(); });
         unhideChatBtn.onClick.AddListener(delegate() { unhideChatSettings(); });
@@ -717,6 +716,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     {
         filePath = EditorUtility.OpenFilePanel("Select your custom card back", "", "png,jpg,jpeg,");
         Debug.Log(filePath);
+        
         cardMenu.backPath = filePath;
         if (filePath.Length != 0)
         {
