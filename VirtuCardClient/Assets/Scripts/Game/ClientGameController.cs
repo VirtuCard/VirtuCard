@@ -77,7 +77,10 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public Image IUCoolDown;
     public CanvasGroup animationCooldown;
     private bool isCoolDown;
+    private float cooldownTimer = -1;
     private float cooldownSeconds = 60;
+    public Text boilerCountdown;
+    public Text IUCountdown;
 
     private bool wasCurrentlyTurn = false;
     private bool gameOver = false;
@@ -266,6 +269,20 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 boilerCoolDown.fillAmount = 0;
                 isCoolDown = false;
             }
+        }
+
+        // countdown text for the animation cooldown
+        if (cooldownTimer > 0) {
+            cooldownTimer -= Time.deltaTime;
+            string timeString = cooldownTimer.ToString();
+            timeString = timeString.Substring(0, timeString.IndexOf('.'));
+            boilerCountdown.GetComponent<Text>().text = timeString;
+            IUCountdown.GetComponent<Text>().text = timeString;
+        }
+        else
+        {
+            boilerCountdown.GetComponent<Text>().text = "";
+            IUCountdown.GetComponent<Text>().text = "";
         }
     }
 
@@ -792,6 +809,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             BoilerAudio.Play();
             IUCoolDown.fillAmount = 1;
             boilerCoolDown.fillAmount = 1;
+            cooldownTimer = 60;
             isCoolDown = true;
         }
         else // cool down in place
@@ -809,6 +827,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             IUAudio.Play();
             IUCoolDown.fillAmount = 1;
             boilerCoolDown.fillAmount = 1;
+            cooldownTimer = 60;
             isCoolDown = true;
         }
         else // cool down in place
