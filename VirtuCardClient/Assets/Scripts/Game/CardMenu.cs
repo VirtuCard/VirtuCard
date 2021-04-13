@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using System;
-
+using System.IO;
 
 /// <summary>
 /// This class acts as a carousel for the Cards
@@ -36,8 +36,8 @@ public class CardMenu : MonoBehaviour
     private Sprite mySprite;
     private string Path;
 
-    private bool setCardBack;
-    private string backPath;
+    public bool setCardBack;
+    public string backPath;
 
     private struct CardsToAssignTexture
     {
@@ -257,6 +257,18 @@ public class CardMenu : MonoBehaviour
         for (int x = cardCountToSet - 1; x >= 0; x--)
         {
             cardsToAssignTextures[x].cardTransform.Find("Front").GetComponent<RawImage>().texture = Resources.Load<Texture>(cardsToAssignTextures[x].texturePath);
+            if (backPath.Length != 0)
+            {
+                Texture2D tex = null;
+                byte[] fileData;
+                if (File.Exists(backPath))
+                {
+                    fileData = File.ReadAllBytes(backPath);
+                    tex = new Texture2D(2, 2);
+                    tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
+                }
+                cardsToAssignTextures[x].cardTransform.Find("Back").GetComponent<RawImage>().texture = tex;
+            }
             cardsToAssignTextures.RemoveAt(x);
         }
     }
