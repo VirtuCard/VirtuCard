@@ -17,7 +17,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public Button skipBtn;
     public Button playCardBtn;
     public Button drawCardBtn;
+
     public GameObject errorDisplay;
+
     // public GameObject turn;
     public GameObject notTurnUI;
     public Text waitingSign;
@@ -33,7 +35,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public RectTransform dropboxSize;
     public GameObject chatPanel;
     public CanvasGroup chatCanvas;
-    
+
     // hide/unhide chat in the settings
     public GameObject hideChatPanel;
     public Button hideChatBtn;
@@ -141,7 +143,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             warButton.SetActive(true);
             standardPanel.SetActive(false);
             goFishPanel.SetActive(false);
-
         }
         else
         {
@@ -152,7 +153,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
         // when winner is announced the button is clicked
         exitGameBtn.onClick.AddListener(delegate() { exitGameBtnOnClick(); });
-        
     }
 
     // Update is called once per frame
@@ -165,11 +165,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             o.Find("Front").GetComponent<Outline>().enabled = false;
         }
 
-/*        if (setCardBack)
-        {
-            StartCoroutine(SetDefCardBack());
-            setCardBack = false;
-        }*/
+        // Remove players that have left game
+        goFishNamesDropdown.options.RemoveAll(optionData =>
+            !ClientData.GetAllConnectedPlayers().Contains(optionData.text));
 
         if (ClientData.isCurrentTurn())
         {
@@ -202,15 +200,20 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                     previouslySelectedCard = selectedCard;
                     cardIsValid = false;
                 }
+
                 if (cardIsValid)
                 {
-                    cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("Front").GetComponent<Outline>().effectColor = Color.blue;
+                    cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("Front").GetComponent<Outline>()
+                        .effectColor = Color.blue;
                 }
                 else
                 {
-                    cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("Front").GetComponent<Outline>().effectColor = Color.red;
+                    cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("Front").GetComponent<Outline>()
+                        .effectColor = Color.red;
                 }
-                cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("Front").GetComponent<Outline>().enabled = true;
+
+                cardMenu.images[cardMenu.GetCurrentlySelectedIndex()].Find("Front").GetComponent<Outline>().enabled =
+                    true;
             }
         }
         else
@@ -430,6 +433,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         {
             o.GetComponent<Animator>().Play(animation);
         }
+
         drawCardBtn.enabled = playCardBtn.enabled = cardsFlipped;
         cardsFlipped = !cardsFlipped;
     }
@@ -634,8 +638,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         else if (photonEvent.Code == 20)
         {
             // This is if a player has been chosen to win
-            object[] data = (object[])photonEvent.CustomData;
-            string winnerName = (string)data[0];
+            object[] data = (object[]) photonEvent.CustomData;
+            string winnerName = (string) data[0];
             if (winnerName == PhotonNetwork.NickName)
             {
                 winnerAnnounce.GetComponent<Text>().text = "You won!";
@@ -654,14 +658,15 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 winnerAnnounce.GetComponent<Text>().text = winnerName + " Won. Better luck next time!";
                 ClientData.UserProfile.GamesLost += 1;
                 DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Incremented Games lost."); });
-                
+
                 winnerPanel.SetActive(true);
             }
-        } else if (photonEvent.Code == 27) // Music Message
+        }
+        else if (photonEvent.Code == 27) // Music Message
         {
             // This is if a player has been chosen to win
-            object[] data = (object[])photonEvent.CustomData;
-            string clientName = (string)data[0];
+            object[] data = (object[]) photonEvent.CustomData;
+            string clientName = (string) data[0];
             bool result = (bool) data[1];
             if (clientName == PhotonNetwork.NickName)
             {
@@ -677,29 +682,28 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         }
         else if (photonEvent.Code == 35)
         {
-            object[] data = (object[])photonEvent.CustomData;
-            string winnerName = (string)data[0];
+            object[] data = (object[]) photonEvent.CustomData;
+            string winnerName = (string) data[0];
 
             winnerPanel.SetActive(false);
 
             //TODO CLEAR CARDS
-            
         }
-
     }
 
     /// <summary>
     /// hide and unhide chat in the settings for the next two functions
     /// </summary>
-
-    public void hideChatSettings() {
+    public void hideChatSettings()
+    {
         chatOptions.value = 1;
         updateChat();
         hideChatPanel.SetActive(false);
         unhideChatPanel.SetActive(true);
     }
 
-    public void unhideChatSettings() {
+    public void unhideChatSettings()
+    {
         chatOptions.value = 0;
         updateChat();
         hideChatPanel.SetActive(true);
@@ -783,7 +787,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private void boilerUpBtnPressed()
     {
         // only plays when it is not during the cooldown
-        if (!isCoolDown) {
+        if (!isCoolDown)
+        {
             BoilerAudio.Play();
             isCoolDown = true;
         }
@@ -797,7 +802,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private void IUSucksBtnPressed()
     {
         // onlt plays when it is not during the cooldown
-        if (!isCoolDown) { 
+        if (!isCoolDown)
+        {
             IUAudio.Play();
             isCoolDown = true;
         }
@@ -897,5 +903,25 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
     {
         ClientData.FromHashtable(propertiesThatChanged);
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        string otherPlayerNickName = otherPlayer.NickName;
+        if (otherPlayerNickName.Equals(ClientData.HostName) &&
+            !ClientData.GetAllConnectedPlayers().Contains(otherPlayerNickName))
+        {
+            EndGame();
+        }
+        else
+        {
+            ClientData.RemoveConnectedPlayerName(otherPlayer.NickName);
+        }
+    }
+
+    public void EndGame()
+    {
+        winnerAnnounce.GetComponent<Text>().text = "Game is over.";
+        winnerPanel.SetActive(true);
     }
 }
