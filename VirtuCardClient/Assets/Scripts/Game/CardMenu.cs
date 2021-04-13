@@ -36,7 +36,6 @@ public class CardMenu : MonoBehaviour
     private Sprite mySprite;
     private string Path;
 
-    public bool setCardBack;
     public string backPath;
 
     private struct CardsToAssignTexture
@@ -268,6 +267,10 @@ public class CardMenu : MonoBehaviour
                     tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
                 }
                 cardsToAssignTextures[x].cardTransform.Find("Back").GetComponent<RawImage>().texture = tex;
+            }
+            else
+            {
+                cardsToAssignTextures[x].cardTransform.Find("Back").GetComponent<RawImage>().texture = Resources.Load<Texture>("Card UI/CardBack");
             }
             cardsToAssignTextures.RemoveAt(x);
         }
