@@ -698,24 +698,25 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public void UploadButtonClicked()
     {
         filePath = EditorUtility.OpenFilePanel("Select your custom card back", "", "png,jpg,jpeg,");
+        cardMenu.backPath = filePath;
         if (filePath.Length != 0)
         {
             Texture2D tex = null;
             byte[] fileData;
-
             if (File.Exists(filePath))
             {
                 fileData = File.ReadAllBytes(filePath);
                 tex = new Texture2D(2, 2);
                 tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
             }
-            Debug.Log(filePath);
-            Debug.Log(tex);
-            cardBackImage.color = Color.white;
-            cardBackImage.texture = tex;
-            setCardBack = true;
-            defCardBackBtn.interactable = true;
+            foreach (RectTransform o in cardMenu.images)
+            {
+                o.Find("Back").GetComponent<RawImage>().texture = tex;
+            }
         }
+        cardMenu.setCardBack = true;
+        setCardBack = true;
+        defCardBackBtn.interactable = true;
     }
 
     /// <summary>
