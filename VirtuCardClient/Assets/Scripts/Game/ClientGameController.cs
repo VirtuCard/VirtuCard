@@ -9,6 +9,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
+using UnityEditor;
+using System.IO;
 
 public class ClientGameController : MonoBehaviourPunCallbacks
 {
@@ -81,11 +83,24 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private bool gameOver = false;
     private bool cardsFlipped = false;
 
+    [Header("Card Back Changing")]
+    public Button setCardBackBtn;
+    public Button defCardBackBtn;
+    public RawImage cardBackImage;
+    string filePath;
+    public bool setCardBack;
+    public Texture defBack;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        setCardBack = false;
+        defCardBackBtn.interactable = false;
         PhotonNetwork.AddCallbackTarget(this);
+
+        defBack = Resources.Load<Texture>("Card UI/CardBack");
+
         skipBtn.onClick.AddListener(delegate() { SkipBtnClicked(); });
         playCardBtn.onClick.AddListener(delegate() { PlayCardBtnClicked(); });
         drawCardBtn.onClick.AddListener(delegate() { DrawCardBtnClicked(); });
@@ -98,6 +113,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
         boilerUp.onClick.AddListener(delegate() { boilerUpBtnPressed(); });
         IUSucks.onClick.AddListener(delegate() { IUSucksBtnPressed(); });
+
 
         // setup timer
         timer.SetupTimer(ClientData.IsTimerEnabled(), ClientData.GetTimerSeconds(), ClientData.GetTimerMinutes(),
@@ -142,6 +158,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+        defBack = Resources.Load<Texture>("Card UI/CardBack");
         // check to see if the player can skip their turn once per frame
         foreach (RectTransform o in cardMenu.images)
         {
@@ -691,6 +708,58 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         updateChat();
         hideChatPanel.SetActive(true);
         unhideChatPanel.SetActive(false);
+    }
+
+    /// <summary>
+    /// This method is called when the Change card back button is clicked
+    /// </summary>
+    public void UploadButtonClicked()
+    {
+        filePath = EditorUtility.OpenFilePanel("Select your custom card back", "", "png,jpg,jpeg,");
+        Debug.Log(filePath);
+        cardMenu.backPath = filePath;
+        if (filePath.Length != 0)
+        {
+            Texture2D tex = null;
+            byte[] fileData;
+            if (File.Exists(filePath))
+            {
+                fileData = File.ReadAllBytes(filePath);
+                tex = new Texture2D(2, 2);
+                tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
+            }
+            foreach (RectTransform o in cardMenu.images)
+            {
+                o.Find("Back").GetComponent<RawImage>().texture = tex;
+            }
+        }
+        setCardBack = false;
+        defCardBackBtn.interactable = true;
+    }
+
+    /// <summary>
+    /// This method is called when the Default card back button is clicked
+    /// </summary>
+    public void DefButtonClicked()
+    {
+        Debug.Log("uvbsiubvi");
+        StartCoroutine(SetDefCardBack());
+        cardMenu.backPath = "";
+        foreach (RectTransform o in cardMenu.images)
+        {
+            o.Find("Back").GetComponent<RawImage>().texture = defBack;
+        }
+        setCardBack = true;
+        defCardBackBtn.interactable = false;
+    }
+
+    public IEnumerator SetDefCardBack()
+    {
+        yield return new WaitForSeconds(3);
+        foreach (RectTransform o in cardMenu.images)
+        {
+            o.Find("Back").GetComponent<RawImage>().texture = Resources.Load<Texture>("Card UI/CardBack");
+        }
     }
 
 
