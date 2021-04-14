@@ -836,38 +836,19 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
     private void boilerUpBtnPressed()
     {
-        // only plays when it is not during the cooldown
-        //if (!isCoolDown)
-        //{
-            BoilerAudio.Play();
-            IUCoolDown.fillAmount = 1;
-            boilerCoolDown.fillAmount = 1;
-            cooldownTimer = 60;
-            isCoolDown = true;
-
-        //}
-        //else // cool down in place
-        //{
-        //    animationCooldown.GetComponent<CanvasGroup>().alpha = 1;
-        //    StartCoroutine(FadeCanvas(animationCooldown, animationCooldown.alpha, 0));
-        //}
+        BoilerAudio.Play();
+        IUCoolDown.fillAmount = 1;
+        boilerCoolDown.fillAmount = 1;
+        cooldownTimer = 60;
+        isCoolDown = true;
     }
     private void IUSucksBtnPressed()
     {
-        // onlt plays when it is not during the cooldown
-        //if (!isCoolDown)
-        //{
-            IUAudio.Play();
-            IUCoolDown.fillAmount = 1;
-            boilerCoolDown.fillAmount = 1;
-            cooldownTimer = 60;
-            isCoolDown = true;
-        //}
-        //else // cool down in place
-        //{
-        //    animationCooldown.GetComponent<CanvasGroup>().alpha = 1;
-        //    StartCoroutine(FadeCanvas(animationCooldown, animationCooldown.alpha, 0));
-        //}
+        IUAudio.Play();
+        IUCoolDown.fillAmount = 1;
+        boilerCoolDown.fillAmount = 1;
+        cooldownTimer = 60;
+        isCoolDown = true;
     }
 
     /// <summary>
