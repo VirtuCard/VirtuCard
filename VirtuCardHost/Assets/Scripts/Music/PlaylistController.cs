@@ -201,6 +201,9 @@ namespace Music
                 playButton.gameObject.SetActive(true);
                 pauseButton.gameObject.SetActive(false);
                 ReformatPlaylist();
+                mediaPlayer.CloseMedia();
+                songSourceSet = false;
+                justSwappedSongs = false;
             }
         }
 
