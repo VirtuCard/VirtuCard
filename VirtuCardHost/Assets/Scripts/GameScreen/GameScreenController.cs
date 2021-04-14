@@ -94,6 +94,7 @@ public class GameScreenController : MonoBehaviour
     public RawImage cardDeck;
     public RawImage cardDeck1;
     public RawImage cardDeck2;
+    public Texture defBackTex;
 
 
     // Start is called before the first frame update
@@ -104,6 +105,7 @@ public class GameScreenController : MonoBehaviour
         setBackground = false;
         defBackgroundBtn.interactable = false;
         setSleeve = false;
+        defBackTex = null;
         defSleeveBtn.interactable = false;
         if (HostData.isChatAllowed())
         {
@@ -188,6 +190,10 @@ public class GameScreenController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (defBackTex == null)
+        {
+            defBackTex = Resources.Load<Texture>("Card UI/SingleCardBack");
+        }
         if (HostData.GetGame().IsGameEmpty() && isGameEnded)
         {
             // HostData.GetGame().ClearAll();
@@ -593,28 +599,31 @@ public class GameScreenController : MonoBehaviour
         var files = StandaloneFileBrowser.OpenFilePanel("Select your custom sleeve", "", extensions, false);
         if (files.Length > 0)
         {
-            filePath = files[0];
+            sleeveFilePath = files[0];
         }
         else
         {
-            filePath = "";
+            sleeveFilePath = "";
         }
 
 
-        if (filePath.Length != 0)
+        if (sleeveFilePath.Length != 0)
         {
             backTex = null;
             byte[] fileData;
-            if (File.Exists(filePath))
+            if (File.Exists(sleeveFilePath))
             {
-                fileData = File.ReadAllBytes(filePath);
+                fileData = File.ReadAllBytes(sleeveFilePath);
                 backTex = new Texture2D(2, 2);
                 backTex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
             }
 
             Debug.Log(filePath);
             Debug.Log(backTex);
-            lastPlayedCard.texture = backTex;
+            if (lastPlayedCard.texture != HostData.GetLastPlayedCardTexture())
+            {
+                lastPlayedCard.texture = backTex;
+            }
             undersideUI.texture = backTex;
             cardDeck.texture = backTex;
             cardDeck1.texture = backTex;
@@ -630,13 +639,23 @@ public class GameScreenController : MonoBehaviour
     /// </summary>
     public void DefSleeveButtonClicked()
     {
-        lastPlayedCard.texture = backTex;
-        undersideUI.texture = backTex;
-        cardDeck.texture = backTex;
-        cardDeck1.texture = backTex;
-        cardDeck2.texture = backTex;
-        setSleeve = false;
+        Debug.Log("Default Button Clicked");
+        StartCoroutine(SetDefCardBack());
+        setSleeve = true;
         defSleeveBtn.interactable = false;
+    }
+
+    private IEnumerator SetDefCardBack()
+    {
+        yield return new WaitForSeconds(1);
+        if (lastPlayedCard.texture != HostData.GetLastPlayedCardTexture())
+        {
+            lastPlayedCard.texture = defBackTex;
+        }
+        undersideUI.texture = defBackTex;
+        cardDeck.texture = defBackTex;
+        cardDeck1.texture = defBackTex;
+        cardDeck2.texture = defBackTex;
     }
 
     public void DeclareWinnerChoiceClicked()
