@@ -118,7 +118,7 @@ public abstract class Game
         didSkipTurn = true;
         object[] content = new object[] {currentPlayer.photonPlayer.NickName};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        PhotonNetwork.RaiseEvent(9, content, raiseEventOptions, SendOptions.SendReliable);
+        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.UpdatePlayerTurnIndex, content, raiseEventOptions, SendOptions.SendReliable);
     }
 
     /// <summary>

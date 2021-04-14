@@ -268,7 +268,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
     {
         object[] content = new object[] {"hello darkness", true, 2};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        PhotonNetwork.RaiseEvent(1, content, raiseEventOptions, SendOptions.SendUnreliable);
+        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.HostSendInfoToConnectedClient, content, raiseEventOptions, SendOptions.SendUnreliable);
     }
 
     public void OpenInvitePanel(RoomInvite invite)
