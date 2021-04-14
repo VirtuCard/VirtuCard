@@ -148,17 +148,19 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
     void Update()
     {
         joinCode.text = HostData.GetJoinCode();
-        if (HostData.GetGame().GetNumOfPlayers() >= HostData.GetGame().GetMinimumNumOfPlayers())
+        if (HostData.GetGame() != null)
         {
-            startGameBtn.interactable = true;
+            if (HostData.GetGame().GetNumOfPlayers() >= HostData.GetGame().GetMinimumNumOfPlayers())
+            {
+                startGameBtn.interactable = true;
+            }
+            else
+            {
+                startGameBtn.interactable = false;
+            }
+            //Refresh players list here
+            RefreshPlayerListBox();
         }
-        else
-        {
-            startGameBtn.interactable = false;
-        }
-
-        //Refresh players list here
-        RefreshPlayerListBox();
     }
 
     private void RefreshPlayerListBox()
@@ -310,7 +312,7 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
 
         // send content
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        PhotonNetwork.RaiseEvent(6, content.ToArray(), raiseEventOptions, SendOptions.SendUnreliable);
+        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.StartGame, content.ToArray(), raiseEventOptions, SendOptions.SendUnreliable);
 
         if (PhotonNetwork.CurrentRoom != null)
         {
@@ -423,7 +425,7 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
         // Sending signal to clients to update their waiting screen
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
         object[] content = new object[] {updatedPlayers};
-        PhotonNetwork.RaiseEvent(10, content, raiseEventOptions, SendOptions.SendUnreliable);
+        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.ClientSkipTurn, content, raiseEventOptions, SendOptions.SendUnreliable);
         settingsPanel.SetActive(false);
     }
 
@@ -433,7 +435,7 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
         
         //Tell clients to leave game
-        PhotonNetwork.RaiseEvent(21, null, raiseEventOptions, SendOptions.SendUnreliable);
+        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.ExitGame, null, raiseEventOptions, SendOptions.SendUnreliable);
         PhotonNetwork.LeaveRoom();
         
         HostData.clearGame();

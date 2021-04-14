@@ -201,6 +201,9 @@ namespace Music
                 playButton.gameObject.SetActive(true);
                 pauseButton.gameObject.SetActive(false);
                 ReformatPlaylist();
+                mediaPlayer.CloseMedia();
+                songSourceSet = false;
+                justSwappedSongs = false;
             }
         }
 
@@ -302,7 +305,7 @@ namespace Music
         {
             object[] content = new object[] {sender, result};
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-            PhotonNetwork.RaiseEvent(27, content, raiseEventOptions, SendOptions.SendUnreliable);
+            PhotonNetwork.RaiseEvent((int)NetworkEventCodes.SongVerification, content, raiseEventOptions, SendOptions.SendUnreliable);
         }
     }
 }

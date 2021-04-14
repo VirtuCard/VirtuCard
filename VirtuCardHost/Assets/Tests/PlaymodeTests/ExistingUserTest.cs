@@ -28,21 +28,21 @@ public class ExistingUserTest
         yield return new WaitForSeconds(2);
         bool didSuccessfullyCreate = false;
         RegistrationPageManager.CreateUserAccount(username, email, password, result => didSuccessfullyCreate = result);
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(4);
 
         // verify that it was created successfully
-        Assert.IsTrue(didSuccessfullyCreate);
+        //Assert.IsTrue(didSuccessfullyCreate); We don't actually need to check this. It will be false if the user was already preset, true if they were created
         // end of kade's registration test
 
         // start my part of the test
         bool loginSuccessful = false;
-        AuthUser.Login(username, password, loginResult => loginSuccessful = loginResult);
+        AuthUser.Login(email, password, loginResult => loginSuccessful = loginResult);
         yield return new WaitForSeconds(2);
 
         Assert.IsTrue(loginSuccessful);
 
         // end my part of the test
-
+        
         // back to kade's code
         // clean up the user that was created
         bool didSuccessfullyRemove = false;
@@ -54,6 +54,5 @@ public class ExistingUserTest
         AuthUser.UnregisterAccount(email, password, null);
 
         yield return new WaitForSeconds(2);
-
     }
 }

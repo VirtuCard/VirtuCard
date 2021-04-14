@@ -65,13 +65,15 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
             Debug.Log(json);
             ClientData.UserProfile = new User(json);
             Debug.Log("User " + ClientData.UserProfile.ToString());
+            _chatClient = new ChatClient(this) { ChatRegion = "US" };
+            _chatClient.Connect(appId, "0.1b", new AuthenticationValues(ClientData.UserProfile.Username));
         });
 
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.AddCallbackTarget(this);
 
-        _chatClient = new ChatClient(this) {ChatRegion = "US"};
-        _chatClient.Connect(appId, "0.1b", new AuthenticationValues(ClientData.UserProfile.Username));
+        //_chatClient = new ChatClient(this) {ChatRegion = "US"};
+        //_chatClient.Connect(appId, "0.1b", new AuthenticationValues(ClientData.UserProfile.Username));
         rejectButton.onClick.AddListener(delegate { RejectInvite(); });
     }
 
@@ -268,7 +270,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
     {
         object[] content = new object[] {"hello darkness", true, 2};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        PhotonNetwork.RaiseEvent(1, content, raiseEventOptions, SendOptions.SendUnreliable);
+        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.HostSendInfoToConnectedClient, content, raiseEventOptions, SendOptions.SendUnreliable);
     }
 
     public void OpenInvitePanel(RoomInvite invite)
