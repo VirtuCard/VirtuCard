@@ -65,13 +65,15 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
             Debug.Log(json);
             ClientData.UserProfile = new User(json);
             Debug.Log("User " + ClientData.UserProfile.ToString());
+            _chatClient = new ChatClient(this) {ChatRegion = "US"};
+            _chatClient.Connect(appId, "0.1b", new AuthenticationValues(ClientData.UserProfile.Username));
         });
 
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.AddCallbackTarget(this);
 
-        _chatClient = new ChatClient(this) {ChatRegion = "US"};
-        _chatClient.Connect(appId, "0.1b", new AuthenticationValues(ClientData.UserProfile.Username));
+        //_chatClient = new ChatClient(this) {ChatRegion = "US"};
+        //_chatClient.Connect(appId, "0.1b", new AuthenticationValues(ClientData.UserProfile.Username));
         rejectButton.onClick.AddListener(delegate { RejectInvite(); });
     }
 
@@ -281,6 +283,9 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
     public void AcceptInvite(string roomCode)
     {
         //Attempt joining room and disconnect from chat?
+        ConnectClientToServer(roomCode);
+        _chatClient.Unsubscribe(new[] {roomCode});
+
     }
 
     public void RejectInvite()
@@ -319,6 +324,11 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
     public void OnGetMessages(string channelName, string[] senders, object[] messages)
     {
         /* TODO: Put message to RoomInvite and check if user is invited */
+
+        RoomInvite invite = RoomInvite.InviteFromDict(messages[0]);
+        if (invite == null) return;
+        OpenInvitePanel(invite);
+
     }
 
     public void OnPrivateMessage(string sender, object message, string channelName)
