@@ -714,9 +714,19 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     /// </summary>
     public void UploadButtonClicked()
     {
-        filePath = EditorUtility.OpenFilePanel("Select your custom card back", "", "png,jpg,jpeg,");
+        //setCardBack = true;
+        defCardBackBtn.interactable = true;
+        NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((path) =>
+        {
+            Debug.Log("Image path: " + path);
+            if (path != null)
+            {
+                filePath = path;
+            }
+        }, "Select a custom card back image", "image/*");
+        //filePath = EditorUtility.OpenFilePanel("Select your custom card back", "", "png,jpg,jpeg,");
         Debug.Log(filePath);
-        
+
         cardMenu.backPath = filePath;
         if (filePath.Length != 0)
         {
@@ -733,8 +743,22 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 o.Find("Back").GetComponent<RawImage>().texture = tex;
             }
         }
-        setCardBack = false;
-        defCardBackBtn.interactable = true;
+    }
+
+    private IEnumerator PickImage(int maxSize)
+    {
+        yield return new WaitForSeconds(2);
+
+        NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((path) =>
+        {
+            Debug.Log("Image path: " + path);
+            if (path != null)
+            {
+                filePath = path;
+            }
+        }, "Select a custom card back image", "image/*");
+
+        Debug.Log("Permission result: " + permission);
     }
 
     /// <summary>
@@ -742,14 +766,13 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     /// </summary>
     public void DefButtonClicked()
     {
-        Debug.Log("uvbsiubvi");
+        Debug.Log("Default Button pressed");
         StartCoroutine(SetDefCardBack());
         cardMenu.backPath = "";
         foreach (RectTransform o in cardMenu.images)
         {
             o.Find("Back").GetComponent<RawImage>().texture = defBack;
         }
-        setCardBack = true;
         defCardBackBtn.interactable = false;
     }
 
