@@ -148,17 +148,19 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
     void Update()
     {
         joinCode.text = HostData.GetJoinCode();
-        if (HostData.GetGame().GetNumOfPlayers() >= HostData.GetGame().GetMinimumNumOfPlayers())
+        if (HostData.GetGame() != null)
         {
-            startGameBtn.interactable = true;
+            if (HostData.GetGame().GetNumOfPlayers() >= HostData.GetGame().GetMinimumNumOfPlayers())
+            {
+                startGameBtn.interactable = true;
+            }
+            else
+            {
+                startGameBtn.interactable = false;
+            }
+            //Refresh players list here
+            RefreshPlayerListBox();
         }
-        else
-        {
-            startGameBtn.interactable = false;
-        }
-
-        //Refresh players list here
-        RefreshPlayerListBox();
     }
 
     private void RefreshPlayerListBox()
