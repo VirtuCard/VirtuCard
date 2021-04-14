@@ -114,8 +114,33 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         hideChatBtn.onClick.AddListener(delegate() { hideChatSettings(); });
         unhideChatBtn.onClick.AddListener(delegate() { unhideChatSettings(); });
 
-        boilerUp.onClick.AddListener(delegate() { boilerUpBtnPressed(); });
-        IUSucks.onClick.AddListener(delegate() { IUSucksBtnPressed(); });
+        boilerUp.onClick.AddListener(delegate() {
+            // boilerUpBtnPressed();
+            if (!isCoolDown) {
+                // Send event
+                object[] content = new object[] {};
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+                PhotonNetwork.RaiseEvent(69, content, raiseEventOptions, SendOptions.SendUnreliable);
+            }
+            else
+            {
+                animationCooldown.GetComponent<CanvasGroup>().alpha = 1;
+                StartCoroutine(FadeCanvas(animationCooldown, animationCooldown.alpha, 0));
+            }
+        });
+        IUSucks.onClick.AddListener(delegate() {
+            if (!isCoolDown) {
+                // Send event
+                object[] content = new object[] {};
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+                PhotonNetwork.RaiseEvent(70, content, raiseEventOptions, SendOptions.SendUnreliable);
+            }
+            else
+            {
+                animationCooldown.GetComponent<CanvasGroup>().alpha = 1;
+                StartCoroutine(FadeCanvas(animationCooldown, animationCooldown.alpha, 0));
+            }
+        });
 
 
         // setup timer
@@ -706,6 +731,14 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
             //TODO CLEAR CARDS
         }
+        else if (photonEvent.Code == 69)
+        {
+            boilerUpBtnPressed();
+        }
+        else if (photonEvent.Code == 70)
+        {
+            IUSucksBtnPressed();
+        }
     }
 
     /// <summary>
@@ -804,37 +837,37 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private void boilerUpBtnPressed()
     {
         // only plays when it is not during the cooldown
-        if (!isCoolDown)
-        {
+        //if (!isCoolDown)
+        //{
             BoilerAudio.Play();
             IUCoolDown.fillAmount = 1;
             boilerCoolDown.fillAmount = 1;
             cooldownTimer = 60;
             isCoolDown = true;
-        }
-        else // cool down in place
-        {
-            animationCooldown.GetComponent<CanvasGroup>().alpha = 1;
-            StartCoroutine(FadeCanvas(animationCooldown, animationCooldown.alpha, 0));
-        }
-    }
 
+        //}
+        //else // cool down in place
+        //{
+        //    animationCooldown.GetComponent<CanvasGroup>().alpha = 1;
+        //    StartCoroutine(FadeCanvas(animationCooldown, animationCooldown.alpha, 0));
+        //}
+    }
     private void IUSucksBtnPressed()
     {
         // onlt plays when it is not during the cooldown
-        if (!isCoolDown)
-        {
+        //if (!isCoolDown)
+        //{
             IUAudio.Play();
             IUCoolDown.fillAmount = 1;
             boilerCoolDown.fillAmount = 1;
             cooldownTimer = 60;
             isCoolDown = true;
-        }
-        else // cool down in place
-        {
-            animationCooldown.GetComponent<CanvasGroup>().alpha = 1;
-            StartCoroutine(FadeCanvas(animationCooldown, animationCooldown.alpha, 0));
-        }
+        //}
+        //else // cool down in place
+        //{
+        //    animationCooldown.GetComponent<CanvasGroup>().alpha = 1;
+        //    StartCoroutine(FadeCanvas(animationCooldown, animationCooldown.alpha, 0));
+        //}
     }
 
     /// <summary>
