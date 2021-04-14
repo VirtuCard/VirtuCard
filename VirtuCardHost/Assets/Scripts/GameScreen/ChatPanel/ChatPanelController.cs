@@ -198,6 +198,37 @@ namespace GameScreen.ChatPanel
 
         /// START UNIT TEST
         /// The next two methods are for unit tests only
+        /*
+        private string strTest = "";
+        private GameObject tmp;
+        private MessageUI uiTest;
+        public void setTextTest(string text)
+        {
+            tmp = new GameObject();
+
+            GameObject text1 = new GameObject();
+            text1.AddComponent<Text>();
+            text1.GetComponent<Text>().name = "Text";
+            text1.GetComponent<Text>().gameObject.name = "Text";
+
+            GameObject text2 = new GameObject();
+            text2.AddComponent<Text>();
+            text2.GetComponent<Text>().name = "Username";
+            text2.GetComponent<Text>().gameObject.name = "Username";
+
+            var par1 = Instantiate(text1, tmp.transform);
+            var par2 = Instantiate(text2, tmp.transform);
+
+            uiTest = new MessageUI(tmp, new GameObject());
+            uiTest.SetText(text);
+        }
+
+        public string getTextTest()
+        {
+            return uiTest.GetText();
+        }*/
+
+        
         public string setAndGetTextTest(string text)
         {
             MessageUI ui = new MessageUI(messageTemplate, messageParent);

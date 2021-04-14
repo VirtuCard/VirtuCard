@@ -496,7 +496,7 @@ namespace PhotonScripts
 
         private void OnDestroy()
         {
-            Debug.LogError("Network Controller is being destroyed. This is not ideal.");
+            Debug.LogWarning("Network Controller is being destroyed. This is not ideal.");
         }
     }
 }
