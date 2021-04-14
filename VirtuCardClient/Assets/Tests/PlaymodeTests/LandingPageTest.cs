@@ -4,78 +4,41 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using NUnit.Framework;
-using UnityEngine;
 using UnityEngine.TestTools;
+using UnityEngine.SceneManagement;
 
 public class LandingPageTests
 {
-    // All the buttons in the page
-    public Button SignInBtn;
-    public bool sign = false;
-    
-    public Button RegisterBtn;
-    public bool register = false;
-    
-    public Button GoogleBtn;
-    public bool google = false;
-
-    public Button FacebookBtn;
-    public bool facebook = false;
-
-    public Button AnonBtn;
-    public bool anon = false;
-
-    // Start is called before the first frame update
 
     [UnityTest]
     public IEnumerator LandingPageTest()
     {
-        // unit test for sign in
-        SignInBtn.onClick.AddListener(delegate { signInClicked(); });
-        SignInBtn.onClick.Invoke();
+        SceneManager.LoadScene(SceneNames.LandingPage);
+        yield return new WaitForSeconds(1);
+
+        Button signInBtn = GameObject.Find("SignInButton").GetComponent<Button>();
+        signInBtn.onClick.Invoke();
         yield return new WaitForSeconds(2);
-        Assert.IsTrue(sign);
+        Assert.IsTrue(SceneManager.GetActiveScene().name.Equals(SceneNames.SignInPage), "Did not transition scenes");
 
-        // unit test for register
-        RegisterBtn.onClick.AddListener(delegate { registerClicked(); });
-        RegisterBtn.onClick.Invoke();
+        Button backBtn = GameObject.Find("BackButton").GetComponent<Button>();
+        backBtn.onClick.Invoke();
         yield return new WaitForSeconds(2);
-        Assert.IsTrue(register);
+        Assert.IsTrue(SceneManager.GetActiveScene().name.Equals(SceneNames.LandingPage), "Did not transition scenes");
 
-        // unit test for google
-        GoogleBtn.onClick.AddListener(delegate { googleClicked(); });
-        GoogleBtn.onClick.Invoke();
+        Button registerBtn = GameObject.Find("RegisterButton").GetComponent<Button>();
+        registerBtn.onClick.Invoke();
         yield return new WaitForSeconds(2);
-        Assert.IsTrue(google);
+        Assert.IsTrue(SceneManager.GetActiveScene().name.Equals(SceneNames.RegisterPage), "Did not transition scenes");
 
-        // unit test for facebook
-        FacebookBtn.onClick.AddListener(delegate { facebookClicked(); });
-        FacebookBtn.onClick.Invoke();
+        backBtn = GameObject.Find("BackButton").GetComponent<Button>();
+        backBtn.onClick.Invoke();
         yield return new WaitForSeconds(2);
-        Assert.IsTrue(facebook);
-        
-        // unit test for anon
-        AnonBtn.onClick.AddListener(delegate { anonClicked(); });
-        AnonBtn.onClick.Invoke();
+        Assert.IsTrue(SceneManager.GetActiveScene().name.Equals(SceneNames.LandingPage), "Did not transition scenes");
+
+        Button anonBtn = GameObject.Find("AnonButton").GetComponent<Button>();
+        anonBtn.onClick.Invoke();
         yield return new WaitForSeconds(2);
-        Assert.IsTrue(anon);
-    }
-    public void signInClicked() {
-        sign = true;
-    }
-
-    public void registerClicked() {
-        register = true;
-    }
-
-    public void googleClicked() {
-        google = true;
-    }
-
-    public void facebookClicked() {
-        facebook = true;
-    }
-    public void anonClicked() {
-        anon = true;
+        Assert.IsTrue(SceneManager.GetActiveScene().name.Equals(SceneNames.JoinGamePage), "Did not transition scenes");
     }
 }
