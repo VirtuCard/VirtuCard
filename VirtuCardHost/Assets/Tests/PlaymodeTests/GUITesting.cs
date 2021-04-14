@@ -294,14 +294,16 @@ public class GUITesting
         Assert.NotNull(joinGameButton, "joinGameButton != null");
 
         gameChoices.value = 0;
-        Assert.AreEqual(gameChoices.captionText.text, "Freeplay", "Game Dropdowns provided unexpected value");
+        Assert.AreEqual(gameChoices.captionText.text, "TestGame", "Game Dropdowns provided unexpected value");
         gameChoices.value = 1;
-        Assert.AreEqual(gameChoices.captionText.text, "Uno", "Game Dropdowns provided unexpected value");
+        Assert.AreEqual(gameChoices.captionText.text, "GoFish", "Game Dropdowns provided unexpected value");
         gameChoices.value = 2;
-        Assert.AreEqual(gameChoices.captionText.text, "Go Fish", "Game Dropdowns provided unexpected value");
+        Assert.AreEqual(gameChoices.captionText.text, "War", "Game Dropdowns provided unexpected value");
+        gameChoices.value = 3;
+        Assert.AreEqual(gameChoices.captionText.text, "Freeplay", "Game Dropdowns provided unexpected value");
 
         joinGameButton.onClick.Invoke();
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(7);
 
         //Check if reached Profile Page
         currentScene = SceneManager.GetActiveScene();
@@ -314,11 +316,12 @@ public class GUITesting
 
         Assert.NotNull(selectedGame, "selectedGame != null");
         Assert.NotNull(settingsButton, "settingsButton != null");
-        Assert.AreEqual(selectedGame.text, "Go Fish", "Dropdown choice not shown.");
+        Assert.AreEqual(selectedGame.text, "Freeplay", "Dropdown choice not shown.");
         settingsButton.onClick.Invoke();
         yield return new WaitForSeconds(1);
-        
+
         //See if panel has opened, Exit Game then
+        
         Button exitGame = GameObject.Find("ExitGameButton").GetComponent<Button>();
         Assert.IsTrue(exitGame.IsActive());
         exitGame.onClick.Invoke();
