@@ -31,7 +31,7 @@ namespace WaitingRoom
 
         private void OnSignalSent(EventData photonEvent)
         {
-            if (photonEvent.Code == 21) //Exit Game
+            if (photonEvent.Code == (int)NetworkEventCodes.ExitGame) //Exit Game
             {
                 PhotonNetwork.LeaveRoom();
                 SceneManager.LoadScene(SceneNames.JoinGamePage);

@@ -222,7 +222,7 @@ namespace PhotonScripts
                 //While is empty to simulate a pause
             }
 
-            if (photonEvent.Code == 1)
+            if (photonEvent.Code == (int)NetworkEventCodes.HostSendInfoToConnectedClient)
             {
                 object[] data = (object[]) photonEvent.CustomData;
                 string s = (string) data[0];
@@ -233,7 +233,7 @@ namespace PhotonScripts
                 Debug.Log(players);
             }
             // playing card event
-            else if (photonEvent.Code == 2)
+            else if (photonEvent.Code == (int)NetworkEventCodes.ClientPlayedCard)
             {
                 object[] data = (object[]) photonEvent.CustomData;
                 string username = (string) data[0];
@@ -294,7 +294,7 @@ namespace PhotonScripts
                 }
             }
             // verifying card event
-            else if (photonEvent.Code == 4)
+            else if (photonEvent.Code == (int)NetworkEventCodes.VerifyClientCard)
             {
                 object[] data = (object[]) photonEvent.CustomData;
                 string cardType = (string) data[0];
@@ -308,7 +308,7 @@ namespace PhotonScripts
                 SendThatCardIsValid(username, isValid);
             }
             // draw card event
-            else if (photonEvent.Code == 7)
+            else if (photonEvent.Code == (int)NetworkEventCodes.ClientDrawCard)
             {
                 object[] data = (object[]) photonEvent.CustomData;
                 string username = (string) data[0];
@@ -318,7 +318,7 @@ namespace PhotonScripts
                 SendCardsToPlayer(username, cards, true, true);
             }
             // skip turn event
-            else if (photonEvent.Code == 10)
+            else if (photonEvent.Code == (int)NetworkEventCodes.ClientSkipTurn)
             {
                 object[] data = (object[]) photonEvent.CustomData;
                 // just get the username in case we need it in the future
@@ -361,7 +361,7 @@ namespace PhotonScripts
                     }
                 }
             }
-            else if (photonEvent.Code == 34)
+            else if (photonEvent.Code == (int)NetworkEventCodes.ClientWarFlipCard)
             {
                 // War implementation
                 // This should capture the signal from the flip card button press
@@ -406,7 +406,7 @@ namespace PhotonScripts
                         doShowPlayerNotification
                     };
                     RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-                    PhotonNetwork.RaiseEvent(8, content, raiseEventOptions, SendOptions.SendUnreliable);
+                    PhotonNetwork.RaiseEvent((int)NetworkEventCodes.HostSendingCardsToPlayer, content, raiseEventOptions, SendOptions.SendUnreliable);
                 }
             }
         }
@@ -419,7 +419,7 @@ namespace PhotonScripts
         {
             object[] content = new object[] {enable};
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-            PhotonNetwork.RaiseEvent(11, content, raiseEventOptions, SendOptions.SendUnreliable);
+            PhotonNetwork.RaiseEvent((int)NetworkEventCodes.HostEnablingTimer, content, raiseEventOptions, SendOptions.SendUnreliable);
         }
 
         /// Removes cards from the user, <paramref name="fromUsername"/>, and sends the string, <paramref name="toUsername"/>
@@ -451,7 +451,7 @@ namespace PhotonScripts
             }
 
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-            PhotonNetwork.RaiseEvent(13, content.ToArray(), raiseEventOptions, SendOptions.SendUnreliable);
+            PhotonNetwork.RaiseEvent((int)NetworkEventCodes.HostRemovingCardsFromPlayer, content.ToArray(), raiseEventOptions, SendOptions.SendUnreliable);
         }
 
         /// <summary>
@@ -463,7 +463,7 @@ namespace PhotonScripts
         {
             object[] content = new object[] {username, isValid};
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-            PhotonNetwork.RaiseEvent(5, content, raiseEventOptions, SendOptions.SendUnreliable);
+            PhotonNetwork.RaiseEvent((int)NetworkEventCodes.HostSendingCardVerification, content, raiseEventOptions, SendOptions.SendUnreliable);
         }
 
         public IEnumerator SendRoomInfoToClients(bool isRoomAtCapacity)
@@ -486,7 +486,7 @@ namespace PhotonScripts
 
             object[] content = new object[] {gameMode, hostToggle, maxPlayers, hostName};
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-            PhotonNetwork.RaiseEvent(1, content, raiseEventOptions, SendOptions.SendReliable);
+            PhotonNetwork.RaiseEvent((int)NetworkEventCodes.HostSendInfoToConnectedClient, content, raiseEventOptions, SendOptions.SendReliable);
         }
 
         public static void setIsShuffle(bool newBool)
