@@ -320,3 +320,18 @@ Binaries/VirtuCardHost0407.zip
 Binaries/VirtuCardHost0412.zip
 Binaries/VirtuCardHost0412.v1.zip
 Binaries/Windows Build.zip
+VirtuCardHost/Library/APIUpdater/project-dependencies.graph
+VirtuCardHost/Library/ArtifactDB
+VirtuCardHost/Library/ArtifactDB-lock
+VirtuCardHost/Library/CurrentLayout-default.dwlt
+VirtuCardHost/Library/PackageManager/ProjectCache
+VirtuCardHost/Library/PackageManager/ProjectCache.md5
+VirtuCardHost/Library/SceneVisibilityState.asset
+VirtuCardHost/Library/SourceAssetDB
+VirtuCardHost/Library/SourceAssetDB-lock
+VirtuCardHost/Logs/ApiUpdaterCheck.txt
+VirtuCardHost/obj/Debug/PhotonUnityNetworking.csprojAssemblyReference.cache
+VirtuCardHost/obj/Debug/PhotonUnityNetworking.Editor.csprojAssemblyReference.cache
+VirtuCardHost/obj/Debug/PhotonUnityNetworking.Utilities.csprojAssemblyReference.cache
+VirtuCardHost/obj/Debug/PhotonUnityNetworking.Utilities.PhotonPlayer.Editor.csprojAssemblyReference.cache
+VirtuCardHost/RoomCode.txt
