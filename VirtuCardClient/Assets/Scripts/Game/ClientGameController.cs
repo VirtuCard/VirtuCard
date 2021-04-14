@@ -59,6 +59,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
     public Button boilerUp;
     public GameObject animationObject;
+    public CanvasGroup animationCanvas;
     public AudioSource BoilerAudio;
     public Button IUSucks;
     public AudioSource IUAudio;
@@ -333,7 +334,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 unhideChatPanel.SetActive(false);
                 ClientData.setHideChat(false);
 
-                animationObject.SetActive(false);
+                animationObject.SetActive(true);
+                animationCanvas.GetComponent<CanvasGroup>().alpha = 0;
+                animationCanvas.GetComponent<CanvasGroup>().blocksRaycasts = false;
             }
             else if (chatValue == 1) // hide chat
             {
@@ -343,7 +346,10 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 hideChatPanel.SetActive(false);
                 unhideChatPanel.SetActive(true);
                 ClientData.setHideChat(true);
+
                 animationObject.SetActive(true);
+                animationCanvas.GetComponent<CanvasGroup>().alpha = 1;
+                animationCanvas.GetComponent<CanvasGroup>().blocksRaycasts = true;
             }
         }
         else
@@ -352,7 +358,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             chatDisableSign.SetActive(true);
             chatCanvas.GetComponent<CanvasGroup>().alpha = 0;
             dropboxUI.SetActive(false);
-
             animationObject.SetActive(false);
         }
     }
