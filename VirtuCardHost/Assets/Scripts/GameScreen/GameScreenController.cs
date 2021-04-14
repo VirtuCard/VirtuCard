@@ -306,14 +306,14 @@ public class GameScreenController : MonoBehaviour
             // declare a winner with raising an event
             object[] content = new object[] {"Player one"};
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-            PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
+            PhotonNetwork.RaiseEvent((int)NetworkEventCodes.WinnerSelected, content, raiseEventOptions, SendOptions.SendUnreliable);
         }
         else if (HostData.GetGame().GetDeck(DeckChoices.PTWOUNPLAYED).GetCardCount() == 52)
         {
             // declare a winner with raising an event
             object[] content = new object[] {"Player two"};
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-            PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
+            PhotonNetwork.RaiseEvent((int)NetworkEventCodes.WinnerSelected, content, raiseEventOptions, SendOptions.SendUnreliable);
         }
     }
 
@@ -490,7 +490,7 @@ public class GameScreenController : MonoBehaviour
 
         object[] content = new object[] {username};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
+        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.WinnerSelected, content, raiseEventOptions, SendOptions.SendUnreliable);
 
         isDeclaringWinner = true;
         isGameEnded = false;
@@ -573,7 +573,7 @@ public class GameScreenController : MonoBehaviour
 
         object[] content = new object[] {"nowinner"};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        PhotonNetwork.RaiseEvent(20, content, raiseEventOptions, SendOptions.SendUnreliable);
+        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.WinnerSelected, content, raiseEventOptions, SendOptions.SendUnreliable);
 
         isGameEnded = false;
         gameOverText.GetComponent<Text>().text = "Game is over.";
@@ -586,7 +586,7 @@ public class GameScreenController : MonoBehaviour
 
         object[] content = new object[] {"playagain"};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        PhotonNetwork.RaiseEvent(35, content, raiseEventOptions, SendOptions.SendUnreliable);
+        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.PlayAgain, content, raiseEventOptions, SendOptions.SendUnreliable);
 
         //TODO reset all game information
         HostData.GetGame().ClearAll();
