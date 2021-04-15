@@ -40,6 +40,9 @@ public class LeaderboardPageManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        friends = new List<User>();
+        uiForms = new List<PlayerRankingUIForm>();
+        initialPageSetup = false;
         user = ClientData.UserProfile;
         targetFriendCount = user.Friends.Count;
         foreach (string friendName in user.Friends)
