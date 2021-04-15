@@ -484,8 +484,6 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
 
     //public List<string> friendsToAdd = HostData.UserProfile.Friends;
         
-    
-
     public void OnInviteFriendsClicked()
     {
         inviteFriendsPanel.SetActive(true);
