@@ -734,6 +734,14 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             winnerPanel.SetActive(false);
 
             //TODO CLEAR CARDS
+            List<Card> toRemove = cards.GetAllCards();
+            int iterate = toRemove.Count;
+            for (int i = iterate - 1; i >= 0; i--)
+            {
+                Debug.Log(toRemove[i]);
+                RemoveCard(toRemove[i]);
+            }
+        
         }
         else if (photonEvent.Code == (int)NetworkEventCodes.BoilerUpEmoji)
         {
