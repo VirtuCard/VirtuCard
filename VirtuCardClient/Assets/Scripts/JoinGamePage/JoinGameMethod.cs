@@ -32,6 +32,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
 
     public static bool makeError = false;
     public static bool makeCapacityError = false;
+    public static bool makeKickedError = false;
 
     public GameObject loadingPanel;
 
@@ -88,6 +89,11 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
         {
             CreateErrorMessage("Failed to Connect", "Game is at capacity!");
             makeCapacityError = false;
+        }
+        else if (makeKickedError)
+        {
+            CreateErrorMessage("Kicked", "You were kicked from the game!");
+            makeKickedError = false;
         }
 
         if (successfulJoin == 1)

@@ -93,7 +93,7 @@ public class PlayerList : MonoBehaviour
     /// <summary>
     /// Refreshes the UI for each player with their current score and card count
     /// </summary>
-    private void UpdateUI()
+    public void UpdateUI()
     {
         // remove disconnected players
         List<PlayerDisplay> disconnectedPlayers = GetPlayersThatLeft();
