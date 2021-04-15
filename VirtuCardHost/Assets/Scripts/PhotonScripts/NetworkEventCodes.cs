@@ -20,6 +20,7 @@ public enum NetworkEventCodes
     SongVerification = 27,
     ClientWarFlipCard = 34,
     PlayAgain = 35,
+    PlayerKicked = 36,
     BoilerUpEmoji = 69,
     IUSucksEmoji = 70
 }
