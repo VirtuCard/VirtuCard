@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum CardTypes
-{ 
-    StandardCard = 0
+{
+    StandardCard = 0,
+    UnoCard
 }

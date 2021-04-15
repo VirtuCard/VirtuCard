@@ -10,6 +10,7 @@ using PhotonScripts;
 using System;
 using Photon.Realtime;
 using System.IO;
+using GameScreen.GameLogic.Cards;
 using SFB;
 
 
@@ -221,7 +222,7 @@ public class GameScreenController : MonoBehaviour
             HostData.GetGame().InitializeGame();
         }
 
-        DisplayCards();
+//        DisplayCards();
         // updatingChat(); If chatOptions aren't updating, reenable this.
 
         // if the notification window should be shown
@@ -349,14 +350,16 @@ public class GameScreenController : MonoBehaviour
             // declare a winner with raising an event
             object[] content = new object[] {"Player one"};
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-            PhotonNetwork.RaiseEvent((int)NetworkEventCodes.WinnerSelected, content, raiseEventOptions, SendOptions.SendUnreliable);
+            PhotonNetwork.RaiseEvent((int) NetworkEventCodes.WinnerSelected, content, raiseEventOptions,
+                SendOptions.SendUnreliable);
         }
         else if (HostData.GetGame().GetDeck(DeckChoices.PTWOUNPLAYED).GetCardCount() == 52)
         {
             // declare a winner with raising an event
             object[] content = new object[] {"Player two"};
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-            PhotonNetwork.RaiseEvent((int)NetworkEventCodes.WinnerSelected, content, raiseEventOptions, SendOptions.SendUnreliable);
+            PhotonNetwork.RaiseEvent((int) NetworkEventCodes.WinnerSelected, content, raiseEventOptions,
+                SendOptions.SendUnreliable);
         }
     }
 
@@ -403,10 +406,15 @@ public class GameScreenController : MonoBehaviour
             {
                 HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCard(i).Print();
                 Debug.Log(HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCardCount());
-                StandardCard card = (StandardCard) HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCard(i);
-                Debug.Log(card.GetRank());
-                Debug.Log(card.GetSuit());
-                playedCardMenu.AddCardToCarousel(card, CardTypes.StandardCard);
+                Card card = HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCard(i);
+                if (card.GetType() == typeof(UnoCard))
+                {
+                    playedCardMenu.AddCardToCarousel(card, CardTypes.UnoCard);
+                }
+                else
+                {
+                    playedCardMenu.AddCardToCarousel(card, CardTypes.StandardCard);
+                }
 
                 // remove it from undealt card menu if it was present
                 if (undealtCardMenu.FindCardFromCarousel(card))
@@ -422,10 +430,15 @@ public class GameScreenController : MonoBehaviour
             {
                 HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i).Print();
                 Debug.Log(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCardCount());
-                StandardCard card = (StandardCard) HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i);
-                Debug.Log(card.GetRank());
-                Debug.Log(card.GetSuit());
-                undealtCardMenu.AddCardToCarousel(card, CardTypes.StandardCard);
+                Card card = HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i);
+                if (card.GetType() == typeof(UnoCard))
+                {
+                    playedCardMenu.AddCardToCarousel(card, CardTypes.UnoCard);
+                }
+                else
+                {
+                    playedCardMenu.AddCardToCarousel(card, CardTypes.StandardCard);
+                }
 
                 // remove it from played card menu if it was present
                 if (playedCardMenu.FindCardFromCarousel(card))
@@ -567,7 +580,8 @@ public class GameScreenController : MonoBehaviour
 
         object[] content = new object[] {username};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.WinnerSelected, content, raiseEventOptions, SendOptions.SendUnreliable);
+        PhotonNetwork.RaiseEvent((int) NetworkEventCodes.WinnerSelected, content, raiseEventOptions,
+            SendOptions.SendUnreliable);
 
         isDeclaringWinner = true;
         isGameEnded = false;
@@ -720,7 +734,8 @@ public class GameScreenController : MonoBehaviour
 
         object[] content = new object[] {"nowinner"};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.WinnerSelected, content, raiseEventOptions, SendOptions.SendUnreliable);
+        PhotonNetwork.RaiseEvent((int) NetworkEventCodes.WinnerSelected, content, raiseEventOptions,
+            SendOptions.SendUnreliable);
 
         isGameEnded = false;
         gameOverText.GetComponent<Text>().text = "Game is over.";
@@ -733,7 +748,8 @@ public class GameScreenController : MonoBehaviour
 
         object[] content = new object[] {"playagain"};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.PlayAgain, content, raiseEventOptions, SendOptions.SendUnreliable);
+        PhotonNetwork.RaiseEvent((int) NetworkEventCodes.PlayAgain, content, raiseEventOptions,
+            SendOptions.SendUnreliable);
 
         //TODO reset:
         // Card deck backend

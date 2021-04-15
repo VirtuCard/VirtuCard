@@ -55,11 +55,15 @@ public class StandardCard : Card
     /// <returns></returns>
     public override bool Compare(Card card)
     {
-        if (GetRank() == ((StandardCard)card).GetRank() &&
-            GetSuit() == ((StandardCard)card).GetSuit())
+        if (card.GetType() == typeof(StandardCard))
         {
-            return true;
+            if (GetRank() == ((StandardCard) card).GetRank() &&
+                GetSuit() == ((StandardCard) card).GetSuit())
+            {
+                return true;
+            }
         }
+
         return false;
     }
 
@@ -103,9 +107,7 @@ public class StandardCard : Card
     /// <returns></returns>
     public override string ToString()
     {
-        return "STANDARD CARD (" + Enum.GetName(typeof(StandardCardRank), GetRank()) + " of " + Enum.GetName(typeof(StandardCardSuit), GetSuit()) + ")";
+        return "STANDARD CARD (" + Enum.GetName(typeof(StandardCardRank), GetRank()) + " of " +
+               Enum.GetName(typeof(StandardCardSuit), GetSuit()) + ")";
     }
-
-
-
 }
