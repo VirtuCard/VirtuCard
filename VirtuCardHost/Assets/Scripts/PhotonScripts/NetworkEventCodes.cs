@@ -21,5 +21,6 @@ public enum NetworkEventCodes
     ClientWarFlipCard = 34,
     PlayAgain = 35,
     BoilerUpEmoji = 69,
-    IUSucksEmoji = 70
+    IUSucksEmoji = 70,
+    HostSendingUnoCards = 24
 }

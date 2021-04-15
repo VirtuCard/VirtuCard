@@ -319,6 +319,8 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
     public void OnGetMessages(string channelName, string[] senders, object[] messages)
     {
         /* TODO: Put message to RoomInvite and check if user is invited */
+        RoomInvite invite = RoomInvite.InviteFromDict(messages[0]);
+        
     }
 
     public void OnPrivateMessage(string sender, object message, string channelName)
