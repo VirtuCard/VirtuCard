@@ -26,6 +26,16 @@ public abstract class Game
     {
     }
 
+    public void ResetAllDecks()
+    {
+        playedCards = new CardDeck();
+        undealtCards = new CardDeck();
+        ponePlayed = new CardDeck();
+        ptwoPlayed = new CardDeck();
+        poneUnplayed = new CardDeck();
+        ptwoUnplayed = new CardDeck();
+    }
+
     /// <summary>
     /// Initializes the game once the players have all joined
     /// </summary>
