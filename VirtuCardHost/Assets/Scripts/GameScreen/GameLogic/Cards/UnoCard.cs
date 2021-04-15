@@ -33,11 +33,14 @@ namespace GameScreen.GameLogic.Cards
 
         public override bool Compare(Card card)
         {
-            if (Value == ((UnoCard) card).Value)
+            if (card.GetType() == typeof(UnoCard))
             {
-                if (Value != UnoCardValue.WILD || Value != UnoCardValue.PLUS_FOUR)
-                    return Color == ((UnoCard) card).Color;
-                return true;
+                if (Value == ((UnoCard) card).Value)
+                {
+                    if (Value != UnoCardValue.WILD || Value != UnoCardValue.PLUS_FOUR)
+                        return Color == ((UnoCard) card).Color;
+                    return true;
+                }
             }
 
             return false;

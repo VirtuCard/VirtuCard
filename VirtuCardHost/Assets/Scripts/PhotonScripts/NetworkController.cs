@@ -239,42 +239,71 @@ namespace PhotonScripts
                 object[] data = (object[]) photonEvent.CustomData;
                 string username = (string) data[0];
                 string cardType = (string) data[1];
-                StandardCardRank rank = (StandardCardRank) data[2];
-                StandardCardSuit suit = (StandardCardSuit) data[3];
-                StandardCard card = new StandardCard(rank, suit);
 
-                // if the game is gofish
-                if (HostData.GetGame().GetGameName().Equals(Enum.GetName(typeof(GameTypes), GameTypes.GoFish)))
+                if (cardType.Equals("StandardCard"))
                 {
-                    string playerToRequestFrom = ((string) data[4]).Trim();
+                    StandardCardRank rank = (StandardCardRank) data[2];
+                    StandardCardSuit suit = (StandardCardSuit) data[3];
+                    StandardCard card = new StandardCard(rank, suit);
 
-                    string rankCaps = Enum.GetName(typeof(StandardCardRank), card.GetRank());
-                    string rankText = rankCaps.Substring(0, 1).ToUpper() + rankCaps.Substring(1).ToLower();
-                    string displayMessage = username + " is requesting " + rankText + "s from " + playerToRequestFrom;
-                    Debug.Log(displayMessage);
-                    HostData.SetDoShowNotificationWindow(true, displayMessage);
-
-                    int userIndex = HostData.GetGame().GetPlayerIndex(playerToRequestFrom.Trim());
-                    if (userIndex >= 0)
+                    // if the game is gofish
+                    if (HostData.GetGame().GetGameName().Equals(Enum.GetName(typeof(GameTypes), GameTypes.GoFish)))
                     {
-                        HostData.GetGame().DoMove(card, userIndex);
+                        string playerToRequestFrom = ((string) data[4]).Trim();
+
+                        string rankCaps = Enum.GetName(typeof(StandardCardRank), card.GetRank());
+                        string rankText = rankCaps.Substring(0, 1).ToUpper() + rankCaps.Substring(1).ToLower();
+                        string displayMessage =
+                            username + " is requesting " + rankText + "s from " + playerToRequestFrom;
+                        Debug.Log(displayMessage);
+                        HostData.SetDoShowNotificationWindow(true, displayMessage);
+
+                        int userIndex = HostData.GetGame().GetPlayerIndex(playerToRequestFrom.Trim());
+                        if (userIndex >= 0)
+                        {
+                            HostData.GetGame().DoMove(card, userIndex);
+                        }
+                        else
+                        {
+                            Debug.Log("Could not find player: \"" + playerToRequestFrom + "\"");
+                            var allPlayers = HostData.GetGame().GetAllPlayers();
+                            string nameList = "";
+                            foreach (var player in allPlayers)
+                            {
+                                nameList += "\"" + player.username + "\" ";
+                            }
+
+                            Debug.Log("All connected players: " + nameList.Trim());
+                        }
                     }
                     else
                     {
-                        Debug.Log("Could not find player: \"" + playerToRequestFrom + "\"");
-                        var allPlayers = HostData.GetGame().GetAllPlayers();
-                        string nameList = "";
-                        foreach (var player in allPlayers)
-                        {
-                            nameList += "\"" + player.username + "\" ";
-                        }
+                        // the game is not gofish
+                        Debug.Log("Receiving a Played Card from " + username + ": " + card.ToString());
+                        HostData.SetDoShowNotificationWindow(true, username + " played a card");
+                        int userIndex = HostData.GetGame().GetPlayerIndex(username);
 
-                        Debug.Log("All connected players: " + nameList.Trim());
+                        // remove the card from that player's cards
+                        PlayerInfo player = HostData.GetGame().GetPlayer(username);
+                        player.cards.RemoveCard(card);
+
+
+                        StandardCardRank rankName = card.GetRank();
+                        StandardCardSuit suitName = card.GetSuit();
+                        string cardName = suitName.ToString();
+                        cardName += "_";
+                        cardName += rankName.ToString();
+                        HostData.SetLastPlayedCardTexture(cardName);
+
+                        HostData.GetGame().DoMove(card, userIndex);
                     }
                 }
-                else
+                else if (cardType.Equals("UnoCard"))
                 {
-                    // the game is not gofish
+                    UnoCardColor color = (UnoCardColor) data[2];
+                    UnoCardValue value = (UnoCardValue) data[3];
+                    UnoCard card = new UnoCard(color, value);
+                    
                     Debug.Log("Receiving a Played Card from " + username + ": " + card.ToString());
                     HostData.SetDoShowNotificationWindow(true, username + " played a card");
                     int userIndex = HostData.GetGame().GetPlayerIndex(username);
@@ -284,11 +313,15 @@ namespace PhotonScripts
                     player.cards.RemoveCard(card);
 
 
-                    StandardCardRank rankName = card.GetRank();
-                    StandardCardSuit suitName = card.GetSuit();
-                    string cardName = suitName.ToString();
+                    string cardName = card.color.ToString();
                     cardName += "_";
-                    cardName += rankName.ToString();
+                    cardName += card.value.ToString();
+                    
+                    if (card.value == UnoCardValue.WILD || card.value == UnoCardValue.PLUS_FOUR)
+                    {
+                        cardName = card.value.ToString();
+                    }
+
                     HostData.SetLastPlayedCardTexture(cardName);
 
                     HostData.GetGame().DoMove(card, userIndex);
@@ -299,11 +332,21 @@ namespace PhotonScripts
             {
                 object[] data = (object[]) photonEvent.CustomData;
                 string cardType = (string) data[0];
-                StandardCardRank rank = (StandardCardRank) data[1];
-                StandardCardSuit suit = (StandardCardSuit) data[2];
-                StandardCard card = new StandardCard(rank, suit);
+                Card card;
+                if (cardType.Equals("StandardCard"))
+                {
+                    StandardCardRank rank = (StandardCardRank) data[1];
+                    StandardCardSuit suit = (StandardCardSuit) data[2];
+                    card = new StandardCard(rank, suit);
+                }
+                else
+                {
+                    Debug.Log("Verified");
+                    UnoCardColor color = (UnoCardColor) data[1];
+                    UnoCardValue value = (UnoCardValue) data[2];
+                    card = new UnoCard(color, value);
+                }
 
-                Debug.Log("Verifying a Card: " + card.ToString());
                 string username = (string) data[3];
                 bool isValid = HostData.GetGame().VerifyMove(card);
                 SendThatCardIsValid(username, isValid);

@@ -216,7 +216,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             notTurnUI.SetActive(false);
 
 
-            StandardCard selectedCard = (StandardCard) cardMenu.GetCurrentlySelectedCard();
+            Card selectedCard = cardMenu.GetCurrentlySelectedCard();
 
             if (selectedCard != null)
             {
@@ -228,7 +228,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                     if (ClientData.GetGameName() == "GoFish")
                     {
                         UpdateGoFishButtonText(goFishNamesDropdown.options[goFishNamesDropdown.value].text,
-                            selectedCard.GetRank());
+                            ((StandardCard) selectedCard).GetRank());
                     }
 
                     previouslySelectedCard = selectedCard;
@@ -522,7 +522,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         {
             if (cardIsValid)
             {
-                StandardCard card = (StandardCard) cardMenu.GetCurrentlySelectedCard();
+                Card card = cardMenu.GetCurrentlySelectedCard();
                 int cardIdx = cardMenu.GetCurrentlySelectedIndex();
 
                 card.Print();
@@ -962,7 +962,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
     private void VerifyIfCardCanBePlayed(Card card)
     {
-        if (card.GetType().Name == "StandardCard")
+        if (card.GetType() == typeof(StandardCard))
         {
             Debug.Log("Verifying Card: " + card.ToString());
             StandardCard cardToSend = (StandardCard) card;
@@ -973,7 +973,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 SendOptions.SendUnreliable);
         }
 
-        if (card.GetType().Name == "UnoCard")
+        if (card.GetType() == typeof(UnoCard))
         {
             Debug.Log("Verifying Card: " + card.ToString());
             UnoCard cardToSend = (UnoCard) card;
