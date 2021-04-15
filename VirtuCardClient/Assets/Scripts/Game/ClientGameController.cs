@@ -82,6 +82,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private float cooldownSeconds = 60;
     public Text boilerCountdown;
     public Text IUCountdown;
+    public CanvasGroup boilerAnimation;
+    public CanvasGroup IUAnimation;
 
     private bool wasCurrentlyTurn = false;
     private bool gameOver = false;
@@ -126,7 +128,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             else
             {
                 animationCooldown.GetComponent<CanvasGroup>().alpha = 1;
-                StartCoroutine(FadeCanvas(animationCooldown, animationCooldown.alpha, 0));
+                StartCoroutine(FadeCanvas(animationCooldown, animationCooldown.alpha, 0, 1.0f));
             }
         });
         IUSucks.onClick.AddListener(delegate() {
@@ -139,7 +141,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             else
             {
                 animationCooldown.GetComponent<CanvasGroup>().alpha = 1;
-                StartCoroutine(FadeCanvas(animationCooldown, animationCooldown.alpha, 0));
+                StartCoroutine(FadeCanvas(animationCooldown, animationCooldown.alpha, 0, 1.0f));
             }
         });
 
@@ -547,7 +549,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             else
             {
                 invalidMove.GetComponent<CanvasGroup>().alpha = 1;
-                StartCoroutine(FadeCanvas(invalidMove, invalidMove.alpha, 0));
+                StartCoroutine(FadeCanvas(invalidMove, invalidMove.alpha, 0, 1.0f));
                 Debug.Log("Card is not valid to be played");
             }
         }
@@ -828,7 +830,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     /// <summary>
     /// This is the code to update the fade in or fade out for the Canvas Group
     /// </summary>
-    public IEnumerator FadeCanvas(CanvasGroup cg, float start, float end, float lerpTime = 1.0f)
+    public IEnumerator FadeCanvas(CanvasGroup cg, float start, float end, float lerpTime) // = 1.0f)
     {
         float _timeStartedLerping = Time.time;
         float timeSinceStarted = Time.time - _timeStartedLerping;
@@ -853,6 +855,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         boilerCoolDown.fillAmount = 1;
         cooldownTimer = 60;
         isCoolDown = true;
+        boilerAnimation.GetComponent<CanvasGroup>().alpha = 1;
+        StartCoroutine(FadeCanvas(boilerAnimation, boilerAnimation.alpha, 0, 7.0f));
     }
     private void IUSucksBtnPressed()
     {
@@ -861,6 +865,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         boilerCoolDown.fillAmount = 1;
         cooldownTimer = 60;
         isCoolDown = true;
+        IUAnimation.GetComponent<CanvasGroup>().alpha = 1;
+        StartCoroutine(FadeCanvas(IUAnimation, IUAnimation.alpha, 0, 7.0f));
     }
 
     /// <summary>
