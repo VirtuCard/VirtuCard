@@ -303,7 +303,7 @@ namespace PhotonScripts
                     UnoCardColor color = (UnoCardColor) data[2];
                     UnoCardValue value = (UnoCardValue) data[3];
                     UnoCard card = new UnoCard(color, value);
-                    
+
                     Debug.Log("Receiving a Played Card from " + username + ": " + card.ToString());
                     HostData.SetDoShowNotificationWindow(true, username + " played a card");
                     int userIndex = HostData.GetGame().GetPlayerIndex(username);
@@ -316,7 +316,7 @@ namespace PhotonScripts
                     string cardName = card.color.ToString();
                     cardName += "_";
                     cardName += card.value.ToString();
-                    
+
                     if (card.value == UnoCardValue.WILD || card.value == UnoCardValue.PLUS_FOUR)
                     {
                         cardName = card.value.ToString();
@@ -360,6 +360,11 @@ namespace PhotonScripts
                 List<Card> cards = HostData.GetGame().DrawCardsFromDeck(numOfCards, DeckChoices.UNDEALT);
                 HostData.SetDoShowNotificationWindow(true, username + " drew a card");
                 SendCardsToPlayer(username, cards, true, true);
+                if (HostData.GetGame().GetGameName().Equals("Uno"))
+                {
+                    HostData.SetDoShowNotificationWindow(true, username + " has skipped their turn");
+                    HostData.GetGame().ForceAdvanceTurn(true);
+                }
             }
             // skip turn event
             else if (photonEvent.Code == (int) NetworkEventCodes.ClientSkipTurn)
@@ -384,6 +389,13 @@ namespace PhotonScripts
                             cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
                             SendCardsToPlayer(username, cardList, true, true);
                         }
+                        else if (HostData.GetGame().GetGameName().Equals("Uno"))
+                        {
+                            List<Card> cardList = new List<Card>();
+                            cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
+                            SendCardsToPlayer(username, cardList, true, true);
+                        }
+
 
                         HostData.GetGame().ForceAdvanceTurn(true);
                     }
@@ -399,6 +411,13 @@ namespace PhotonScripts
                                 cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
                                 SendCardsToPlayer(username, cardList, true, true);
                             }
+                            else if (HostData.GetGame().GetGameName().Equals("Uno"))
+                            {
+                                List<Card> cardList = new List<Card>();
+                                cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
+                                SendCardsToPlayer(username, cardList, true, true);
+                            }
+
 
                             HostData.GetGame().AdvanceTurn(true);
                         }
