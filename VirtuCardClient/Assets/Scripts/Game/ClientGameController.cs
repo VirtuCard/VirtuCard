@@ -59,6 +59,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
     public Button boilerUp;
     public GameObject animationObject;
+    public CanvasGroup animationCanvas;
     public AudioSource BoilerAudio;
     public Button IUSucks;
     public AudioSource IUAudio;
@@ -81,6 +82,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private float cooldownSeconds = 60;
     public Text boilerCountdown;
     public Text IUCountdown;
+    public CanvasGroup boilerAnimation;
+    public CanvasGroup IUAnimation;
 
     private bool wasCurrentlyTurn = false;
     private bool gameOver = false;
@@ -132,7 +135,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             else
             {
                 animationCooldown.GetComponent<CanvasGroup>().alpha = 1;
-                StartCoroutine(FadeCanvas(animationCooldown, animationCooldown.alpha, 0));
+                StartCoroutine(FadeCanvas(animationCooldown, animationCooldown.alpha, 0, 1.0f));
             }
         });
         IUSucks.onClick.AddListener(delegate()
@@ -148,7 +151,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             else
             {
                 animationCooldown.GetComponent<CanvasGroup>().alpha = 1;
-                StartCoroutine(FadeCanvas(animationCooldown, animationCooldown.alpha, 0));
+                StartCoroutine(FadeCanvas(animationCooldown, animationCooldown.alpha, 0, 1.0f));
             }
         });
 
@@ -344,7 +347,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 unhideChatPanel.SetActive(false);
                 ClientData.setHideChat(false);
 
-                animationObject.SetActive(false);
+                animationObject.SetActive(true);
+                animationCanvas.GetComponent<CanvasGroup>().alpha = 0;
+                animationCanvas.GetComponent<CanvasGroup>().blocksRaycasts = false;
             }
             else if (chatValue == 1) // hide chat
             {
@@ -354,7 +359,10 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 hideChatPanel.SetActive(false);
                 unhideChatPanel.SetActive(true);
                 ClientData.setHideChat(true);
+
                 animationObject.SetActive(true);
+                animationCanvas.GetComponent<CanvasGroup>().alpha = 1;
+                animationCanvas.GetComponent<CanvasGroup>().blocksRaycasts = true;
             }
         }
         else
@@ -363,7 +371,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             chatDisableSign.SetActive(true);
             chatCanvas.GetComponent<CanvasGroup>().alpha = 0;
             dropboxUI.SetActive(false);
-
             animationObject.SetActive(false);
         }
     }
@@ -615,7 +622,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             else
             {
                 invalidMove.GetComponent<CanvasGroup>().alpha = 1;
-                StartCoroutine(FadeCanvas(invalidMove, invalidMove.alpha, 0));
+                StartCoroutine(FadeCanvas(invalidMove, invalidMove.alpha, 0, 1.0f));
                 Debug.Log("Card is not valid to be played");
             }
         }
@@ -802,6 +809,14 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             winnerPanel.SetActive(false);
 
             //TODO CLEAR CARDS
+            List<Card> toRemove = cards.GetAllCards();
+            int iterate = toRemove.Count;
+            for (int i = iterate - 1; i >= 0; i--)
+            {
+                Debug.Log(toRemove[i]);
+                RemoveCard(toRemove[i]);
+            }
+        
         }
         else if (photonEvent.Code == (int) NetworkEventCodes.BoilerUpEmoji)
         {
@@ -839,6 +854,18 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                     notificationWindow.ShowNotification(displayString);
                 }
             }
+        }
+        else if (photonEvent.Code == (int)NetworkEventCodes.PlayerKicked)
+        {
+            object[] data = (object[]) photonEvent.CustomData;
+            string kickedPlayerName = (string) data[0];
+            if (kickedPlayerName == PhotonNetwork.NickName)
+            {
+                PhotonNetwork.LeaveRoom();
+                ClientData.setJoinCode(null);
+                SceneManager.LoadScene(SceneNames.JoinGamePage);
+            }
+            JoinGameMethod.makeKickedError = true;
         }
     }
 
@@ -919,7 +946,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     /// <summary>
     /// This is the code to update the fade in or fade out for the Canvas Group
     /// </summary>
-    public IEnumerator FadeCanvas(CanvasGroup cg, float start, float end, float lerpTime = 1.0f)
+    public IEnumerator FadeCanvas(CanvasGroup cg, float start, float end, float lerpTime) // = 1.0f)
     {
         float _timeStartedLerping = Time.time;
         float timeSinceStarted = Time.time - _timeStartedLerping;
@@ -944,6 +971,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         boilerCoolDown.fillAmount = 1;
         cooldownTimer = 60;
         isCoolDown = true;
+        boilerAnimation.GetComponent<CanvasGroup>().alpha = 1;
+        StartCoroutine(FadeCanvas(boilerAnimation, boilerAnimation.alpha, 0, 7.0f));
     }
 
     private void IUSucksBtnPressed()
@@ -953,6 +982,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         boilerCoolDown.fillAmount = 1;
         cooldownTimer = 60;
         isCoolDown = true;
+        IUAnimation.GetComponent<CanvasGroup>().alpha = 1;
+        StartCoroutine(FadeCanvas(IUAnimation, IUAnimation.alpha, 0, 7.0f));
     }
 
     /// <summary>
