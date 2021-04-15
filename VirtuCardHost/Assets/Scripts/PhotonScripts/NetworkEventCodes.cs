@@ -22,5 +22,6 @@ public enum NetworkEventCodes
     PlayAgain = 35,
     PlayerKicked = 36,
     BoilerUpEmoji = 69,
-    IUSucksEmoji = 70
+    IUSucksEmoji = 70,
+    HostSendingUnoCards = 24
 }
