@@ -135,8 +135,7 @@ public class CardMenu : MonoBehaviour
             Path += suit.ToString();
             Path += "_";
             Path += rank.ToString();
-
-
+     
             cardsToAssignTextures.Add(new CardsToAssignTexture { cardTransform = newImage, texturePath = Path });
         }
         // TODO this is where other types of cards would be implemented
