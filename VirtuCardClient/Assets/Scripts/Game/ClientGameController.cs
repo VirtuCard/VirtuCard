@@ -753,6 +753,18 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         {
             IUSucksBtnPressed();
         }
+        else if (photonEvent.Code == (int)NetworkEventCodes.PlayerKicked)
+        {
+            object[] data = (object[]) photonEvent.CustomData;
+            string kickedPlayerName = (string) data[0];
+            if (kickedPlayerName == PhotonNetwork.NickName)
+            {
+                PhotonNetwork.LeaveRoom();
+                ClientData.setJoinCode(null);
+                SceneManager.LoadScene(SceneNames.JoinGamePage);
+            }
+            JoinGameMethod.makeKickedError = true;
+        }
     }
 
     /// <summary>
