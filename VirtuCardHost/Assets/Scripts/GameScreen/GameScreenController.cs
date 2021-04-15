@@ -696,8 +696,32 @@ public class GameScreenController : MonoBehaviour
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
         PhotonNetwork.RaiseEvent((int)NetworkEventCodes.PlayAgain, content, raiseEventOptions, SendOptions.SendUnreliable);
 
-        //TODO reset all game information
-        HostData.GetGame().ClearAll();
+        //TODO reset:
+        // Card deck backend
+        // Card deck UI
+        // Card Player Carousel
+
+        // This should reset the card deck backend
+        HostData.GetGame().ResetAllDecks();
+        HostData.GetGame().InitializeGame();
+
+        // Check carousel and redo it
+
+        // Reset Card Deck UI
+        /*
+        if (HostData.GetGame() == "War")
+        {
+
+        }
+        else if (HostData.GetGame() == "GoFish")
+        {
+
+        }
+        else if (HostData.GetGame() == "TestGame")
+        {
+
+        }
+        */
     }
 
     public void TimerEarlyWarning()
