@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using System;
+using GameScreen.GameLogic.Cards;
 
 
 /// <summary>
@@ -87,6 +88,7 @@ public class CardMenu : MonoBehaviour
                 cardList.Add(stdCard);
             }
         }
+
         return cardList;
     }
 
@@ -97,8 +99,10 @@ public class CardMenu : MonoBehaviour
     /// <returns></returns>
     private StandardCard GetStandardCardFromImage(Transform image)
     {
-        StandardCardRank rank = (StandardCardRank)Enum.Parse(typeof(StandardCardRank), image.Find("Rank").gameObject.GetComponent<Text>().text);
-        StandardCardSuit suit = (StandardCardSuit)Enum.Parse(typeof(StandardCardSuit), image.Find("Suit").gameObject.GetComponent<Text>().text);
+        StandardCardRank rank = (StandardCardRank) Enum.Parse(typeof(StandardCardRank),
+            image.Find("Rank").gameObject.GetComponent<Text>().text);
+        StandardCardSuit suit = (StandardCardSuit) Enum.Parse(typeof(StandardCardSuit),
+            image.Find("Suit").gameObject.GetComponent<Text>().text);
         return new StandardCard(rank, suit);
     }
 
@@ -115,12 +119,20 @@ public class CardMenu : MonoBehaviour
         newImage.gameObject.SetActive(true);
         if (whichCardType == 0)
         {
-            StandardCardRank rank = ((StandardCard)newCard).GetRank();
-            StandardCardSuit suit = ((StandardCard)newCard).GetSuit();
+            StandardCardRank rank = ((StandardCard) newCard).GetRank();
+            StandardCardSuit suit = ((StandardCard) newCard).GetSuit();
             Text rankText = newImage.Find("Rank").gameObject.GetComponent<Text>();
             Text suitText = newImage.Find("Suit").gameObject.GetComponent<Text>();
             rankText.text = Enum.GetName(typeof(StandardCardRank), rank);
             suitText.text = Enum.GetName(typeof(StandardCardSuit), suit);
+        }
+        else if (whichCardType == CardTypes.UnoCard)
+        {
+            UnoCard card = (UnoCard) newCard;
+            Text rankText = newImage.Find("Rank").gameObject.GetComponent<Text>();
+            Text suitText = newImage.Find("Suit").gameObject.GetComponent<Text>();
+            rankText.text = Enum.GetName(typeof(StandardCardRank), card.color);
+            suitText.text = Enum.GetName(typeof(StandardCardSuit), card.value);
         }
         // TODO this is where other types of cards would be implemented
 
@@ -131,37 +143,82 @@ public class CardMenu : MonoBehaviour
 
     public void RemoveCardFromCarousel(Card card)
     {
-        StandardCardRank rank = ((StandardCard)card).GetRank();
-        StandardCardSuit suit = ((StandardCard)card).GetSuit();
-        for (int x = 0; x < images.Count; x++)
+        if (card.GetType() == typeof(StandardCard))
         {
-            // if this image is the card we are looking for
-            if ((images[x].Find("Rank").gameObject.GetComponent<Text>().text == Enum.GetName(typeof(StandardCardRank), rank)) &&
-                (images[x].Find("Suit").gameObject.GetComponent<Text>().text == Enum.GetName(typeof(StandardCardSuit), suit)))
+            StandardCardRank rank = ((StandardCard) card).GetRank();
+            StandardCardSuit suit = ((StandardCard) card).GetSuit();
+            for (int x = 0; x < images.Count; x++)
             {
-                Debug.Log(rank + " " + suit);
-                GameObject imageToDestroy = images[x].gameObject;
-                images.RemoveAt(x);
-                Destroy(imageToDestroy);
-                break;
+                // if this image is the card we are looking for
+                if ((images[x].Find("Rank").gameObject.GetComponent<Text>().text ==
+                     Enum.GetName(typeof(StandardCardRank), rank)) &&
+                    (images[x].Find("Suit").gameObject.GetComponent<Text>().text ==
+                     Enum.GetName(typeof(StandardCardSuit), suit)))
+                {
+                    Debug.Log(rank + " " + suit);
+                    GameObject imageToDestroy = images[x].gameObject;
+                    images.RemoveAt(x);
+                    Destroy(imageToDestroy);
+                    break;
+                }
             }
         }
+        else if (card.GetType() == typeof(UnoCard))
+        {
+            UnoCard unoCard = (UnoCard) card;
+            for (int x = 0; x < images.Count; x++)
+            {
+                // if this image is the card we are looking for
+                if ((images[x].Find("Rank").gameObject.GetComponent<Text>().text ==
+                     Enum.GetName(typeof(UnoCardColor), unoCard.color)) &&
+                    (images[x].Find("Suit").gameObject.GetComponent<Text>().text ==
+                     Enum.GetName(typeof(UnoCardValue), unoCard.value)))
+                {
+                    GameObject imageToDestroy = images[x].gameObject;
+                    images.RemoveAt(x);
+                    Destroy(imageToDestroy);
+                    break;
+                }
+            }
+        }
+
         ReformatCarousel();
     }
 
     public bool FindCardFromCarousel(Card card)
     {
-        StandardCardRank rank = ((StandardCard)card).GetRank();
-        StandardCardSuit suit = ((StandardCard)card).GetSuit();
-        for (int x = 0; x < images.Count; x++)
+        if (card.GetType() == typeof(StandardCard))
         {
-            // if this image is the card we are looking for
-            if ((images[x].Find("Rank").gameObject.GetComponent<Text>().text == Enum.GetName(typeof(StandardCardRank), rank)) &&
-                (images[x].Find("Suit").gameObject.GetComponent<Text>().text == Enum.GetName(typeof(StandardCardSuit), suit)))
+            StandardCardRank rank = ((StandardCard) card).GetRank();
+            StandardCardSuit suit = ((StandardCard) card).GetSuit();
+            for (int x = 0; x < images.Count; x++)
             {
-                return true;
+                // if this image is the card we are looking for
+                if ((images[x].Find("Rank").gameObject.GetComponent<Text>().text ==
+                     Enum.GetName(typeof(StandardCardRank), rank)) &&
+                    (images[x].Find("Suit").gameObject.GetComponent<Text>().text ==
+                     Enum.GetName(typeof(StandardCardSuit), suit)))
+                {
+                    return true;
+                }
             }
         }
+        else if (card.GetType() == typeof(UnoCard))
+        {
+            UnoCard unoCard = (UnoCard) card;
+            for (int x = 0; x < images.Count; x++)
+            {
+                // if this image is the card we are looking for
+                if ((images[x].Find("Rank").gameObject.GetComponent<Text>().text ==
+                     Enum.GetName(typeof(UnoCardColor), unoCard.color)) &&
+                    (images[x].Find("Suit").gameObject.GetComponent<Text>().text ==
+                     Enum.GetName(typeof(UnoCardValue), unoCard.value)))
+                {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 
@@ -239,7 +296,8 @@ public class CardMenu : MonoBehaviour
             {
                 if (current_index == 0)
                 {
-                    lerpTimer = 0; lerpPosition = 0;
+                    lerpTimer = 0;
+                    lerpPosition = 0;
                 }
                 else
                 {
@@ -276,6 +334,7 @@ public class CardMenu : MonoBehaviour
                 lerpTimer = 0;
             }
         }
+
         dragAmount = 0;
     }
 
@@ -290,5 +349,3 @@ public class CardMenu : MonoBehaviour
         lerpPosition = (imageWidth + imageSpacing) * current_index;
     }
 }
-
-
