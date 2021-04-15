@@ -170,9 +170,9 @@ public class CardMenu : MonoBehaviour
             {
                 // if this image is the card we are looking for
                 if ((images[x].Find("Rank").gameObject.GetComponent<Text>().text ==
-                     Enum.GetName(typeof(Color), unoCard.color)) &&
+                     Enum.GetName(typeof(UnoCardColor), unoCard.color)) &&
                     (images[x].Find("Suit").gameObject.GetComponent<Text>().text ==
-                     Enum.GetName(typeof(StandardCardSuit), unoCard.value)))
+                     Enum.GetName(typeof(UnoCardValue), unoCard.value)))
                 {
                     GameObject imageToDestroy = images[x].gameObject;
                     images.RemoveAt(x);
@@ -210,9 +210,9 @@ public class CardMenu : MonoBehaviour
             {
                 // if this image is the card we are looking for
                 if ((images[x].Find("Rank").gameObject.GetComponent<Text>().text ==
-                     Enum.GetName(typeof(Color), unoCard.color)) &&
+                     Enum.GetName(typeof(UnoCardColor), unoCard.color)) &&
                     (images[x].Find("Suit").gameObject.GetComponent<Text>().text ==
-                     Enum.GetName(typeof(StandardCardSuit), unoCard.value)))
+                     Enum.GetName(typeof(UnoCardValue), unoCard.value)))
                 {
                     return true;
                 }

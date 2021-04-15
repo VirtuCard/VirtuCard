@@ -491,7 +491,7 @@ public abstract class Game
     public CardDeck CreateUnoDeck()
     {
         CardDeck deck = new CardDeck();
-        foreach (UnoCardColor color in (UnoCardColor[]) Enum.GetValues(typeof(UnoCardColor)))
+        /* foreach (UnoCardColor color in (UnoCardColor[]) Enum.GetValues(typeof(UnoCardColor)))
         {
             foreach (UnoCardValue value in (UnoCardValue[]) Enum.GetValues(typeof(UnoCardValue)))
             {
@@ -504,7 +504,10 @@ public abstract class Game
                     deck.AddCard(new UnoCard(color, value));
                 }
             }
-        }
+        }*/
+        
+        deck.AddCard(new UnoCard(UnoCardColor.RED, UnoCardValue.WILD));
+        deck.AddCard(new UnoCard(UnoCardColor.RED, UnoCardValue.PLUS_FOUR));
 
         return deck;
     }

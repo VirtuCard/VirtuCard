@@ -58,19 +58,17 @@ public class CardMenu : MonoBehaviour
             return null;
         }
 
-        
+
         StandardCard stdCard = images[current_index].gameObject.GetComponent<StandardCard>();
         if (stdCard != null)
         {
             return stdCard;
         }
-        else
+
+        UnoCard unoCard = images[current_index].gameObject.GetComponent<UnoCard>();
+        if (unoCard != null)
         {
-            UnoCard card = images[current_index].gameObject.GetComponent<UnoCard>();
-            if (card != null)
-            {
-                return stdCard;
-            }            
+            return unoCard;
         }
 
         // ------- USE THIS TEMPLATE WHEN A NEW CARD TYPE IS ADDED --------------
@@ -156,16 +154,20 @@ public class CardMenu : MonoBehaviour
             UnoCard curr = (UnoCard) newCard;
             cardVals.value = curr.value;
             cardVals.color = curr.color;
-            
-            Path += curr.color.ToString();
-            Path += "_";
-            Path += curr.value.ToString();
+
 
             if (curr.value == UnoCardValue.WILD || curr.value == UnoCardValue.PLUS_FOUR)
             {
-                Path = curr.color.ToString();
+                Path += curr.value.ToString();
             }
-            
+            else
+            {
+                Path += curr.color.ToString();
+                Path += "_";
+                Path += curr.value.ToString();
+            }
+
+
             cardsToAssignTextures.Add(new CardsToAssignTexture {cardTransform = newImage, texturePath = Path});
         }
         // TODO this is where other types of cards would be implemented
