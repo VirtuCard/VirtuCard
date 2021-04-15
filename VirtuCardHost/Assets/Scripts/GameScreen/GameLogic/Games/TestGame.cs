@@ -18,13 +18,16 @@ public class TestGame : Game
     /// </summary>
     public override void InitializeGame()
     {
+        CardDeck deck = CreateUnoDeck();
+        GetDeck(DeckChoices.UNDEALT).AddCards(deck);
+/*
         AddCardToDeck(new StandardCard(StandardCardRank.FOUR, StandardCardSuit.CLUBS), DeckChoices.UNDEALT);
         AddCardToDeck(new StandardCard(StandardCardRank.FIVE, StandardCardSuit.CLUBS), DeckChoices.UNDEALT);
         AddCardToDeck(new StandardCard(StandardCardRank.SIX, StandardCardSuit.CLUBS), DeckChoices.UNDEALT);
         AddCardToDeck(new StandardCard(StandardCardRank.SEVEN, StandardCardSuit.CLUBS), DeckChoices.UNDEALT);
         AddCardToDeck(new StandardCard(StandardCardRank.EIGHT, StandardCardSuit.CLUBS), DeckChoices.UNDEALT);
         AddCardToDeck(new StandardCard(StandardCardRank.NINE, StandardCardSuit.CLUBS), DeckChoices.UNDEALT);
-        AddCardToDeck(new StandardCard(StandardCardRank.TEN, StandardCardSuit.CLUBS), DeckChoices.UNDEALT);
+        AddCardToDeck(new StandardCard(StandardCardRank.TEN, StandardCardSuit.CLUBS), DeckChoices.UNDEALT); */
         AdvanceTurn(true);
     }
 
@@ -54,10 +57,14 @@ public class TestGame : Game
     /// <returns>True or false depending on validity of move</returns>
     public override bool VerifyMove(Card cardToPlay)
     {
-        if (((StandardCard)cardToPlay).GetRank() == StandardCardRank.NINE)
+        if (cardToPlay.GetType() == typeof(StandardCard))
         {
-            return false;
+            if (((StandardCard) cardToPlay).GetRank() == StandardCardRank.NINE)
+            {
+                return false;
+            }
         }
+
         return true;
     }
 

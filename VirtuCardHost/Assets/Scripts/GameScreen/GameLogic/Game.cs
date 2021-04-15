@@ -5,6 +5,7 @@ using System;
 using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
+using GameScreen.GameLogic.Cards;
 
 public abstract class Game
 {
@@ -118,7 +119,8 @@ public abstract class Game
         didSkipTurn = true;
         object[] content = new object[] {currentPlayer.photonPlayer.NickName};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.UpdatePlayerTurnIndex, content, raiseEventOptions, SendOptions.SendReliable);
+        PhotonNetwork.RaiseEvent((int) NetworkEventCodes.UpdatePlayerTurnIndex, content, raiseEventOptions,
+            SendOptions.SendReliable);
     }
 
     /// <summary>
@@ -320,7 +322,7 @@ public abstract class Game
         {
             players.Remove(playerToDisconnect);
         }
-        
+
         AddCardsToDeck(playerToDisconnect.cards.GetAllCards().ToArray(), DeckChoices.UNDEALT);
         ShuffleDeck(DeckChoices.UNDEALT);
     }
@@ -480,6 +482,27 @@ public abstract class Game
             foreach (StandardCardRank rank in (StandardCardRank[]) Enum.GetValues(typeof(StandardCardRank)))
             {
                 deck.AddCard(new StandardCard(rank, suit));
+            }
+        }
+
+        return deck;
+    }
+
+    public CardDeck CreateUnoDeck()
+    {
+        CardDeck deck = new CardDeck();
+        foreach (UnoCardColor color in (UnoCardColor[]) Enum.GetValues(typeof(UnoCardColor)))
+        {
+            foreach (UnoCardValue value in (UnoCardValue[]) Enum.GetValues(typeof(UnoCardValue)))
+            {
+                if (value != UnoCardValue.WILD && value != UnoCardValue.PLUS_FOUR)
+                {
+                    deck.AddCard(new UnoCard(color, value));
+                }
+                else if (color == UnoCardColor.RED || color == UnoCardColor.BLUE)
+                {
+                    deck.AddCard(new UnoCard(color, value));
+                }
             }
         }
 

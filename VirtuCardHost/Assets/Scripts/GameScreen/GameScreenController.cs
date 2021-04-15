@@ -10,6 +10,7 @@ using PhotonScripts;
 using System;
 using Photon.Realtime;
 using System.IO;
+using GameScreen.GameLogic.Cards;
 using SFB;
 
 
@@ -379,9 +380,7 @@ public class GameScreenController : MonoBehaviour
             {
                 HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i).Print();
                 Debug.Log(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCardCount());
-                StandardCard card = (StandardCard) HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i);
-                Debug.Log(card.GetRank());
-                Debug.Log(card.GetSuit());
+                Card card = HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i);
                 undealtCardMenu.AddCardToCarousel(card, CardTypes.StandardCard);
 
                 // remove it from played card menu if it was present
