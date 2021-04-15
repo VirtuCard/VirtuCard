@@ -32,6 +32,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
 
     public static bool makeError = false;
     public static bool makeCapacityError = false;
+    public static bool makeKickedError = false;
 
     public GameObject loadingPanel;
 
@@ -54,7 +55,6 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
     public string appId = "50b55aec-e283-413b-88eb-c86a27dfb8b2";
     public static readonly string WAITING_ROOM_CODE = "57d3424a0242ac130003";
 
-
     void Start()
     {
         successfulJoin = 0;
@@ -65,6 +65,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
             Debug.Log(json);
             ClientData.UserProfile = new User(json);
             Debug.Log("User " + ClientData.UserProfile.ToString());
+
         });
 
         PhotonNetwork.ConnectUsingSettings();
@@ -93,6 +94,11 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
         {
             CreateErrorMessage("Failed to Connect", "Game is at capacity!");
             makeCapacityError = false;
+        }
+        else if (makeKickedError)
+        {
+            CreateErrorMessage("Kicked", "You were kicked from the game!");
+            makeKickedError = false;
         }
 
         if (successfulJoin == 1)
