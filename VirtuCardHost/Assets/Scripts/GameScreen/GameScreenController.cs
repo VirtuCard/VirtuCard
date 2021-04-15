@@ -706,22 +706,28 @@ public class GameScreenController : MonoBehaviour
         HostData.GetGame().InitializeGame();
 
         // Check carousel and redo it
+        // This is probably what needs to be used PlayerList.UpdateUI(); - ask Kade
 
         // Reset Card Deck UI
-        /*
-        if (HostData.GetGame() == "War")
+        string gameType = (String) HostData.GetGame().GetGameName();
+        if (gameType == "War")
         {
-
+            textureOne = Resources.Load<Texture>("Card UI/SingleCardBack");
+            textureTwo = Resources.Load<Texture>("Card UI/SingleCardBack");
         }
-        else if (HostData.GetGame() == "GoFish")
+        else if (gameType == "GoFish")
         {
-
+            //This one probably needs help - ask Kade
+            defBackTex = Resources.Load<Texture>("Card UI/SingleCardBack");
+            HostData.SetLastPlayedCardTexture("SingleCardBack");
         }
-        else if (HostData.GetGame() == "TestGame")
+        else if (gameType == "TestGame")
         {
+            //defBackTex = Resources.Load<Texture>("Card UI/SingleCardBack");
 
+            HostData.SetLastPlayedCardTexture("SingleCardBack");
         }
-        */
+        
     }
 
     public void TimerEarlyWarning()
