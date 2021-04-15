@@ -9,7 +9,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
-using UnityEditor;
 using System.IO;
 using GameScreen.GameLogic.Cards;
 
@@ -94,6 +93,11 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public bool setCardBack;
     public Texture defBack;
 
+    public GameObject selectColor;
+    public Button redButton;
+    public Button yellowButton;
+    public Button greenButton;
+    public Button blueButton;
 
     // Start is called before the first frame update
     void Start()
@@ -516,6 +520,32 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         }
     }
 
+    private void ChangeColorCardPlayed(UnoCardColor color, Card originalCard, int cardIdx)
+    {
+        selectColor.SetActive(false);
+        RemoveCard(originalCard);
+        if (cardIdx > 0)
+        {
+            cardMenu.MoveCarouselToIndex(cardIdx - 1);
+        }
+        else
+        {
+            // card was at 0
+            if (cards.GetCardCount() == 0)
+            {
+                // if there are no cards in their hand, don't move carousel
+            }
+            else
+            {
+                // otherwise, do move it
+                cardMenu.MoveCarouselToIndex(0);
+            }
+        }
+
+        UnoCard card = new UnoCard(color, ((UnoCard) originalCard).value);
+        SendCardToHost(card);
+    }
+
     private void PlayCardBtnClicked()
     {
         if (ClientData.isCurrentTurn())
@@ -526,6 +556,41 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 int cardIdx = cardMenu.GetCurrentlySelectedIndex();
 
                 card.Print();
+
+                if (card.GetType() == typeof(UnoCard))
+                {
+                    UnoCard currentCard = (UnoCard) card;
+                    //If we have a change color card, open up the change color panel to play it.
+                    if (currentCard.value == UnoCardValue.WILD || currentCard.value == UnoCardValue.PLUS_FOUR)
+                    {
+                        redButton.onClick.RemoveAllListeners();
+                        yellowButton.onClick.RemoveAllListeners();
+                        greenButton.onClick.RemoveAllListeners();
+                        blueButton.onClick.RemoveAllListeners();
+
+                        redButton.onClick.AddListener(delegate
+                        {
+                            ChangeColorCardPlayed(UnoCardColor.RED, card, cardIdx);
+                        });
+                        yellowButton.onClick.AddListener(delegate
+                        {
+                            ChangeColorCardPlayed(UnoCardColor.YELLOW, card, cardIdx);
+                        });
+                        greenButton.onClick.AddListener(delegate
+                        {
+                            ChangeColorCardPlayed(UnoCardColor.GREEN, card, cardIdx);
+                        });
+                        blueButton.onClick.AddListener(delegate
+                        {
+                            ChangeColorCardPlayed(UnoCardColor.BLUE, card, cardIdx);
+                        });
+                        selectColor.SetActive(true);
+                        
+                        return;
+                    }
+
+                }
+
                 RemoveCard(card);
                 if (cardIdx > 0)
                 {
@@ -801,7 +866,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     /// </summary>
     public void UploadButtonClicked()
     {
-        filePath = EditorUtility.OpenFilePanel("Select your custom card back", "", "png,jpg,jpeg,");
+        filePath = ""; //EditorUtility.OpenFilePanel("Select your custom card back", "", "png,jpg,jpeg,");
         Debug.Log(filePath);
         cardMenu.backPath = filePath;
         if (filePath.Length != 0)

@@ -125,25 +125,43 @@ public class Uno : Game
         UnoCard unoCard = (UnoCard) cardToPlay;
 
         Debug.Log("Player " + playerIndex + " played " + cardToPlay.ToString());
+
+        PlayerInfo info = GetPlayerOfCurrentTurn();
+
         AddCardToDeck(cardToPlay, DeckChoices.PLAYED);
+        if (info.cards.GetCardCount() == 1)
+        {
+            HostData.SetDoShowNotificationWindow(true,
+                "Player " + playerIndex + " has declared UNO!");
+        }
+
+        if (info.cards.GetCardCount() == 0)
+        {
+            HostData.SetDoShowNotificationWindow(true,
+                "Player " + playerIndex + " has finished their cards!");
+
+            Debug.Log("Game has ended");
+            GameScreenController.DeclareWinner(info.username, info.username + " is the Winner!");
+        }
+
 
         if (unoCard.value == UnoCardValue.REVERSE)
         {
             HostData.SetDoShowNotificationWindow(true,
-                GetPlayerOfCurrentTurn().username + " has reversed the direction!");
+                info.username + " has reversed the direction!");
             direction = !direction;
             AdvanceTurn(direction);
         }
         else if (unoCard.value == UnoCardValue.SKIP)
         {
             HostData.SetDoShowNotificationWindow(true,
-                GetPlayerOfCurrentTurn().username + " has skipped " + GetNextPlayer(direction).username + "'s turn!");
-            SkipTurn(direction, 1);
+                info.username + " has skipped " + GetNextPlayer(direction).username + "'s turn!");
+            SkipTurn(direction, 2);
         }
         else if (unoCard.value == UnoCardValue.PLUS_TWO)
         {
             HostData.SetDoShowNotificationWindow(true,
-                GetPlayerOfCurrentTurn().username + " has given " + GetNextPlayer(direction).username + " 2 cards!");
+                info.username + " has given " + GetNextPlayer(direction).username + " 2 cards!");
 
             CardDeck newCards = new CardDeck();
             for (int i = 0; i < 2; i++)
@@ -154,12 +172,15 @@ public class Uno : Game
             PhotonScripts.NetworkController.SendCardsToPlayer(GetNextPlayer(direction).username, newCards.GetAllCards(),
                 true,
                 false);
-            SkipTurn(direction, 1);
+            SkipTurn(direction, 2);
         }
         else if (unoCard.value == UnoCardValue.PLUS_FOUR)
         {
             HostData.SetDoShowNotificationWindow(true,
-                GetPlayerOfCurrentTurn().username + " has given " + GetNextPlayer(direction).username + " 4 cards!");
+                info.username + " has given " + GetNextPlayer(direction).username + " 4 cards!");
+            HostData.SetDoShowNotificationWindow(true,
+                info.username + " has made the color " + unoCard.color + "!");
+
 
             CardDeck newCards = new CardDeck();
             for (int i = 0; i < 4; i++)
@@ -170,7 +191,13 @@ public class Uno : Game
             PhotonScripts.NetworkController.SendCardsToPlayer(GetNextPlayer(direction).username, newCards.GetAllCards(),
                 true,
                 false);
-            SkipTurn(direction, 1);
+            SkipTurn(direction, 2);
+        }
+        else if (unoCard.value == UnoCardValue.WILD)
+        {
+            HostData.SetDoShowNotificationWindow(true,
+                GetPlayerOfCurrentTurn().username + " has made the color " + unoCard.color + "!");
+            AdvanceTurn(direction);
         }
         else
         {
