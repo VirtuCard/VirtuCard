@@ -74,6 +74,10 @@ public static class HostData
             {
                 currentGame = new War();
             }
+            else if (gameName == "Uno")
+            {
+                currentGame = new Uno();
+            }
             else
             {
                 Debug.Log("Unclear Game: " + gameName);
