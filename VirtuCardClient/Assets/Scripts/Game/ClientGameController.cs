@@ -93,7 +93,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public Button defCardBackBtn;
     public RawImage cardBackImage;
     string filePath;
-    public bool setCardBack;
     public Texture defBack;
 
     public GameObject selectColor;
@@ -105,7 +104,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        setCardBack = false;
         defCardBackBtn.interactable = false;
         PhotonNetwork.AddCallbackTarget(this);
 
@@ -116,7 +114,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         drawCardBtn.onClick.AddListener(delegate() { DrawCardBtnClicked(); });
         SetCanSkipBtn(ClientData.isCurrentTurn());
         cardMenu = cardCarousel.GetComponent<CardMenu>();
-
         // chat in the settings
         hideChatBtn.onClick.AddListener(delegate() { hideChatSettings(); });
         unhideChatBtn.onClick.AddListener(delegate() { unhideChatSettings(); });
@@ -894,7 +891,50 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public void UploadButtonClicked()
     {
         filePath = ""; //EditorUtility.OpenFilePanel("Select your custom card back", "", "png,jpg,jpeg,");
+        //setCardBack = true;
+/*        NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((path) =>
+        {
+            Debug.Log("Image path: " + path);
+            if (path != null)
+            {
+                filePath = path;
+            }
+        }, "Select a custom card back image", "image/*");*/
+        //filePath = EditorUtility.OpenFilePanel("Select your custom card back", "", "png,jpg,jpeg,");
+       
         Debug.Log(filePath);
+        StartCoroutine(PickImage());
+
+        /*cardMenu.backPath = filePath;
+        if (filePath.Length != 0)
+        {
+            Texture2D tex = null;
+            byte[] fileData;
+            if (File.Exists(filePath))
+            {
+                fileData = File.ReadAllBytes(filePath);
+                tex = new Texture2D(2, 2);
+                tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
+            }
+            foreach (RectTransform o in cardMenu.images)
+            {
+                o.Find("Back").GetComponent<RawImage>().texture = tex;
+            }
+        }*/
+    }
+
+    private IEnumerator PickImage()
+    {
+        yield return new WaitForSeconds(1);
+
+        NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((path) =>
+        {
+            Debug.Log("Image path: " + path);
+            if (path != null)
+            {
+                filePath = path;
+            }
+        }, "Select a custom card back image", "image/*");
         cardMenu.backPath = filePath;
         if (filePath.Length != 0)
         {
@@ -911,10 +951,12 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             {
                 o.Find("Back").GetComponent<RawImage>().texture = tex;
             }
+            defCardBackBtn.interactable = true;
         }
 
         setCardBack = false;
         defCardBackBtn.interactable = true;
+        Debug.Log("Permission result: " + permission);
     }
 
     /// <summary>
@@ -922,7 +964,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     /// </summary>
     public void DefButtonClicked()
     {
+        Debug.Log("Default Button pressed");
         StartCoroutine(SetDefCardBack());
+        filePath = "";
         cardMenu.backPath = "";
         foreach (RectTransform o in cardMenu.images)
         {
@@ -935,7 +979,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
     public IEnumerator SetDefCardBack()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
         foreach (RectTransform o in cardMenu.images)
         {
             o.Find("Back").GetComponent<RawImage>().texture = Resources.Load<Texture>("Card UI/CardBack");
