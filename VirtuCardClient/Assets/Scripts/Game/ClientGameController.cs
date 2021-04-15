@@ -589,10 +589,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                             ChangeColorCardPlayed(UnoCardColor.BLUE, card, cardIdx);
                         });
                         selectColor.SetActive(true);
-                        
+
                         return;
                     }
-
                 }
 
                 RemoveCard(card);
@@ -813,7 +812,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 Debug.Log(toRemove[i]);
                 RemoveCard(toRemove[i]);
             }
-        
         }
         else if (photonEvent.Code == (int) NetworkEventCodes.BoilerUpEmoji)
         {
@@ -852,7 +850,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 }
             }
         }
-        else if (photonEvent.Code == (int)NetworkEventCodes.PlayerKicked)
+        else if (photonEvent.Code == (int) NetworkEventCodes.PlayerKicked)
         {
             object[] data = (object[]) photonEvent.CustomData;
             string kickedPlayerName = (string) data[0];
@@ -862,6 +860,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 ClientData.setJoinCode(null);
                 SceneManager.LoadScene(SceneNames.JoinGamePage);
             }
+
             JoinGameMethod.makeKickedError = true;
         }
     }
@@ -901,9 +900,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             }
         }, "Select a custom card back image", "image/*");*/
         //filePath = EditorUtility.OpenFilePanel("Select your custom card back", "", "png,jpg,jpeg,");
-       
+
         Debug.Log(filePath);
-        StartCoroutine(PickImage());
+        // StartCoroutine(PickImage());
 
         /*cardMenu.backPath = filePath;
         if (filePath.Length != 0)
@@ -921,6 +920,43 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 o.Find("Back").GetComponent<RawImage>().texture = tex;
             }
         }*/
+
+        NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((path) =>
+        {
+            Debug.Log("Image path: " + path);
+            if (path != null)
+            {
+                filePath = path;
+                UpdateImage();
+            }
+        }, "Select a custom card back image", "image/*");
+        Debug.Log("Permission result: " + permission);
+    }
+
+    private void UpdateImage()
+    {
+        cardMenu.backPath = filePath;
+        if (filePath.Length != 0)
+        {
+            Texture2D tex = null;
+            byte[] fileData;
+            if (File.Exists(filePath))
+            {
+                fileData = File.ReadAllBytes(filePath);
+                tex = new Texture2D(2, 2);
+                tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
+            }
+
+            foreach (RectTransform o in cardMenu.images)
+            {
+                o.Find("Back").GetComponent<RawImage>().texture = tex;
+            }
+
+            defCardBackBtn.interactable = true;
+        }
+
+        //      setCardBack = false;
+        defCardBackBtn.interactable = true;
     }
 
     private IEnumerator PickImage()
@@ -951,10 +987,11 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             {
                 o.Find("Back").GetComponent<RawImage>().texture = tex;
             }
+
             defCardBackBtn.interactable = true;
         }
 
-        setCardBack = false;
+        //      setCardBack = false;
         defCardBackBtn.interactable = true;
         Debug.Log("Permission result: " + permission);
     }
@@ -965,7 +1002,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public void DefButtonClicked()
     {
         Debug.Log("Default Button pressed");
-        StartCoroutine(SetDefCardBack());
+        // StartCoroutine(SetDefCardBack());
         filePath = "";
         cardMenu.backPath = "";
         foreach (RectTransform o in cardMenu.images)
@@ -973,7 +1010,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             o.Find("Back").GetComponent<RawImage>().texture = defBack;
         }
 
-        setCardBack = true;
+//        setCardBack = true;
         defCardBackBtn.interactable = false;
     }
 
