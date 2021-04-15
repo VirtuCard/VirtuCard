@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PhotonScripts
 {
@@ -27,7 +28,7 @@ namespace PhotonScripts
         {
             Dictionary<string, object> request = new Dictionary<string, object>();
             request.Add("HostName", HostName);
-            request.Add("TargetUsers", TargetUsers);
+            request.Add("TargetUsers", TargetUsers.ToArray());
             request.Add("RoomCode", RoomCode);
             request.Add("GameName", GameName);
             return request;
@@ -43,7 +44,7 @@ namespace PhotonScripts
                 {
                     invite.HostName = dict["HostName"] as string;
                     invite.RoomCode = dict["RoomCode"] as string;
-                    invite.TargetUsers = dict["TargetUsers"] as List<string>;
+                    invite.TargetUsers = new List<string>(dict["TargetUsers"] as string[] ?? Array.Empty<string>());
                     invite.GameName = dict["GameName"] as string;
                 }
                 else

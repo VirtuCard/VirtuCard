@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 public class RoomInvite
 {
@@ -19,7 +20,7 @@ public class RoomInvite
             {
                 invite.HostName = dict["HostName"] as string;
                 invite.RoomCode = dict["RoomCode"] as string;
-                invite.TargetUsers = dict["TargetUsers"] as List<string>;
+                invite.TargetUsers = new List<string>(dict["TargetUsers"] as string[] ?? Array.Empty<string>());
                 invite.GameName = dict["GameName"] as string;
             }
             else
