@@ -99,6 +99,31 @@ public abstract class Game
         SendOutPlayerTurnIndex();
     }
 
+    public void SkipTurn(bool forwards, int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            if (forwards)
+            {
+                playerTurnIndex++;
+                if (playerTurnIndex >= players.Count)
+                {
+                    playerTurnIndex = 0;
+                }
+            }
+            else
+            {
+                playerTurnIndex--;
+                if (playerTurnIndex < 0)
+                {
+                    playerTurnIndex = players.Count - 1;
+                }
+            }
+        }
+
+        SendOutPlayerTurnIndex();
+    }
+
     /// <summary>
     /// This method is called when a player runs out of time on the timer and their turn is forcefully skipped
     /// </summary>
@@ -282,6 +307,30 @@ public abstract class Game
         }
 
         return players[playerTurnIndex];
+    }
+
+
+    public PlayerInfo GetNextPlayer(bool forwards)
+    {
+        int nextPlayerIndex = playerTurnIndex;
+        if (forwards)
+        {
+            nextPlayerIndex++;
+            if (nextPlayerIndex >= players.Count)
+            {
+                nextPlayerIndex = 0;
+            }
+        }
+        else
+        {
+            nextPlayerIndex--;
+            if (nextPlayerIndex < 0)
+            {
+                nextPlayerIndex = players.Count - 1;
+            }
+        }
+
+        return players[nextPlayerIndex];
     }
 
     public bool IsGameEmpty()
@@ -491,7 +540,7 @@ public abstract class Game
     public CardDeck CreateUnoDeck()
     {
         CardDeck deck = new CardDeck();
-        /* foreach (UnoCardColor color in (UnoCardColor[]) Enum.GetValues(typeof(UnoCardColor)))
+        foreach (UnoCardColor color in (UnoCardColor[]) Enum.GetValues(typeof(UnoCardColor)))
         {
             foreach (UnoCardValue value in (UnoCardValue[]) Enum.GetValues(typeof(UnoCardValue)))
             {
@@ -504,10 +553,7 @@ public abstract class Game
                     deck.AddCard(new UnoCard(color, value));
                 }
             }
-        }*/
-        
-        deck.AddCard(new UnoCard(UnoCardColor.RED, UnoCardValue.WILD));
-        deck.AddCard(new UnoCard(UnoCardColor.RED, UnoCardValue.PLUS_FOUR));
+        }
 
         return deck;
     }
@@ -608,5 +654,15 @@ public abstract class Game
         ptwoPlayed = new CardDeck();
         poneUnplayed = new CardDeck();
         ptwoUnplayed = new CardDeck();
+    }
+
+    public Card GetLastPlayedCard()
+    {
+        if (playedCards.GetCardCount() == 0)
+        {
+            return null;
+        }
+
+        return playedCards.GetCard(playedCards.GetCardCount() - 1);
     }
 }
