@@ -35,6 +35,11 @@ public class GameScreenController : MonoBehaviour
     public GameObject gameOverText;
     public GameObject endGamePanel;
 
+    public GameObject kickPlayerPanel;
+    public GameObject playerKickedPanel;
+    public Dropdown kickPlayerDropdown;
+    public Text playerKickedName;
+
     public GameObject warPanel;
     public GameObject goFishPanel;
     public GameObject standardPanel;
@@ -510,6 +515,40 @@ public class GameScreenController : MonoBehaviour
             Debug.Log(player.photonPlayer.NickName);
             winnerDropdown.options.Add(new Dropdown.OptionData(player.photonPlayer.NickName));
         }
+    }
+
+    public void KickPlayerClicked()
+    {
+        kickPlayerPanel.SetActive(true);
+        var allConnectedPlayers = HostData.GetGame().GetAllPlayers();
+        foreach (PlayerInfo player in allConnectedPlayers)
+        {
+            //Debug.Log(player.photonPlayer.NickName);
+            kickPlayerDropdown.options.Add(new Dropdown.OptionData(player.photonPlayer.NickName));
+        }
+    }
+
+    public void OnKickPlayerChosen()
+    {
+        string toKick = kickPlayerDropdown.options[winnerDropdown.value].text;
+        
+        object[] content = new object[] {toKick};
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.PlayerKicked, content, raiseEventOptions, SendOptions.SendUnreliable);
+
+        kickPlayerPanel.SetActive(false);
+        playerKickedName.GetComponent<Text>().text = toKick + " was removed from the game.";
+        playerKickedPanel.SetActive(true);
+    }
+
+    public void ExitDisplayPlayerKickedPanel()
+    {
+        playerKickedPanel.SetActive(false);
+    }
+
+    public void ExitKickPlayerClicked()
+    {
+        kickPlayerPanel.SetActive(false);
     }
 
     public void ExitClicked()
