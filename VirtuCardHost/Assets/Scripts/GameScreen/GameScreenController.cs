@@ -14,6 +14,7 @@ using GameScreen.GameLogic.Cards;
 using SFB;
 
 
+
 public class GameScreenController : MonoBehaviour
 {
     public NotificationWindow notificationWindow;
@@ -191,6 +192,17 @@ public class GameScreenController : MonoBehaviour
         {
             DeclareWinnerButton.gameObject.SetActive(false);
         }
+
+        // Initialize the kick player dropdown
+        /*
+        var allConnectedPlayers = HostData.GetGame().GetAllPlayers();
+        foreach (PlayerInfo player in allConnectedPlayers)
+        {
+            //Debug.Log(player.photonPlayer.NickName);
+            kickPlayerDropdown.options.Add(new Dropdown.OptionData(player.photonPlayer.NickName));
+        }
+        */
+
     }
 
     // Update is called once per frame
@@ -533,18 +545,27 @@ public class GameScreenController : MonoBehaviour
     public void KickPlayerClicked()
     {
         kickPlayerPanel.SetActive(true);
+        
+        // Initialize the kick player dropdown
+        
         var allConnectedPlayers = HostData.GetGame().GetAllPlayers();
         foreach (PlayerInfo player in allConnectedPlayers)
         {
             //Debug.Log(player.photonPlayer.NickName);
             kickPlayerDropdown.options.Add(new Dropdown.OptionData(player.photonPlayer.NickName));
         }
+        
+
     }
 
     public void OnKickPlayerChosen()
     {
-        string toKick = kickPlayerDropdown.options[winnerDropdown.value].text;
+        string toKick = kickPlayerDropdown.options[kickPlayerDropdown.value].text;
         
+        // Update dropdown
+        //kickPlayerDropdown.options.RemoveAt(0);
+        //kickPlayerDropdown.itemText = kickPlayerDropdown[0];
+
         object[] content = new object[] {toKick};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
         PhotonNetwork.RaiseEvent((int)NetworkEventCodes.PlayerKicked, content, raiseEventOptions, SendOptions.SendUnreliable);

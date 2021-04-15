@@ -859,9 +859,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 PhotonNetwork.LeaveRoom();
                 ClientData.setJoinCode(null);
                 SceneManager.LoadScene(SceneNames.JoinGamePage);
+                JoinGameMethod.makeKickedError = true;
             }
-
-            JoinGameMethod.makeKickedError = true;
         }
     }
 
