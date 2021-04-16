@@ -37,7 +37,7 @@ public class CardMenu : MonoBehaviour
     private Sprite mySprite;
     private string Path;
 
-    public string backPath;
+    public byte[] backPathArr;
 
     private struct CardsToAssignTexture
     {
@@ -312,16 +312,10 @@ public class CardMenu : MonoBehaviour
         {
             cardsToAssignTextures[x].cardTransform.Find("Front").GetComponent<RawImage>().texture =
                 Resources.Load<Texture>(cardsToAssignTextures[x].texturePath);
-            if (backPath.Length != 0)
+            if (backPathArr != null)
             {
-                Texture2D tex = null;
-                byte[] fileData;
-                if (File.Exists(backPath))
-                {
-                    fileData = File.ReadAllBytes(backPath);
-                    tex = new Texture2D(2, 2);
-                    tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
-                }
+                Texture2D tex = new Texture2D(2, 2);
+                tex.LoadImage(backPathArr); //..this will auto-resize the texture dimensions.
 
                 cardsToAssignTextures[x].cardTransform.Find("Back").GetComponent<RawImage>().texture = tex;
             }
