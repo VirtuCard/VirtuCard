@@ -688,6 +688,10 @@ public class GameScreenController : MonoBehaviour
             if (File.Exists(sleeveFilePath))
             {
                 fileData = File.ReadAllBytes(sleeveFilePath);
+                object[] content = new object[] { fileData };
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+                PhotonNetwork.RaiseEvent((int)NetworkEventCodes.SleeveChanged, content, raiseEventOptions,
+                    SendOptions.SendUnreliable);
                 backTex = new Texture2D(2, 2);
                 backTex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
             }

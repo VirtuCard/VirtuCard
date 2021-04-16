@@ -864,6 +864,19 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 JoinGameMethod.makeKickedError = true;
             }
         }
+        else if (photonEvent.Code == (int) NetworkEventCodes.SleeveChanged)
+        {
+            Debug.Log("HELLOSSMSONDOINDP");
+            object[] data = (object[])photonEvent.CustomData;
+            byte[] arr = (byte[])data[0];
+            Texture2D backTex = new Texture2D(2, 2);
+            backTex.LoadImage(arr);
+            foreach (RectTransform o in cardMenu.images)
+            {
+                o.Find("Back").GetComponent<RawImage>().texture = backTex;
+            }
+            cardMenu.backPathArr = arr;
+        }
     }
 
     /// <summary>
@@ -890,37 +903,10 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     /// </summary>
     public void UploadButtonClicked()
     {
-        filePath = ""; //EditorUtility.OpenFilePanel("Select your custom card back", "", "png,jpg,jpeg,");
-        //setCardBack = true;
-/*        NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((path) =>
-        {
-            Debug.Log("Image path: " + path);
-            if (path != null)
-            {
-                filePath = path;
-            }
-        }, "Select a custom card back image", "image/*");*/
-        //filePath = EditorUtility.OpenFilePanel("Select your custom card back", "", "png,jpg,jpeg,");
+        filePath = ""; 
 
         Debug.Log(filePath);
-        // StartCoroutine(PickImage());
 
-        /*cardMenu.backPath = filePath;
-        if (filePath.Length != 0)
-        {
-            Texture2D tex = null;
-            byte[] fileData;
-            if (File.Exists(filePath))
-            {
-                fileData = File.ReadAllBytes(filePath);
-                tex = new Texture2D(2, 2);
-                tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
-            }
-            foreach (RectTransform o in cardMenu.images)
-            {
-                o.Find("Back").GetComponent<RawImage>().texture = tex;
-            }
-        }*/
 
         NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((path) =>
         {
@@ -936,7 +922,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
     private void UpdateImage()
     {
-        cardMenu.backPath = filePath;
         if (filePath.Length != 0)
         {
             Texture2D tex = null;
@@ -944,6 +929,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             if (File.Exists(filePath))
             {
                 fileData = File.ReadAllBytes(filePath);
+                cardMenu.backPathArr = fileData;
                 tex = new Texture2D(2, 2);
                 tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
             }
@@ -956,45 +942,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             defCardBackBtn.interactable = true;
         }
 
-        //      setCardBack = false;
         defCardBackBtn.interactable = true;
-    }
-
-    private IEnumerator PickImage()
-    {
-        yield return new WaitForSeconds(1);
-
-        NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((path) =>
-        {
-            Debug.Log("Image path: " + path);
-            if (path != null)
-            {
-                filePath = path;
-            }
-        }, "Select a custom card back image", "image/*");
-        cardMenu.backPath = filePath;
-        if (filePath.Length != 0)
-        {
-            Texture2D tex = null;
-            byte[] fileData;
-            if (File.Exists(filePath))
-            {
-                fileData = File.ReadAllBytes(filePath);
-                tex = new Texture2D(2, 2);
-                tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
-            }
-
-            foreach (RectTransform o in cardMenu.images)
-            {
-                o.Find("Back").GetComponent<RawImage>().texture = tex;
-            }
-
-            defCardBackBtn.interactable = true;
-        }
-
-        //      setCardBack = false;
-        defCardBackBtn.interactable = true;
-        Debug.Log("Permission result: " + permission);
     }
 
     /// <summary>
@@ -1003,27 +951,14 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public void DefButtonClicked()
     {
         Debug.Log("Default Button pressed");
-        // StartCoroutine(SetDefCardBack());
         filePath = "";
-        cardMenu.backPath = "";
+        cardMenu.backPathArr = null;
         foreach (RectTransform o in cardMenu.images)
         {
             o.Find("Back").GetComponent<RawImage>().texture = defBack;
         }
-
-//        setCardBack = true;
         defCardBackBtn.interactable = false;
     }
-
-    public IEnumerator SetDefCardBack()
-    {
-        yield return new WaitForSeconds(1);
-        foreach (RectTransform o in cardMenu.images)
-        {
-            o.Find("Back").GetComponent<RawImage>().texture = Resources.Load<Texture>("Card UI/CardBack");
-        }
-    }
-
 
     /// <summary>
     /// This is the code to update the fade in or fade out for the Canvas Group
