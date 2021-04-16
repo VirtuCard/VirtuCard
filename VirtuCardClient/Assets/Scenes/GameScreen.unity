@@ -827,13 +827,16 @@ MonoBehaviour:
   IUCoolDown: {fileID: 1476249919}
   animationCooldown: {fileID: 136432684}
   boilerCountdown: {fileID: 1250254589}
+  boilerImageObject: {fileID: 609896551}
+  logoBoiler: {fileID: 609896552}
   IUCountdown: {fileID: 335347609}
   boilerAnimation: {fileID: 609896553}
   IUAnimation: {fileID: 587938985}
+  IUImageObject: {fileID: 587938981}
+  logoIU: {fileID: 587938982}
   setCardBackBtn: {fileID: 1686828288}
   defCardBackBtn: {fileID: 1134614306}
   cardBackImage: {fileID: 0}
-  setCardBack: 0
   defBack: {fileID: 0}
   selectColor: {fileID: 1495300670}
   redButton: {fileID: 1495300669}
@@ -3356,6 +3359,7 @@ GameObject:
   - component: {fileID: 587938984}
   - component: {fileID: 587938983}
   - component: {fileID: 587938985}
+  - component: {fileID: 587938986}
   m_Layer: 5
   m_Name: IUImage
   m_TagString: Untagged
@@ -3379,8 +3383,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -184, y: 1159.458}
-  m_SizeDelta: {x: 721.2417, y: 721.2419}
+  m_AnchoredPosition: {x: -125, y: 1274}
+  m_SizeDelta: {x: 600, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &587938983
 MonoBehaviour:
@@ -3432,6 +3436,20 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 1
+--- !u!114 &587938986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587938981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0094faae52c6b4fb9aca74d49628d5a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logo: {fileID: 587938982}
+  checking: {fileID: 587938985}
 --- !u!1 &609392851
 GameObject:
   m_ObjectHideFlags: 0
@@ -3523,6 +3541,7 @@ GameObject:
   - component: {fileID: 609896555}
   - component: {fileID: 609896554}
   - component: {fileID: 609896553}
+  - component: {fileID: 609896556}
   m_Layer: 5
   m_Name: BoilerUpImage
   m_TagString: Untagged
@@ -3547,7 +3566,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -419.06104, y: 1179}
-  m_SizeDelta: {x: 725.8779, y: 698.0612}
+  m_SizeDelta: {x: 600, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &609896553
 CanvasGroup:
@@ -3599,6 +3618,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 609896551}
   m_CullTransparentMesh: 1
+--- !u!114 &609896556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609896551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0094faae52c6b4fb9aca74d49628d5a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logo: {fileID: 609896552}
+  checking: {fileID: 609896553}
 --- !u!1 &622458250
 GameObject:
   m_ObjectHideFlags: 0
@@ -3896,7 +3929,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 250185324080153622, guid: af0b1d0db69ea2246a57dcfae7dbe654, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 250185324080153623, guid: af0b1d0db69ea2246a57dcfae7dbe654, type: 3}
       propertyPath: m_Pivot.x
