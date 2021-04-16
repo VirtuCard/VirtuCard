@@ -864,6 +864,18 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 JoinGameMethod.makeKickedError = true;
             }
         }
+        else if (photonEvent.Code == (int) NetworkEventCodes.SleeveChanged)
+        {
+            Debug.Log("HELLOSSMSONDOINDP");
+            object[] data = (object[])photonEvent.CustomData;
+            byte[] arr = (byte[])data[0];
+            Texture2D backTex = new Texture2D(2, 2);
+            backTex.LoadImage(arr);
+            foreach (RectTransform o in cardMenu.images)
+            {
+                o.Find("Back").GetComponent<RawImage>().texture = backTex;
+            }
+        }
     }
 
     /// <summary>
