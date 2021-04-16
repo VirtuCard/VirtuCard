@@ -81,6 +81,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private float cooldownTimer = -1;
     private float cooldownSeconds = 60;
     public Text boilerCountdown;
+    public GameObject boilerImageObject;
     public Text IUCountdown;
     public CanvasGroup boilerAnimation;
     public CanvasGroup IUAnimation;
@@ -320,6 +321,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             boilerCountdown.GetComponent<Text>().text = "";
             IUCountdown.GetComponent<Text>().text = "";
         }
+
     }
 
     /// <summary>
