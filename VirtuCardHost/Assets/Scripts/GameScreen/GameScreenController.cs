@@ -115,6 +115,9 @@ public class GameScreenController : MonoBehaviour
     public RawImage playedDeck1;
     public RawImage playedDeck2;
 
+    [Header("Freeplay Stuff")]
+    public Button flipCardBtn;
+
 
     // Start is called before the first frame update
     void Start()
@@ -176,6 +179,7 @@ public class GameScreenController : MonoBehaviour
             standardPanel.SetActive(false);
             goFishPanel.SetActive(false);
             shuffleButton.gameObject.SetActive(false);
+            flipCardBtn.gameObject.SetActive(false);
         }
         else if (HostData.GetGame().GetGameName().Equals("GoFish"))
         {
@@ -187,6 +191,7 @@ public class GameScreenController : MonoBehaviour
             goFishDeckCardsUI[1].SetActive(true);
             goFishDeckCardsUI[2].SetActive(true);
             shuffleButton.gameObject.SetActive(false);
+            flipCardBtn.gameObject.SetActive(false);
         }
         else
         {
@@ -194,6 +199,23 @@ public class GameScreenController : MonoBehaviour
             standardPanel.SetActive(true);
             goFishPanel.SetActive(false);
             shuffleButton.gameObject.SetActive(true);
+            if (HostData.GetGame().GetGameName().Equals("Freeplay"))
+            {
+                flipCardBtn.gameObject.SetActive(false);
+                flipCardBtn.onClick.AddListener(delegate { freeplayFlipCardBtnClicked(); });
+                if (HostData.getDisplayLastCard())
+                {
+                    flipCardBtn.GetComponentInChildren<Text>().text = "Hide Card";
+                }
+                else
+                {
+                    flipCardBtn.GetComponentInChildren<Text>().text = "Flip Card";
+                }
+            }
+            else
+            {
+                flipCardBtn.gameObject.SetActive(false);
+            }
         }
 
         chatOptions.RefreshShownValue();
@@ -283,6 +305,9 @@ public class GameScreenController : MonoBehaviour
             doPlayedAnimation = false;
             if (HostData.GetGame().GetGameName().Equals("Freeplay"))
             {
+                // enable this button
+                flipCardBtn.gameObject.SetActive(true);
+
                 if (HostData.getDisplayLastCard())
                 {
                     lastPlayedCard.texture = HostData.GetLastPlayedCardTexture();
@@ -351,6 +376,20 @@ public class GameScreenController : MonoBehaviour
             StartCoroutine(DelayCards());
             doFlipWarCards = false;
         }
+    }
+
+    private void freeplayFlipCardBtnClicked()
+    {
+        if (HostData.getDisplayLastCard())
+        {
+            flipCardBtn.GetComponentInChildren<Text>().text = "Flip Card";
+        }
+        else
+        {
+            flipCardBtn.GetComponentInChildren<Text>().text = "Hide Card";
+        }
+        HostData.setDisplayLastCard(!HostData.getDisplayLastCard());
+        doPlayedAnimation = true;
     }
 
     private IEnumerator DelayCards()

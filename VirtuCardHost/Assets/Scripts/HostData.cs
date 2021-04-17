@@ -238,6 +238,9 @@ public static class HostData
                 selectedGame = "Go Fish";
                 break;
             case 3:
+                selectedGame = "Uno";
+                break;
+            case 4:
                 selectedGame = "Freeplay";
                 break;
             default:
