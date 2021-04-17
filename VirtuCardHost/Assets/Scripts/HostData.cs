@@ -50,6 +50,7 @@ public static class HostData
     private static bool areDiamondsAllowed = true;
     private static bool displayLastCard = true;
     private static bool skipTurnAllowed = true;
+    private static int numberOfCardsToStartWith = 0;
 
     // eventually we will add more functionality to freeplay mode but this will do for now
 
@@ -98,6 +99,15 @@ public static class HostData
             Debug.LogError("You have already chosen a game");
             return false;
         }
+    }
+
+    public static void SetFreeplayNumOfStartCards(int value)
+    {
+        numberOfCardsToStartWith = value;
+    }
+    public static int GetFreeplayNumOfStartCards()
+    {
+        return numberOfCardsToStartWith;
     }
 
     public static bool DidLastPlayedCardTextureUpdate()
@@ -238,6 +248,9 @@ public static class HostData
                 selectedGame = "Go Fish";
                 break;
             case 3:
+                selectedGame = "Uno";
+                break;
+            case 4:
                 selectedGame = "Freeplay";
                 break;
             default:
