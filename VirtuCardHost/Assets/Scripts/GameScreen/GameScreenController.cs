@@ -102,6 +102,18 @@ public class GameScreenController : MonoBehaviour
     public RawImage cardDeck1;
     public RawImage cardDeck2;
     public Texture defBackTex;
+    public Text sizeWarningText;
+
+    [Header("GoFish Cards")]
+    public RawImage cardDeckGoFish;
+    public RawImage cardDeckGoFish1;
+    public RawImage cardDeckGoFish2;
+
+    [Header("War Cards")]
+    public RawImage unplayedDeck1;
+    public RawImage unplayedDeck2;
+    public RawImage playedDeck1;
+    public RawImage playedDeck2;
 
 
     // Start is called before the first frame update
@@ -515,6 +527,7 @@ public class GameScreenController : MonoBehaviour
     public void DisplaySettingsWindow(bool enabled)
     {
         settingsPanel.SetActive(enabled);
+        sizeWarningText.gameObject.SetActive(false);
     }
 
     // Adding functions for endgame button and declare winner button
@@ -679,7 +692,20 @@ public class GameScreenController : MonoBehaviour
         {
             sleeveFilePath = "";
         }
-
+        if (sleeveFilePath.Length != 0)
+        {
+            var fileInfo = new FileInfo(sleeveFilePath);
+            Debug.Log(fileInfo.Length);
+            if (fileInfo.Length > 510000)
+            {
+                sizeWarningText.gameObject.SetActive(true);
+                return;
+            }
+            else
+            {
+                sizeWarningText.gameObject.SetActive(false);
+            }
+        }
 
         if (sleeveFilePath.Length != 0)
         {
@@ -706,6 +732,15 @@ public class GameScreenController : MonoBehaviour
             cardDeck.texture = backTex;
             cardDeck1.texture = backTex;
             cardDeck2.texture = backTex;
+
+            cardDeckGoFish.texture = backTex;
+            cardDeckGoFish1.texture = backTex;
+            cardDeckGoFish2.texture = backTex;
+
+            unplayedDeck1.texture = backTex;
+            unplayedDeck2.texture = backTex;
+            playedDeck1.texture = backTex;
+            playedDeck2.texture = backTex;
 
             setSleeve = true;
             defSleeveBtn.interactable = true;
@@ -734,6 +769,15 @@ public class GameScreenController : MonoBehaviour
         cardDeck.texture = defBackTex;
         cardDeck1.texture = defBackTex;
         cardDeck2.texture = defBackTex;
+
+        cardDeckGoFish.texture = defBackTex;
+        cardDeckGoFish1.texture = defBackTex;
+        cardDeckGoFish2.texture = defBackTex;
+
+        unplayedDeck1.texture = defBackTex;
+        unplayedDeck2.texture = defBackTex;
+        playedDeck1.texture = defBackTex;
+        playedDeck2.texture = defBackTex;
     }
 
     public void DeclareWinnerChoiceClicked()
@@ -792,8 +836,19 @@ public class GameScreenController : MonoBehaviour
         string gameType = (String) HostData.GetGame().GetGameName();
         if (gameType == "War")
         {
-            textureOne = Resources.Load<Texture>("Card UI/SingleCardBack");
-            textureTwo = Resources.Load<Texture>("Card UI/SingleCardBack");
+/*            textureOne = Resources.Load<Texture>("Card UI/SingleCardBack");
+            textureTwo = Resources.Load<Texture>("Card UI/SingleCardBack");*/
+            if (setSleeve)
+            {
+                textureOne = backTex;
+                textureTwo = backTex;
+
+            }
+            else
+            {
+                textureOne = defBackTex;
+                textureTwo = defBackTex;
+            }
         }
         else if (gameType == "GoFish")
         {
