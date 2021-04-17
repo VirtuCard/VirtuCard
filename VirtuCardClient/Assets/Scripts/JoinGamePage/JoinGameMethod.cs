@@ -255,15 +255,17 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
             bool timerEnabled = (bool) data[0];
             int timerSeconds = (int) data[1];
             int timerMinutes = (int) data[2];
+            bool isProfanityAllowed = (bool)data[3];
+            ClientData.SetProfanityAllowed(isProfanityAllowed);
 
             ClientData.SetIsTimerEnabled(timerEnabled);
             ClientData.SetTimerSeconds(timerSeconds);
             ClientData.SetTimerMinutes(timerMinutes);
 
-            int numOfPlayers = (int) data[3];
+            int numOfPlayers = (int) data[4];
             for (int x = 0; x < numOfPlayers; x++)
             {
-                ClientData.AddConnectedPlayerName((string) data[x + 4]);
+                ClientData.AddConnectedPlayerName((string) data[x + 5]);
             }
 
             SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
