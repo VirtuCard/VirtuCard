@@ -495,6 +495,10 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         }
 
         drawCardBtn.enabled = playCardBtn.enabled = cardsFlipped;
+        if (ClientData.GetGameName() == "War")
+        {
+
+        }
         cardsFlipped = !cardsFlipped;
     }
 
