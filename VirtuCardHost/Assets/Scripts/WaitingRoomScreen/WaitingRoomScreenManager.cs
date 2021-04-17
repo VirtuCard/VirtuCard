@@ -38,6 +38,7 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
     public Toggle showLastCard;
     public Toggle isSkipTurnAllowed;
     public Button FreeplaySettingsButton;
+    public InputField freeplayNumOfCardsToStartWith;
 
     // Timer Settings
     public Toggle timerEnabledToggle;
@@ -105,6 +106,10 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
         minutesInput.text = "1";
         secondsInput.interactable = false;
         minutesInput.interactable = false;
+
+        freeplayNumOfCardsToStartWith.text = "0";
+        freeplayNumOfCardsToStartWith.onEndEdit.AddListener(delegate { FreeplayNumOfCardsEdited(); });
+
 
         numPlayers.onEndEdit.AddListener(OnNumPlayersFieldChange);
         playerList = NetworkController.ListAllPlayers();
@@ -221,6 +226,19 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
         }
     }
 
+    private void FreeplayNumOfCardsEdited()
+    {
+        int cardCount = int.Parse(freeplayNumOfCardsToStartWith.text);
+        if (cardCount < 0)
+        {
+            freeplayNumOfCardsToStartWith.text = "0";
+        }
+        else if (cardCount > 10)
+        {
+            freeplayNumOfCardsToStartWith.text = "10";
+        }
+    }
+
     /// <summary>
     /// This method is the event handler for when the timer enabled toggle is changed
     /// </summary>
@@ -297,6 +315,11 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
         {
             HostData.SetTimerSeconds(-1);
             HostData.SetTimerMinutes(-1);
+        }
+
+        if (HostData.isFreeplay())
+        {
+            HostData.SetFreeplayNumOfStartCards(int.Parse(freeplayNumOfCardsToStartWith.text));
         }
 
         List<object> content = new List<object>();
