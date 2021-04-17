@@ -229,13 +229,36 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
     private void FreeplayNumOfCardsEdited()
     {
         int cardCount = int.Parse(freeplayNumOfCardsToStartWith.text);
+
+        int totalCardsInGame = 0;
+        if (HostData.getSpadesAllowed())
+        {
+            totalCardsInGame += 13;
+        }
+        if (HostData.getDiamondsAllowed())
+        {
+            totalCardsInGame += 13;
+        }
+        if (HostData.getClubsAllowed())
+        {
+            totalCardsInGame += 13;
+        }
+        if (HostData.getHeartsAllowed())
+        {
+            totalCardsInGame += 13;
+        }
+
         if (cardCount < 0)
         {
             freeplayNumOfCardsToStartWith.text = "0";
         }
-        else if (cardCount > 10)
+        else if (HostData.GetGame().GetAllPlayers().Count > 0 && cardCount >= (int)(totalCardsInGame / HostData.GetGame().GetAllPlayers().Count))
         {
-            freeplayNumOfCardsToStartWith.text = "10";
+            freeplayNumOfCardsToStartWith.text = ((int)(totalCardsInGame / HostData.GetGame().GetAllPlayers().Count)).ToString();
+        }
+        else if (cardCount > totalCardsInGame)
+        {
+            freeplayNumOfCardsToStartWith.text = totalCardsInGame.ToString();
         }
     }
 
@@ -416,21 +439,25 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
     private void HeartsToggleValueChanged(bool isOn)
     {
         HostData.setHeartsAllowed(isOn);
+        FreeplayNumOfCardsEdited();
     }
 
     private void ClubsToggleValueChanged(bool isOn)
     {
         HostData.setClubsAllowed(isOn);
+        FreeplayNumOfCardsEdited();
     }
 
     private void SpadesToggleValueChanged(bool isOn)
     {
         HostData.setSpadesAllowed(isOn);
+        FreeplayNumOfCardsEdited();
     }
 
     private void DiamondsToggleValueChanged(bool isOn)
     {
         HostData.setDiamondsAllowed(isOn);
+        FreeplayNumOfCardsEdited();
     }
 
     private void LastCardToggleChanged(bool isOn)
