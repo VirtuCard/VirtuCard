@@ -7181,7 +7181,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: File size must be lesser than 1 MB!!
+  m_Text: File size must be less than 512 KB
 --- !u!222 &1064895215
 CanvasRenderer:
   m_ObjectHideFlags: 0
