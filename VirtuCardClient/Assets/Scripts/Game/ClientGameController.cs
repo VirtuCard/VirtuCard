@@ -495,6 +495,14 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         }
 
         drawCardBtn.enabled = playCardBtn.enabled = cardsFlipped;
+        if (ClientData.GetGameName() == "War")
+        {
+            warButton.GetComponent<Button>().enabled = cardsFlipped;
+        }
+        if (ClientData.GetGameName() == "GoFish")
+        {
+            goFishQueryButton.enabled = cardsFlipped;
+        }
         cardsFlipped = !cardsFlipped;
     }
 
