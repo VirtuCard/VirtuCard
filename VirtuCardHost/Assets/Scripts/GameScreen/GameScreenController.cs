@@ -696,7 +696,7 @@ public class GameScreenController : MonoBehaviour
         {
             var fileInfo = new FileInfo(sleeveFilePath);
             Debug.Log(fileInfo.Length);
-            if (fileInfo.Length > 900000)
+            if (fileInfo.Length > 510000)
             {
                 sizeWarningText.gameObject.SetActive(true);
                 return;
