@@ -129,7 +129,7 @@ namespace Music
             justSwappedSongs = true;
 
             bool isOpening = mediaPlayer.OpenMedia(
-                new MediaPath(MusicDownloader.MUSIC_FOLDER + songName,
+                new MediaPath(MusicDownloader.MUSIC_FOLDER + songName + ".mp4",
                     MediaPathType.AbsolutePathOrURL), autoPlay: true);
 
             if (!isPaused)
@@ -297,7 +297,7 @@ namespace Music
             songView.SetActive(true);
 
             // send out notifications
-            HostData.SetDoShowNotificationWindow(true, "The song: " + songName + " is added by " + sender);
+            HostData.SetDoShowNotificationWindow(true, "The song: \"" + songName + "\" was added by " + sender);
             NotifyClient(sender, true);
         }
 
