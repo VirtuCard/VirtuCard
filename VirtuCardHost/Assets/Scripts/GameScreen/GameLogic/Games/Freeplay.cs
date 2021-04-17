@@ -5,7 +5,7 @@ using System;
 
 public class Freeplay : Game
 {
-    private const int MIN_NUM_OF_PLAYERS = 1;
+    private const int MIN_NUM_OF_PLAYERS = 2;
     private const int MAX_NUM_OF_PLAYERS = 10;
 
     // Start is called before the first frame update
