@@ -102,6 +102,7 @@ public class GameScreenController : MonoBehaviour
     public RawImage cardDeck1;
     public RawImage cardDeck2;
     public Texture defBackTex;
+    public Text sizeWarningText;
 
     [Header("GoFish Cards")]
     public RawImage cardDeckGoFish;
@@ -113,6 +114,7 @@ public class GameScreenController : MonoBehaviour
     public RawImage unplayedDeck2;
     public RawImage playedDeck1;
     public RawImage playedDeck2;
+
 
     // Start is called before the first frame update
     void Start()
@@ -525,6 +527,7 @@ public class GameScreenController : MonoBehaviour
     public void DisplaySettingsWindow(bool enabled)
     {
         settingsPanel.SetActive(enabled);
+        sizeWarningText.gameObject.SetActive(false);
     }
 
     // Adding functions for endgame button and declare winner button
@@ -689,7 +692,20 @@ public class GameScreenController : MonoBehaviour
         {
             sleeveFilePath = "";
         }
-
+        if (sleeveFilePath.Length != 0)
+        {
+            var fileInfo = new FileInfo(sleeveFilePath);
+            Debug.Log(fileInfo.Length);
+            if (fileInfo.Length > 900000)
+            {
+                sizeWarningText.gameObject.SetActive(true);
+                return;
+            }
+            else
+            {
+                sizeWarningText.gameObject.SetActive(false);
+            }
+        }
 
         if (sleeveFilePath.Length != 0)
         {
