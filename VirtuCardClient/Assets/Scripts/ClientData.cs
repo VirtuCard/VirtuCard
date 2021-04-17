@@ -20,6 +20,16 @@ public static class ClientData
     private static int timerSeconds;
     private static List<string> playerNames = new List<string>();
     private static bool hideChat = false;
+    private static bool isProfanityAllowed;
+
+    public static void SetProfanityAllowed(bool value)
+    {
+        isProfanityAllowed = value;
+    }
+    public static bool IsProfanityAllowed()
+    {
+        return isProfanityAllowed;
+    }
 
     public static List<string> GetAllConnectedPlayers()
     {
