@@ -123,7 +123,7 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
         canHostJoinToggle.isOn = HostData.CanHostJoinGame();
         chatEnabledToggle.isOn = HostData.isChatAllowed();
         // might get deleted
-        chatMuteToggle.isOn = HostData.isChatMute();
+        chatMuteToggle.isOn = HostData.isChatCensored();
         numPlayers.SetTextWithoutNotify(HostData.GetGame().GetMaximumNumOfPlayers().ToString());
 
         startGameBtn.onClick.AddListener(delegate { StartGameBtnClicked(); });
@@ -351,6 +351,7 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
         content.Add(HostData.IsTimerEnabled());
         content.Add(HostData.GetTimerSeconds());
         content.Add(HostData.GetTimerMinutes());
+        content.Add(!HostData.isChatCensored());
 
         // add player names to content
         List<PlayerInfo> allConnectedPlayers = HostData.GetGame().GetAllPlayers();
@@ -529,7 +530,7 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
 
     private void ChatMuteToggleValueChanged(bool state)
     {
-        HostData.setChatMute(state);
+        HostData.setChatCensored(state);
     }
 
     private void ChatToggleValueChanged(bool state)
