@@ -20,7 +20,7 @@ public static class HostData
     private static int maxNumPlayers = 5;
     private static string joinCode;
     private static bool chatAllowed = true;
-    private static bool chatMute = false;
+    private static bool chatCensor = true;
     private static Game currentGame;
     private static bool gameSelected = false;
     private static User userProfile;
@@ -274,13 +274,13 @@ public static class HostData
         chatAllowed = isChatAllowed;
     }
 
-    public static bool isChatMute()
+    public static bool isChatCensored()
     {
-        return chatMute;
+        return chatCensor;
     }
 
-    public static void setChatMute(bool isChatMute) {
-        chatMute = isChatMute;
+    public static void setChatCensored(bool isChatCensor) {
+        chatCensor = isChatCensor;
     }
 
     // Adding settings for freeplay

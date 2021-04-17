@@ -30,6 +30,7 @@ public class GameScreenController : MonoBehaviour
     public Dropdown chatOptions;
     public RectTransform chatPlace;
     public Toggle timerToggle;
+    public Toggle censorChatToggle;
 
     public GameObject winnerPanel;
     public Dropdown winnerDropdown;
@@ -84,6 +85,7 @@ public class GameScreenController : MonoBehaviour
 
     private bool doPlayedAnimation = false;
 
+
     [Header("Background Changing")] 
     public Button setBackgroundBtn;
     public Button defBackgroundBtn;
@@ -133,12 +135,13 @@ public class GameScreenController : MonoBehaviour
         {
             allOfChatUI.SetActive(true);
 
+            /*
             // check if chat is muted from the waiting setting screen
             if (HostData.isChatMute())
             {
                 chatOptions.value = 2;
                 updatingChat();
-            }
+            }*/
         }
         else
         {
@@ -155,6 +158,9 @@ public class GameScreenController : MonoBehaviour
         timerToggle.SetIsOnWithoutNotify(HostData.IsTimerEnabled());
         timerToggle.onValueChanged.AddListener(delegate { EnableTimer(timerToggle.isOn); });
         timerToggle.gameObject.SetActive(HostData.IsTimerEnabled());
+
+        censorChatToggle.SetIsOnWithoutNotify(HostData.isChatCensored());
+        censorChatToggle.onValueChanged.AddListener(delegate { EnableProfanity(censorChatToggle.isOn); });
 
         // setup timer
         timer.SetupTimer(HostData.IsTimerEnabled(), HostData.GetTimerSeconds(), HostData.GetTimerMinutes(),
@@ -376,6 +382,16 @@ public class GameScreenController : MonoBehaviour
             StartCoroutine(DelayCards());
             doFlipWarCards = false;
         }
+    }
+
+    private void EnableProfanity(bool censorProfanity)
+    {
+        HostData.setChatCensored(censorProfanity);
+
+        object[] content = new object[] { censorProfanity };
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.UpdateProfanity, content, raiseEventOptions,
+            SendOptions.SendUnreliable);
     }
 
     private void freeplayFlipCardBtnClicked()
