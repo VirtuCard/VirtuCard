@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.IO;
 using UnityEngine.UI;
+using FirebaseScripts;
 
 public class AvatarSelectionScript : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class AvatarSelectionScript : MonoBehaviour
     public List<RectTransform> AvatarList = new List<RectTransform>();
     public RectTransform avatarTemplate;
     public RectTransform viewWindow;
+
+    public int success = 0;
 
     private bool canSwipe;
     private float lerpTimer;
@@ -211,7 +214,28 @@ public class AvatarSelectionScript : MonoBehaviour
 
         playerAvatar.gameObject.GetComponent<RawImage>().texture = Resources.Load<Texture>("Avatars/Avatar" + (current_index + 1));
 
+
+        //Reading in Image and obtaining base64 string
+
+        string curr_dir_path = Directory.GetCurrentDirectory();
+        //string parent_dir_path = Directory.GetParent(curr_dir_path);
+
+        byte[] imageBytes = File.ReadAllBytes("C:\\Users\\umang\\Documents\\GitHub\\VirtuCard\\VirtuCardClient\\Assets\\Resources\\Avatars\\Avatar" + (current_index + 1) + ".png");
+
+        string base64Avatar = Convert.ToBase64String(imageBytes);
+
+        ClientData.UserProfile.Avatar = base64Avatar;
+
+        
+        
+
         avatarPanel.SetActive(false);
+        Debug.Log("Function over!");
+    }
+
+    private void printSomething(bool done)
+    {
+        Debug.Log("Printing something");
     }
 
     public void onEditAvatarButtonClick()
