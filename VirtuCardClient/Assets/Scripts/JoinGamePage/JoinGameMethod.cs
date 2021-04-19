@@ -6,6 +6,7 @@ using Photon.Pun;
 using ExitGames.Client.Photon;
 using Photon.Chat;
 using Photon.Realtime;
+using WebSocketSharp;
 using AuthenticationValues = Photon.Chat.AuthenticationValues;
 
 //using Photon.Pun;
@@ -64,7 +65,10 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
         {
             Debug.Log(json);
             ClientData.UserProfile = new User(json);
-            Debug.Log("User " + ClientData.UserProfile.ToString());
+            if (!ClientData.UserProfile.Avatar.IsNullOrEmpty())
+            {
+                ImageStorage.getAvatarImage(ClientData.UserProfile.Avatar, b => Debug.Log("Image loaded " + b));
+            }
         });
 
         PhotonNetwork.ConnectUsingSettings();
@@ -268,7 +272,8 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
     {
         object[] content = new object[] {"hello darkness", true, 2};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.HostSendInfoToConnectedClient, content, raiseEventOptions, SendOptions.SendUnreliable);
+        PhotonNetwork.RaiseEvent((int) NetworkEventCodes.HostSendInfoToConnectedClient, content, raiseEventOptions,
+            SendOptions.SendUnreliable);
     }
 
     public void OpenInvitePanel(RoomInvite invite)

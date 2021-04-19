@@ -20,6 +20,7 @@ public static class ClientData
     private static int timerSeconds;
     private static List<string> playerNames = new List<string>();
     private static bool hideChat = false;
+    private static byte[] imageData;
 
     public static List<string> GetAllConnectedPlayers()
     {
@@ -135,6 +136,12 @@ public static class ClientData
     public static void setCurrentPlayerTurn(string name)
     {
         currentPlayerTurn = name;
+    }
+
+    public static byte[] ImageData
+    {
+        get => imageData;
+        set => imageData = value;
     }
 
     public static void FromHashtable(Hashtable propertiesThatChanged)
