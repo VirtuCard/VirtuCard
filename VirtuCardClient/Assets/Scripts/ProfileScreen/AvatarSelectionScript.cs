@@ -216,18 +216,19 @@ public class AvatarSelectionScript : MonoBehaviour
 
 
         //Reading in Image and obtaining base64 string
-
         string curr_dir_path = Directory.GetCurrentDirectory();
         //string parent_dir_path = Directory.GetParent(curr_dir_path);
-
         byte[] imageBytes = File.ReadAllBytes("C:\\Users\\umang\\Documents\\GitHub\\VirtuCard\\VirtuCardClient\\Assets\\Resources\\Avatars\\Avatar" + (current_index + 1) + ".png");
-
         string base64Avatar = Convert.ToBase64String(imageBytes);
-
         ClientData.UserProfile.Avatar = base64Avatar;
 
-        
-        
+        /* DatabaseUtils.RemoveUserWithID(ClientData.UserProfile.UserId,
+                        c =>
+                        {
+                            Debug.Log("Adding User");
+                            DatabaseUtils.addUser(ClientData.UserProfile,
+                                b => { Debug.Log("Updated Avatar"); });
+                        }); */
 
         avatarPanel.SetActive(false);
         Debug.Log("Function over!");
