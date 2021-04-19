@@ -8,7 +8,6 @@ using FirebaseScripts;
 
 public class AvatarSelectionScript : MonoBehaviour
 {
-
     public GameObject avatarPanel;
     public RectTransform playerAvatar;
 
@@ -45,6 +44,15 @@ public class AvatarSelectionScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (ClientData.ImageData != null)
+        {
+            Texture2D t = new Texture2D(2, 2);
+            t.LoadImage(ClientData.ImageData);
+            t.Apply();
+            playerAvatar.gameObject.GetComponent<RawImage>().texture = t;
+            Debug.Log("Height:" + t.height);
+        }
+
         avatarPanel.SetActive(false);
         imageWidth = (0.75f) * viewWindow.rect.width;
         imageHeight = (0.75f) * viewWindow.rect.height;
@@ -207,35 +215,25 @@ public class AvatarSelectionScript : MonoBehaviour
         throw new Exception("No Currently Selected Card");
     }
 
-   
+
     public void onChooseAvatarButtonClick()
     {
         int newAvatarIndex = GetCurrentlySelectedIndex();
 
-        playerAvatar.gameObject.GetComponent<RawImage>().texture = Resources.Load<Texture>("Avatars/Avatar" + (current_index + 1));
-
+        string imageName = "Avatar" + (current_index + 1) + ".png";
+        Texture t = Resources.Load<Texture>("Avatars/Avatar" + (current_index + 1));
+        playerAvatar.gameObject.GetComponent<RawImage>().texture = t;
 
         //Reading in Image and obtaining base64 string
 
-        string curr_dir_path = Directory.GetCurrentDirectory();
-        //string parent_dir_path = Directory.GetParent(curr_dir_path);
+        byte[] imageBytes = ((Texture2D) t).EncodeToPNG();
+        ClientData.ImageData = imageBytes;
 
-        byte[] imageBytes = File.ReadAllBytes("C:\\Users\\umang\\Documents\\GitHub\\VirtuCard\\VirtuCardClient\\Assets\\Resources\\Avatars\\Avatar" + (current_index + 1) + ".png");
+        ClientData.UserProfile.Avatar = imageName;
+        DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Updated image info"); });
 
-        string base64Avatar = Convert.ToBase64String(imageBytes);
-
-        ClientData.UserProfile.Avatar = base64Avatar;
-
-        
-        
-
+        ImageStorage.uploadImage(imageName, imageBytes, b => { Debug.Log("Uploaded with " + b); });
         avatarPanel.SetActive(false);
-        Debug.Log("Function over!");
-    }
-
-    private void printSomething(bool done)
-    {
-        Debug.Log("Printing something");
     }
 
     public void onEditAvatarButtonClick()
@@ -258,18 +256,7 @@ public class AvatarSelectionScript : MonoBehaviour
             return current_index;
         }
 
-        // ------- USE THIS TEMPLATE WHEN A NEW CARD TYPE IS ADDED --------------
-
-        //OtherCard otherCard = images[current_index].gameObject.GetComponent<OtherCard>();
-        //if (otherCard != null)
-        //{
-        //    return otherCard;
-        //}
-
-        // -----------------------------------------------------------------------
 
         throw new Exception("No Currently Selected Card");
     }
-
-
 }
