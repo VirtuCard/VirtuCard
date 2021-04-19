@@ -382,6 +382,9 @@ public class GameScreenController : MonoBehaviour
             StartCoroutine(DelayCards());
             doFlipWarCards = false;
         }
+
+        //This is in for testing purposes
+        //playerUIList.UpdateUI();
     }
 
     private void EnableProfanity(bool censorProfanity)
@@ -886,12 +889,16 @@ public class GameScreenController : MonoBehaviour
 
         // Check carousel and redo it
         // This is probably what needs to be used PlayerList.UpdateUI(); - ask Kade
+    
+
+        playerUIList.UpdateUI();
+
 
         // Reset Card Deck UI
         string gameType = (String) HostData.GetGame().GetGameName();
         if (gameType == "War")
         {
-/*            textureOne = Resources.Load<Texture>("Card UI/SingleCardBack");
+/*          textureOne = Resources.Load<Texture>("Card UI/SingleCardBack");
             textureTwo = Resources.Load<Texture>("Card UI/SingleCardBack");*/
             if (setSleeve)
             {
@@ -917,6 +924,8 @@ public class GameScreenController : MonoBehaviour
 
             HostData.SetLastPlayedCardTexture("SingleCardBack");
         }
+        // else if (gameType == "NewGameHere)
+        // reset cardbacks
         
     }
 
