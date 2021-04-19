@@ -33,6 +33,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
 
     public static bool makeError = false;
     public static bool makeCapacityError = false;
+    public static bool makeKickedError = false;
 
     public GameObject loadingPanel;
 
@@ -55,7 +56,6 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
     public string appId = "50b55aec-e283-413b-88eb-c86a27dfb8b2";
     public static readonly string WAITING_ROOM_CODE = "57d3424a0242ac130003";
 
-
     void Start()
     {
         successfulJoin = 0;
@@ -69,18 +69,26 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
             {
                 ImageStorage.getAvatarImage(ClientData.UserProfile.Avatar, b => Debug.Log("Image loaded " + b));
             }
+            Debug.Log("User " + ClientData.UserProfile.ToString());
+
         });
 
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.AddCallbackTarget(this);
 
         _chatClient = new ChatClient(this) {ChatRegion = "US"};
-        _chatClient.Connect(appId, "0.1b", new AuthenticationValues(ClientData.UserProfile.Username));
+        _chatClient.Connect(appId, "0.1b", new AuthenticationValues(PhotonNetwork.NickName));
+
         rejectButton.onClick.AddListener(delegate { RejectInvite(); });
     }
 
     void Update()
     {
+        if (_chatClient != null)
+        {
+            _chatClient.Service();
+        }
+
         joined = false;
         if (makeError)
         {
@@ -91,6 +99,11 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
         {
             CreateErrorMessage("Failed to Connect", "Game is at capacity!");
             makeCapacityError = false;
+        }
+        else if (makeKickedError)
+        {
+            CreateErrorMessage("Kicked", "You were kicked from the game!");
+            makeKickedError = false;
         }
 
         if (successfulJoin == 1)
@@ -141,10 +154,9 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
     /// <param name="code">The Join Code of the room</param>
     private void ConnectClientToServer(string code)
     {
-        // ----- EXAMPLE ------
-        // This is an example of how you would join the room
         PhotonNetwork.JoinRoom(code);
         ClientData.setJoinCode(code);
+
         //object[] content = new object[] {"hello darkness"};
         //OnPhotonJoinRoomFailed(content, "shot");
     }
@@ -166,13 +178,14 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
             joined = true;
             DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Incremented Games played."); });
         }
+
         /* Moved this where the OnSignal code of 1 is received
         if (loadingPanel != null)
         {
             loadingPanel.SetActive(false);
         }
         */
-
+        _chatClient.Unsubscribe(new[] {WAITING_ROOM_CODE});
         SceneManager.LoadScene(SceneNames.WaitingScreen);
     }
 
@@ -247,15 +260,17 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
             bool timerEnabled = (bool) data[0];
             int timerSeconds = (int) data[1];
             int timerMinutes = (int) data[2];
+            bool isProfanityAllowed = (bool)data[3];
+            ClientData.SetProfanityAllowed(isProfanityAllowed);
 
             ClientData.SetIsTimerEnabled(timerEnabled);
             ClientData.SetTimerSeconds(timerSeconds);
             ClientData.SetTimerMinutes(timerMinutes);
 
-            int numOfPlayers = (int) data[3];
+            int numOfPlayers = (int) data[4];
             for (int x = 0; x < numOfPlayers; x++)
             {
-                ClientData.AddConnectedPlayerName((string) data[x + 4]);
+                ClientData.AddConnectedPlayerName((string) data[x + 5]);
             }
 
             SceneManager.LoadScene(SceneNames.GameScreen, LoadSceneMode.Single);
@@ -285,7 +300,22 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
 
     public void AcceptInvite(string roomCode)
     {
-        //Attempt joining room and disconnect from chat?
+        ConnectClientClicked(roomCode);
+    }
+
+    private void ConnectClientClicked(string roomCode)
+    {
+        loadingPanel.SetActive(true);
+        joinCode = roomCode;
+
+        if ((joinCode == null) || (joinCode.Equals("")) || (joinCode.Length != 6))
+        {
+            successfulJoin = -1;
+            return;
+        }
+
+        Debug.Log("Join Code is: " + joinCode);
+        ConnectClientToServer(joinCode);
     }
 
     public void RejectInvite()
@@ -309,6 +339,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
     {
         if (!_chatClient.CanChat)
         {
+            Debug.Log("Wrong Call?");
             return; // There are two OnConnected calls, making sure we've got the right one
         }
 
@@ -323,7 +354,18 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
 
     public void OnGetMessages(string channelName, string[] senders, object[] messages)
     {
-        /* TODO: Put message to RoomInvite and check if user is invited */
+        RoomInvite invite = RoomInvite.InviteFromDict(messages[0]);
+        if (invite == null)
+        {
+            return;
+        }
+
+        if (invite.TargetUsers.Contains(PhotonNetwork.NickName))
+        {
+            acceptButton.onClick.RemoveAllListeners();
+            acceptButton.onClick.AddListener(delegate { AcceptInvite(invite.RoomCode); });
+            OpenInvitePanel(invite);
+        }
     }
 
     public void OnPrivateMessage(string sender, object message, string channelName)

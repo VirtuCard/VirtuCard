@@ -38,6 +38,7 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
     public Toggle showLastCard;
     public Toggle isSkipTurnAllowed;
     public Button FreeplaySettingsButton;
+    public InputField freeplayNumOfCardsToStartWith;
 
     // Timer Settings
     public Toggle timerEnabledToggle;
@@ -71,8 +72,8 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
     // Invite stuff
     private ChatClient _chatClient;
     public string appId = "50b55aec-e283-413b-88eb-c86a27dfb8b2";
-    public static readonly string WAITING_ROOM_CODE = "57d3424a0242ac130003"; 
-    
+    public static readonly string WAITING_ROOM_CODE = "57d3424a0242ac130003";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -106,6 +107,10 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
         secondsInput.interactable = false;
         minutesInput.interactable = false;
 
+        freeplayNumOfCardsToStartWith.text = "0";
+        freeplayNumOfCardsToStartWith.onEndEdit.AddListener(delegate { FreeplayNumOfCardsEdited(); });
+
+
         numPlayers.onEndEdit.AddListener(OnNumPlayersFieldChange);
         playerList = NetworkController.ListAllPlayers();
         //CreatePlayerList();
@@ -118,7 +123,7 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
         canHostJoinToggle.isOn = HostData.CanHostJoinGame();
         chatEnabledToggle.isOn = HostData.isChatAllowed();
         // might get deleted
-        chatMuteToggle.isOn = HostData.isChatMute();
+        chatMuteToggle.isOn = HostData.isChatCensored();
         numPlayers.SetTextWithoutNotify(HostData.GetGame().GetMaximumNumOfPlayers().ToString());
 
         startGameBtn.onClick.AddListener(delegate { StartGameBtnClicked(); });
@@ -138,27 +143,33 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
             //FreeplaySettingsButton.enabled = false;
             FreeplaySettingsButton.gameObject.SetActive(false);
         }
-        
+
         // Chat stuff
         _chatClient = new ChatClient(this) {ChatRegion = "US"};
         _chatClient.Connect(appId, "0.1b", new AuthenticationValues("System (Host)"));
+        Debug.Log("Completed Start");
     }
 
     // Update is called once per frame
     void Update()
     {
-        joinCode.text = HostData.GetJoinCode();
-        if (HostData.GetGame().GetNumOfPlayers() >= HostData.GetGame().GetMinimumNumOfPlayers())
-        {
-            startGameBtn.interactable = true;
-        }
-        else
-        {
-            startGameBtn.interactable = false;
-        }
+        _chatClient.Service();
 
-        //Refresh players list here
-        RefreshPlayerListBox();
+        joinCode.text = HostData.GetJoinCode();
+        if (HostData.GetGame() != null)
+        {
+            if (HostData.GetGame().GetNumOfPlayers() >= HostData.GetGame().GetMinimumNumOfPlayers())
+            {
+                startGameBtn.interactable = true;
+            }
+            else
+            {
+                startGameBtn.interactable = false;
+            }
+
+            //Refresh players list here
+            RefreshPlayerListBox();
+        }
     }
 
     private void RefreshPlayerListBox()
@@ -212,6 +223,42 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
         foreach (string name in playerNamesToAdd)
         {
             AddNameToPlayerListBox(name);
+        }
+    }
+
+    private void FreeplayNumOfCardsEdited()
+    {
+        int cardCount = int.Parse(freeplayNumOfCardsToStartWith.text);
+
+        int totalCardsInGame = 0;
+        if (HostData.getSpadesAllowed())
+        {
+            totalCardsInGame += 13;
+        }
+        if (HostData.getDiamondsAllowed())
+        {
+            totalCardsInGame += 13;
+        }
+        if (HostData.getClubsAllowed())
+        {
+            totalCardsInGame += 13;
+        }
+        if (HostData.getHeartsAllowed())
+        {
+            totalCardsInGame += 13;
+        }
+
+        if (cardCount < 0)
+        {
+            freeplayNumOfCardsToStartWith.text = "0";
+        }
+        else if (HostData.GetGame().GetAllPlayers().Count > 0 && cardCount >= (int)(totalCardsInGame / HostData.GetGame().GetAllPlayers().Count))
+        {
+            freeplayNumOfCardsToStartWith.text = ((int)(totalCardsInGame / HostData.GetGame().GetAllPlayers().Count)).ToString();
+        }
+        else if (cardCount > totalCardsInGame)
+        {
+            freeplayNumOfCardsToStartWith.text = totalCardsInGame.ToString();
         }
     }
 
@@ -293,12 +340,18 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
             HostData.SetTimerMinutes(-1);
         }
 
+        if (HostData.isFreeplay())
+        {
+            HostData.SetFreeplayNumOfStartCards(int.Parse(freeplayNumOfCardsToStartWith.text));
+        }
+
         List<object> content = new List<object>();
 
         // add timer stuff to content
         content.Add(HostData.IsTimerEnabled());
         content.Add(HostData.GetTimerSeconds());
         content.Add(HostData.GetTimerMinutes());
+        content.Add(!HostData.isChatCensored());
 
         // add player names to content
         List<PlayerInfo> allConnectedPlayers = HostData.GetGame().GetAllPlayers();
@@ -310,13 +363,14 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
 
         // send content
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.StartGame, content.ToArray(), raiseEventOptions, SendOptions.SendUnreliable);
+        PhotonNetwork.RaiseEvent((int) NetworkEventCodes.StartGame, content.ToArray(), raiseEventOptions,
+            SendOptions.SendUnreliable);
 
         if (PhotonNetwork.CurrentRoom != null)
         {
             PhotonNetwork.CurrentRoom.SetCustomProperties(HostData.ToHashtable());
         }
-        
+
         //Disconnect from chat
         _chatClient.Unsubscribe(new[] {WAITING_ROOM_CODE});
 
@@ -386,21 +440,25 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
     private void HeartsToggleValueChanged(bool isOn)
     {
         HostData.setHeartsAllowed(isOn);
+        FreeplayNumOfCardsEdited();
     }
 
     private void ClubsToggleValueChanged(bool isOn)
     {
         HostData.setClubsAllowed(isOn);
+        FreeplayNumOfCardsEdited();
     }
 
     private void SpadesToggleValueChanged(bool isOn)
     {
         HostData.setSpadesAllowed(isOn);
+        FreeplayNumOfCardsEdited();
     }
 
     private void DiamondsToggleValueChanged(bool isOn)
     {
         HostData.setDiamondsAllowed(isOn);
+        FreeplayNumOfCardsEdited();
     }
 
     private void LastCardToggleChanged(bool isOn)
@@ -423,7 +481,8 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
         // Sending signal to clients to update their waiting screen
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
         object[] content = new object[] {updatedPlayers};
-        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.ClientSkipTurn, content, raiseEventOptions, SendOptions.SendUnreliable);
+        PhotonNetwork.RaiseEvent((int) NetworkEventCodes.ClientSkipTurn, content, raiseEventOptions,
+            SendOptions.SendUnreliable);
         settingsPanel.SetActive(false);
     }
 
@@ -431,14 +490,14 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
     {
         //Implement Close Game lobby code here.
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        
+
         //Tell clients to leave game
-        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.ExitGame, null, raiseEventOptions, SendOptions.SendUnreliable);
+        PhotonNetwork.RaiseEvent((int) NetworkEventCodes.ExitGame, null, raiseEventOptions, SendOptions.SendUnreliable);
         PhotonNetwork.LeaveRoom();
-        
+
         HostData.clearGame();
         _chatClient.Disconnect();
-        
+
         SceneManager.LoadScene(SceneNames.LandingPage, LoadSceneMode.Single);
     }
 
@@ -469,8 +528,9 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
         HostData.setCanHostJoinGame(state);
     }
 
-    private void ChatMuteToggleValueChanged(bool state) {
-        HostData.setChatMute(state);
+    private void ChatMuteToggleValueChanged(bool state)
+    {
+        HostData.setChatCensored(state);
     }
 
     private void ChatToggleValueChanged(bool state)
@@ -479,10 +539,6 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
     }
 
     // Invite Friends Functionality
-
-    //public List<string> friendsToAdd = HostData.UserProfile.Friends;
-        
-    
 
     public void OnInviteFriendsClicked()
     {
@@ -500,25 +556,25 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
                 invitePlayerDropdown.options.Add(new Dropdown.OptionData(friendName));
             }
         }
-        else 
+        else
         {
-          foreach (string friendName in user.Friends)
-          {
-            //Poplulate the friend dropdown box
-              for (int x = 0; x < allConnectedPlayers.Count; x++)
-              {
-                  if (friendName != allConnectedPlayers[x].username) 
-                  {
-                      invitePlayerDropdown.options.Add(new Dropdown.OptionData(friendName));
-                  }
-              }
-          }
+            foreach (string friendName in user.Friends)
+            {
+                //Poplulate the friend dropdown box
+                for (int x = 0; x < allConnectedPlayers.Count; x++)
+                {
+                    if (friendName != allConnectedPlayers[x].username)
+                    {
+                        invitePlayerDropdown.options.Add(new Dropdown.OptionData(friendName));
+                    }
+                }
+            }
         }
     }
 
     public void OnSpecificFriendInvited()
     {
-        List<string> toInvite =  new List<string>();
+        List<string> toInvite = new List<string>();
         string playerToInvite = invitePlayerDropdown.options[invitePlayerDropdown.value].text;
         //Debug.Log(playerToInvite);
         toInvite.Add(playerToInvite);
@@ -551,7 +607,7 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
     public void CloseInviteSentPanel()
     {
         inviteSentPanel.SetActive(false);
-        inviteFriendsPanel.SetActive(true);
+        inviteFriendsPanel.SetActive(false);
     }
 
     public void AddFriend(User friend)
@@ -592,7 +648,7 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
 
     public void OnGetMessages(string channelName, string[] senders, object[] messages)
     {
-        /* Ignore */ 
+        /* Ignore */
         /* This only sends messages */
     }
 

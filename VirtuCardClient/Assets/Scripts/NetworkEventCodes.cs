@@ -6,6 +6,7 @@ public enum NetworkEventCodes
 {
     HostSendInfoToConnectedClient = 1,
     ClientPlayedCard = 2,
+    UpdateProfanity = 3,
     VerifyClientCard = 4,
     HostSendingCardVerification = 5,
     StartGame = 6,
@@ -20,6 +21,9 @@ public enum NetworkEventCodes
     SongVerification = 27,
     ClientWarFlipCard = 34,
     PlayAgain = 35,
+    PlayerKicked = 36,
+    SleeveChanged = 40,
     BoilerUpEmoji = 69,
-    IUSucksEmoji = 70
+    IUSucksEmoji = 70,
+    HostSendingUnoCards = 24
 }
