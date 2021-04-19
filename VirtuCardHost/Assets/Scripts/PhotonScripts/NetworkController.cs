@@ -445,6 +445,14 @@ namespace PhotonScripts
                 }
                 */
             }
+            else if (photonEvent.Code == (int)NetworkEventCodes.PokerSendBet)
+            {
+                object[] data = (object[])photonEvent.CustomData;
+                // just get the username in case we need it in the future
+                string username = (string)data[0];
+                int amountWagered = (int)data[1];
+                ((Poker)HostData.GetGame()).WagerBet(HostData.GetGame().GetPlayerIndex(username), amountWagered);
+            }
         }
 
         /// <summary>
@@ -575,7 +583,13 @@ namespace PhotonScripts
                 SendOptions.SendReliable);
         }
 
-        public static void SendOutPokerBettingInfo(int potSize, int betToMatch, Dictionary<string, int> usernamesAndScores)
+        public struct PokerUsernamesAndScores
+        {
+            public string username;
+            public int playerScore;
+            public int playerScoreWagered;
+        }
+        public static void SendOutPokerBettingInfo(int potSize, int betToMatch, List<PokerUsernamesAndScores> usernamesAndScores)
         {
             List<object> content = new List<object>();
             content.Add(potSize);
@@ -584,10 +598,11 @@ namespace PhotonScripts
             content.Add(usernamesAndScores.Count);
             for (int x = 0; x < usernamesAndScores.Count; x++)
             {
-                foreach(KeyValuePair<string, int> userAndScore in usernamesAndScores)
+                foreach(PokerUsernamesAndScores userAndScore in usernamesAndScores)
                 {
-                    content.Add(userAndScore.Key);
-                    content.Add(userAndScore.Value);
+                    content.Add(userAndScore.username);
+                    content.Add(userAndScore.playerScore);
+                    content.Add(userAndScore.playerScoreWagered);
                 }
             }
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
