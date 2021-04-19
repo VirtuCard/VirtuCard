@@ -6,6 +6,7 @@ using Photon.Pun;
 using ExitGames.Client.Photon;
 using Photon.Chat;
 using Photon.Realtime;
+using WebSocketSharp;
 using AuthenticationValues = Photon.Chat.AuthenticationValues;
 
 //using Photon.Pun;
@@ -64,6 +65,10 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
         {
             Debug.Log(json);
             ClientData.UserProfile = new User(json);
+            if (!ClientData.UserProfile.Avatar.IsNullOrEmpty())
+            {
+                ImageStorage.getAvatarImage(ClientData.UserProfile.Avatar, b => Debug.Log("Image loaded " + b));
+            }
             Debug.Log("User " + ClientData.UserProfile.ToString());
 
         });
