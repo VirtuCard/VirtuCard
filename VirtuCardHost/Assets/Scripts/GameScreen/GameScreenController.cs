@@ -46,6 +46,7 @@ public class GameScreenController : MonoBehaviour
     public GameObject warPanel;
     public GameObject goFishPanel;
     public GameObject standardPanel;
+    public GameObject pokerPanel;
 
     public List<GameObject> goFishDeckCardsUI;
 
@@ -184,6 +185,7 @@ public class GameScreenController : MonoBehaviour
             warPanel.SetActive(true);
             standardPanel.SetActive(false);
             goFishPanel.SetActive(false);
+            pokerPanel.SetActive(false);
             shuffleButton.gameObject.SetActive(false);
             flipCardBtn.gameObject.SetActive(false);
         }
@@ -192,10 +194,20 @@ public class GameScreenController : MonoBehaviour
             warPanel.SetActive(false);
             standardPanel.SetActive(false);
             goFishPanel.SetActive(true);
+            pokerPanel.SetActive(false);
 
             goFishDeckCardsUI[0].SetActive(true);
             goFishDeckCardsUI[1].SetActive(true);
             goFishDeckCardsUI[2].SetActive(true);
+            shuffleButton.gameObject.SetActive(false);
+            flipCardBtn.gameObject.SetActive(false);
+        }
+        else if (HostData.GetGame().GetGameName().Equals("Poker"))
+        {
+            warPanel.SetActive(false);
+            standardPanel.SetActive(false);
+            goFishPanel.SetActive(false);
+            pokerPanel.SetActive(true);
             shuffleButton.gameObject.SetActive(false);
             flipCardBtn.gameObject.SetActive(false);
         }
@@ -204,6 +216,7 @@ public class GameScreenController : MonoBehaviour
             warPanel.SetActive(false);
             standardPanel.SetActive(true);
             goFishPanel.SetActive(false);
+            pokerPanel.SetActive(false);
             shuffleButton.gameObject.SetActive(true);
             if (HostData.GetGame().GetGameName().Equals("Freeplay"))
             {

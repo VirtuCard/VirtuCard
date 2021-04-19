@@ -53,6 +53,13 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public GameObject goFishPanel;
     public Dropdown goFishNamesDropdown;
     public Button goFishQueryButton;
+    
+    [Header("Poker Stuff")]
+    public GameObject pokerPanel;
+    public Button pokerBettingButton;
+    public InputField pokerBettingInput;
+    public Text pokerCurrentScoreText;
+    public Text pokerMatchBetText;
 
     public CanvasGroup invalidMove;
     public GameObject loadingPanel;
@@ -90,7 +97,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private bool gameOver = false;
     private bool cardsFlipped = false;
 
-    [Header("Card Back Changing")] public Button setCardBackBtn;
+    [Header("Card Back Changing")] 
+    public Button setCardBackBtn;
     public Button defCardBackBtn;
     public RawImage cardBackImage;
     string filePath;
@@ -102,9 +110,15 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public Button greenButton;
     public Button blueButton;
 
+    private int pokerBetToMatch;
+    private int pokerCurrentScore;
+
     // Start is called before the first frame update
     void Start()
     {
+        pokerBetToMatch = 0;
+        pokerCurrentScore = 0;
+
         defCardBackBtn.interactable = false;
         PhotonNetwork.AddCallbackTarget(this);
 
@@ -157,11 +171,12 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         // setup timer
         timer.SetupTimer(ClientData.IsTimerEnabled(), ClientData.GetTimerSeconds(), ClientData.GetTimerMinutes(),
             warningThreshold: 30, TimerEarlyWarning, TimerReachedZero);
-        if (ClientData.GetGameName() == "GoFish")
+        if (ClientData.GetGameName().Equals("GoFish"))
         {
             standardPanel.SetActive(false);
             warButton.SetActive(false);
             goFishPanel.SetActive(true);
+            pokerPanel.SetActive(false);
 
             List<string> allPlayers = ClientData.GetAllConnectedPlayers();
             foreach (string playerName in allPlayers)
@@ -182,16 +197,57 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             warButton.SetActive(true);
             standardPanel.SetActive(false);
             goFishPanel.SetActive(false);
+            pokerPanel.SetActive(false);
+        }
+        else if (ClientData.GetGameName().Equals("Poker"))
+        {
+            standardPanel.SetActive(false);
+            warButton.SetActive(false);
+            goFishPanel.SetActive(false);
+            pokerPanel.SetActive(true);
+            pokerBettingButton.onClick.AddListener(delegate { pokerBettingButtonPressed(); });
+            pokerBettingInput.onEndEdit.AddListener(delegate { pokerBettingInputChanged(int.Parse(pokerBettingInput.text)); });
         }
         else
         {
             standardPanel.SetActive(true);
             goFishPanel.SetActive(false);
             warButton.SetActive(false);
+            pokerPanel.SetActive(false);
         }
 
         // when winner is announced the button is clicked
         exitGameBtn.onClick.AddListener(delegate() { exitGameBtnOnClick(); });
+    }
+    private void pokerBettingButtonPressed()
+    {
+        int valueBet = int.Parse(pokerBettingInput.text);
+
+    }
+    private void pokerBettingInputChanged(int val)
+    {
+        // TODO handle case where they don't have enough to match the bet
+        if (val < 0 || val <= pokerBetToMatch)
+        {
+            pokerBettingInput.text = pokerBetToMatch.ToString();
+            pokerBettingButton.GetComponentInChildren<Text>().text = "Match Bet";
+        }
+        else if (val > pokerBetToMatch && val <= pokerCurrentScore)
+        {
+            pokerBettingButton.GetComponentInChildren<Text>().text = "Raise Bet";
+        }
+        else if (val > pokerCurrentScore)
+        {
+            pokerBettingInput.text = pokerCurrentScore.ToString();
+            if (val == pokerBetToMatch)
+            {
+                pokerBettingButton.GetComponentInChildren<Text>().text = "Match Bet";
+            }
+            else
+            {
+                pokerBettingButton.GetComponentInChildren<Text>().text = "Raise Bet";
+            }
+        }
     }
 
     // Update is called once per frame
@@ -512,6 +568,15 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     /// <param name="value">true if the button should be enabled, false otherwise</param>
     private void SetCanSkipBtn(bool value)
     {
+        if (ClientData.GetGameName().Equals("Poker"))
+        {
+            skipBtn.interactable = value;
+            skipBtn.gameObject.GetComponentInChildren<Text>().text = "Fold";
+        }
+        else
+        {
+            skipBtn.gameObject.GetComponentInChildren<Text>().text = "Skip Turn";
+        }
         skipBtn.interactable = value;
     }
 
@@ -890,6 +955,28 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             object[] data = (object[])photonEvent.CustomData;
             bool censorChat = (bool)data[0];
             ClientData.SetProfanityAllowed(!censorChat);
+        }
+        else if (photonEvent.Code == (int)NetworkEventCodes.PokerHostSendingCurrentBetInfo)
+        {
+            object[] data = (object[])photonEvent.CustomData;
+            int potSize = (int)data[0];
+            int betToMatch = (int)data[1];
+            int numberOfPlayers = (int)data[2];
+            
+            for (int x = 3; x < 3 + (numberOfPlayers * 2); x +=2)
+            {
+                if (((string)data[x]).Equals(PhotonNetwork.NickName))
+                {
+                    // current user
+                    pokerBetToMatch = betToMatch;
+                    pokerCurrentScore = (int)data[x + 1];
+                    pokerCurrentScoreText.text = "Your Score: " + pokerCurrentScore;
+                    pokerMatchBetText.text = "Bet to Match: " + pokerBetToMatch;
+                    pokerBettingButton.GetComponentInChildren<Text>().text = "Match Bet";
+                    pokerBettingInput.text = betToMatch.ToString();
+                    break;
+                }
+            }
         }
     }
 
