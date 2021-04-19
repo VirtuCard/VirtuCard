@@ -48,6 +48,10 @@ public class GameScreenController : MonoBehaviour
     public GameObject standardPanel;
     public GameObject pokerPanel;
 
+    [Header("Poker")]
+    public Text PokerPotText;
+    public Text PokerBetText;
+
     public List<GameObject> goFishDeckCardsUI;
 
     public Timer timer;
@@ -270,6 +274,12 @@ public class GameScreenController : MonoBehaviour
             // HostData.GetGame().ClearAll();
             HostData.resetGame();
             SceneManager.LoadScene(SceneNames.WaitingRoomScreen);
+        }
+
+        if (HostData.GetGame().GetGameName().Equals("Poker"))
+        {
+            PokerBetText.text = "Bet To Match: " + ((Poker)HostData.GetGame()).GetCurrentBet().ToString();
+            PokerPotText.text = "Current Pot: " + ((Poker)HostData.GetGame()).GetCurrentPot().ToString();
         }
 
         try

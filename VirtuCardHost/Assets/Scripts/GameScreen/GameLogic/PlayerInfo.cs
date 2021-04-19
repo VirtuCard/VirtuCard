@@ -6,6 +6,7 @@ public class PlayerInfo
 {
     public string username;
     public int score;
+    public int pokerScoreWagered;
     public Photon.Realtime.Player photonPlayer;
     public CardDeck cards;
 

@@ -15,7 +15,7 @@ public class Poker : Game
     private const int MAX_NUM_OF_PLAYERS = 10;
 
     private int currentPot;
-    private int currentBet ;
+    private int currentBet;
 
     public Poker()
     {
@@ -57,18 +57,72 @@ public class Poker : Game
         SendOutPlayerTurnIndex();
     }
 
+    /// <summary>
+    /// This is used to update the clients with the current bets
+    /// </summary>
     private void SendBetInfo()
     {
-        Dictionary<string, int> keyValues = new Dictionary<string, int>();
+        List<NetworkController.PokerUsernamesAndScores> keyValues = new List<NetworkController.PokerUsernamesAndScores>();
         List<PlayerInfo> players = GetAllPlayers();
 
         foreach (PlayerInfo player in players)
         {
-            keyValues.Add(player.username, player.score);
+            NetworkController.PokerUsernamesAndScores pokerUsernamesAndScores = new NetworkController.PokerUsernamesAndScores
+            {
+                playerScore = player.score,
+                playerScoreWagered = player.pokerScoreWagered,
+                username = player.username
+            };
+
+            keyValues.Add(pokerUsernamesAndScores);
         }
         NetworkController.SendOutPokerBettingInfo(currentPot, currentBet, keyValues);
     }
 
+    /// <summary>
+    /// This is called when a user wagers a bet
+    /// </summary>
+    /// <param name="playerIndex"></param>
+    /// <param name="amountWagered"></param>
+    public void WagerBet(int playerIndex, int amountWagered)
+    {
+        PlayerInfo playerWhoWagered = GetPlayer(playerIndex);
+        if (playerWhoWagered.score >= amountWagered)
+        {
+            playerWhoWagered.score -= amountWagered;
+            playerWhoWagered.pokerScoreWagered += amountWagered;
+
+            currentPot += amountWagered;
+            if (currentBet < amountWagered)
+            {
+                currentBet = amountWagered;
+                HostData.SetDoShowNotificationWindow(true, playerWhoWagered.username + " raised the wager to " + currentBet + " points!");
+            }
+            else
+            {
+                HostData.SetDoShowNotificationWindow(true, playerWhoWagered.username + " matched the wager at " + currentBet + " points!");
+            }
+            
+            SendBetInfo();
+            AdvanceTurn(true);
+        }
+    }
+
+    public int GetCurrentBet()
+    {
+        return currentBet;
+    }
+    public int GetCurrentPot()
+    {
+        return currentPot;
+    }
+
+    /// <summary>
+    /// This method should not be called for poker
+    /// </summary>
+    /// <param name="cardToPlay"></param>
+    /// <param name="playerIndex"></param>
+    /// <returns></returns>
     public override bool DoMove(Card cardToPlay, int playerIndex)
     {
         throw new System.NotImplementedException();

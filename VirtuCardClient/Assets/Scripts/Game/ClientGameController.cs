@@ -60,6 +60,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public InputField pokerBettingInput;
     public Text pokerCurrentScoreText;
     public Text pokerMatchBetText;
+    public Text pokerAlreadyWageredText;
 
     public CanvasGroup invalidMove;
     public GameObject loadingPanel;
@@ -112,12 +113,14 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
     private int pokerBetToMatch;
     private int pokerCurrentScore;
+    private int pokerAmountAlreadyWagered;
 
     // Start is called before the first frame update
     void Start()
     {
         pokerBetToMatch = 0;
         pokerCurrentScore = 0;
+        pokerAmountAlreadyWagered = 0;
 
         defCardBackBtn.interactable = false;
         PhotonNetwork.AddCallbackTarget(this);
@@ -206,7 +209,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             goFishPanel.SetActive(false);
             pokerPanel.SetActive(true);
             pokerBettingButton.onClick.AddListener(delegate { pokerBettingButtonPressed(); });
-            pokerBettingInput.onEndEdit.AddListener(delegate { pokerBettingInputChanged(int.Parse(pokerBettingInput.text)); });
+            pokerBettingInput.onValueChanged.AddListener(delegate { pokerBettingInputChanged(int.Parse(pokerBettingInput.text)); });
         }
         else
         {
@@ -223,23 +226,28 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     {
         int valueBet = int.Parse(pokerBettingInput.text);
 
+        object[] content = new object[] { PhotonNetwork.NickName, valueBet };
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.PokerSendBet, content, raiseEventOptions,
+            SendOptions.SendUnreliable);
     }
     private void pokerBettingInputChanged(int val)
     {
+        int numNeededToMatch = pokerBetToMatch - pokerAmountAlreadyWagered;
         // TODO handle case where they don't have enough to match the bet
-        if (val < 0 || val <= pokerBetToMatch)
+        if (val < 0 || val <= numNeededToMatch)
         {
-            pokerBettingInput.text = pokerBetToMatch.ToString();
+            pokerBettingInput.text = numNeededToMatch.ToString();
             pokerBettingButton.GetComponentInChildren<Text>().text = "Match Bet";
         }
-        else if (val > pokerBetToMatch && val <= pokerCurrentScore)
+        else if (val > numNeededToMatch && val <= pokerCurrentScore)
         {
             pokerBettingButton.GetComponentInChildren<Text>().text = "Raise Bet";
         }
         else if (val > pokerCurrentScore)
         {
             pokerBettingInput.text = pokerCurrentScore.ToString();
-            if (val == pokerBetToMatch)
+            if (val == numNeededToMatch)
             {
                 pokerBettingButton.GetComponentInChildren<Text>().text = "Match Bet";
             }
@@ -963,17 +971,19 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             int betToMatch = (int)data[1];
             int numberOfPlayers = (int)data[2];
             
-            for (int x = 3; x < 3 + (numberOfPlayers * 2); x +=2)
+            for (int x = 3; x < 3 + (numberOfPlayers * 3); x +=3)
             {
                 if (((string)data[x]).Equals(PhotonNetwork.NickName))
                 {
                     // current user
                     pokerBetToMatch = betToMatch;
                     pokerCurrentScore = (int)data[x + 1];
+                    pokerAmountAlreadyWagered = (int)data[x + 2];
                     pokerCurrentScoreText.text = "Your Score: " + pokerCurrentScore;
                     pokerMatchBetText.text = "Bet to Match: " + pokerBetToMatch;
+                    pokerAlreadyWageredText.text = "Already Wagered: " + pokerAmountAlreadyWagered;
                     pokerBettingButton.GetComponentInChildren<Text>().text = "Match Bet";
-                    pokerBettingInput.text = betToMatch.ToString();
+                    pokerBettingInput.text = (pokerBetToMatch - pokerAmountAlreadyWagered).ToString();
                     break;
                 }
             }
