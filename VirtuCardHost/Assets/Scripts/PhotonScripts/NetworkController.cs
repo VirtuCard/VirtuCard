@@ -7,6 +7,7 @@ using UnityEngine;
 using ExitGames.Client.Photon;
 using System;
 using GameScreen.ChatPanel;
+using GameScreen.GameLogic.Cards;
 using Random = UnityEngine.Random;
 
 namespace PhotonScripts
@@ -222,7 +223,7 @@ namespace PhotonScripts
                 //While is empty to simulate a pause
             }
 
-            if (photonEvent.Code == (int)NetworkEventCodes.HostSendInfoToConnectedClient)
+            if (photonEvent.Code == (int) NetworkEventCodes.HostSendInfoToConnectedClient)
             {
                 object[] data = (object[]) photonEvent.CustomData;
                 string s = (string) data[0];
@@ -233,47 +234,76 @@ namespace PhotonScripts
                 Debug.Log(players);
             }
             // playing card event
-            else if (photonEvent.Code == (int)NetworkEventCodes.ClientPlayedCard)
+            else if (photonEvent.Code == (int) NetworkEventCodes.ClientPlayedCard)
             {
                 object[] data = (object[]) photonEvent.CustomData;
                 string username = (string) data[0];
                 string cardType = (string) data[1];
-                StandardCardRank rank = (StandardCardRank) data[2];
-                StandardCardSuit suit = (StandardCardSuit) data[3];
-                StandardCard card = new StandardCard(rank, suit);
 
-                // if the game is gofish
-                if (HostData.GetGame().GetGameName().Equals(Enum.GetName(typeof(GameTypes), GameTypes.GoFish)))
+                if (cardType.Equals("StandardCard"))
                 {
-                    string playerToRequestFrom = ((string) data[4]).Trim();
+                    StandardCardRank rank = (StandardCardRank) data[2];
+                    StandardCardSuit suit = (StandardCardSuit) data[3];
+                    StandardCard card = new StandardCard(rank, suit);
 
-                    string rankCaps = Enum.GetName(typeof(StandardCardRank), card.GetRank());
-                    string rankText = rankCaps.Substring(0, 1).ToUpper() + rankCaps.Substring(1).ToLower();
-                    string displayMessage = username + " is requesting " + rankText + "s from " + playerToRequestFrom;
-                    Debug.Log(displayMessage);
-                    HostData.SetDoShowNotificationWindow(true, displayMessage);
-
-                    int userIndex = HostData.GetGame().GetPlayerIndex(playerToRequestFrom.Trim());
-                    if (userIndex >= 0)
+                    // if the game is gofish
+                    if (HostData.GetGame().GetGameName().Equals(Enum.GetName(typeof(GameTypes), GameTypes.GoFish)))
                     {
-                        HostData.GetGame().DoMove(card, userIndex);
+                        string playerToRequestFrom = ((string) data[4]).Trim();
+
+                        string rankCaps = Enum.GetName(typeof(StandardCardRank), card.GetRank());
+                        string rankText = rankCaps.Substring(0, 1).ToUpper() + rankCaps.Substring(1).ToLower();
+                        string displayMessage =
+                            username + " is requesting " + rankText + "s from " + playerToRequestFrom;
+                        Debug.Log(displayMessage);
+                        HostData.SetDoShowNotificationWindow(true, displayMessage);
+
+                        int userIndex = HostData.GetGame().GetPlayerIndex(playerToRequestFrom.Trim());
+                        if (userIndex >= 0)
+                        {
+                            HostData.GetGame().DoMove(card, userIndex);
+                        }
+                        else
+                        {
+                            Debug.Log("Could not find player: \"" + playerToRequestFrom + "\"");
+                            var allPlayers = HostData.GetGame().GetAllPlayers();
+                            string nameList = "";
+                            foreach (var player in allPlayers)
+                            {
+                                nameList += "\"" + player.username + "\" ";
+                            }
+
+                            Debug.Log("All connected players: " + nameList.Trim());
+                        }
                     }
                     else
                     {
-                        Debug.Log("Could not find player: \"" + playerToRequestFrom + "\"");
-                        var allPlayers = HostData.GetGame().GetAllPlayers();
-                        string nameList = "";
-                        foreach (var player in allPlayers)
-                        {
-                            nameList += "\"" + player.username + "\" ";
-                        }
+                        // the game is not gofish
+                        Debug.Log("Receiving a Played Card from " + username + ": " + card.ToString());
+                        HostData.SetDoShowNotificationWindow(true, username + " played a card");
+                        int userIndex = HostData.GetGame().GetPlayerIndex(username);
 
-                        Debug.Log("All connected players: " + nameList.Trim());
+                        // remove the card from that player's cards
+                        PlayerInfo player = HostData.GetGame().GetPlayer(username);
+                        player.cards.RemoveCard(card);
+
+
+                        StandardCardRank rankName = card.GetRank();
+                        StandardCardSuit suitName = card.GetSuit();
+                        string cardName = suitName.ToString();
+                        cardName += "_";
+                        cardName += rankName.ToString();
+                        HostData.SetLastPlayedCardTexture(cardName);
+
+                        HostData.GetGame().DoMove(card, userIndex);
                     }
                 }
-                else
+                else if (cardType.Equals("UnoCard"))
                 {
-                    // the game is not gofish
+                    UnoCardColor color = (UnoCardColor) data[2];
+                    UnoCardValue value = (UnoCardValue) data[3];
+                    UnoCard card = new UnoCard(color, value);
+
                     Debug.Log("Receiving a Played Card from " + username + ": " + card.ToString());
                     HostData.SetDoShowNotificationWindow(true, username + " played a card");
                     int userIndex = HostData.GetGame().GetPlayerIndex(username);
@@ -283,32 +313,46 @@ namespace PhotonScripts
                     player.cards.RemoveCard(card);
 
 
-                    StandardCardRank rankName = card.GetRank();
-                    StandardCardSuit suitName = card.GetSuit();
-                    string cardName = suitName.ToString();
+                    string cardName = card.color.ToString();
                     cardName += "_";
-                    cardName += rankName.ToString();
+                    cardName += card.value.ToString();
+
+                    if (card.value == UnoCardValue.WILD || card.value == UnoCardValue.PLUS_FOUR)
+                    {
+                        cardName = card.value.ToString();
+                    }
+
                     HostData.SetLastPlayedCardTexture(cardName);
 
                     HostData.GetGame().DoMove(card, userIndex);
                 }
             }
             // verifying card event
-            else if (photonEvent.Code == (int)NetworkEventCodes.VerifyClientCard)
+            else if (photonEvent.Code == (int) NetworkEventCodes.VerifyClientCard)
             {
                 object[] data = (object[]) photonEvent.CustomData;
                 string cardType = (string) data[0];
-                StandardCardRank rank = (StandardCardRank) data[1];
-                StandardCardSuit suit = (StandardCardSuit) data[2];
-                StandardCard card = new StandardCard(rank, suit);
+                Card card;
+                if (cardType.Equals("StandardCard"))
+                {
+                    StandardCardRank rank = (StandardCardRank) data[1];
+                    StandardCardSuit suit = (StandardCardSuit) data[2];
+                    card = new StandardCard(rank, suit);
+                }
+                else
+                {
+                    Debug.Log("Verified");
+                    UnoCardColor color = (UnoCardColor) data[1];
+                    UnoCardValue value = (UnoCardValue) data[2];
+                    card = new UnoCard(color, value);
+                }
 
-                Debug.Log("Verifying a Card: " + card.ToString());
                 string username = (string) data[3];
                 bool isValid = HostData.GetGame().VerifyMove(card);
                 SendThatCardIsValid(username, isValid);
             }
             // draw card event
-            else if (photonEvent.Code == (int)NetworkEventCodes.ClientDrawCard)
+            else if (photonEvent.Code == (int) NetworkEventCodes.ClientDrawCard)
             {
                 object[] data = (object[]) photonEvent.CustomData;
                 string username = (string) data[0];
@@ -316,9 +360,14 @@ namespace PhotonScripts
                 List<Card> cards = HostData.GetGame().DrawCardsFromDeck(numOfCards, DeckChoices.UNDEALT);
                 HostData.SetDoShowNotificationWindow(true, username + " drew a card");
                 SendCardsToPlayer(username, cards, true, true);
+                if (HostData.GetGame().GetGameName().Equals("Uno"))
+                {
+                    HostData.SetDoShowNotificationWindow(true, username + " has skipped their turn");
+                    HostData.GetGame().ForceAdvanceTurn(true);
+                }
             }
             // skip turn event
-            else if (photonEvent.Code == (int)NetworkEventCodes.ClientSkipTurn)
+            else if (photonEvent.Code == (int) NetworkEventCodes.ClientSkipTurn)
             {
                 object[] data = (object[]) photonEvent.CustomData;
                 // just get the username in case we need it in the future
@@ -340,6 +389,13 @@ namespace PhotonScripts
                             cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
                             SendCardsToPlayer(username, cardList, true, true);
                         }
+                        else if (HostData.GetGame().GetGameName().Equals("Uno"))
+                        {
+                            List<Card> cardList = new List<Card>();
+                            cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
+                            SendCardsToPlayer(username, cardList, true, true);
+                        }
+
 
                         HostData.GetGame().ForceAdvanceTurn(true);
                     }
@@ -355,13 +411,20 @@ namespace PhotonScripts
                                 cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
                                 SendCardsToPlayer(username, cardList, true, true);
                             }
+                            else if (HostData.GetGame().GetGameName().Equals("Uno"))
+                            {
+                                List<Card> cardList = new List<Card>();
+                                cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
+                                SendCardsToPlayer(username, cardList, true, true);
+                            }
+
 
                             HostData.GetGame().AdvanceTurn(true);
                         }
                     }
                 }
             }
-            else if (photonEvent.Code == (int)NetworkEventCodes.ClientWarFlipCard)
+            else if (photonEvent.Code == (int) NetworkEventCodes.ClientWarFlipCard)
             {
                 // War implementation
                 // This should capture the signal from the flip card button press
@@ -406,7 +469,26 @@ namespace PhotonScripts
                         doShowPlayerNotification
                     };
                     RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-                    PhotonNetwork.RaiseEvent((int)NetworkEventCodes.HostSendingCardsToPlayer, content, raiseEventOptions, SendOptions.SendUnreliable);
+                    PhotonNetwork.RaiseEvent((int) NetworkEventCodes.HostSendingCardsToPlayer, content,
+                        raiseEventOptions, SendOptions.SendUnreliable);
+                }
+            }
+            else if (cards[0].GetType().Name == "UnoCard")
+            {
+                foreach (Card card in cards)
+                {
+                    PlayerInfo player = HostData.GetGame().GetPlayer(username);
+                    player.cards.AddCard(card);
+
+                    UnoCard cardToSend = (UnoCard) card;
+                    object[] content = new object[]
+                    {
+                        username, cards[0].GetType().Name, cardToSend.color, cardToSend.value, didDrawFromDeck,
+                        doShowPlayerNotification
+                    };
+                    RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+                    PhotonNetwork.RaiseEvent((int) NetworkEventCodes.HostSendingUnoCards, content,
+                        raiseEventOptions, SendOptions.SendUnreliable);
                 }
             }
         }
@@ -419,7 +501,8 @@ namespace PhotonScripts
         {
             object[] content = new object[] {enable};
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-            PhotonNetwork.RaiseEvent((int)NetworkEventCodes.HostEnablingTimer, content, raiseEventOptions, SendOptions.SendUnreliable);
+            PhotonNetwork.RaiseEvent((int) NetworkEventCodes.HostEnablingTimer, content, raiseEventOptions,
+                SendOptions.SendUnreliable);
         }
 
         /// Removes cards from the user, <paramref name="fromUsername"/>, and sends the string, <paramref name="toUsername"/>
@@ -451,7 +534,8 @@ namespace PhotonScripts
             }
 
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-            PhotonNetwork.RaiseEvent((int)NetworkEventCodes.HostRemovingCardsFromPlayer, content.ToArray(), raiseEventOptions, SendOptions.SendUnreliable);
+            PhotonNetwork.RaiseEvent((int) NetworkEventCodes.HostRemovingCardsFromPlayer, content.ToArray(),
+                raiseEventOptions, SendOptions.SendUnreliable);
         }
 
         /// <summary>
@@ -463,7 +547,8 @@ namespace PhotonScripts
         {
             object[] content = new object[] {username, isValid};
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-            PhotonNetwork.RaiseEvent((int)NetworkEventCodes.HostSendingCardVerification, content, raiseEventOptions, SendOptions.SendUnreliable);
+            PhotonNetwork.RaiseEvent((int) NetworkEventCodes.HostSendingCardVerification, content, raiseEventOptions,
+                SendOptions.SendUnreliable);
         }
 
         public IEnumerator SendRoomInfoToClients(bool isRoomAtCapacity)
@@ -486,7 +571,8 @@ namespace PhotonScripts
 
             object[] content = new object[] {gameMode, hostToggle, maxPlayers, hostName};
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-            PhotonNetwork.RaiseEvent((int)NetworkEventCodes.HostSendInfoToConnectedClient, content, raiseEventOptions, SendOptions.SendReliable);
+            PhotonNetwork.RaiseEvent((int) NetworkEventCodes.HostSendInfoToConnectedClient, content, raiseEventOptions,
+                SendOptions.SendReliable);
         }
 
         public static void setIsShuffle(bool newBool)
@@ -496,7 +582,7 @@ namespace PhotonScripts
 
         private void OnDestroy()
         {
-            Debug.LogError("Network Controller is being destroyed. This is not ideal.");
+            Debug.LogWarning("Network Controller is being destroyed. This is not ideal.");
         }
     }
 }

@@ -10,7 +10,9 @@ using PhotonScripts;
 using System;
 using Photon.Realtime;
 using System.IO;
+using GameScreen.GameLogic.Cards;
 using SFB;
+
 
 
 public class GameScreenController : MonoBehaviour
@@ -28,12 +30,18 @@ public class GameScreenController : MonoBehaviour
     public Dropdown chatOptions;
     public RectTransform chatPlace;
     public Toggle timerToggle;
+    public Toggle censorChatToggle;
 
     public GameObject winnerPanel;
     public Dropdown winnerDropdown;
     public GameObject gameOverPanel;
     public GameObject gameOverText;
     public GameObject endGamePanel;
+
+    public GameObject kickPlayerPanel;
+    public GameObject playerKickedPanel;
+    public Dropdown kickPlayerDropdown;
+    public Text playerKickedName;
 
     public GameObject warPanel;
     public GameObject goFishPanel;
@@ -77,11 +85,41 @@ public class GameScreenController : MonoBehaviour
 
     private bool doPlayedAnimation = false;
 
-    [Header("Background Changing")] public Button setBackgroundBtn;
+
+    [Header("Background Changing")] 
+    public Button setBackgroundBtn;
     public Button defBackgroundBtn;
     public RawImage mainCanvasImage;
     string filePath;
     public bool setBackground;
+    
+    [Header("Sleeve Changing")] 
+    public Button setSleeveBtn;
+    public Button defSleeveBtn;
+    string sleeveFilePath;
+    public bool setSleeve;
+    private Texture2D backTex;
+    public RawImage undersideUI;
+    public RawImage cardDeck;
+    public RawImage cardDeck1;
+    public RawImage cardDeck2;
+    public Texture defBackTex;
+    public Text sizeWarningText;
+
+    [Header("GoFish Cards")]
+    public RawImage cardDeckGoFish;
+    public RawImage cardDeckGoFish1;
+    public RawImage cardDeckGoFish2;
+
+    [Header("War Cards")]
+    public RawImage unplayedDeck1;
+    public RawImage unplayedDeck2;
+    public RawImage playedDeck1;
+    public RawImage playedDeck2;
+
+    [Header("Freeplay Stuff")]
+    public Button flipCardBtn;
+
 
     // Start is called before the first frame update
     void Start()
@@ -90,16 +128,20 @@ public class GameScreenController : MonoBehaviour
         isGameEnded = true;
         setBackground = false;
         defBackgroundBtn.interactable = false;
+        setSleeve = false;
+        defBackTex = null;
+        defSleeveBtn.interactable = false;
         if (HostData.isChatAllowed())
         {
             allOfChatUI.SetActive(true);
 
+            /*
             // check if chat is muted from the waiting setting screen
             if (HostData.isChatMute())
             {
                 chatOptions.value = 2;
                 updatingChat();
-            }
+            }*/
         }
         else
         {
@@ -116,6 +158,9 @@ public class GameScreenController : MonoBehaviour
         timerToggle.SetIsOnWithoutNotify(HostData.IsTimerEnabled());
         timerToggle.onValueChanged.AddListener(delegate { EnableTimer(timerToggle.isOn); });
         timerToggle.gameObject.SetActive(HostData.IsTimerEnabled());
+
+        censorChatToggle.SetIsOnWithoutNotify(HostData.isChatCensored());
+        censorChatToggle.onValueChanged.AddListener(delegate { EnableProfanity(censorChatToggle.isOn); });
 
         // setup timer
         timer.SetupTimer(HostData.IsTimerEnabled(), HostData.GetTimerSeconds(), HostData.GetTimerMinutes(),
@@ -140,6 +185,7 @@ public class GameScreenController : MonoBehaviour
             standardPanel.SetActive(false);
             goFishPanel.SetActive(false);
             shuffleButton.gameObject.SetActive(false);
+            flipCardBtn.gameObject.SetActive(false);
         }
         else if (HostData.GetGame().GetGameName().Equals("GoFish"))
         {
@@ -151,6 +197,7 @@ public class GameScreenController : MonoBehaviour
             goFishDeckCardsUI[1].SetActive(true);
             goFishDeckCardsUI[2].SetActive(true);
             shuffleButton.gameObject.SetActive(false);
+            flipCardBtn.gameObject.SetActive(false);
         }
         else
         {
@@ -158,6 +205,23 @@ public class GameScreenController : MonoBehaviour
             standardPanel.SetActive(true);
             goFishPanel.SetActive(false);
             shuffleButton.gameObject.SetActive(true);
+            if (HostData.GetGame().GetGameName().Equals("Freeplay"))
+            {
+                flipCardBtn.gameObject.SetActive(false);
+                flipCardBtn.onClick.AddListener(delegate { freeplayFlipCardBtnClicked(); });
+                if (HostData.getDisplayLastCard())
+                {
+                    flipCardBtn.GetComponentInChildren<Text>().text = "Hide Card";
+                }
+                else
+                {
+                    flipCardBtn.GetComponentInChildren<Text>().text = "Flip Card";
+                }
+            }
+            else
+            {
+                flipCardBtn.gameObject.SetActive(false);
+            }
         }
 
         chatOptions.RefreshShownValue();
@@ -168,11 +232,26 @@ public class GameScreenController : MonoBehaviour
         {
             DeclareWinnerButton.gameObject.SetActive(false);
         }
+
+        // Initialize the kick player dropdown
+        /*
+        var allConnectedPlayers = HostData.GetGame().GetAllPlayers();
+        foreach (PlayerInfo player in allConnectedPlayers)
+        {
+            //Debug.Log(player.photonPlayer.NickName);
+            kickPlayerDropdown.options.Add(new Dropdown.OptionData(player.photonPlayer.NickName));
+        }
+        */
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (defBackTex == null)
+        {
+            defBackTex = Resources.Load<Texture>("Card UI/SingleCardBack");
+        }
         if (HostData.GetGame().IsGameEmpty() && isGameEnded)
         {
             // HostData.GetGame().ClearAll();
@@ -195,7 +274,7 @@ public class GameScreenController : MonoBehaviour
             HostData.GetGame().InitializeGame();
         }
 
-        DisplayCards();
+//        DisplayCards();
         // updatingChat(); If chatOptions aren't updating, reenable this.
 
         // if the notification window should be shown
@@ -232,13 +311,24 @@ public class GameScreenController : MonoBehaviour
             doPlayedAnimation = false;
             if (HostData.GetGame().GetGameName().Equals("Freeplay"))
             {
+                // enable this button
+                flipCardBtn.gameObject.SetActive(true);
+
                 if (HostData.getDisplayLastCard())
                 {
                     lastPlayedCard.texture = HostData.GetLastPlayedCardTexture();
                 }
                 else
                 {
-                    lastPlayedCard.texture = Resources.Load<Texture>("Card UI/SingleCardBack");
+                    if (setSleeve)
+                    {
+                        lastPlayedCard.texture = backTex;
+                    }
+                    else
+                    {
+                        lastPlayedCard.texture = Resources.Load<Texture>("Card UI/SingleCardBack");
+                    }
+
                     // call this just to reset the texture boolean
                     HostData.GetLastPlayedCardTexture();
                 }
@@ -294,26 +384,61 @@ public class GameScreenController : MonoBehaviour
         }
     }
 
+    private void EnableProfanity(bool censorProfanity)
+    {
+        HostData.setChatCensored(censorProfanity);
+
+        object[] content = new object[] { censorProfanity };
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.UpdateProfanity, content, raiseEventOptions,
+            SendOptions.SendUnreliable);
+    }
+
+    private void freeplayFlipCardBtnClicked()
+    {
+        if (HostData.getDisplayLastCard())
+        {
+            flipCardBtn.GetComponentInChildren<Text>().text = "Flip Card";
+        }
+        else
+        {
+            flipCardBtn.GetComponentInChildren<Text>().text = "Hide Card";
+        }
+        HostData.setDisplayLastCard(!HostData.getDisplayLastCard());
+        doPlayedAnimation = true;
+    }
+
     private IEnumerator DelayCards()
     {
         yield return new WaitForSeconds(3);
 
-        GameScreenController.textureOne = Resources.Load<Texture>("Card UI/" + "SingleCardBack");
-        GameScreenController.textureTwo = Resources.Load<Texture>("Card UI/" + "SingleCardBack");
+        if (setSleeve)
+        {
+            GameScreenController.textureOne = backTex;
+            GameScreenController.textureTwo = backTex;
+
+        }
+        else
+        {
+            GameScreenController.textureOne = Resources.Load<Texture>("Card UI/" + "SingleCardBack");
+            GameScreenController.textureTwo = Resources.Load<Texture>("Card UI/" + "SingleCardBack");
+        }
 
         if (HostData.GetGame().GetDeck(DeckChoices.PONEUNPLAYED).GetCardCount() == 52)
         {
             // declare a winner with raising an event
             object[] content = new object[] {"Player one"};
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-            PhotonNetwork.RaiseEvent((int)NetworkEventCodes.WinnerSelected, content, raiseEventOptions, SendOptions.SendUnreliable);
+            PhotonNetwork.RaiseEvent((int) NetworkEventCodes.WinnerSelected, content, raiseEventOptions,
+                SendOptions.SendUnreliable);
         }
         else if (HostData.GetGame().GetDeck(DeckChoices.PTWOUNPLAYED).GetCardCount() == 52)
         {
             // declare a winner with raising an event
             object[] content = new object[] {"Player two"};
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-            PhotonNetwork.RaiseEvent((int)NetworkEventCodes.WinnerSelected, content, raiseEventOptions, SendOptions.SendUnreliable);
+            PhotonNetwork.RaiseEvent((int) NetworkEventCodes.WinnerSelected, content, raiseEventOptions,
+                SendOptions.SendUnreliable);
         }
     }
 
@@ -360,10 +485,15 @@ public class GameScreenController : MonoBehaviour
             {
                 HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCard(i).Print();
                 Debug.Log(HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCardCount());
-                StandardCard card = (StandardCard) HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCard(i);
-                Debug.Log(card.GetRank());
-                Debug.Log(card.GetSuit());
-                playedCardMenu.AddCardToCarousel(card, CardTypes.StandardCard);
+                Card card = HostData.GetGame().GetDeck(DeckChoices.PLAYED).GetCard(i);
+                if (card.GetType() == typeof(UnoCard))
+                {
+                    playedCardMenu.AddCardToCarousel(card, CardTypes.UnoCard);
+                }
+                else
+                {
+                    playedCardMenu.AddCardToCarousel(card, CardTypes.StandardCard);
+                }
 
                 // remove it from undealt card menu if it was present
                 if (undealtCardMenu.FindCardFromCarousel(card))
@@ -379,10 +509,15 @@ public class GameScreenController : MonoBehaviour
             {
                 HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i).Print();
                 Debug.Log(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCardCount());
-                StandardCard card = (StandardCard) HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i);
-                Debug.Log(card.GetRank());
-                Debug.Log(card.GetSuit());
-                undealtCardMenu.AddCardToCarousel(card, CardTypes.StandardCard);
+                Card card = HostData.GetGame().GetDeck(DeckChoices.UNDEALT).GetCard(i);
+                if (card.GetType() == typeof(UnoCard))
+                {
+                    playedCardMenu.AddCardToCarousel(card, CardTypes.UnoCard);
+                }
+                else
+                {
+                    playedCardMenu.AddCardToCarousel(card, CardTypes.StandardCard);
+                }
 
                 // remove it from played card menu if it was present
                 if (playedCardMenu.FindCardFromCarousel(card))
@@ -447,6 +582,7 @@ public class GameScreenController : MonoBehaviour
     public void DisplaySettingsWindow(bool enabled)
     {
         settingsPanel.SetActive(enabled);
+        sizeWarningText.gameObject.SetActive(false);
     }
 
     // Adding functions for endgame button and declare winner button
@@ -474,6 +610,49 @@ public class GameScreenController : MonoBehaviour
         }
     }
 
+    public void KickPlayerClicked()
+    {
+        kickPlayerPanel.SetActive(true);
+        
+        // Initialize the kick player dropdown
+        
+        var allConnectedPlayers = HostData.GetGame().GetAllPlayers();
+        foreach (PlayerInfo player in allConnectedPlayers)
+        {
+            //Debug.Log(player.photonPlayer.NickName);
+            kickPlayerDropdown.options.Add(new Dropdown.OptionData(player.photonPlayer.NickName));
+        }
+        
+
+    }
+
+    public void OnKickPlayerChosen()
+    {
+        string toKick = kickPlayerDropdown.options[kickPlayerDropdown.value].text;
+        
+        // Update dropdown
+        //kickPlayerDropdown.options.RemoveAt(0);
+        //kickPlayerDropdown.itemText = kickPlayerDropdown[0];
+
+        object[] content = new object[] {toKick};
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.PlayerKicked, content, raiseEventOptions, SendOptions.SendUnreliable);
+
+        kickPlayerPanel.SetActive(false);
+        playerKickedName.GetComponent<Text>().text = toKick + " was removed from the game.";
+        playerKickedPanel.SetActive(true);
+    }
+
+    public void ExitDisplayPlayerKickedPanel()
+    {
+        playerKickedPanel.SetActive(false);
+    }
+
+    public void ExitKickPlayerClicked()
+    {
+        kickPlayerPanel.SetActive(false);
+    }
+
     public void ExitClicked()
     {
         winnerPanel.SetActive(false);
@@ -490,7 +669,8 @@ public class GameScreenController : MonoBehaviour
 
         object[] content = new object[] {username};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.WinnerSelected, content, raiseEventOptions, SendOptions.SendUnreliable);
+        PhotonNetwork.RaiseEvent((int) NetworkEventCodes.WinnerSelected, content, raiseEventOptions,
+            SendOptions.SendUnreliable);
 
         isDeclaringWinner = true;
         isGameEnded = false;
@@ -549,6 +729,111 @@ public class GameScreenController : MonoBehaviour
         defBackgroundBtn.interactable = false;
         setBackground = false;
     }
+    
+    public void UploadSleeveButtonClicked()
+    {
+//         filePath = EditorUtility.OpenFilePanel("Select your custom background", "", "png,jpg,jpeg,");
+
+        var extensions = new[]
+        {
+            new ExtensionFilter("Image Files", "png", "jpg", "jpeg"),
+        };
+        var files = StandaloneFileBrowser.OpenFilePanel("Select your custom sleeve", "", extensions, false);
+        if (files.Length > 0)
+        {
+            sleeveFilePath = files[0];
+        }
+        else
+        {
+            sleeveFilePath = "";
+        }
+        if (sleeveFilePath.Length != 0)
+        {
+            var fileInfo = new FileInfo(sleeveFilePath);
+            Debug.Log(fileInfo.Length);
+            if (fileInfo.Length > 510000)
+            {
+                sizeWarningText.gameObject.SetActive(true);
+                return;
+            }
+            else
+            {
+                sizeWarningText.gameObject.SetActive(false);
+            }
+        }
+
+        if (sleeveFilePath.Length != 0)
+        {
+            backTex = null;
+            byte[] fileData;
+            if (File.Exists(sleeveFilePath))
+            {
+                fileData = File.ReadAllBytes(sleeveFilePath);
+                object[] content = new object[] { fileData };
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+                PhotonNetwork.RaiseEvent((int)NetworkEventCodes.SleeveChanged, content, raiseEventOptions,
+                    SendOptions.SendUnreliable);
+                backTex = new Texture2D(2, 2);
+                backTex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
+            }
+
+            Debug.Log(filePath);
+            Debug.Log(backTex);
+            if (lastPlayedCard.texture != HostData.GetLastPlayedCardTexture())
+            {
+                lastPlayedCard.texture = backTex;
+            }
+            undersideUI.texture = backTex;
+            cardDeck.texture = backTex;
+            cardDeck1.texture = backTex;
+            cardDeck2.texture = backTex;
+
+            cardDeckGoFish.texture = backTex;
+            cardDeckGoFish1.texture = backTex;
+            cardDeckGoFish2.texture = backTex;
+
+            unplayedDeck1.texture = backTex;
+            unplayedDeck2.texture = backTex;
+            playedDeck1.texture = backTex;
+            playedDeck2.texture = backTex;
+
+            setSleeve = true;
+            defSleeveBtn.interactable = true;
+        }
+    }
+
+    /// <summary>
+    /// This method is called when the Default sleeve button is clicked
+    /// </summary>
+    public void DefSleeveButtonClicked()
+    {
+        Debug.Log("Default Button Clicked");
+        StartCoroutine(SetDefCardBack());
+        setSleeve = true;
+        defSleeveBtn.interactable = false;
+    }
+
+    private IEnumerator SetDefCardBack()
+    {
+        yield return new WaitForSeconds(1);
+        if (lastPlayedCard.texture != HostData.GetLastPlayedCardTexture())
+        {
+            lastPlayedCard.texture = defBackTex;
+        }
+        undersideUI.texture = defBackTex;
+        cardDeck.texture = defBackTex;
+        cardDeck1.texture = defBackTex;
+        cardDeck2.texture = defBackTex;
+
+        cardDeckGoFish.texture = defBackTex;
+        cardDeckGoFish1.texture = defBackTex;
+        cardDeckGoFish2.texture = defBackTex;
+
+        unplayedDeck1.texture = defBackTex;
+        unplayedDeck2.texture = defBackTex;
+        playedDeck1.texture = defBackTex;
+        playedDeck2.texture = defBackTex;
+    }
 
     public void DeclareWinnerChoiceClicked()
     {
@@ -573,7 +858,8 @@ public class GameScreenController : MonoBehaviour
 
         object[] content = new object[] {"nowinner"};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.WinnerSelected, content, raiseEventOptions, SendOptions.SendUnreliable);
+        PhotonNetwork.RaiseEvent((int) NetworkEventCodes.WinnerSelected, content, raiseEventOptions,
+            SendOptions.SendUnreliable);
 
         isGameEnded = false;
         gameOverText.GetComponent<Text>().text = "Game is over.";
@@ -586,10 +872,52 @@ public class GameScreenController : MonoBehaviour
 
         object[] content = new object[] {"playagain"};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
-        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.PlayAgain, content, raiseEventOptions, SendOptions.SendUnreliable);
+        PhotonNetwork.RaiseEvent((int) NetworkEventCodes.PlayAgain, content, raiseEventOptions,
+            SendOptions.SendUnreliable);
 
-        //TODO reset all game information
-        HostData.GetGame().ClearAll();
+        //TODO reset:
+        // Card deck backend
+        // Card deck UI
+        // Card Player Carousel
+
+        // This should reset the card deck backend
+        HostData.GetGame().ResetAllDecks();
+        HostData.GetGame().InitializeGame();
+
+        // Check carousel and redo it
+        // This is probably what needs to be used PlayerList.UpdateUI(); - ask Kade
+
+        // Reset Card Deck UI
+        string gameType = (String) HostData.GetGame().GetGameName();
+        if (gameType == "War")
+        {
+/*            textureOne = Resources.Load<Texture>("Card UI/SingleCardBack");
+            textureTwo = Resources.Load<Texture>("Card UI/SingleCardBack");*/
+            if (setSleeve)
+            {
+                textureOne = backTex;
+                textureTwo = backTex;
+
+            }
+            else
+            {
+                textureOne = defBackTex;
+                textureTwo = defBackTex;
+            }
+        }
+        else if (gameType == "GoFish")
+        {
+            //This one probably needs help - ask Kade
+            defBackTex = Resources.Load<Texture>("Card UI/SingleCardBack");
+            HostData.SetLastPlayedCardTexture("SingleCardBack");
+        }
+        else if (gameType == "TestGame")
+        {
+            //defBackTex = Resources.Load<Texture>("Card UI/SingleCardBack");
+
+            HostData.SetLastPlayedCardTexture("SingleCardBack");
+        }
+        
     }
 
     public void TimerEarlyWarning()

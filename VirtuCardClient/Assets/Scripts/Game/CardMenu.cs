@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using System;
 using System.IO;
+using GameScreen.GameLogic.Cards;
 
 /// <summary>
 /// This class acts as a carousel for the Cards
@@ -36,7 +37,7 @@ public class CardMenu : MonoBehaviour
     private Sprite mySprite;
     private string Path;
 
-    public string backPath;
+    public byte[] backPathArr;
 
     private struct CardsToAssignTexture
     {
@@ -57,10 +58,17 @@ public class CardMenu : MonoBehaviour
             return null;
         }
 
+
         StandardCard stdCard = images[current_index].gameObject.GetComponent<StandardCard>();
         if (stdCard != null)
         {
             return stdCard;
+        }
+
+        UnoCard unoCard = images[current_index].gameObject.GetComponent<UnoCard>();
+        if (unoCard != null)
+        {
+            return unoCard;
         }
 
         // ------- USE THIS TEMPLATE WHEN A NEW CARD TYPE IS ADDED --------------
@@ -135,8 +143,32 @@ public class CardMenu : MonoBehaviour
             Path += suit.ToString();
             Path += "_";
             Path += rank.ToString();
-     
-            cardsToAssignTextures.Add(new CardsToAssignTexture { cardTransform = newImage, texturePath = Path });
+
+
+            cardsToAssignTextures.Add(new CardsToAssignTexture {cardTransform = newImage, texturePath = Path});
+        }
+        else if (whichCardType == CardTypes.UnoCard)
+        {
+            newImage.gameObject.AddComponent<UnoCard>();
+            UnoCard cardVals = newImage.gameObject.GetComponent<UnoCard>();
+            UnoCard curr = (UnoCard) newCard;
+            cardVals.value = curr.value;
+            cardVals.color = curr.color;
+
+
+            if (curr.value == UnoCardValue.WILD || curr.value == UnoCardValue.PLUS_FOUR)
+            {
+                Path += curr.value.ToString();
+            }
+            else
+            {
+                Path += curr.color.ToString();
+                Path += "_";
+                Path += curr.value.ToString();
+            }
+
+
+            cardsToAssignTextures.Add(new CardsToAssignTexture {cardTransform = newImage, texturePath = Path});
         }
         // TODO this is where other types of cards would be implemented
 
@@ -150,24 +182,48 @@ public class CardMenu : MonoBehaviour
         int cardCount = images.Count;
         for (int x = cardCount - 1; x >= 0; x--)
         {
-            // if this image is the card we are looking for
-            if (images[x].gameObject.GetComponent<StandardCard>().Compare(newCard) == true)
+            if (newCard.GetType() == typeof(UnoCard))
             {
-                GameObject imageToDestroy = images[x].gameObject;
-                // Replacing this:
-                images.RemoveAt(x);
-                // Destroy(imageToDestroy);
+                if (images[x].gameObject.GetComponent<UnoCard>().Compare(newCard) == true)
+                {
+                    GameObject imageToDestroy = images[x].gameObject;
+                    // Replacing this:
+                    images.RemoveAt(x);
+                    // Destroy(imageToDestroy);
 
-                // With animation that calls Destroy on Exit upon completing
-                string animation = "CardAnimationClientDelete";
-                imageToDestroy.GetComponent<Animator>().Play(animation);
+                    // With animation that calls Destroy on Exit upon completing
+                    string animation = "CardAnimationClientDelete";
+                    imageToDestroy.GetComponent<Animator>().Play(animation);
 
-                //Sets the delay before restructuring the carousel. Currently right after animation completion
-                float delay = imageToDestroy.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
-                StartCoroutine(ReformatCarousel(delay, x));
+                    //Sets the delay before restructuring the carousel. Currently right after animation completion
+                    float delay = imageToDestroy.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
+                    StartCoroutine(ReformatCarousel(delay, x));
 
-                // ReformatCarousel();
-                break;
+                    // ReformatCarousel();
+                    break;
+                }
+            }
+            else if (newCard.GetType() == typeof(StandardCard))
+            {
+                // if this image is the card we are looking for
+                if (images[x].gameObject.GetComponent<StandardCard>().Compare(newCard) == true)
+                {
+                    GameObject imageToDestroy = images[x].gameObject;
+                    // Replacing this:
+                    images.RemoveAt(x);
+                    // Destroy(imageToDestroy);
+
+                    // With animation that calls Destroy on Exit upon completing
+                    string animation = "CardAnimationClientDelete";
+                    imageToDestroy.GetComponent<Animator>().Play(animation);
+
+                    //Sets the delay before restructuring the carousel. Currently right after animation completion
+                    float delay = imageToDestroy.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
+                    StartCoroutine(ReformatCarousel(delay, x));
+
+                    // ReformatCarousel();
+                    break;
+                }
             }
         }
     }
@@ -254,23 +310,21 @@ public class CardMenu : MonoBehaviour
         int cardCountToSet = cardsToAssignTextures.Count;
         for (int x = cardCountToSet - 1; x >= 0; x--)
         {
-            cardsToAssignTextures[x].cardTransform.Find("Front").GetComponent<RawImage>().texture = Resources.Load<Texture>(cardsToAssignTextures[x].texturePath);
-            if (backPath.Length != 0)
+            cardsToAssignTextures[x].cardTransform.Find("Front").GetComponent<RawImage>().texture =
+                Resources.Load<Texture>(cardsToAssignTextures[x].texturePath);
+            if (backPathArr != null)
             {
-                Texture2D tex = null;
-                byte[] fileData;
-                if (File.Exists(backPath))
-                {
-                    fileData = File.ReadAllBytes(backPath);
-                    tex = new Texture2D(2, 2);
-                    tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
-                }
+                Texture2D tex = new Texture2D(2, 2);
+                tex.LoadImage(backPathArr); //..this will auto-resize the texture dimensions.
+
                 cardsToAssignTextures[x].cardTransform.Find("Back").GetComponent<RawImage>().texture = tex;
             }
             else
             {
-                cardsToAssignTextures[x].cardTransform.Find("Back").GetComponent<RawImage>().texture = Resources.Load<Texture>("Card UI/CardBack");
+                cardsToAssignTextures[x].cardTransform.Find("Back").GetComponent<RawImage>().texture =
+                    Resources.Load<Texture>("Card UI/CardBack");
             }
+
             cardsToAssignTextures.RemoveAt(x);
         }
     }

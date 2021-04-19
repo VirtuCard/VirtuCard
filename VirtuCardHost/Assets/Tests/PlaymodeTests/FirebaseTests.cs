@@ -16,7 +16,10 @@ public class FirebaseTests
     [UnityTest]
     public IEnumerator FirebaseRegistrationTest()
     {
-        FirebaseInit.InitializeFirebase(null);
+        if (!FirebaseInit.IsInitialized())
+        {
+            FirebaseInit.InitializeFirebase(null);
+        }
         yield return new WaitForSeconds(3);
 
         string randomEmail = "TESTING_";
