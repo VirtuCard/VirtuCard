@@ -575,6 +575,25 @@ namespace PhotonScripts
                 SendOptions.SendReliable);
         }
 
+        public static void SendOutPokerBettingInfo(int potSize, int betToMatch, Dictionary<string, int> usernamesAndScores)
+        {
+            List<object> content = new List<object>();
+            content.Add(potSize);
+            content.Add(betToMatch);
+
+            content.Add(usernamesAndScores.Count);
+            for (int x = 0; x < usernamesAndScores.Count; x++)
+            {
+                foreach(KeyValuePair<string, int> userAndScore in usernamesAndScores)
+                {
+                    content.Add(userAndScore.Key);
+                    content.Add(userAndScore.Value);
+                }
+            }
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent((int)NetworkEventCodes.PokerHostSendingCurrentBetInfo, content, raiseEventOptions, SendOptions.SendReliable);
+        }
+
         public static void setIsShuffle(bool newBool)
         {
             isShuffling = newBool;
