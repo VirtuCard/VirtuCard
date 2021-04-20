@@ -8,6 +8,7 @@ public class PlayerInfo
     public int score;
     public int pokerScoreWagered;
     public bool pokerHasFolded;
+    public int pokerReplacementsLeft;
     public Photon.Realtime.Player photonPlayer;
     public CardDeck cards;
 

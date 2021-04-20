@@ -295,7 +295,14 @@ namespace PhotonScripts
                         cardName += rankName.ToString();
                         HostData.SetLastPlayedCardTexture(cardName);
 
-                        HostData.GetGame().DoMove(card, userIndex);
+                        if (HostData.GetGame().GetGameName().Equals(Enum.GetName(typeof(GameTypes), GameTypes.Poker)))
+                        {
+                            ((Poker)HostData.GetGame()).ReplaceCard(username, card);
+                        }
+                        else
+                        {
+                            HostData.GetGame().DoMove(card, userIndex);
+                        }
                     }
                 }
                 else if (cardType.Equals("UnoCard"))
@@ -594,6 +601,7 @@ namespace PhotonScripts
             public string username;
             public int playerScore;
             public int playerScoreWagered;
+            public int replacementsLeft;
         }
         public static void SendOutPokerBettingInfo(int potSize, int betToMatch, int maxWager, List<PokerUsernamesAndScores> usernamesAndScores)
         {
@@ -610,6 +618,7 @@ namespace PhotonScripts
                     content.Add(userAndScore.username);
                     content.Add(userAndScore.playerScore);
                     content.Add(userAndScore.playerScoreWagered);
+                    content.Add(userAndScore.replacementsLeft);
                 }
             }
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
