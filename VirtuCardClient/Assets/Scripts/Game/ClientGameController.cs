@@ -114,6 +114,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private int pokerBetToMatch;
     private int pokerCurrentScore;
     private int pokerAmountAlreadyWagered;
+    private int pokerMaxWagerAmount;
 
     // Start is called before the first frame update
     void Start()
@@ -121,6 +122,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         pokerBetToMatch = 0;
         pokerCurrentScore = 0;
         pokerAmountAlreadyWagered = 0;
+        pokerMaxWagerAmount = int.MaxValue;
 
         defCardBackBtn.interactable = false;
         PhotonNetwork.AddCallbackTarget(this);
@@ -209,7 +211,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             goFishPanel.SetActive(false);
             pokerPanel.SetActive(true);
             pokerBettingButton.onClick.AddListener(delegate { pokerBettingButtonPressed(); });
-            pokerBettingInput.onValueChanged.AddListener(delegate { pokerBettingInputChanged(int.Parse(pokerBettingInput.text)); });
+            pokerBettingInput.onEndEdit.AddListener(delegate { pokerBettingInputChanged(int.Parse(pokerBettingInput.text)); });
         }
         else
         {
@@ -234,19 +236,42 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private void pokerBettingInputChanged(int val)
     {
         int numNeededToMatch = pokerBetToMatch - pokerAmountAlreadyWagered;
+        int maxWager = pokerMaxWagerAmount - pokerAmountAlreadyWagered;
+        if (maxWager > pokerCurrentScore)
+        {
+            maxWager = pokerCurrentScore;
+        }
+
         // TODO handle case where they don't have enough to match the bet
         if (val < 0 || val <= numNeededToMatch)
         {
             pokerBettingInput.text = numNeededToMatch.ToString();
             pokerBettingButton.GetComponentInChildren<Text>().text = "Match Bet";
         }
-        else if (val > numNeededToMatch && val <= pokerCurrentScore)
+        else if (val > maxWager)
+        {
+            pokerBettingInput.text = maxWager.ToString();
+            pokerBettingButton.GetComponentInChildren<Text>().text = "Raise Bet";
+        }
+        else
         {
             pokerBettingButton.GetComponentInChildren<Text>().text = "Raise Bet";
         }
-        else if (val > pokerCurrentScore)
+        /*
+        else if (val > numNeededToMatch && val <= pokerCurrentScore && val <= (pokerMaxWagerAmount - pokerAmountAlreadyWagered))
         {
-            pokerBettingInput.text = pokerCurrentScore.ToString();
+            pokerBettingButton.GetComponentInChildren<Text>().text = "Raise Bet";
+        }
+        else if (val > pokerCurrentScore || val > pokerMaxWagerAmount - pokerAmountAlreadyWagered)
+        {
+            if (pokerMaxWagerAmount > pokerCurrentScore)
+            {
+                pokerBettingInput.text = pokerCurrentScore.ToString();
+            }
+            else
+            {
+                pokerBettingInput.text = (pokerMaxWagerAmount - pokerAmountAlreadyWagered).ToString();
+            }
             if (val == numNeededToMatch)
             {
                 pokerBettingButton.GetComponentInChildren<Text>().text = "Match Bet";
@@ -256,6 +281,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                 pokerBettingButton.GetComponentInChildren<Text>().text = "Raise Bet";
             }
         }
+        */
     }
 
     // Update is called once per frame
@@ -969,14 +995,16 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             object[] data = (object[])photonEvent.CustomData;
             int potSize = (int)data[0];
             int betToMatch = (int)data[1];
-            int numberOfPlayers = (int)data[2];
-            
-            for (int x = 3; x < 3 + (numberOfPlayers * 3); x +=3)
+            int maxWager = (int)data[2];
+            int numberOfPlayers = (int)data[3];
+
+            for (int x = 4; x < 4 + (numberOfPlayers * 3); x +=3)
             {
                 if (((string)data[x]).Equals(PhotonNetwork.NickName))
                 {
                     // current user
                     pokerBetToMatch = betToMatch;
+                    pokerMaxWagerAmount = maxWager;
                     pokerCurrentScore = (int)data[x + 1];
                     pokerAmountAlreadyWagered = (int)data[x + 2];
                     pokerCurrentScoreText.text = "Your Score: " + pokerCurrentScore;
