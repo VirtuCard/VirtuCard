@@ -38,6 +38,7 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
     public Toggle showLastCard;
     public Toggle isSkipTurnAllowed;
     public Button FreeplaySettingsButton;
+    public InputField freeplayNumOfCardsToStartWith;
 
     // Timer Settings
     public Toggle timerEnabledToggle;
@@ -106,6 +107,10 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
         secondsInput.interactable = false;
         minutesInput.interactable = false;
 
+        freeplayNumOfCardsToStartWith.text = "0";
+        freeplayNumOfCardsToStartWith.onEndEdit.AddListener(delegate { FreeplayNumOfCardsEdited(); });
+
+
         numPlayers.onEndEdit.AddListener(OnNumPlayersFieldChange);
         playerList = NetworkController.ListAllPlayers();
         //CreatePlayerList();
@@ -118,7 +123,7 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
         canHostJoinToggle.isOn = HostData.CanHostJoinGame();
         chatEnabledToggle.isOn = HostData.isChatAllowed();
         // might get deleted
-        chatMuteToggle.isOn = HostData.isChatMute();
+        chatMuteToggle.isOn = HostData.isChatCensored();
         numPlayers.SetTextWithoutNotify(HostData.GetGame().GetMaximumNumOfPlayers().ToString());
 
         startGameBtn.onClick.AddListener(delegate { StartGameBtnClicked(); });
@@ -221,6 +226,42 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
         }
     }
 
+    private void FreeplayNumOfCardsEdited()
+    {
+        int cardCount = int.Parse(freeplayNumOfCardsToStartWith.text);
+
+        int totalCardsInGame = 0;
+        if (HostData.getSpadesAllowed())
+        {
+            totalCardsInGame += 13;
+        }
+        if (HostData.getDiamondsAllowed())
+        {
+            totalCardsInGame += 13;
+        }
+        if (HostData.getClubsAllowed())
+        {
+            totalCardsInGame += 13;
+        }
+        if (HostData.getHeartsAllowed())
+        {
+            totalCardsInGame += 13;
+        }
+
+        if (cardCount < 0)
+        {
+            freeplayNumOfCardsToStartWith.text = "0";
+        }
+        else if (HostData.GetGame().GetAllPlayers().Count > 0 && cardCount >= (int)(totalCardsInGame / HostData.GetGame().GetAllPlayers().Count))
+        {
+            freeplayNumOfCardsToStartWith.text = ((int)(totalCardsInGame / HostData.GetGame().GetAllPlayers().Count)).ToString();
+        }
+        else if (cardCount > totalCardsInGame)
+        {
+            freeplayNumOfCardsToStartWith.text = totalCardsInGame.ToString();
+        }
+    }
+
     /// <summary>
     /// This method is the event handler for when the timer enabled toggle is changed
     /// </summary>
@@ -299,12 +340,18 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
             HostData.SetTimerMinutes(-1);
         }
 
+        if (HostData.isFreeplay())
+        {
+            HostData.SetFreeplayNumOfStartCards(int.Parse(freeplayNumOfCardsToStartWith.text));
+        }
+
         List<object> content = new List<object>();
 
         // add timer stuff to content
         content.Add(HostData.IsTimerEnabled());
         content.Add(HostData.GetTimerSeconds());
         content.Add(HostData.GetTimerMinutes());
+        content.Add(!HostData.isChatCensored());
 
         // add player names to content
         List<PlayerInfo> allConnectedPlayers = HostData.GetGame().GetAllPlayers();
@@ -393,21 +440,25 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
     private void HeartsToggleValueChanged(bool isOn)
     {
         HostData.setHeartsAllowed(isOn);
+        FreeplayNumOfCardsEdited();
     }
 
     private void ClubsToggleValueChanged(bool isOn)
     {
         HostData.setClubsAllowed(isOn);
+        FreeplayNumOfCardsEdited();
     }
 
     private void SpadesToggleValueChanged(bool isOn)
     {
         HostData.setSpadesAllowed(isOn);
+        FreeplayNumOfCardsEdited();
     }
 
     private void DiamondsToggleValueChanged(bool isOn)
     {
         HostData.setDiamondsAllowed(isOn);
+        FreeplayNumOfCardsEdited();
     }
 
     private void LastCardToggleChanged(bool isOn)
@@ -479,7 +530,7 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
 
     private void ChatMuteToggleValueChanged(bool state)
     {
-        HostData.setChatMute(state);
+        HostData.setChatCensored(state);
     }
 
     private void ChatToggleValueChanged(bool state)

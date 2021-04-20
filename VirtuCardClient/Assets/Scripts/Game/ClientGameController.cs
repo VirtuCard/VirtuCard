@@ -885,6 +885,12 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             }
             cardMenu.backPathArr = arr;
         }
+        else if (photonEvent.Code == (int)NetworkEventCodes.UpdateProfanity)
+        {
+            object[] data = (object[])photonEvent.CustomData;
+            bool censorChat = (bool)data[0];
+            ClientData.SetProfanityAllowed(!censorChat);
+        }
     }
 
     /// <summary>

@@ -22,11 +22,14 @@ namespace Music
     {
         private readonly static string EMPTY_MESSAGE = "Add a song to the queue using !play <song>";
 
+        public float initialVolumeLevel;
+
         //      public VideoPlayer player;
         public MediaPlayer mediaPlayer;
         public GameObject musicPanel;
         public Button playButton;
         public Button pauseButton;
+        public UnityEngine.UI.Slider volumeControlSlider;
         public Text currentSongName;
 
         public GameObject songsListPanel;
@@ -49,6 +52,10 @@ namespace Music
             justSwappedSongs = false;
             songNames = new List<string>();
             downloader = new MusicDownloader();
+
+            volumeControlSlider.SetValueWithoutNotify(initialVolumeLevel);
+            volumeControlSlider.onValueChanged.AddListener(delegate { SetVolume(volumeControlSlider.value); });
+            mediaPlayer.Control.SetVolume(initialVolumeLevel);
 
             // delete all songs in the folder
             System.IO.DirectoryInfo di = new DirectoryInfo(MusicDownloader.MUSIC_FOLDER);
@@ -122,6 +129,11 @@ namespace Music
             */
         }
 
+        public void SetVolume(float volume)
+        {
+            mediaPlayer.Control.SetVolume(volume);
+        }
+
         private void PlaySong(string songName)
         {
             currentSongName.text = songName;
@@ -129,7 +141,7 @@ namespace Music
             justSwappedSongs = true;
 
             bool isOpening = mediaPlayer.OpenMedia(
-                new MediaPath(MusicDownloader.MUSIC_FOLDER + songName,
+                new MediaPath(MusicDownloader.MUSIC_FOLDER + songName + ".mp4",
                     MediaPathType.AbsolutePathOrURL), autoPlay: true);
 
             if (!isPaused)
@@ -142,6 +154,7 @@ namespace Music
                 playButton.gameObject.SetActive(true);
                 pauseButton.gameObject.SetActive(false);
             }
+            mediaPlayer.Control.SetVolume(volumeControlSlider.value);
         }
 
         public void onMusicButtonClick()
@@ -297,7 +310,7 @@ namespace Music
             songView.SetActive(true);
 
             // send out notifications
-            HostData.SetDoShowNotificationWindow(true, "The song: " + songName + " is added by " + sender);
+            HostData.SetDoShowNotificationWindow(true, "The song: \"" + songName + "\" was added by " + sender);
             NotifyClient(sender, true);
         }
 

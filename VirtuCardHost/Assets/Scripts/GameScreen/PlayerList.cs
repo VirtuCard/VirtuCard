@@ -13,12 +13,17 @@ public class PlayerList : MonoBehaviour
 
     public RectTransform playerTemplate;
 
-    public List<PlayerDisplay> playerComponents = new List<PlayerDisplay>();
+    public static List<PlayerDisplay> playerComponents = new List<PlayerDisplay>();
     public RectTransform viewWindow;
 
     private float imageWidth;
 
     public float imageSpacing = 10;
+
+    public static List<PlayerDisplay> GetPlayerList()
+    {
+        return playerComponents;
+    }
 
     // Use this for initialization
     void Start()
@@ -82,7 +87,7 @@ public class PlayerList : MonoBehaviour
     /// Resets the spacing for the cards.
     /// Call if a new card was added/removed
     /// </summary>
-    private void ReformatCarousel()
+    public void ReformatCarousel()
     {
         for (int x = 1; x < playerComponents.Count; x++)
         {

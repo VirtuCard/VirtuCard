@@ -50,9 +50,20 @@ public class MusicDownloader
 
         Debug.Log("URL found: " + returnInfo.videoUrl);
 
-        string fileNameToSaveAs = returnInfo.songName + ".mp4";
+        string songName = SanitizeString(returnInfo.songName);
+
+        string fileNameToSaveAs = songName + ".mp4";
         string fileNameSavedAs = await SaveVideoToDiskAsync(returnInfo.videoUrl, fileNameToSaveAs);
-        return fileNameSavedAs;
+        return songName;
+    }
+
+    private string SanitizeString(string songName)
+    {
+        songName = songName.Replace("&quot;", "'");
+        songName = songName.Replace("(With Lyrics)", "");
+        songName = songName.Replace("(Official Music Video)", "");
+        songName = songName.Replace("(official music video)", "");
+        return songName.Trim();
     }
 
     /// <summary>
