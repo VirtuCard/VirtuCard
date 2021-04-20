@@ -61,6 +61,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public Text pokerCurrentScoreText;
     public Text pokerMatchBetText;
     public Text pokerAlreadyWageredText;
+    public Button pokerReplaceCardBtn;
 
     public CanvasGroup invalidMove;
     public GameObject loadingPanel;
@@ -115,6 +116,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private int pokerCurrentScore;
     private int pokerAmountAlreadyWagered;
     private int pokerMaxWagerAmount;
+    private int pokerReplaceCardsLeft;
 
     // Start is called before the first frame update
     void Start()
@@ -122,6 +124,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         pokerBetToMatch = 0;
         pokerCurrentScore = 0;
         pokerAmountAlreadyWagered = 0;
+        pokerReplaceCardsLeft = 3;
         pokerMaxWagerAmount = int.MaxValue;
 
         defCardBackBtn.interactable = false;
@@ -212,6 +215,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             pokerPanel.SetActive(true);
             pokerBettingButton.onClick.AddListener(delegate { pokerBettingButtonPressed(); });
             pokerBettingInput.onEndEdit.AddListener(delegate { pokerBettingInputChanged(int.Parse(pokerBettingInput.text)); });
+            pokerReplaceCardBtn.onClick.AddListener(delegate { PokerReplaceCardBtnClicked(); });
         }
         else
         {
@@ -224,6 +228,27 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         // when winner is announced the button is clicked
         exitGameBtn.onClick.AddListener(delegate() { exitGameBtnOnClick(); });
     }
+
+    private void UpdatePokerReplaceCardsBtn()
+    {
+        if (pokerReplaceCardsLeft <= 0)
+        {
+            pokerReplaceCardBtn.interactable = false;
+            pokerReplaceCardBtn.GetComponentInChildren<Text>().text = String.Format("Replace Card ({0} left)", 0);
+        }
+        else
+        {
+            pokerReplaceCardBtn.interactable = true;
+            pokerReplaceCardBtn.GetComponentInChildren<Text>().text = String.Format("Replace Card ({0} left)", pokerReplaceCardsLeft);
+        }
+    }
+    private void PokerReplaceCardBtnClicked()
+    {
+        PlayCardBtnClicked();
+        pokerReplaceCardsLeft--;
+        UpdatePokerReplaceCardsBtn();
+    }
+
     private void pokerBettingButtonPressed()
     {
         int valueBet = int.Parse(pokerBettingInput.text);
@@ -257,31 +282,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         {
             pokerBettingButton.GetComponentInChildren<Text>().text = "Raise Bet";
         }
-        /*
-        else if (val > numNeededToMatch && val <= pokerCurrentScore && val <= (pokerMaxWagerAmount - pokerAmountAlreadyWagered))
-        {
-            pokerBettingButton.GetComponentInChildren<Text>().text = "Raise Bet";
-        }
-        else if (val > pokerCurrentScore || val > pokerMaxWagerAmount - pokerAmountAlreadyWagered)
-        {
-            if (pokerMaxWagerAmount > pokerCurrentScore)
-            {
-                pokerBettingInput.text = pokerCurrentScore.ToString();
-            }
-            else
-            {
-                pokerBettingInput.text = (pokerMaxWagerAmount - pokerAmountAlreadyWagered).ToString();
-            }
-            if (val == numNeededToMatch)
-            {
-                pokerBettingButton.GetComponentInChildren<Text>().text = "Match Bet";
-            }
-            else
-            {
-                pokerBettingButton.GetComponentInChildren<Text>().text = "Raise Bet";
-            }
-        }
-        */
     }
 
     // Update is called once per frame
@@ -998,7 +998,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             int maxWager = (int)data[2];
             int numberOfPlayers = (int)data[3];
 
-            for (int x = 4; x < 4 + (numberOfPlayers * 3); x +=3)
+            for (int x = 4; x < 4 + (numberOfPlayers * 4); x += 4)
             {
                 if (((string)data[x]).Equals(PhotonNetwork.NickName))
                 {
@@ -1007,11 +1007,14 @@ public class ClientGameController : MonoBehaviourPunCallbacks
                     pokerMaxWagerAmount = maxWager;
                     pokerCurrentScore = (int)data[x + 1];
                     pokerAmountAlreadyWagered = (int)data[x + 2];
+                    pokerReplaceCardsLeft = (int)data[x + 3];
                     pokerCurrentScoreText.text = "Your Score: " + pokerCurrentScore;
                     pokerMatchBetText.text = "Bet to Match: " + pokerBetToMatch;
                     pokerAlreadyWageredText.text = "Already Wagered: " + pokerAmountAlreadyWagered;
                     pokerBettingButton.GetComponentInChildren<Text>().text = "Match Bet";
                     pokerBettingInput.text = (pokerBetToMatch - pokerAmountAlreadyWagered).ToString();
+
+                    UpdatePokerReplaceCardsBtn();
                     break;
                 }
             }

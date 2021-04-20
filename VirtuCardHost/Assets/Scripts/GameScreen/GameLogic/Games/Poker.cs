@@ -12,6 +12,9 @@ public class Poker : Game
     // score each player starts with at the beginning of the game
     private const int STARTING_SCORE = 10;
 
+    // number of cards a player can replace per round
+    private const int REPLACEMENTS_PER_ROUND = 3;
+
     // num of cards each player is given
     private const int NUM_OF_CARDS_PER_PLAYER = 5;
 
@@ -69,6 +72,7 @@ public class Poker : Game
             player.score = STARTING_SCORE - ANTE;
             player.pokerScoreWagered = 1;
             player.pokerHasFolded = false;
+            player.pokerReplacementsLeft = REPLACEMENTS_PER_ROUND;
         }
 
         // send out turn index and initial info
@@ -136,6 +140,23 @@ public class Poker : Game
         SendOutCards();
     }
 
+    public void ReplaceCard(string username, StandardCard card)
+    {
+        PlayerInfo player = GetPlayer(username);
+        player.cards.RemoveCard(card);
+        player.pokerReplacementsLeft--;
+
+        // send a new card
+        List<Card> cardToSend = new List<Card>();
+        cardToSend.Add(GetDeck(DeckChoices.UNDEALT).PopCard());
+        NetworkController.SendCardsToPlayer(username, cardToSend, true, true);
+
+        // input the card back into the deck that the player gave up
+        GetDeck(DeckChoices.UNDEALT).AddCard(card);
+
+        SendBetInfo();
+    }
+
     /// <summary>
     /// This is used to update all the clients with the current bets
     /// </summary>
@@ -151,7 +172,8 @@ public class Poker : Game
             {
                 playerScore = players[x].score,
                 playerScoreWagered = players[x].pokerScoreWagered,
-                username = players[x].username
+                username = players[x].username,
+                replacementsLeft = players[x].pokerReplacementsLeft
             };
 
             keyValues.Add(pokerUsernamesAndScores);
