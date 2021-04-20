@@ -281,7 +281,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         if (gameOver)
         {
             winnerPanel.SetActive(true);
-            winnerAnnounce.GetComponent<Text>().text = "YOU WON!";
+            winnerAnnounce.text = "YOU WON!";
         }
 
         // keep card menu at a valid index
@@ -770,7 +770,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             string winnerName = (string) data[0];
             if (winnerName == PhotonNetwork.NickName)
             {
-                winnerAnnounce.GetComponent<Text>().text = "You won!";
+                winnerAnnounce.text = "You won!";
                 ClientData.UserProfile.GamesWon += 1;
                 DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Incremented Games won."); });
 
@@ -778,12 +778,12 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             }
             else if (winnerName == "nowinner")
             {
-                winnerAnnounce.GetComponent<Text>().text = "Game is over.";
+                winnerAnnounce.text = "Game is over.";
                 winnerPanel.SetActive(true);
             }
             else
             {
-                winnerAnnounce.GetComponent<Text>().text = winnerName + " Won. Better luck next time!";
+                winnerAnnounce.text= winnerName + " Won. Better luck next time!";
                 ClientData.UserProfile.GamesLost += 1;
                 DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Incremented Games lost."); });
 
@@ -1150,7 +1150,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
     public void EndGame()
     {
-        winnerAnnounce.GetComponent<Text>().text = "Game is over.";
+        winnerAnnounce.text = "Game is over.";
         winnerPanel.SetActive(true);
     }
 }
