@@ -404,7 +404,6 @@ namespace PhotonScripts
                         // skip turn normally
                         if (!int.TryParse(username, out _))
                         {
-                            HostData.SetDoShowNotificationWindow(true, username + " has skipped their turn");
                             if (HostData.GetGame().GetGameName().Equals("GoFish"))
                             {
                                 List<Card> cardList = new List<Card>();
@@ -417,6 +416,13 @@ namespace PhotonScripts
                                 cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
                                 SendCardsToPlayer(username, cardList, true, true);
                             }
+                            else if (HostData.GetGame().GetGameName().Equals("Poker"))
+                            {
+                                HostData.SetDoShowNotificationWindow(true, username + " has folded their hand");
+                                ((Poker)HostData.GetGame()).PlayerFolded(username);
+                                return;
+                            }
+                            HostData.SetDoShowNotificationWindow(true, username + " has skipped their turn");
 
 
                             HostData.GetGame().AdvanceTurn(true);
@@ -589,11 +595,12 @@ namespace PhotonScripts
             public int playerScore;
             public int playerScoreWagered;
         }
-        public static void SendOutPokerBettingInfo(int potSize, int betToMatch, List<PokerUsernamesAndScores> usernamesAndScores)
+        public static void SendOutPokerBettingInfo(int potSize, int betToMatch, int maxWager, List<PokerUsernamesAndScores> usernamesAndScores)
         {
             List<object> content = new List<object>();
             content.Add(potSize);
             content.Add(betToMatch);
+            content.Add(maxWager);
 
             content.Add(usernamesAndScores.Count);
             for (int x = 0; x < usernamesAndScores.Count; x++)
