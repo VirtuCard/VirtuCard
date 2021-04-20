@@ -30,6 +30,7 @@ public class GameScreenController : MonoBehaviour
     public Dropdown chatOptions;
     public RectTransform chatPlace;
     public Toggle timerToggle;
+    public Toggle censorChatToggle;
 
     public GameObject winnerPanel;
     public Dropdown winnerDropdown;
@@ -84,6 +85,7 @@ public class GameScreenController : MonoBehaviour
 
     private bool doPlayedAnimation = false;
 
+
     [Header("Background Changing")] 
     public Button setBackgroundBtn;
     public Button defBackgroundBtn;
@@ -115,6 +117,9 @@ public class GameScreenController : MonoBehaviour
     public RawImage playedDeck1;
     public RawImage playedDeck2;
 
+    [Header("Freeplay Stuff")]
+    public Button flipCardBtn;
+
 
     // Start is called before the first frame update
     void Start()
@@ -130,12 +135,13 @@ public class GameScreenController : MonoBehaviour
         {
             allOfChatUI.SetActive(true);
 
+            /*
             // check if chat is muted from the waiting setting screen
             if (HostData.isChatMute())
             {
                 chatOptions.value = 2;
                 updatingChat();
-            }
+            }*/
         }
         else
         {
@@ -152,6 +158,9 @@ public class GameScreenController : MonoBehaviour
         timerToggle.SetIsOnWithoutNotify(HostData.IsTimerEnabled());
         timerToggle.onValueChanged.AddListener(delegate { EnableTimer(timerToggle.isOn); });
         timerToggle.gameObject.SetActive(HostData.IsTimerEnabled());
+
+        censorChatToggle.SetIsOnWithoutNotify(HostData.isChatCensored());
+        censorChatToggle.onValueChanged.AddListener(delegate { EnableProfanity(censorChatToggle.isOn); });
 
         // setup timer
         timer.SetupTimer(HostData.IsTimerEnabled(), HostData.GetTimerSeconds(), HostData.GetTimerMinutes(),
@@ -176,6 +185,7 @@ public class GameScreenController : MonoBehaviour
             standardPanel.SetActive(false);
             goFishPanel.SetActive(false);
             shuffleButton.gameObject.SetActive(false);
+            flipCardBtn.gameObject.SetActive(false);
         }
         else if (HostData.GetGame().GetGameName().Equals("GoFish"))
         {
@@ -187,6 +197,7 @@ public class GameScreenController : MonoBehaviour
             goFishDeckCardsUI[1].SetActive(true);
             goFishDeckCardsUI[2].SetActive(true);
             shuffleButton.gameObject.SetActive(false);
+            flipCardBtn.gameObject.SetActive(false);
         }
         else
         {
@@ -194,6 +205,23 @@ public class GameScreenController : MonoBehaviour
             standardPanel.SetActive(true);
             goFishPanel.SetActive(false);
             shuffleButton.gameObject.SetActive(true);
+            if (HostData.GetGame().GetGameName().Equals("Freeplay"))
+            {
+                flipCardBtn.gameObject.SetActive(false);
+                flipCardBtn.onClick.AddListener(delegate { freeplayFlipCardBtnClicked(); });
+                if (HostData.getDisplayLastCard())
+                {
+                    flipCardBtn.GetComponentInChildren<Text>().text = "Hide Card";
+                }
+                else
+                {
+                    flipCardBtn.GetComponentInChildren<Text>().text = "Flip Card";
+                }
+            }
+            else
+            {
+                flipCardBtn.gameObject.SetActive(false);
+            }
         }
 
         chatOptions.RefreshShownValue();
@@ -283,6 +311,9 @@ public class GameScreenController : MonoBehaviour
             doPlayedAnimation = false;
             if (HostData.GetGame().GetGameName().Equals("Freeplay"))
             {
+                // enable this button
+                flipCardBtn.gameObject.SetActive(true);
+
                 if (HostData.getDisplayLastCard())
                 {
                     lastPlayedCard.texture = HostData.GetLastPlayedCardTexture();
@@ -351,6 +382,33 @@ public class GameScreenController : MonoBehaviour
             StartCoroutine(DelayCards());
             doFlipWarCards = false;
         }
+
+        //This is in for testing purposes
+        //playerUIList.UpdateUI();
+    }
+
+    private void EnableProfanity(bool censorProfanity)
+    {
+        HostData.setChatCensored(censorProfanity);
+
+        object[] content = new object[] { censorProfanity };
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.UpdateProfanity, content, raiseEventOptions,
+            SendOptions.SendUnreliable);
+    }
+
+    private void freeplayFlipCardBtnClicked()
+    {
+        if (HostData.getDisplayLastCard())
+        {
+            flipCardBtn.GetComponentInChildren<Text>().text = "Flip Card";
+        }
+        else
+        {
+            flipCardBtn.GetComponentInChildren<Text>().text = "Hide Card";
+        }
+        HostData.setDisplayLastCard(!HostData.getDisplayLastCard());
+        doPlayedAnimation = true;
     }
 
     private IEnumerator DelayCards()
@@ -831,12 +889,16 @@ public class GameScreenController : MonoBehaviour
 
         // Check carousel and redo it
         // This is probably what needs to be used PlayerList.UpdateUI(); - ask Kade
+    
+
+        playerUIList.UpdateUI();
+
 
         // Reset Card Deck UI
         string gameType = (String) HostData.GetGame().GetGameName();
         if (gameType == "War")
         {
-/*            textureOne = Resources.Load<Texture>("Card UI/SingleCardBack");
+/*          textureOne = Resources.Load<Texture>("Card UI/SingleCardBack");
             textureTwo = Resources.Load<Texture>("Card UI/SingleCardBack");*/
             if (setSleeve)
             {
@@ -862,6 +924,8 @@ public class GameScreenController : MonoBehaviour
 
             HostData.SetLastPlayedCardTexture("SingleCardBack");
         }
+        // else if (gameType == "NewGameHere)
+        // reset cardbacks
         
     }
 

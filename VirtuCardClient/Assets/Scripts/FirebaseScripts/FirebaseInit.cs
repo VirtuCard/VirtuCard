@@ -32,6 +32,7 @@ namespace FirebaseScripts
                     app = FirebaseApp.DefaultInstance;
                     AuthUser.SetAuth(FirebaseAuth.GetAuth(app));
                     DatabaseUtils.setApp(app);
+                    ImageStorage.setApp(app);
 
                     // To test if this works
                     // User.RegisterAccount("test@purdue.edu", "hidkasidjoiajci!", b => { print("HI"); });

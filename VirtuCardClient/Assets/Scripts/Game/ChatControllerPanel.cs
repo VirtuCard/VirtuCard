@@ -182,7 +182,10 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
 
             // for UMANG
             // if profanity is allowed 
-            // profanityChecker = 0;
+            if (ClientData.IsProfanityAllowed())
+            {
+                profanityChecker = 0;
+            }
 
             // does not send the message if it's blank
             if ((message != "") && (profanityChecker == 0))

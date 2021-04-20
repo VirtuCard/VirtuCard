@@ -20,7 +20,7 @@ public static class HostData
     private static int maxNumPlayers = 5;
     private static string joinCode;
     private static bool chatAllowed = true;
-    private static bool chatMute = false;
+    private static bool chatCensor = true;
     private static Game currentGame;
     private static bool gameSelected = false;
     private static User userProfile;
@@ -50,6 +50,7 @@ public static class HostData
     private static bool areDiamondsAllowed = true;
     private static bool displayLastCard = true;
     private static bool skipTurnAllowed = true;
+    private static int numberOfCardsToStartWith = 0;
 
     // eventually we will add more functionality to freeplay mode but this will do for now
 
@@ -98,6 +99,15 @@ public static class HostData
             Debug.LogError("You have already chosen a game");
             return false;
         }
+    }
+
+    public static void SetFreeplayNumOfStartCards(int value)
+    {
+        numberOfCardsToStartWith = value;
+    }
+    public static int GetFreeplayNumOfStartCards()
+    {
+        return numberOfCardsToStartWith;
     }
 
     public static bool DidLastPlayedCardTextureUpdate()
@@ -238,6 +248,9 @@ public static class HostData
                 selectedGame = "Go Fish";
                 break;
             case 3:
+                selectedGame = "Uno";
+                break;
+            case 4:
                 selectedGame = "Freeplay";
                 break;
             default:
@@ -261,13 +274,13 @@ public static class HostData
         chatAllowed = isChatAllowed;
     }
 
-    public static bool isChatMute()
+    public static bool isChatCensored()
     {
-        return chatMute;
+        return chatCensor;
     }
 
-    public static void setChatMute(bool isChatMute) {
-        chatMute = isChatMute;
+    public static void setChatCensored(bool isChatCensor) {
+        chatCensor = isChatCensor;
     }
 
     // Adding settings for freeplay

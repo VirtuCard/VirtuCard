@@ -6,6 +6,7 @@ public enum NetworkEventCodes
 {
     HostSendInfoToConnectedClient = 1,
     ClientPlayedCard = 2,
+    UpdateProfanity = 3,
     VerifyClientCard = 4,
     HostSendingCardVerification = 5,
     StartGame = 6,
