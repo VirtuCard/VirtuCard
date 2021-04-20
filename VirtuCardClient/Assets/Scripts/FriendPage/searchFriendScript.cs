@@ -37,6 +37,7 @@ public class searchFriendScript : MonoBehaviour
                 {
                     searchingFriend();
                 }
+
             });
         addBtn.onClick.AddListener(delegate { addBtnPressed(); });
 
@@ -57,24 +58,11 @@ public class searchFriendScript : MonoBehaviour
         Debug.Log("searching for " + usernameSearching);
         searchList.SetActive(true);
 
-        FirebaseInit.InitializeFirebase(task =>
-        {
+        changeExists(usernameSearching);
 
-            DatabaseUtils.findUsername(usernameSearching,
-                task =>
-                {
-                    if (task != null) 
-                    {             
-                        exist = true;
-                        Debug.Log("final test you exist! " + exist);
-                    }
-                    else
-                    {
-                        exist = false;
-                        Debug.Log("final test you don't exist! " + exist);
-                    }
-                });
-        });
+        // Task<string> task = Task.Run<string>(async () => await DatabaseUtils.searchUsername(usernameSearching));
+        // string foundUsername = task.Result; 
+        // Debug.Log(foundUsername + "found final test");
 
 
         Debug.Log("final test " + exist); // return true if the player exists
@@ -156,6 +144,27 @@ public class searchFriendScript : MonoBehaviour
             StartCoroutine(FadeCanvas(alreadyFriendSign, alreadyFriendSign.alpha, 0));
 
         }
+    }
+
+    public void changeExists(string usernameSearching) {
+        FirebaseInit.InitializeFirebase(task =>
+        {               
+            DatabaseUtils.findUsername(usernameSearching,
+                task =>
+                {
+                    Debug.Log("final test the task is " + task);
+                    if (task != null) 
+                    {
+                        exist = true;
+                        Debug.Log("final test you exist! " + exist);
+                    }
+                    else
+                    {
+                        exist = false;
+                        Debug.Log("final test you don't exist! " + exist);
+                    }
+                });
+        });
     }
 
     public IEnumerator FadeCanvas(CanvasGroup cg, float start, float end, float lerpTime = 2.0f)
