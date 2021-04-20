@@ -12,7 +12,8 @@ public class searchFriendScript : MonoBehaviour
     public Button searchBtn;
     public InputField username;
     public GameObject searchPanel;
-    public string usernamePlayer;
+    public string usernamePlayer = "";
+    public bool exist;
     public Text postSearchUser;
     public Text addedOrAlreadyFriends;
     public GameObject searchList;
@@ -25,9 +26,13 @@ public class searchFriendScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        searchPanel.SetActive(false);
         searchIcon.onClick.AddListener(delegate { searchPanel.SetActive(true); });
         backSearch.onClick.AddListener(delegate { backBtnPressed(); });
         searchBtn.onClick.AddListener(delegate { 
+                searchList.SetActive(false);
+                addBtnObject.SetActive(false);
+                postSearchUser.GetComponent<Text>().text = "";
                 if (username.text != "" )
                 {
                     searchingFriend();
@@ -45,45 +50,54 @@ public class searchFriendScript : MonoBehaviour
 
     public void searchingFriend()
     {
+        user = ClientData.UserProfile;
+        Debug.Log("current username is " + user.Username);
+
         string usernameSearching = username.text;
         Debug.Log("searching for " + usernameSearching);
+        searchList.SetActive(true);
 
         FirebaseInit.InitializeFirebase(task =>
         {
-            // Task<string> task = Task.Run<string>(async () => await DatabaseUtils.searchUsername(usernameSearching));
-            // string foundUsername = task.Result;
+
             DatabaseUtils.findUsername(usernameSearching,
                 task =>
                 {
-                    if (task == null) {
-                        Debug.Log("there's nobody named that!");
-                        usernamePlayer = "person does not exist";
+                    if (task != null) 
+                    {             
+                        exist = true;
+                        Debug.Log("final test you exist! " + exist);
                     }
-                    else {
-                        Debug.Log("you exist! " + task);
-                        usernamePlayer = (string) task;
-                    } 
+                    else
+                    {
+                        exist = false;
+                        Debug.Log("final test you don't exist! " + exist);
+                    }
                 });
         });
 
-        Debug.Log("final test " + usernamePlayer);
 
-        searchList.SetActive(true);
-        string searchResult;
+        Debug.Log("final test " + exist); // return true if the player exists
+        string searchResult = "";
         // goes in if the user exists.
-        if (!usernamePlayer.Equals("person does not exist"))
-        {
+        if (usernameSearching.Equals(user.Username)) { // trying to add yourself
             addBtnObject.SetActive(false);
-            searchResult = usernameSearching + " does not exist.";
-
+            searchResult = "You cannot add yourself.";
         }
-        else 
+        else if (exist) // person exist
         {
             addBtnObject.SetActive(true);
             searchResult = usernameSearching;
+
+        }
+        else // person does not exists
+        {
+            addBtnObject.SetActive(false);
+            searchResult = usernameSearching + " does not exist.";
         }
 
         postSearchUser.GetComponent<Text>().text = searchResult;
+        usernamePlayer = "";
 
     }
 
@@ -121,6 +135,22 @@ public class searchFriendScript : MonoBehaviour
         }
         else // adding this person normally
         {
+            user.Friends.Add(usernameSearching);
+
+            FirebaseInit.InitializeFirebase(task =>
+            {
+                DatabaseUtils.updateUser(user,
+                    task =>
+                    {
+                        if (!task) {
+                            Debug.Log("Error in adding friend");
+                        }
+                        else {
+                            Debug.Log("Successfully added!");
+                        }
+                    });
+            });
+
             addedOrAlreadyFriends.GetComponent<Text>().text = "You have added this user!";
             alreadyFriendSign.GetComponent<CanvasGroup>().alpha = 1;
             StartCoroutine(FadeCanvas(alreadyFriendSign, alreadyFriendSign.alpha, 0));
@@ -128,7 +158,7 @@ public class searchFriendScript : MonoBehaviour
         }
     }
 
-    public IEnumerator FadeCanvas(CanvasGroup cg, float start, float end, float lerpTime = 1.0f)
+    public IEnumerator FadeCanvas(CanvasGroup cg, float start, float end, float lerpTime = 2.0f)
     {
         float _timeStartedLerping = Time.time;
         float timeSinceStarted = Time.time - _timeStartedLerping;
