@@ -53,6 +53,15 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public GameObject goFishPanel;
     public Dropdown goFishNamesDropdown;
     public Button goFishQueryButton;
+    
+    [Header("Poker Stuff")]
+    public GameObject pokerPanel;
+    public Button pokerBettingButton;
+    public InputField pokerBettingInput;
+    public Text pokerCurrentScoreText;
+    public Text pokerMatchBetText;
+    public Text pokerAlreadyWageredText;
+    public Button pokerReplaceCardBtn;
 
     public CanvasGroup invalidMove;
     public GameObject loadingPanel;
@@ -90,7 +99,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     private bool gameOver = false;
     private bool cardsFlipped = false;
 
-    [Header("Card Back Changing")] public Button setCardBackBtn;
+    [Header("Card Back Changing")] 
+    public Button setCardBackBtn;
     public Button defCardBackBtn;
     public RawImage cardBackImage;
     string filePath;
@@ -102,9 +112,21 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public Button greenButton;
     public Button blueButton;
 
+    private int pokerBetToMatch;
+    private int pokerCurrentScore;
+    private int pokerAmountAlreadyWagered;
+    private int pokerMaxWagerAmount;
+    private int pokerReplaceCardsLeft;
+
     // Start is called before the first frame update
     void Start()
     {
+        pokerBetToMatch = 0;
+        pokerCurrentScore = 0;
+        pokerAmountAlreadyWagered = 0;
+        pokerReplaceCardsLeft = 3;
+        pokerMaxWagerAmount = int.MaxValue;
+
         defCardBackBtn.interactable = false;
         PhotonNetwork.AddCallbackTarget(this);
 
@@ -157,11 +179,12 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         // setup timer
         timer.SetupTimer(ClientData.IsTimerEnabled(), ClientData.GetTimerSeconds(), ClientData.GetTimerMinutes(),
             warningThreshold: 30, TimerEarlyWarning, TimerReachedZero);
-        if (ClientData.GetGameName() == "GoFish")
+        if (ClientData.GetGameName().Equals("GoFish"))
         {
             standardPanel.SetActive(false);
             warButton.SetActive(false);
             goFishPanel.SetActive(true);
+            pokerPanel.SetActive(false);
 
             List<string> allPlayers = ClientData.GetAllConnectedPlayers();
             foreach (string playerName in allPlayers)
@@ -182,16 +205,83 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             warButton.SetActive(true);
             standardPanel.SetActive(false);
             goFishPanel.SetActive(false);
+            pokerPanel.SetActive(false);
+        }
+        else if (ClientData.GetGameName().Equals("Poker"))
+        {
+            standardPanel.SetActive(false);
+            warButton.SetActive(false);
+            goFishPanel.SetActive(false);
+            pokerPanel.SetActive(true);
+            pokerBettingButton.onClick.AddListener(delegate { pokerBettingButtonPressed(); });
+            pokerBettingInput.onEndEdit.AddListener(delegate { pokerBettingInputChanged(int.Parse(pokerBettingInput.text)); });
+            pokerReplaceCardBtn.onClick.AddListener(delegate { PokerReplaceCardBtnClicked(); });
         }
         else
         {
             standardPanel.SetActive(true);
             goFishPanel.SetActive(false);
             warButton.SetActive(false);
+            pokerPanel.SetActive(false);
         }
 
         // when winner is announced the button is clicked
         exitGameBtn.onClick.AddListener(delegate() { exitGameBtnOnClick(); });
+    }
+
+    private void UpdatePokerReplaceCardsBtn()
+    {
+        if (pokerReplaceCardsLeft <= 0)
+        {
+            pokerReplaceCardBtn.interactable = false;
+            pokerReplaceCardBtn.GetComponentInChildren<Text>().text = String.Format("Replace Card ({0} left)", 0);
+        }
+        else
+        {
+            pokerReplaceCardBtn.interactable = true;
+            pokerReplaceCardBtn.GetComponentInChildren<Text>().text = String.Format("Replace Card ({0} left)", pokerReplaceCardsLeft);
+        }
+    }
+    private void PokerReplaceCardBtnClicked()
+    {
+        PlayCardBtnClicked();
+        pokerReplaceCardsLeft--;
+        UpdatePokerReplaceCardsBtn();
+    }
+
+    private void pokerBettingButtonPressed()
+    {
+        int valueBet = int.Parse(pokerBettingInput.text);
+
+        object[] content = new object[] { PhotonNetwork.NickName, valueBet };
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent((int)NetworkEventCodes.PokerSendBet, content, raiseEventOptions,
+            SendOptions.SendUnreliable);
+    }
+    private void pokerBettingInputChanged(int val)
+    {
+        int numNeededToMatch = pokerBetToMatch - pokerAmountAlreadyWagered;
+        int maxWager = pokerMaxWagerAmount - pokerAmountAlreadyWagered;
+        if (maxWager > pokerCurrentScore)
+        {
+            maxWager = pokerCurrentScore;
+        }
+
+        // TODO handle case where they don't have enough to match the bet
+        if (val < 0 || val <= numNeededToMatch)
+        {
+            pokerBettingInput.text = numNeededToMatch.ToString();
+            pokerBettingButton.GetComponentInChildren<Text>().text = "Match Bet";
+        }
+        else if (val > maxWager)
+        {
+            pokerBettingInput.text = maxWager.ToString();
+            pokerBettingButton.GetComponentInChildren<Text>().text = "Raise Bet";
+        }
+        else
+        {
+            pokerBettingButton.GetComponentInChildren<Text>().text = "Raise Bet";
+        }
     }
 
     // Update is called once per frame
@@ -512,6 +602,15 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     /// <param name="value">true if the button should be enabled, false otherwise</param>
     private void SetCanSkipBtn(bool value)
     {
+        if (ClientData.GetGameName().Equals("Poker"))
+        {
+            skipBtn.interactable = value;
+            skipBtn.gameObject.GetComponentInChildren<Text>().text = "Fold";
+        }
+        else
+        {
+            skipBtn.gameObject.GetComponentInChildren<Text>().text = "Skip Turn";
+        }
         skipBtn.interactable = value;
     }
 
@@ -681,7 +780,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         // this is the return for the draw card event
         else if (photonEvent.Code == (int) NetworkEventCodes.HostSendingCardsToPlayer)
         {
-            Debug.Log("Receiving Card");
+            //Debug.Log("Receiving Card");
             object[] data = (object[]) photonEvent.CustomData;
             string username = (string) data[0];
             // ignore if it was not meant for this user
@@ -890,6 +989,35 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             object[] data = (object[])photonEvent.CustomData;
             bool censorChat = (bool)data[0];
             ClientData.SetProfanityAllowed(!censorChat);
+        }
+        else if (photonEvent.Code == (int)NetworkEventCodes.PokerHostSendingCurrentBetInfo)
+        {
+            object[] data = (object[])photonEvent.CustomData;
+            int potSize = (int)data[0];
+            int betToMatch = (int)data[1];
+            int maxWager = (int)data[2];
+            int numberOfPlayers = (int)data[3];
+
+            for (int x = 4; x < 4 + (numberOfPlayers * 4); x += 4)
+            {
+                if (((string)data[x]).Equals(PhotonNetwork.NickName))
+                {
+                    // current user
+                    pokerBetToMatch = betToMatch;
+                    pokerMaxWagerAmount = maxWager;
+                    pokerCurrentScore = (int)data[x + 1];
+                    pokerAmountAlreadyWagered = (int)data[x + 2];
+                    pokerReplaceCardsLeft = (int)data[x + 3];
+                    pokerCurrentScoreText.text = "Your Score: " + pokerCurrentScore;
+                    pokerMatchBetText.text = "Bet to Match: " + pokerBetToMatch;
+                    pokerAlreadyWageredText.text = "Already Wagered: " + pokerAmountAlreadyWagered;
+                    pokerBettingButton.GetComponentInChildren<Text>().text = "Match Bet";
+                    pokerBettingInput.text = (pokerBetToMatch - pokerAmountAlreadyWagered).ToString();
+
+                    UpdatePokerReplaceCardsBtn();
+                    break;
+                }
+            }
         }
     }
 

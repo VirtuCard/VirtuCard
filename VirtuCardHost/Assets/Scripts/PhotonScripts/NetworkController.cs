@@ -295,7 +295,14 @@ namespace PhotonScripts
                         cardName += rankName.ToString();
                         HostData.SetLastPlayedCardTexture(cardName);
 
-                        HostData.GetGame().DoMove(card, userIndex);
+                        if (HostData.GetGame().GetGameName().Equals(Enum.GetName(typeof(GameTypes), GameTypes.Poker)))
+                        {
+                            ((Poker)HostData.GetGame()).ReplaceCard(username, card);
+                        }
+                        else
+                        {
+                            HostData.GetGame().DoMove(card, userIndex);
+                        }
                     }
                 }
                 else if (cardType.Equals("UnoCard"))
@@ -404,7 +411,6 @@ namespace PhotonScripts
                         // skip turn normally
                         if (!int.TryParse(username, out _))
                         {
-                            HostData.SetDoShowNotificationWindow(true, username + " has skipped their turn");
                             if (HostData.GetGame().GetGameName().Equals("GoFish"))
                             {
                                 List<Card> cardList = new List<Card>();
@@ -417,6 +423,13 @@ namespace PhotonScripts
                                 cardList.Add(HostData.GetGame().GetDeck(DeckChoices.UNDEALT).PopCard());
                                 SendCardsToPlayer(username, cardList, true, true);
                             }
+                            else if (HostData.GetGame().GetGameName().Equals("Poker"))
+                            {
+                                HostData.SetDoShowNotificationWindow(true, username + " has folded their hand");
+                                ((Poker)HostData.GetGame()).PlayerFolded(username);
+                                return;
+                            }
+                            HostData.SetDoShowNotificationWindow(true, username + " has skipped their turn");
 
 
                             HostData.GetGame().AdvanceTurn(true);
@@ -444,6 +457,14 @@ namespace PhotonScripts
                     warPlayer = 0;
                 }
                 */
+            }
+            else if (photonEvent.Code == (int)NetworkEventCodes.PokerSendBet)
+            {
+                object[] data = (object[])photonEvent.CustomData;
+                // just get the username in case we need it in the future
+                string username = (string)data[0];
+                int amountWagered = (int)data[1];
+                ((Poker)HostData.GetGame()).WagerBet(HostData.GetGame().GetPlayerIndex(username), amountWagered);
             }
         }
 
@@ -573,6 +594,35 @@ namespace PhotonScripts
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
             PhotonNetwork.RaiseEvent((int) NetworkEventCodes.HostSendInfoToConnectedClient, content, raiseEventOptions,
                 SendOptions.SendReliable);
+        }
+
+        public struct PokerUsernamesAndScores
+        {
+            public string username;
+            public int playerScore;
+            public int playerScoreWagered;
+            public int replacementsLeft;
+        }
+        public static void SendOutPokerBettingInfo(int potSize, int betToMatch, int maxWager, List<PokerUsernamesAndScores> usernamesAndScores)
+        {
+            List<object> content = new List<object>();
+            content.Add(potSize);
+            content.Add(betToMatch);
+            content.Add(maxWager);
+
+            content.Add(usernamesAndScores.Count);
+            for (int x = 0; x < usernamesAndScores.Count; x++)
+            {
+                foreach(PokerUsernamesAndScores userAndScore in usernamesAndScores)
+                {
+                    content.Add(userAndScore.username);
+                    content.Add(userAndScore.playerScore);
+                    content.Add(userAndScore.playerScoreWagered);
+                    content.Add(userAndScore.replacementsLeft);
+                }
+            }
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent((int)NetworkEventCodes.PokerHostSendingCurrentBetInfo, content, raiseEventOptions, SendOptions.SendReliable);
         }
 
         public static void setIsShuffle(bool newBool)

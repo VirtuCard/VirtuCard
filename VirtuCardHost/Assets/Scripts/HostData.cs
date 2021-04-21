@@ -16,7 +16,6 @@ public static class HostData
     // just default this to true for convenience
     private static bool canHostJoinGame = true;
 
-    private static string selectedGame = "Freeplay";
     private static int maxNumPlayers = 5;
     private static string joinCode;
     private static bool chatAllowed = true;
@@ -78,6 +77,10 @@ public static class HostData
             else if (gameName == "Uno")
             {
                 currentGame = new Uno();
+            }
+            else if (gameName == "Poker")
+            {
+                currentGame = new Poker();
             }
             else
             {
@@ -203,11 +206,6 @@ public static class HostData
         return maxNumPlayers;
     }
 
-    public static string GetSelectedGame()
-    {
-        return selectedGame;
-    }
-
     public static bool CanHostJoinGame()
     {
         return canHostJoinGame;
@@ -232,31 +230,6 @@ public static class HostData
     public static void setCanHostJoinGame(bool state)
     {
         canHostJoinGame = state;
-    }
-
-    public static void setSelectedGame(int state)
-    {
-        switch (state)
-        {
-            case 0:
-                selectedGame = "Freeplay";
-                break;
-            case 1:
-                selectedGame = "Uno";
-                break;
-            case 2:
-                selectedGame = "Go Fish";
-                break;
-            case 3:
-                selectedGame = "Uno";
-                break;
-            case 4:
-                selectedGame = "Freeplay";
-                break;
-            default:
-                Debug.LogError("Got unexpected value: " + state);
-                break;
-        }
     }
 
     public static void setJoinCode(string code)
@@ -372,7 +345,6 @@ public static class HostData
         currentGame.ClearPlayers();
         currentGame = null;
         gameSelected = false;
-        selectedGame = "";
         joinCode = "";
     }
 
