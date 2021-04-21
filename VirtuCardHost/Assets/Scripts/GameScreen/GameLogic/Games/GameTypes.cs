@@ -8,6 +8,6 @@ public enum GameTypes
     GoFish = 1,
     War = 2,
     Uno = 3,
-    Freeplay = 5,
-    
+    Poker = 4,
+    Freeplay = 5
 };

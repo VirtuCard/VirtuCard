@@ -86,7 +86,7 @@ public class LandingPageManager : MonoBehaviour
 
     private void GameChoiceValueChanged(int state)
     {
-        HostData.setSelectedGame(state);
+        //HostData.setSelectedGame(state);
     }
 
     /// <summary>
