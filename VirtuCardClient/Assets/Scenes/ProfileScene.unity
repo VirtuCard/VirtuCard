@@ -3007,6 +3007,7 @@ MonoBehaviour:
   swipeThrustHold: 30
   imageSpacing: 10
   numAvatars: 6
+  setCardBackBtn: {fileID: 0}
 --- !u!1 &959705617
 GameObject:
   m_ObjectHideFlags: 0
@@ -4242,7 +4243,7 @@ MonoBehaviour:
   imageSpacing: 20
   swipeThrustHold: 20
   current_index: 0
-  backPath: 
+  backPathArr: 
 --- !u!1 &1323815603
 GameObject:
   m_ObjectHideFlags: 0
@@ -5745,7 +5746,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 932120764}
         m_TargetAssemblyTypeName: AvatarSelectionScript, ScriptsAssembly
-        m_MethodName: onChooseAvatarButtonClick
+        m_MethodName: onCustomAvatarClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
