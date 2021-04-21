@@ -92,7 +92,7 @@ namespace FirebaseScripts
             gamesLost = 0;
             if (dict.ContainsKey("GamesLost"))
             {
-                this.gamesPlayed = (long) dict["GamesLost"];
+                this.gamesLost = (long) dict["GamesLost"];
             }
         }
 
