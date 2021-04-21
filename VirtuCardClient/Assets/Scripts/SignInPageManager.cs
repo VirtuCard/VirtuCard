@@ -52,7 +52,6 @@ public class SignInPageManager : MonoBehaviour
             if (CorrectCred)
             {
                 Debug.Log("login success");
-                //SceneManager.LoadScene(SceneNames.JoinGamePage, LoadSceneMode.Single);
                 CreateSuccessMessage("Login Success!");
                 successBtn.onClick.AddListener(delegate { sceneLoader.ChangeScene(SceneNames.JoinGamePage); });
             }

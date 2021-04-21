@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -90,7 +91,7 @@ public class CardDeck
     /// <returns></returns>
     public Card PopCard()
     {
-        int cardIndex = Random.Range(0, cards.Count);
+        int cardIndex = UnityEngine.Random.Range(0, cards.Count);
 
         Card returnCard = GetCard(cardIndex);
         RemoveCard(cardIndex);
@@ -142,13 +143,120 @@ public class CardDeck
 
         foreach (Card card in cards)
         {
-            if (((StandardCard) card).GetRank() == rank)
+            if (((StandardCard)card).GetRank() == rank)
             {
                 list.Add(card);
             }
         }
 
         return list;
+    }
+
+    /// <summary>
+    /// Returns true if the deck is a flush.
+    /// Do NOT call this method if the card deck does not contain StandardCards.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsAFlush()
+    {
+        if (cards.Count < 2)
+        {
+            return true;
+        }
+
+        StandardCardSuit prevSuit = ((StandardCard)cards[0]).GetSuit();
+        foreach (Card card in cards)
+        {
+            StandardCardSuit suit = ((StandardCard)card).GetSuit();
+            if (suit != prevSuit)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// Returns true if it is a straight.
+    /// Do NOT call this method if the card deck does not contain StandardCards.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsAStraight()
+    {
+        int lowestIndex = GetIndexOfLowestStandardCardRank();
+        int rankToBeat = (int)((StandardCard)cards[lowestIndex]).GetRank();
+        List<int> uncheckedIndices = new List<int>();
+        for (int x = 0; x < cards.Count; x++)
+        {
+            if (x != lowestIndex)
+            {
+                uncheckedIndices.Add(x);
+            }
+        }
+
+        bool didFindNewIndex = true;
+        while (didFindNewIndex)
+        {
+            didFindNewIndex = false;
+            foreach (int index in uncheckedIndices)
+            {
+                int currentRank = (int)((StandardCard)cards[index]).GetRank();
+                if (currentRank == rankToBeat + 1)
+                {
+                    // if it is one higher than the previous lowest
+                    uncheckedIndices.Remove(index);
+                    didFindNewIndex = true;
+                    rankToBeat = currentRank;
+                    break;
+                }
+            }
+        }
+        if (uncheckedIndices.Count > 0)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// Returns a new deck or StandardCards sorted by rank
+    /// </summary>
+    /// <returns></returns>
+    public CardDeck SortDeckByRank()
+    {
+        CardDeck sortedDeck = new CardDeck();
+        foreach (int value in Enum.GetValues(typeof(StandardCardRank)))
+        {
+            foreach(Card card in cards)
+            {
+                if ((int)((StandardCard)card).GetRank() == value)
+                {
+                    sortedDeck.AddCard(card);
+                }
+            }
+        }
+        return sortedDeck;
+    }
+
+    /// <summary>
+    /// Returns the index in the deck of cards, which has the lowest rank
+    /// </summary>
+    /// <returns></returns>
+    public int GetIndexOfLowestStandardCardRank()
+    {
+        int index = int.MaxValue;
+        for (int x = 0; x < cards.Count; x++)
+        {
+            if (cards[x].GetType() == typeof(StandardCard))
+            {
+                int currentRank = (int)((StandardCard)cards[x]).GetRank();
+                if (currentRank < index)
+                {
+                    index = x;
+                }
+            }
+        }
+        return index;
     }
 
     /// <summary>
@@ -199,18 +307,16 @@ public class CardDeck
     /// <param name="cards"></param>
     public void RemoveCards(List<Card> cards)
     {
-        foreach (Card card in cards)
+        for (int x = cards.Count - 1; x >= 0; x--)
         {
-            RemoveCard(card);
+            RemoveCard(cards[x]);
         }
     }
 
 
     public void RemoveAllCards()
     {
-        //RemoveCards(GetAllCards());
         cards.Clear();
-
     }
 
     /// <summary>
@@ -218,7 +324,7 @@ public class CardDeck
     /// </summary>
     public void Shuffle()
     {
-        cards = cards.OrderBy(x => Random.value).ToList();
+        cards = cards.OrderBy(x => UnityEngine.Random.value).ToList();
     }
 
     /// <summary>

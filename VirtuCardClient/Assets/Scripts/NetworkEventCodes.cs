@@ -16,14 +16,16 @@ public enum NetworkEventCodes
     ClientSkipTurn = 10,
     HostEnablingTimer = 11,
     HostRemovingCardsFromPlayer = 13,
+    PokerSendBet = 14,
+    PokerHostSendingCurrentBetInfo = 15,
     WinnerSelected = 20,
     ExitGame = 21,
+    HostSendingUnoCards = 24,
     SongVerification = 27,
     ClientWarFlipCard = 34,
     PlayAgain = 35,
     PlayerKicked = 36,
     SleeveChanged = 40,
     BoilerUpEmoji = 69,
-    IUSucksEmoji = 70,
-    HostSendingUnoCards = 24
+    IUSucksEmoji = 70
 }

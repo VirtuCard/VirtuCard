@@ -108,7 +108,7 @@ namespace GameScreen.ChatPanel
             _chatClient = new ChatClient(this) {ChatRegion = "US"};
             //For left room callback
             PhotonNetwork.AddCallbackTarget(this);
-            _chatClient.Connect(appId, "0.1b", new AuthenticationValues("System (Host)"));
+            _chatClient.Connect(appId, "0.1b", new AuthenticationValues("System (Host) " + HostData.GetJoinCode()));
         }
 
         // Update is called once per frame

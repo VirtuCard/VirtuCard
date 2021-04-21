@@ -59,6 +59,15 @@ public class Uno : Game
 
         // Should I have advance turn?
         // AdvanceTurn(true);
+
+        // Show first card
+        UnoCard card = (UnoCard) GetDeck(DeckChoices.UNDEALT).PopCard();
+        string cardName = card.color.ToString();
+        cardName += "_";
+        cardName += card.value.ToString();
+
+        GetDeck(DeckChoices.PLAYED).AddCard(card);
+        HostData.SetLastPlayedCardTexture(cardName);
     }
 
     /// <summary>
