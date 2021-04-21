@@ -6,7 +6,6 @@ using Photon.Chat;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
-using Photon.Pun;
 
 public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListener
 {
@@ -288,7 +287,7 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
 
     private new void SendSystemMessage(string message)
     {
-        _chatClient.SendPrivateMessage("System (Host)", message);
+        _chatClient.SendPrivateMessage("System (Host) " + ClientData.getJoinCode(), message);
     }
 
     public void DebugReturn(DebugLevel level, string message)
@@ -411,5 +410,9 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
     // don't use the word hell because I don't want Hello being a bad word
     // make it all lower case
     public List<string> badWords = new List<string>(new string[]
-        {"fuck", "shit", "bitch", "cunt", "ryan", "iu", "ass", "@ss"});
+    {
+        "fuck", "shit", "bitch", "cunt", "purdue sucks", "@ss",
+        "b!tch", "sh!t", "arse", "asshole", "bastard", "damn", "d@mn",
+        "prick", "slut"
+    });
 }

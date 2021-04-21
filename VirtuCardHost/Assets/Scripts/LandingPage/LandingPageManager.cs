@@ -19,10 +19,12 @@ public class LandingPageManager : MonoBehaviour
 
     // this is the button that is pressed when a user wants to create a game
     public Button createGameBtn;
+    public GameObject friends;
 
     // Start is called before the first frame update
     void Start()
     {
+        // friends.SetActive(true);
         canHostJoinToggle.SetIsOnWithoutNotify(HostData.CanHostJoinGame());
         // add event listener for the value changing
         canHostJoinToggle.onValueChanged.AddListener(
@@ -57,6 +59,7 @@ public class LandingPageManager : MonoBehaviour
         {
             PhotonNetwork.ConnectUsingSettings();
         }
+        friends.SetActive(true);
     }
 
     /// OnCreateButtonClick()
@@ -86,7 +89,7 @@ public class LandingPageManager : MonoBehaviour
 
     private void GameChoiceValueChanged(int state)
     {
-        HostData.setSelectedGame(state);
+        //HostData.setSelectedGame(state);
     }
 
     /// <summary>

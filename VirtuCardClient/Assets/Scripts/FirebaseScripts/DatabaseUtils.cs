@@ -145,6 +145,18 @@ namespace FirebaseScripts
             });
         }
 
+        public static async Task<string> searchUsername(string username)
+        {
+
+            DatabaseReference namesRef = realtime.GetReference("usernames/" + username).Child("userId");
+            var foundEntry = await namesRef.GetValueAsync();
+            if (foundEntry == null || foundEntry.Value == null)
+            {
+                return null;
+            }
+            return (string)foundEntry.Value;
+        }
+
         public static void getUser(string userId, Action<string> callback)
         {
             DatabaseReference usersList = realtime.GetReference("users/" + userId);
