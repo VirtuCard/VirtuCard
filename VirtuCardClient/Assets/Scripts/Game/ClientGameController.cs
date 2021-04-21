@@ -780,7 +780,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         // this is the return for the draw card event
         else if (photonEvent.Code == (int) NetworkEventCodes.HostSendingCardsToPlayer)
         {
-            Debug.Log("Receiving Card");
+            //Debug.Log("Receiving Card");
             object[] data = (object[]) photonEvent.CustomData;
             string username = (string) data[0];
             // ignore if it was not meant for this user

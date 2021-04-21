@@ -276,11 +276,15 @@ public class GameScreenController : MonoBehaviour
             SceneManager.LoadScene(SceneNames.WaitingRoomScreen);
         }
 
-        if (HostData.GetGame().GetGameName().Equals("Poker"))
+        try
         {
-            PokerBetText.text = "Bet To Match: " + ((Poker)HostData.GetGame()).GetCurrentBet().ToString();
-            PokerPotText.text = "Current Pot: " + ((Poker)HostData.GetGame()).GetCurrentPot().ToString();
+            if (HostData.GetGame().GetGameName().Equals("Poker"))
+            {
+                PokerBetText.text = "Bet To Match: " + ((Poker)HostData.GetGame()).GetCurrentBet().ToString();
+                PokerPotText.text = "Current Pot: " + ((Poker)HostData.GetGame()).GetCurrentPot().ToString();
+            }
         }
+        catch { /* just an empty catch here */ };
 
         try
         {

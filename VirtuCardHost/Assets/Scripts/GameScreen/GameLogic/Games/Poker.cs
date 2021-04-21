@@ -22,6 +22,8 @@ public class Poker : Game
     private const int MIN_NUM_OF_PLAYERS = 1;
     private const int MAX_NUM_OF_PLAYERS = 10;
 
+    private List<Card> cardsThatHaveBeenFolded;
+
     // keep track of score
     private int currentPot;
     private int currentBet;
@@ -30,7 +32,7 @@ public class Poker : Game
     // the index of the person who started the wager
     private int firstPlayerIndex;
     private bool hasWagerChangedSinceFirstPlayerIndex;
-    // keeps
+    // keeps track of if the wagering in that round has begun
     private bool hasWageringBegun;
 
     private struct HandStats
@@ -56,6 +58,7 @@ public class Poker : Game
         hasWagerChangedSinceFirstPlayerIndex = false;
         hasWageringBegun = false;
         currentBet = ANTE;
+        cardsThatHaveBeenFolded = new List<Card>();
 
         // set up the deck
         CardDeck deck = CreateStandard52Deck();
@@ -81,6 +84,9 @@ public class Poker : Game
         firstPlayerIndex = GetCurrentPlayerTurnIndex();
     }
 
+    /// <summary>
+    /// Replaces the hands of all the players who have not run out of score
+    /// </summary>
     private void ReplaceHands()
     {
         List<PlayerInfo> players = GetAllPlayers();
@@ -89,22 +95,31 @@ public class Poker : Game
 
         for (int x = 0; x < players.Count; x++)
         {
+            // check if the player folded for the round, or if they really are out of points
             if (players[x].pokerHasFolded)
             {
                 if (players[x].score - ANTE >= 0)
                 {
                     players[x].pokerHasFolded = false;
+                    Debug.Log(players[x].username + " has had their hand unfolded since they have chips left");
+                }
+                else
+                {
+                    Debug.Log(players[x].username + " has had their hand folded again since they have " + players[x].score + " chips left");
                 }
             }
 
+            // if the player has not run out of score, remove their hand before they are given a new one
             if (!players[x].pokerHasFolded)
             {
                 // remove the cards from each player
                 players[x].pokerScoreWagered = ANTE;
                 players[x].score -= ANTE;
+
+                players[x].pokerReplacementsLeft = REPLACEMENTS_PER_ROUND;
+
                 if (players[x].score < 0)
                 {
-                    // TODO handle player out of score
                     players[x].pokerHasFolded = true;
                     players[x].score = 0;
                     Debug.Log(players[x].username + " has run out of poker chips!");
@@ -116,30 +131,44 @@ public class Poker : Game
                 // recycle the cards back into the deck
                 GetDeck(DeckChoices.UNDEALT).AddCards(cardsToRemove);
             }
+
+            // add the folded cards back into the deck
+            GetDeck(DeckChoices.UNDEALT).AddCards(cardsThatHaveBeenFolded);
         }
-        if (GetPlayerOfCurrentTurn().pokerHasFolded)
+        //if (GetPlayerOfCurrentTurn().pokerHasFolded)
+        //{
+        if (NumOfPlayersLeftNotFolded() == 1)
         {
-            if (NumOfPlayersLeftNotFolded() == 1)
+            // end game and give that person the victory
+            foreach (PlayerInfo player in players)
             {
-                // TODO end GAME and give that person the victory
-            }
-            else if (NumOfPlayersLeftNotFolded() > 0)
-            {
-                while (GetPlayerOfCurrentTurn().pokerHasFolded)
+                if (!player.pokerHasFolded)
                 {
-                    AdvanceTurn(true);
+                    Debug.Log(player.username + " has won the game!");
+                    GameScreenController.DeclareWinner(player.username, player.username + " is the Winner With " + player.score + " Points!");
+                    return;
                 }
             }
-            else
-            {
-                // Everyone has folded??
-                // not sure what to do here
-            }
         }
+        else if (NumOfPlayersLeftNotFolded() > 0)
+        {
+            AdvanceTurnToNextNotFoldedPlayer();
+        }
+        else
+        {
+            // Everyone has folded??
+            // not sure what to do here
+        }
+        //}
         UpdateMaxWager();
         SendOutCards();
     }
 
+    /// <summary>
+    /// Replaces a card from a player's hand with a new random card from the deck
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="card"></param>
     public void ReplaceCard(string username, StandardCard card)
     {
         PlayerInfo player = GetPlayer(username);
@@ -162,10 +191,13 @@ public class Poker : Game
     /// </summary>
     private void SendBetInfo()
     {
+        // set the max wager (don't let people bet more than the lowest person's score)
         UpdateMaxWager();
+
         List<NetworkController.PokerUsernamesAndScores> keyValues = new List<NetworkController.PokerUsernamesAndScores>();
         List<PlayerInfo> players = GetAllPlayers();
 
+        // assemble all the player's stats and send them out
         for (int x = 0; x < players.Count; x++)
         {
             NetworkController.PokerUsernamesAndScores pokerUsernamesAndScores = new NetworkController.PokerUsernamesAndScores
@@ -231,23 +263,7 @@ public class Poker : Game
             // that player doesn't have enough to wager that much
             return;
         }
-        AdvanceTurn(true);
-        if (NumOfPlayersLeftNotFolded() == 1)
-        {
-            // TODO end ROUND and give that person the pot
-        }
-        else if (NumOfPlayersLeftNotFolded() > 0)
-        {
-            while (GetPlayerOfCurrentTurn().pokerHasFolded)
-            {
-                AdvanceTurn(true);
-            }
-        }
-        else
-        {
-            // Everyone has folded??
-            // not sure what to do here
-        }
+        AdvanceTurnToNextNotFoldedPlayer();
 
         // if it has gone through all the players
         if (firstPlayerIndex == GetCurrentPlayerTurnIndex())
@@ -256,16 +272,7 @@ public class Poker : Game
             if (hasWagerChangedSinceFirstPlayerIndex == false && hasWageringBegun == true && amountWagered == 0)
             {
                 // end the wagering and see who won the pot
-                RoundWinner winner = FindRoundWinner();
-
-                HostData.SetDoShowNotificationWindow(true, winner.user.username + " won with a " + winner.winningHand.importantCards.HandString());
-
-                GetPlayer(winner.user.username).score += currentPot;
-
-                hasWageringBegun = false;
-                hasWagerChangedSinceFirstPlayerIndex = false;
-                ReplaceHands();
-                SendBetInfo();
+                EndRound();
                 return;
             }
 
@@ -282,7 +289,51 @@ public class Poker : Game
     /// <param name="username"></param>
     public void PlayerFolded(string username)
     {
+        PlayerInfo player = GetPlayer(username);
+        player.pokerHasFolded = true;
 
+        if (NumOfPlayersLeftNotFolded() == 1)
+        {
+            // end round and give that person the pot
+            EndRound();
+            return;
+        }
+
+        // remove the cards from that player's hand
+        List<Card> cardsToRemove = new List<Card>();
+        cardsToRemove.AddRange(player.cards.GetAllCards());
+        NetworkController.RemoveCardsFromPlayer(player.username, null, cardsToRemove);
+
+        // add those cards to the folded list
+        cardsThatHaveBeenFolded.AddRange(cardsToRemove);
+
+        AdvanceTurnToNextNotFoldedPlayer();
+    }
+
+
+    /// <summary>
+    /// Advances the turn to the next person that has not folded
+    /// </summary>
+    private void AdvanceTurnToNextNotFoldedPlayer()
+    {
+        AdvanceTurn(true);
+        if (NumOfPlayersLeftNotFolded() == 1)
+        {
+            // end round and give that person the pot
+            EndRound();
+        }
+        else if (NumOfPlayersLeftNotFolded() > 0)
+        {
+            while (GetPlayerOfCurrentTurn().pokerHasFolded)
+            {
+                AdvanceTurn(true);
+            }
+        }
+        else
+        {
+            // Everyone has folded??
+            // not sure what to do here
+        }
     }
 
     /// <summary>
@@ -326,6 +377,26 @@ public class Poker : Game
     }
 
     /// <summary>
+    /// Ends that round, finds the winner, and replaces all hands
+    /// </summary>
+    private void EndRound()
+    {
+        RoundWinner winner = FindRoundWinner();
+
+        HostData.SetDoShowNotificationWindow(true, winner.user.username + " won with a " + winner.winningHand.importantCards.HandString());
+
+        GetPlayer(winner.user.username).score += currentPot;
+
+        hasWageringBegun = false;
+        hasWagerChangedSinceFirstPlayerIndex = false;
+
+        ReplaceHands();
+        SendBetInfo();
+
+        firstPlayerIndex = GetCurrentPlayerTurnIndex();
+    }
+
+    /// <summary>
     /// Returns the winner of the round
     /// </summary>
     /// <returns></returns>
@@ -341,13 +412,31 @@ public class Poker : Game
             playerStats.Add(GetHandStats(player.cards));
         }
 
-        for (int x = 1; x < players.Count; x++)
+        // find first index that has not folded
+        for (int x = 0; x < players.Count; x++)
         {
-            if (CompareHands(playerStats[x], playerStats[highestIndex]))
+            if (!players[x].pokerHasFolded)
             {
                 highestIndex = x;
+                break;
             }
         }
+
+        if (highestIndex != players.Count - 1)
+        {
+            int startingIndex = highestIndex + 1;
+            for (int x = startingIndex; x < players.Count; x++)
+            {
+                if (!players[x].pokerHasFolded)
+                {
+                    if (CompareHands(playerStats[x], playerStats[highestIndex]))
+                    {
+                        highestIndex = x;
+                    }
+                }
+            }
+        }
+
         RoundWinner winner = new RoundWinner
         {
             user = players[highestIndex],
@@ -638,16 +727,25 @@ public class Poker : Game
 
         for (int deckIndex = 0; deckIndex < players.Count; deckIndex++)
         {
-            // each deck receives NUM_OF_CARDS_PER_PLAYER cards
-            for (int numOfCards = 0; numOfCards < NUM_OF_CARDS_PER_PLAYER; numOfCards++)
+            // only give cards to players that are not out of score
+            if (!players[deckIndex].pokerHasFolded)
             {
-                playerDecks[deckIndex].AddCard(GetDeck(DeckChoices.UNDEALT).PopCard());
+                // each deck receives NUM_OF_CARDS_PER_PLAYER cards
+                for (int numOfCards = 0; numOfCards < NUM_OF_CARDS_PER_PLAYER; numOfCards++)
+                {
+                    playerDecks[deckIndex].AddCard(GetDeck(DeckChoices.UNDEALT).PopCard());
+                }
             }
         }
         // send the cards to the players
         for (int x = 0; x < players.Count; x++)
         {
-            NetworkController.SendCardsToPlayer(players[x].username, playerDecks[x].GetAllCards(), true, false);
+            // only give cards to players that are not out of score
+            if (!players[x].pokerHasFolded)
+            {
+                Debug.Log("Sending cards to " + players[x].username);
+                NetworkController.SendCardsToPlayer(players[x].username, playerDecks[x].GetAllCards(), true, false);
+            }
         }
     }
 
@@ -757,7 +855,7 @@ public class NoPair : ImportantCards
 
     public override string HandString()
     {
-        return "No Pair";
+        return "High Card";
     }
 
     public override void Print()
