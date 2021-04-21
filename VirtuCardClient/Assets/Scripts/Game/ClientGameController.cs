@@ -96,7 +96,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     string filePath;
     public Texture defBack;
 
-    public GameObject selectColor;
+    [Header("Uno")] public GameObject selectColor;
     public Button redButton;
     public Button yellowButton;
     public Button greenButton;
