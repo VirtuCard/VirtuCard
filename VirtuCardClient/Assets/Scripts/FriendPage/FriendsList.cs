@@ -10,18 +10,18 @@ public class FriendsList : MonoBehaviour
     public GameObject friendTemplate;
     public GameObject friendsPanel;
 
-    public static List<User> friends;
+    public static List<User> Friends;
 
-    public void Start()
+    public void OnEnable()
     {
-        friends = new List<User>();
+        Friends = new List<User>();
         foreach (var friendName in ClientData.UserProfile.Friends)
         {
             DatabaseUtils.GetUserFromName(friendName, user =>
             {
                 if (user != null)
                 {
-                    friends.Add(user);
+                    Friends.Add(user);
                 }
             });
         }
@@ -29,23 +29,26 @@ public class FriendsList : MonoBehaviour
 
     public void Update()
     {
-        while (friends.Count > 0)
+        while (Friends.Count > 0)
         {
-            User user = friends[0];
-            friends.RemoveAt(0);
+            User user = Friends[0];
             GameObject friendObject = Instantiate(friendTemplate, friendsPanel.transform);
-            friendObject.transform.Find("FriendName").gameObject.GetComponent<Text>().text = user.Username;
-            friendObject.transform.Find("GameStats").Find("GamesPlayed").gameObject.GetComponent<Text>().text =
-                user.GamesPlayed.ToString();
-            friendObject.transform.Find("GameStats").Find("GamesWon").gameObject.GetComponent<Text>().text =
-                user.GamesWon.ToString();
-            friendObject.transform.Find("GameStats").Find("GamesLost").gameObject.GetComponent<Text>().text =
-                user.GamesLost.ToString();
-            friendObject.SetActive(true);
+            if (friendObject != null)
+            {
+                friendObject.transform.Find("FriendName").gameObject.GetComponent<Text>().text = user.Username;
+                friendObject.transform.Find("GameStats").Find("GamesPlayed").gameObject.GetComponent<Text>().text =
+                    user.GamesPlayed.ToString();
+                friendObject.transform.Find("GameStats").Find("GamesWon").gameObject.GetComponent<Text>().text =
+                    user.GamesWon.ToString();
+                friendObject.transform.Find("GameStats").Find("GamesLost").gameObject.GetComponent<Text>().text =
+                    user.GamesLost.ToString();
+                friendObject.SetActive(true);
+                Friends.RemoveAt(0);
+            }
+            else
+            {
+                Debug.Log("Issue with adding Friend");
+            }
         }
-    }
-
-    public void AddToPlaylist(User user)
-    {
     }
 }
