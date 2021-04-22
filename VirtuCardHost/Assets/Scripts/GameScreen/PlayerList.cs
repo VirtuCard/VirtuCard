@@ -91,7 +91,10 @@ public class PlayerList : MonoBehaviour
     {
         for (int x = 1; x < playerComponents.Count; x++)
         {
-            playerComponents[x].image.anchoredPosition = new Vector2(((imageWidth + imageSpacing) * x), 0);
+            try
+            {
+                playerComponents[x].image.anchoredPosition = new Vector2(((imageWidth + imageSpacing) * x), 0);
+            } catch { /* empty catch block */ };
         }
     }
 

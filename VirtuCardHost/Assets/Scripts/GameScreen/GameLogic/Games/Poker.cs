@@ -93,6 +93,11 @@ public class Poker : Game
         currentPot = players.Count * ANTE;
         currentBet = ANTE;
 
+        // recreate deck
+        CardDeck deck = CreateStandard52Deck();
+        GetDeck(DeckChoices.UNDEALT).RemoveAllCards();
+        GetDeck(DeckChoices.UNDEALT).AddCards(deck);
+
         for (int x = 0; x < players.Count; x++)
         {
             // check if the player folded for the round, or if they really are out of points
@@ -129,11 +134,11 @@ public class Poker : Game
                 NetworkController.RemoveCardsFromPlayer(players[x].username, null, cardsToRemove);
 
                 // recycle the cards back into the deck
-                GetDeck(DeckChoices.UNDEALT).AddCards(cardsToRemove);
+                //GetDeck(DeckChoices.UNDEALT).AddCards(cardsToRemove);
             }
 
             // add the folded cards back into the deck
-            GetDeck(DeckChoices.UNDEALT).AddCards(cardsThatHaveBeenFolded);
+            //GetDeck(DeckChoices.UNDEALT).AddCards(cardsThatHaveBeenFolded);
         }
         //if (GetPlayerOfCurrentTurn().pokerHasFolded)
         //{
@@ -223,6 +228,9 @@ public class Poker : Game
         // process the wager
         PlayerInfo playerWhoWagered = GetPlayer(playerIndex);
 
+        // reset boolean for next round
+        hasWagerChangedSinceFirstPlayerIndex = false;
+
         // if the wagered 0
         if (amountWagered == 0)
         {
@@ -275,9 +283,6 @@ public class Poker : Game
                 EndRound();
                 return;
             }
-
-            // reset boolean for next round
-            hasWagerChangedSinceFirstPlayerIndex = false;
         }
 
         hasWageringBegun = true;
@@ -291,6 +296,15 @@ public class Poker : Game
     {
         PlayerInfo player = GetPlayer(username);
         player.pokerHasFolded = true;
+
+        int index = GetPlayerIndex(username);
+        Debug.LogError("Index: " + index);
+        Debug.LogError("First Player Index: " + firstPlayerIndex);
+        if (index == firstPlayerIndex)
+        {
+            firstPlayerIndex = GetPlayerIndexOfFirstPlayerNotFolded(index);
+            Debug.LogError("New Player Index: " + index);
+        }
 
         if (NumOfPlayersLeftNotFolded() == 1)
         {
@@ -310,6 +324,35 @@ public class Poker : Game
         AdvanceTurnToNextNotFoldedPlayer();
     }
 
+    /// <summary>
+    /// Gets the first index of the first player who has not folded
+    /// </summary>
+    /// <returns></returns>
+    private int GetPlayerIndexOfFirstPlayerNotFolded(int index)
+    {
+        List<PlayerInfo> players = GetAllPlayers();
+        int originalIndex = index;
+        index++;
+        if (index >= players.Count)
+        {
+            index = 0;
+        }
+
+        while (originalIndex != index)
+        {
+            if (!players[index].pokerHasFolded)
+            {
+                return GetPlayerIndex(players[index].username);
+            }
+
+            index++;
+            if (index >= players.Count)
+            {
+                index = 0;
+            }
+        }
+        return index;
+    }
 
     /// <summary>
     /// Advances the turn to the next person that has not folded
@@ -394,6 +437,12 @@ public class Poker : Game
         SendBetInfo();
 
         firstPlayerIndex = GetCurrentPlayerTurnIndex();
+        //firstPlayerIndex = GetPlayerIndexOfFirstPlayerNotFolded();
+        if (firstPlayerIndex < 0)
+        {
+            firstPlayerIndex = 0;
+        }
+        Debug.LogError("FirstPlayerIndex = " + firstPlayerIndex);
     }
 
     /// <summary>
@@ -409,7 +458,14 @@ public class Poker : Game
 
         foreach (PlayerInfo player in players)
         {
-            playerStats.Add(GetHandStats(player.cards));
+            if (player.pokerHasFolded)
+            {
+                playerStats.Add(new HandStats());
+            }
+            else
+            {
+                playerStats.Add(GetHandStats(player.cards));
+            }
         }
 
         // find first index that has not folded
