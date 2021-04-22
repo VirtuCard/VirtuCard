@@ -41,7 +41,7 @@ namespace Music
         private bool isPaused = false;
         private bool justSwappedSongs = false;
 
-        //Downlaoder
+        //Downloader
         private MusicDownloader downloader;
 
         private void Start()
