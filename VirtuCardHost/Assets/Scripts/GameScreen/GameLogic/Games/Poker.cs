@@ -19,7 +19,7 @@ public class Poker : Game
     private const int NUM_OF_CARDS_PER_PLAYER = 5;
 
     // min/max players
-    private const int MIN_NUM_OF_PLAYERS = 1;
+    private const int MIN_NUM_OF_PLAYERS = 2;
     private const int MAX_NUM_OF_PLAYERS = 10;
 
     private List<Card> cardsThatHaveBeenFolded;
@@ -298,12 +298,9 @@ public class Poker : Game
         player.pokerHasFolded = true;
 
         int index = GetPlayerIndex(username);
-        Debug.LogError("Index: " + index);
-        Debug.LogError("First Player Index: " + firstPlayerIndex);
         if (index == firstPlayerIndex)
         {
             firstPlayerIndex = GetPlayerIndexOfFirstPlayerNotFolded(index);
-            Debug.LogError("New Player Index: " + index);
         }
 
         if (NumOfPlayersLeftNotFolded() == 1)
