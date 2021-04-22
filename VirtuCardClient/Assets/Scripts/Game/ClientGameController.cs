@@ -11,6 +11,7 @@ using UnityEngine.UI;
 using System;
 using System.IO;
 using GameScreen.GameLogic.Cards;
+using UnityEngine.EventSystems;
 
 public class ClientGameController : MonoBehaviourPunCallbacks
 {
@@ -287,7 +288,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        defBack = Resources.Load<Texture>("Card UI/CardBack");
+            defBack = Resources.Load<Texture>("Card UI/CardBack");
         // check to see if the player can skip their turn once per frame
         foreach (RectTransform o in cardMenu.images)
         {
@@ -578,6 +579,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
 
     public void onFlipButtonClicked()
     {
+        AndroidManager.HapticFeedback();
         string animation = cardsFlipped ? "CardUnflipClient" : "CardFlipClient";
         foreach (RectTransform o in cardMenu.images)
         {
@@ -595,7 +597,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         }
         cardsFlipped = !cardsFlipped;
     }
-
     /// <summary>
     /// This method sets the skip btn to interactable or not
     /// </summary>
