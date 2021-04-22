@@ -74,6 +74,8 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
     public string appId = "50b55aec-e283-413b-88eb-c86a27dfb8b2";
     public static readonly string WAITING_ROOM_CODE = "57d3424a0242ac130003";
 
+    bool friendPanelInitialized = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -148,6 +150,14 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
         _chatClient = new ChatClient(this) {ChatRegion = "US"};
         _chatClient.Connect(appId, "0.1b", new AuthenticationValues("System (Host)"));
         Debug.Log("Completed Start");
+
+        /*
+        foreach (string friendName in user.Friends)
+        {
+            invitePlayerDropdown.options.Add(new Dropdown.OptionData(friendName));
+        }
+        */
+        friendPanelInitialized = true;
     }
 
     // Update is called once per frame
@@ -548,28 +558,33 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
 
         List<PlayerInfo> allConnectedPlayers = HostData.GetGame().GetAllPlayers();
         //content.Add(allConnectedPlayers.Count);
-
-        if (allConnectedPlayers.Count == 0)
-        {
+       if (friendPanelInitialized)
+       {
+         if (allConnectedPlayers.Count == 0)
+         {
             foreach (string friendName in user.Friends)
             {
                 invitePlayerDropdown.options.Add(new Dropdown.OptionData(friendName));
             }
+          }
+          friendPanelInitialized = false;
         }
-        else
+        if (allConnectedPlayers.Count == 0)
         {
             foreach (string friendName in user.Friends)
             {
-                //Poplulate the friend dropdown box
-                for (int x = 0; x < allConnectedPlayers.Count; x++)
+              //Poplulate the friend dropdown box
+              for (int x = 0; x < allConnectedPlayers.Count; x++)
                 {
-                    if (friendName != allConnectedPlayers[x].username)
+                    if (friendName == allConnectedPlayers[x].username)
                     {
-                        invitePlayerDropdown.options.Add(new Dropdown.OptionData(friendName));
+                        //invitePlayerDropdown.options.Add(new Dropdown.OptionData(friendName));
+                        // remove player from dropdown here
                     }
                 }
             }
         }
+       
     }
 
     public void OnSpecificFriendInvited()
