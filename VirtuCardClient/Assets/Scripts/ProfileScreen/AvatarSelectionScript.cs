@@ -35,6 +35,13 @@ public class AvatarSelectionScript : MonoBehaviour
 
     public int numAvatars = 6;
 
+    //Custom Avatar Fields
+    [Header("Custom Avatar Fields")]
+    string filePath;
+    public Button setCardBackBtn;
+    private CardMenu cardMenu;
+
+
     /* private struct AvatarsToAssignTexture
     {
         public string texturePath;
@@ -136,6 +143,9 @@ public class AvatarSelectionScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Function to handle swipe functionality on Card Carousel
+    /// </summary>
     private void OnSwipeComplete()
     {
         lastScreenPosition = screenPosition;
@@ -188,6 +198,10 @@ public class AvatarSelectionScript : MonoBehaviour
         dragAmount = 0;
     }
 
+    /// <summary>
+    /// Method to get the currently selected Avatar
+    /// </summary>
+    /// <returns>The texture of the Avatar the player is looking at</returns>
     public RectTransform GetCurrentlySelectedAvatar()
     {
         if (AvatarList.Count == 0)
@@ -215,7 +229,10 @@ public class AvatarSelectionScript : MonoBehaviour
         throw new Exception("No Currently Selected Card");
     }
 
-
+    /// <summary>
+    /// Method to handle the Choose Avatar button functionality
+    /// that lets users choose from preset Avatars
+    /// </summary>
     public void onChooseAvatarButtonClick()
     {
         int newAvatarIndex = GetCurrentlySelectedIndex();
@@ -236,11 +253,19 @@ public class AvatarSelectionScript : MonoBehaviour
         avatarPanel.SetActive(false);
     }
 
+    /// <summary>
+    /// Method to activate the Edit Avatar panel
+    /// </summary>
     public void onEditAvatarButtonClick()
     {
         avatarPanel.SetActive(true);
     }
 
+    /// <summary>
+    /// Method to retrieve the index of the card the player is looking
+    /// at in the Avatar presets carousel.
+    /// </summary>
+    /// <returns>The index of the Avatar the player has selected</returns>
     public int GetCurrentlySelectedIndex()
     {
         if (AvatarList.Count == 0)
@@ -259,4 +284,63 @@ public class AvatarSelectionScript : MonoBehaviour
 
         throw new Exception("No Currently Selected Card");
     }
+
+    /// <summary>
+    /// Method to facilitate Custom Avatar selection button
+    /// </summary>
+    public void onCustomAvatarClick()
+    {
+        filePath = "";
+
+        Debug.Log(filePath);
+    
+        NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((path) =>
+        {
+            Debug.Log("Image path: " + path);
+            if (path != null)
+            {
+                filePath = path;
+                UpdateAvatarImage();
+            }
+        }, "Select a custom Avatar image", "image/*");
+        Debug.Log("Permission result: " + permission);
+    }
+
+    /// <summary>
+    /// Method to update image after Custom Avatar is selected
+    /// </summary>
+    private void UpdateAvatarImage()
+    {
+        if (filePath.Length != 0)
+        {
+            Texture2D tex = null;
+            byte[] fileData;
+            if (File.Exists(filePath))
+            {
+                fileData = File.ReadAllBytes(filePath);
+                
+                tex = new Texture2D(2, 2);
+                tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
+            }
+
+            //Loading in image File
+            playerAvatar.gameObject.GetComponent<RawImage>().texture = tex;
+
+            //Uploading File to Firebase
+            byte[] imageBytes = ((Texture2D) tex).EncodeToPNG();
+            ClientData.ImageData = imageBytes;
+
+            ClientData.UserProfile.Avatar = ClientData.UserProfile.Username;
+            DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Updated image info"); });
+
+            ImageStorage.uploadImage(ClientData.UserProfile.Username, imageBytes, b => { Debug.Log("Uploaded with " + b); });
+
+            //Deactivating panel
+            avatarPanel.SetActive(false);
+        }
+
+        
+    }
+
+   
 }

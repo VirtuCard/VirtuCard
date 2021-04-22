@@ -222,7 +222,7 @@ namespace Music
 
         public void onMuteButtonClick()
         {
-            mediaPlayer.AudioVolume = mediaPlayer.AudioVolume == 0.0f ? 1.0f : 0.0f;
+            mediaPlayer.AudioVolume = mediaPlayer.AudioVolume == 0.0f ? volumeControlSlider.value : 0.0f;
         }
 
         public void onShuffleButtonClick()

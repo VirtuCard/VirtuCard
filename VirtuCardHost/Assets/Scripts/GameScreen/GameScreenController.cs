@@ -925,16 +925,21 @@ public class GameScreenController : MonoBehaviour
         // Card deck UI
         // Card Player Carousel
 
+        List<PlayerInfo> players = HostData.GetGame().GetAllPlayers();
+        //currentPot = players.Count * ANTE;
+        foreach (PlayerInfo player in players)
+        {
+            player.score = 0;
+            player.cards.RemoveAllCards();
+        }
+
         // This should reset the card deck backend
+        playerUIList.UpdateUI();
         HostData.GetGame().ResetAllDecks();
         HostData.GetGame().InitializeGame();
 
         // Check carousel and redo it
         // This is probably what needs to be used PlayerList.UpdateUI(); - ask Kade
-
-
-        playerUIList.UpdateUI();
-
 
         // Reset Card Deck UI
         string gameType = (String) HostData.GetGame().GetGameName();
