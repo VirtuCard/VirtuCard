@@ -817,6 +817,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             ClientData.setCurrentPlayerTurn(currentPersonsTurn);
             if (currentPersonsTurn.Equals(PhotonNetwork.NickName))
             {
+                AndroidManager.HapticFeedback();
                 ClientData.setCurrentTurn(true);
                 timer.StartTimer();
             }
