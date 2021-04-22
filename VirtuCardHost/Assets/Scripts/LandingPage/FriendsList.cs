@@ -14,6 +14,11 @@ public class FriendsList : MonoBehaviour
 
     public void OnEnable()
     {
+        while (friendsPanel.transform.childCount > 0)
+        {
+            DestroyImmediate(friendsPanel.transform.GetChild(0).gameObject);
+        }
+
         Friends = new List<User>();
         if (HostData.UserProfile == null)
         {
@@ -49,26 +54,21 @@ public class FriendsList : MonoBehaviour
 
     public void Update()
     {
-        while (Friends.Count > 0)
+        if (Friends.Count > 0)
         {
             User user = Friends[0];
+            Friends.RemoveAt(0);
+
             GameObject friendObject = Instantiate(friendTemplate, friendsPanel.transform);
-            if (friendObject != null)
-            {
-                friendObject.transform.Find("FriendName").gameObject.GetComponent<Text>().text = user.Username;
-                friendObject.transform.Find("GamesPlayed").gameObject.GetComponent<Text>().text =
-                    user.GamesPlayed.ToString();
-                friendObject.transform.Find("GamesWon").gameObject.GetComponent<Text>().text =
-                    user.GamesWon.ToString();
-                friendObject.transform.Find("GamesLost").gameObject.GetComponent<Text>().text =
-                    user.GamesLost.ToString();
-                friendObject.SetActive(true);
-                Friends.RemoveAt(0);
-            }
-            else
-            {
-                Debug.Log("Issue with adding Friend");
-            }
+            Debug.Log(friendObject.transform.GetChild(0).name);
+            friendObject.transform.Find("FriendName").gameObject.GetComponent<Text>().text = user.Username;
+            friendObject.transform.Find("GamesPlayed").gameObject.GetComponent<Text>().text =
+                user.GamesPlayed.ToString();
+            friendObject.transform.Find("GamesWon").gameObject.GetComponent<Text>().text =
+                user.GamesWon.ToString();
+            friendObject.transform.Find("GamesLost").gameObject.GetComponent<Text>().text =
+                user.GamesLost.ToString();
+            friendObject.SetActive(true);
         }
     }
 }
