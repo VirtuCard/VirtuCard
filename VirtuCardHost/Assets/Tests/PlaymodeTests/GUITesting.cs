@@ -155,18 +155,18 @@ public class GUITesting
             "currentScene.name.Equals(SceneNames.LandingPage)");
 
         //Click Profile
-        Button profileButton = GameObject.Find("ProfileBtn").GetComponent<Button>();
+        Button profileButton = GameObject.Find("SearchFriendspre").GetComponent<Button>();
         Assert.NotNull(profileButton, "profileButton != null");
         profileButton.onClick.Invoke();
         yield return new WaitForSeconds(2);
 
         //Check if reached Profile Page
         currentScene = SceneManager.GetActiveScene();
-        Assert.IsTrue(currentScene.name.Equals(SceneNames.ProfilePage),
+        Assert.IsTrue(currentScene.name.Equals(SceneNames.LandingPage),
             "currentScene.name.Equals(SceneNames.ProfilePage)");
 
         //Click Profile
-        Button backButton = GameObject.Find("BackButton").GetComponent<Button>();
+        Button backButton = GameObject.Find("backBtn").GetComponent<Button>();
         Assert.NotNull(backButton, "backButton != null");
         backButton.onClick.Invoke();
         yield return new WaitForSeconds(3);
@@ -300,6 +300,10 @@ public class GUITesting
         gameChoices.value = 2;
         Assert.AreEqual(gameChoices.captionText.text, "War", "Game Dropdowns provided unexpected value");
         gameChoices.value = 3;
+        Assert.AreEqual(gameChoices.captionText.text, "Uno", "Game Dropdowns provided unexpected value");
+        gameChoices.value = 4;
+        Assert.AreEqual(gameChoices.captionText.text, "Poker", "Game Dropdowns provided unexpected value");
+        gameChoices.value = 5;
         Assert.AreEqual(gameChoices.captionText.text, "Freeplay", "Game Dropdowns provided unexpected value");
 
         joinGameButton.onClick.Invoke();
