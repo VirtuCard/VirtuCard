@@ -728,6 +728,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             {
                 invalidMove.GetComponent<CanvasGroup>().alpha = 1;
                 StartCoroutine(FadeCanvas(invalidMove, invalidMove.alpha, 0, 1.0f));
+                AndroidManager.HapticFeedback();
                 Debug.Log("Card is not valid to be played");
             }
         }
