@@ -184,6 +184,12 @@ public class CardDeck
     public bool IsAStraight()
     {
         int lowestIndex = GetIndexOfLowestStandardCardRank();
+
+        if (lowestIndex < 0 || lowestIndex >= cards.Count)
+        {
+            lowestIndex = 0;
+        }
+
         int rankToBeat = (int)((StandardCard)cards[lowestIndex]).GetRank();
         List<int> uncheckedIndices = new List<int>();
         for (int x = 0; x < cards.Count; x++)
@@ -198,7 +204,9 @@ public class CardDeck
         while (didFindNewIndex)
         {
             didFindNewIndex = false;
-            foreach (int index in uncheckedIndices)
+            List<int> cpy = new List<int>();
+            cpy.AddRange(uncheckedIndices);
+            foreach (int index in cpy)
             {
                 int currentRank = (int)((StandardCard)cards[index]).GetRank();
                 if (currentRank == rankToBeat + 1)

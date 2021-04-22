@@ -24,7 +24,13 @@ public class searchFriendsHost : MonoBehaviour
     public Button addBtn;
     public GameObject addBtnObject;
     public CanvasGroup alreadyFriendSign;
+    public GameObject stats;
+    public Text playerStat;
+    public Text playerPlayed;
+    public Text playerWon;
+    public Text playerLost;
     private User user;
+    private User personSearching;
     private List<User> friends = new List<User>();
     private bool nameEqual = false;
 
@@ -56,22 +62,37 @@ public class searchFriendsHost : MonoBehaviour
     {
         if (exist) {
             addBtnObject.SetActive(true);
+            stats.SetActive(true);
             postSearchUser.GetComponent<Text>().text = usernamePlayer;
-            //usernamePlayer = "";
+
+            DatabaseUtils.GetUserFromName(usernamePlayer, changePerson);
+
+            playerStat.GetComponent<Text>().text = usernamePlayer + "'s stats";
+            playerPlayed.GetComponent<Text>().text = "Games Played: " + personSearching.GamesPlayed.ToString();
+            playerWon.GetComponent<Text>().text = "Games Won: " + personSearching.GamesWon.ToString();
+            playerLost.GetComponent<Text>().text = "Games Lost: " + personSearching.GamesLost.ToString();
+            Debug.Log("person I'm searching is " + personSearching.Username);
+            Debug.Log("person won" + personSearching.GamesWon);
+            Debug.Log("person played " + personSearching.GamesPlayed);
+            Debug.Log("person lost " + personSearching.GamesLost);
         }
         else if (doesNotExist) {
             addBtnObject.SetActive(false);
+            stats.SetActive(false);
             postSearchUser.GetComponent<Text>().text = usernamePlayer + " does not exist.";
-            //usernamePlayer = "";
         }
         else
         {
-            // if (!nameEqual) { // name searching does not equal
-            //     addBtnObject.SetActive(false);
-            // }
+            addBtnObject.SetActive(false);
+            stats.SetActive(false);
 
         }
 
+    }
+
+    public void changePerson(User friend)
+    {
+        personSearching = friend;
     }
 
     public void searchingFriend()

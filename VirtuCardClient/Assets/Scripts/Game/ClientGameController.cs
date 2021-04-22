@@ -107,7 +107,7 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     string filePath;
     public Texture defBack;
 
-    public GameObject selectColor;
+    [Header("Uno")] public GameObject selectColor;
     public Button redButton;
     public Button yellowButton;
     public Button greenButton;
@@ -976,7 +976,6 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         }
         else if (photonEvent.Code == (int) NetworkEventCodes.SleeveChanged)
         {
-            Debug.Log("HELLOSSMSONDOINDP");
             object[] data = (object[])photonEvent.CustomData;
             byte[] arr = (byte[])data[0];
             Texture2D backTex = new Texture2D(2, 2);
