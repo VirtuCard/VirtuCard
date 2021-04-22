@@ -896,6 +896,13 @@ public class GameScreenController : MonoBehaviour
     public void ExitGameClicked()
     {
         Debug.Log("exit game clicked");
+
+        var players = HostData.GetGame().GetAllPlayers();
+        foreach (var player in players)
+        {
+            playerUIList.RemovePlayerFromCarousel(player.username);
+        }
+        
         HostData.clearGame();
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(SceneNames.LandingPage);
