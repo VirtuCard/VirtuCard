@@ -184,7 +184,7 @@ public class searchFriendScript : MonoBehaviour
                             {
                                 if (foundFriend != null)
                                 {
-                                    FriendsList.friends.Add(foundFriend);
+                                    FriendsList.Friends.Add(foundFriend);
                                 }
                             });
                         }
