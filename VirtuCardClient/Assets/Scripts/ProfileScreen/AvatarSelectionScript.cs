@@ -38,10 +38,13 @@ public class AvatarSelectionScript : MonoBehaviour
     //Custom Avatar Fields
     [Header("Custom Avatar Fields")]
     string filePath;
-    public Button setCardBackBtn;
     private CardMenu cardMenu;
 
-
+    [Header("AvatarButton for Disabling")]
+    //AvatarButton
+    public Button EditAvatarButton;
+    public GameObject errorPanel;
+    
     /* private struct AvatarsToAssignTexture
     {
         public string texturePath;
@@ -51,6 +54,8 @@ public class AvatarSelectionScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        errorPanel.SetActive(false);
+           
         if (ClientData.ImageData != null)
         {
             Texture2D t = new Texture2D(2, 2);
@@ -258,7 +263,15 @@ public class AvatarSelectionScript : MonoBehaviour
     /// </summary>
     public void onEditAvatarButtonClick()
     {
-        avatarPanel.SetActive(true);
+        if (ClientData.UserProfile.IsAnonymous)
+        {
+            
+            errorPanel.SetActive(true);
+        }
+        else
+        {
+            avatarPanel.SetActive(true);
+        }
     }
 
     /// <summary>
@@ -338,8 +351,14 @@ public class AvatarSelectionScript : MonoBehaviour
             //Deactivating panel
             avatarPanel.SetActive(false);
         }
+    }
 
-        
+    /// <summary>
+    /// Method to handle close button click
+    /// </summary>
+    public void onCloseButtonClick()
+    {
+        avatarPanel.SetActive(false);
     }
 
    
