@@ -280,7 +280,6 @@ namespace PhotonScripts
                     {
                         // the game is not gofish
                         Debug.Log("Receiving a Played Card from " + username + ": " + card.ToString());
-                        HostData.SetDoShowNotificationWindow(true, username + " played a card");
                         int userIndex = HostData.GetGame().GetPlayerIndex(username);
 
                         // remove the card from that player's cards
@@ -298,10 +297,12 @@ namespace PhotonScripts
                         if (HostData.GetGame().GetGameName().Equals(Enum.GetName(typeof(GameTypes), GameTypes.Poker)))
                         {
                             ((Poker)HostData.GetGame()).ReplaceCard(username, card);
+                            HostData.SetDoShowNotificationWindow(true, username + " replaced a card");
                         }
                         else
                         {
                             HostData.GetGame().DoMove(card, userIndex);
+                            HostData.SetDoShowNotificationWindow(true, username + " played a card");
                         }
                     }
                 }
