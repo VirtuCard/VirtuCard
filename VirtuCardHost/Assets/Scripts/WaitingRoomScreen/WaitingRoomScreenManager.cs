@@ -569,21 +569,24 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
           }
           friendPanelInitialized = false;
         }
-        if (allConnectedPlayers.Count == 0)
+        /*
+        if (allConnectedPlayers.Count > 0)
         {
-            foreach (string friendName in user.Friends)
+            foreach (string friendName in allConnectedPlayers)
             {
               //Poplulate the friend dropdown box
-              for (int x = 0; x < allConnectedPlayers.Count; x++)
+              for (int x = 0; x < invitePlayerDropdown.options.Count; x++) // allConnectedPlayers.Count
                 {
-                    if (friendName == allConnectedPlayers[x].username)
+                    if (friendName == invitePlayerDropdown.options[x].text)
                     {
                         //invitePlayerDropdown.options.Add(new Dropdown.OptionData(friendName));
                         // remove player from dropdown here
+                        invitePlayerDropdown.options.RemoveAt(x);
                     }
                 }
             }
         }
+        */
        
     }
 
@@ -597,6 +600,7 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
         SendInvite(toInvite);
         inviteFriendsPanel.SetActive(false);
         inviteSentPanel.SetActive(true);
+
         playersInvited.GetComponent<Text>().text = "Successfully invited " + playerToInvite + "!";
     }
 
