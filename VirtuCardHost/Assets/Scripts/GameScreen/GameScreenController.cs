@@ -89,6 +89,7 @@ public class GameScreenController : MonoBehaviour
     public Button shuffleButton;
 
     private bool doPlayedAnimation = false;
+    bool hasKickPlayersBeenInitialized = true;
 
 
     [Header("Background Changing")] public Button setBackgroundBtn;
@@ -148,6 +149,7 @@ public class GameScreenController : MonoBehaviour
             allOfChatUI.SetActive(false);
         }
 
+        hasKickPlayersBeenInitialized = true;
         startTime = Time.time;
         playedCardMenu = playedCardCarousel.GetComponent<CardMenu>();
         undealtCardMenu = undealtCardCarousel.GetComponent<CardMenu>();
@@ -724,13 +726,16 @@ public class GameScreenController : MonoBehaviour
         kickPlayerPanel.SetActive(true);
 
         // Initialize the kick player dropdown
-
-        var allConnectedPlayers = HostData.GetGame().GetAllPlayers();
-        foreach (PlayerInfo player in allConnectedPlayers)
-        {
+        if (hasKickPlayersBeenInitialized){
+          var allConnectedPlayers = HostData.GetGame().GetAllPlayers();
+          foreach (PlayerInfo player in allConnectedPlayers)
+          {
             //Debug.Log(player.photonPlayer.NickName);
-            kickPlayerDropdown.options.Add(new Dropdown.OptionData(player.photonPlayer.NickName));
+              kickPlayerDropdown.options.Add(new Dropdown.OptionData(player.photonPlayer.NickName));
+          }
+          hasKickPlayersBeenInitialized = false;
         }
+        // still have to remove players that have been kicked
     }
 
     public void OnKickPlayerChosen()
