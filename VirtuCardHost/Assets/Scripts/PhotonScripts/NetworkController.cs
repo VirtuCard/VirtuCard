@@ -165,9 +165,12 @@ namespace PhotonScripts
         public override void OnPlayerLeftRoom(Player playerToDisconnect)
         {
             Debug.Log("-----PLAYER LEFT (" + playerToDisconnect.NickName + ")-----");
-            if (!ChatPanelController.systemMessages.Contains(playerToDisconnect.NickName + " has left the room"))
+            if (ChatPanelController.systemMessages != null)
             {
-                ChatPanelController.systemMessages.Add(playerToDisconnect.NickName + " has left the room");
+                if (!ChatPanelController.systemMessages.Contains(playerToDisconnect.NickName + " has left the room"))
+                {
+                    ChatPanelController.systemMessages.Add(playerToDisconnect.NickName + " has left the room");
+                }
             }
 
             HostData.GetGame().DisconnectPlayerFromGame(playerToDisconnect);
@@ -296,7 +299,7 @@ namespace PhotonScripts
 
                         if (HostData.GetGame().GetGameName().Equals(Enum.GetName(typeof(GameTypes), GameTypes.Poker)))
                         {
-                            ((Poker)HostData.GetGame()).ReplaceCard(username, card);
+                            ((Poker) HostData.GetGame()).ReplaceCard(username, card);
                             HostData.SetDoShowNotificationWindow(true, username + " replaced a card");
                         }
                         else
@@ -427,9 +430,10 @@ namespace PhotonScripts
                             else if (HostData.GetGame().GetGameName().Equals("Poker"))
                             {
                                 HostData.SetDoShowNotificationWindow(true, username + " has folded their hand");
-                                ((Poker)HostData.GetGame()).PlayerFolded(username);
+                                ((Poker) HostData.GetGame()).PlayerFolded(username);
                                 return;
                             }
+
                             HostData.SetDoShowNotificationWindow(true, username + " has skipped their turn");
 
 
@@ -459,13 +463,13 @@ namespace PhotonScripts
                 }
                 */
             }
-            else if (photonEvent.Code == (int)NetworkEventCodes.PokerSendBet)
+            else if (photonEvent.Code == (int) NetworkEventCodes.PokerSendBet)
             {
-                object[] data = (object[])photonEvent.CustomData;
+                object[] data = (object[]) photonEvent.CustomData;
                 // just get the username in case we need it in the future
-                string username = (string)data[0];
-                int amountWagered = (int)data[1];
-                ((Poker)HostData.GetGame()).WagerBet(HostData.GetGame().GetPlayerIndex(username), amountWagered);
+                string username = (string) data[0];
+                int amountWagered = (int) data[1];
+                ((Poker) HostData.GetGame()).WagerBet(HostData.GetGame().GetPlayerIndex(username), amountWagered);
             }
         }
 
@@ -604,7 +608,9 @@ namespace PhotonScripts
             public int playerScoreWagered;
             public int replacementsLeft;
         }
-        public static void SendOutPokerBettingInfo(int potSize, int betToMatch, int maxWager, List<PokerUsernamesAndScores> usernamesAndScores)
+
+        public static void SendOutPokerBettingInfo(int potSize, int betToMatch, int maxWager,
+            List<PokerUsernamesAndScores> usernamesAndScores)
         {
             List<object> content = new List<object>();
             content.Add(potSize);
@@ -614,7 +620,7 @@ namespace PhotonScripts
             content.Add(usernamesAndScores.Count);
             for (int x = 0; x < usernamesAndScores.Count; x++)
             {
-                foreach(PokerUsernamesAndScores userAndScore in usernamesAndScores)
+                foreach (PokerUsernamesAndScores userAndScore in usernamesAndScores)
                 {
                     content.Add(userAndScore.username);
                     content.Add(userAndScore.playerScore);
@@ -622,8 +628,10 @@ namespace PhotonScripts
                     content.Add(userAndScore.replacementsLeft);
                 }
             }
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-            PhotonNetwork.RaiseEvent((int)NetworkEventCodes.PokerHostSendingCurrentBetInfo, content, raiseEventOptions, SendOptions.SendReliable);
+
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
+            PhotonNetwork.RaiseEvent((int) NetworkEventCodes.PokerHostSendingCurrentBetInfo, content, raiseEventOptions,
+                SendOptions.SendReliable);
         }
 
         public static void setIsShuffle(bool newBool)
