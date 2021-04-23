@@ -311,10 +311,15 @@ public abstract class Game
     /// <returns></returns>
     public PlayerInfo GetPlayerOfCurrentTurn()
     {
-        if (players.Count == 0 || players.Count < playerTurnIndex)
+        if (players.Count == 0)
+        {
+            return null;
+        }
+        else if (players.Count <= playerTurnIndex)
         {
             Debug.Log("Accessing name outside of bounds in GetPlayerOfCurrentTurn");
-            return null;
+            AdvanceTurn(true);
+            return GetPlayerOfCurrentTurn();
         }
 
         return players[playerTurnIndex];
