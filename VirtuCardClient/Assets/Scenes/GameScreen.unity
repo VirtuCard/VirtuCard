@@ -852,7 +852,7 @@ MonoBehaviour:
   DealCardSound: {fileID: 445010200}
   PlayCardSound: {fileID: 1425975698}
   VictorySound: {fileID: 490249158}
-  DrawCardSound: {fileID: 0}
+  DrawCardSound: {fileID: 1988509666}
 --- !u!4 &118907039
 Transform:
   m_ObjectHideFlags: 0
