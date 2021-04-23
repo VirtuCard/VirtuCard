@@ -287,6 +287,7 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
 
     public new void SendPrivMessage(string message)
     {
+        message = ClientData.getJoinCode() + message;
         Debug.Log("Playing Notification Sound");
         NotificationSound.Play();
 
@@ -324,6 +325,11 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
 
     public void OnGetMessages(string channelName, string[] senders, object[] messages)
     {
+        if (channelName != ClientData.getJoinCode())
+        {
+            return;
+        }
+
         for (int i = 0; i < messages.Length; i++)
         {
             Debug.Log(messages[i]);
@@ -356,6 +362,15 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
                     text += "<color=red> to </color>";
                     text += channelName.Split(':')[1];
                     // If you're the sender, indicate who the message is being sent to.
+                }
+
+                if (!((string) message).Substring(0, 6).Equals(ClientData.getJoinCode()))
+                {
+                    return;
+                }
+                else
+                {
+                    message = ((string) message).Substring(6);
                 }
             }
             else // this is a swear word message to the person
