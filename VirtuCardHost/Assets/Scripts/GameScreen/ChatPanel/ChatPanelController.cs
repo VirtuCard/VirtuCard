@@ -157,6 +157,11 @@ namespace GameScreen.ChatPanel
 
         public void OnGetMessages(string channelName, string[] senders, object[] messages)
         {
+            if (channelName != HostData.GetJoinCode())
+            {
+                return;
+            }
+
             Debug.Log("message");
             for (int i = 0; i < messages.Length; i++)
             {
@@ -227,8 +232,6 @@ namespace GameScreen.ChatPanel
         {
             return uiTest.GetText();
         }*/
-
-        
         public string setAndGetTextTest(string text)
         {
             MessageUI ui = new MessageUI(messageTemplate, messageParent);
