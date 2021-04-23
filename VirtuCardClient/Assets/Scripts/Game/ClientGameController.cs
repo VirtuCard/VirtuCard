@@ -113,15 +113,25 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public Button greenButton;
     public Button blueButton;
 
+    [Header("Poker")]
     private int pokerBetToMatch;
     private int pokerCurrentScore;
     private int pokerAmountAlreadyWagered;
     private int pokerMaxWagerAmount;
     private int pokerReplaceCardsLeft;
 
+    [Header("Audio Clip")]
+    public AudioSource NotificationSound;
+    public AudioSource StartSound;
+    public AudioSource DealCardSound;
+    public AudioSource PlayCardSound;
+
     // Start is called before the first frame update
     void Start()
     {
+        StartSound.Play();
+        //DealCardSound.Play();
+
         pokerBetToMatch = 0;
         pokerCurrentScore = 0;
         pokerAmountAlreadyWagered = 0;
@@ -666,6 +676,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
         {
             if (cardIsValid)
             {
+                Debug.Log("Play Card Sound played");
+                PlayCardSound.Play();
+               
                 Card card = cardMenu.GetCurrentlySelectedCard();
                 int cardIdx = cardMenu.GetCurrentlySelectedIndex();
 
@@ -873,6 +886,10 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             if (winnerName == PhotonNetwork.NickName)
             {
                 winnerAnnounce.text = "You won!";
+
+                Debug.Log("Notificaton Sound Playing");
+                NotificationSound.Play();
+
                 ClientData.UserProfile.GamesWon += 1;
                 DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Incremented Games won."); });
 
