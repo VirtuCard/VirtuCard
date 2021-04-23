@@ -574,3 +574,8 @@ VirtuCardClient/Library/SourceAssetDB
 VirtuCardHost/Library/ArtifactDB
 VirtuCardHost/Library/SceneVisibilityState.asset
 VirtuCardHost/Library/SourceAssetDB
+Binaries/VirtuCardHost0423.zip
+Binaries/VirtuCardClient0423.v3_mapping.txt
+Binaries/SetupScript.iss
+Binaries/SetupBuilderScript.iss
+Binaries/Output/VirtuCards_Setup.exe

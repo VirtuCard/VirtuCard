@@ -18,11 +18,11 @@ public class SettingsButtonCalls : MonoBehaviour
     {
         if (successful == 1)
         {
-            #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-            #else
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
                 Application.Quit();
-            #endif
+#endif
         }
 
         if (successful == 2)
@@ -42,6 +42,10 @@ public class SettingsButtonCalls : MonoBehaviour
                 Debug.Log("Completed with return value " + task);
                 successful = 1;
             });
+        }
+        else
+        {
+            successful = 1;
         }
     }
 
