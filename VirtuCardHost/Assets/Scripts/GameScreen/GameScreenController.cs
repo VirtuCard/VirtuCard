@@ -13,7 +13,7 @@ using System.IO;
 using System.Threading.Tasks;
 using GameScreen.GameLogic.Cards;
 using SFB;
-
+using System.Linq;
 
 public class GameScreenController : MonoBehaviour
 {
@@ -290,6 +290,9 @@ public class GameScreenController : MonoBehaviour
         catch (Exception ex)
         {
             Debug.LogError("GameScreenController.cs error: " + ex.Message);
+            // This is my hacky solution to the problem when a player leaves a game early
+            HostData.resetGame();
+            SceneManager.LoadScene(SceneNames.WaitingRoomScreen);
         }
 
         if (hasInitializedGame == false && startTime + secondsBeforeInitialization <= Time.time)
@@ -743,8 +746,8 @@ public class GameScreenController : MonoBehaviour
         string toKick = kickPlayerDropdown.options[kickPlayerDropdown.value].text;
 
         // Update dropdown
-        //kickPlayerDropdown.options.RemoveAt(0);
-        //kickPlayerDropdown.itemText = kickPlayerDropdown[0];
+        kickPlayerDropdown.options.RemoveAt(kickPlayerDropdown.value);
+        kickPlayerDropdown.value = kickPlayerDropdown.value == 0 ? 1 : 0;
 
         object[] content = new object[] {toKick};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
@@ -896,6 +899,13 @@ public class GameScreenController : MonoBehaviour
     public void ExitGameClicked()
     {
         Debug.Log("exit game clicked");
+
+        var players = HostData.GetGame().GetAllPlayers();
+        foreach (var player in players)
+        {
+            playerUIList.RemovePlayerFromCarousel(player.username);
+        }
+        
         HostData.clearGame();
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(SceneNames.LandingPage);
