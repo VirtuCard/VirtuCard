@@ -36,6 +36,9 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
     private int profanityChecker = 0;
     private int warningCounter = 0;
 
+    [Header("Audio Play fields")]
+    public AudioSource NotificationSound;
+
 
     /// <summary>
     /// This class contains all the methods and fields that are within a single message.
@@ -177,6 +180,7 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
                 if (tempMessage.Contains(badWords[i]))
                 {
                     profanityChecker = 1;
+                    break;
                 }
             }
 
@@ -275,6 +279,8 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
         }
         else
         {
+            Debug.Log("Playing Notification Sound");
+            NotificationSound.Play();
             _chatClient.PublishMessage(roomcode, message);
         }
     }
@@ -282,6 +288,9 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
     public new void SendPrivMessage(string message)
     {
         message = ClientData.getJoinCode() + message;
+        Debug.Log("Playing Notification Sound");
+        NotificationSound.Play();
+
         Debug.Log("Sending private message to " + privChatPlayer());
         _chatClient.SendPrivateMessage(privChatPlayer(), message);
     }
@@ -330,6 +339,9 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
 
     public void OnPrivateMessage(string sender, object message, string channelName)
     {
+        Debug.Log("Playing Notification Sound");
+        NotificationSound.Play();
+
         Debug.Log("OnPrivateMessage: {0} ({1}) > {2}" + channelName + " " + sender + " " + message);
 
         string text;
@@ -424,7 +436,7 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
 
     // don't use the word hell because I don't want Hello being a bad word
     // make it all lower case
-    public List<string> badWords = new List<string>(new string[]
+    private List<string> badWords = new List<string>(new string[]
     {
         "fuck", "shit", "bitch", "cunt", "purdue sucks", "@ss",
         "b!tch", "sh!t", "arse", "asshole", "bastard", "damn", "d@mn",
