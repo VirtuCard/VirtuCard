@@ -177,6 +177,7 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
                 if (tempMessage.Contains(badWords[i]))
                 {
                     profanityChecker = 1;
+                    break;
                 }
             }
 
@@ -409,7 +410,7 @@ public class ChatControllerPanel : MonoBehaviourPunCallbacks, IChatClientListene
 
     // don't use the word hell because I don't want Hello being a bad word
     // make it all lower case
-    public List<string> badWords = new List<string>(new string[]
+    private List<string> badWords = new List<string>(new string[]
     {
         "fuck", "shit", "bitch", "cunt", "purdue sucks", "@ss",
         "b!tch", "sh!t", "arse", "asshole", "bastard", "damn", "d@mn",
