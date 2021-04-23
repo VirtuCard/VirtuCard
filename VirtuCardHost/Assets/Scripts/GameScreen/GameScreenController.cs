@@ -13,7 +13,7 @@ using System.IO;
 using System.Threading.Tasks;
 using GameScreen.GameLogic.Cards;
 using SFB;
-
+using System.Linq;
 
 public class GameScreenController : MonoBehaviour
 {
@@ -743,8 +743,8 @@ public class GameScreenController : MonoBehaviour
         string toKick = kickPlayerDropdown.options[kickPlayerDropdown.value].text;
 
         // Update dropdown
-        //kickPlayerDropdown.options.RemoveAt(0);
-        //kickPlayerDropdown.itemText = kickPlayerDropdown[0];
+        kickPlayerDropdown.options.RemoveAt(0);
+        kickPlayerDropdown.value = 1;
 
         object[] content = new object[] {toKick};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
