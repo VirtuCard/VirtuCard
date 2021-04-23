@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Threading;
 
 public class LeaderboardPageManager : MonoBehaviour
 {
@@ -32,6 +33,8 @@ public class LeaderboardPageManager : MonoBehaviour
 
     public Button backButton;
 
+    private static Mutex mutex;
+
     private enum SetChoice
     {
         WINS, LOSSES, PLAYED
@@ -40,6 +43,7 @@ public class LeaderboardPageManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        mutex = new Mutex();
         friends = new List<User>();
         uiForms = new List<PlayerRankingUIForm>();
         initialPageSetup = false;
@@ -57,7 +61,9 @@ public class LeaderboardPageManager : MonoBehaviour
 
     public void AddFriend(User friend)
     {
+        mutex.WaitOne();
         friends.Add(friend);
+        mutex.ReleaseMutex();
     }
 
     // Update is called once per frame
