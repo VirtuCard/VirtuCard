@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using FirebaseScripts;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,9 +12,11 @@ public class FriendsList : MonoBehaviour
     public GameObject friendsPanel;
 
     public static List<User> Friends;
+    public static Mutex addMutex;
 
     public void OnEnable()
     {
+        addMutex = new Mutex();
         while (friendsPanel.transform.childCount > 0)
         {
             DestroyImmediate(friendsPanel.transform.GetChild(0).gameObject);
@@ -31,7 +34,9 @@ public class FriendsList : MonoBehaviour
                     {
                         if (user != null)
                         {
+                            addMutex.WaitOne();
                             Friends.Add(user);
+                            addMutex.ReleaseMutex();
                         }
                     });
                 }
@@ -45,7 +50,9 @@ public class FriendsList : MonoBehaviour
                 {
                     if (user != null)
                     {
+                        addMutex.WaitOne();
                         Friends.Add(user);
+                        addMutex.ReleaseMutex();
                     }
                 });
             }
@@ -54,6 +61,7 @@ public class FriendsList : MonoBehaviour
 
     public void Update()
     {
+        addMutex.WaitOne();
         if (Friends.Count > 0)
         {
             User user = Friends[0];
@@ -70,5 +78,7 @@ public class FriendsList : MonoBehaviour
                 user.GamesLost.ToString();
             friendObject.SetActive(true);
         }
+
+        addMutex.ReleaseMutex();
     }
 }
