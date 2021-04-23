@@ -831,7 +831,7 @@ public class GameScreenController : MonoBehaviour
     {
 //         filePath = EditorUtility.OpenFilePanel("Select your custom background", "", "png,jpg,jpeg,");
 
-        Task.Run(UploadButtonAsync);
+        Task.Run(UploadSleeveAsync);
     }
 
     void UploadSleeveAsync()
