@@ -90,6 +90,7 @@ public class GameScreenController : MonoBehaviour
 
     private bool doPlayedAnimation = false;
     bool hasKickPlayersBeenInitialized = true;
+    bool noPlayers = false;
 
 
     [Header("Background Changing")] public Button setBackgroundBtn;
@@ -273,6 +274,8 @@ public class GameScreenController : MonoBehaviour
             SceneManager.LoadScene(SceneNames.WaitingRoomScreen);
         }
 
+
+
         try
         {
             if (HostData.GetGame().GetGameName().Equals("Poker"))
@@ -290,6 +293,9 @@ public class GameScreenController : MonoBehaviour
         catch (Exception ex)
         {
             Debug.LogError("GameScreenController.cs error: " + ex.Message);
+            // This is a really hacky fix to the player leaving when the host clicks play again
+            HostData.resetGame();
+            SceneManager.LoadScene(SceneNames.WaitingRoomScreen);
         }
 
         if (hasInitializedGame == false && startTime + secondsBeforeInitialization <= Time.time)
@@ -754,6 +760,7 @@ public class GameScreenController : MonoBehaviour
         kickPlayerPanel.SetActive(false);
         playerKickedName.GetComponent<Text>().text = toKick + " was removed from the game.";
         playerKickedPanel.SetActive(true);
+
     }
 
     public void ExitDisplayPlayerKickedPanel()
