@@ -195,7 +195,9 @@ public class searchFriendsHost : MonoBehaviour
                             {
                                 if (foundFriend != null)
                                 {
+                                    FriendsList.addMutex.WaitOne();
                                     FriendsList.Friends.Add(foundFriend);
+                                    FriendsList.addMutex.ReleaseMutex();
                                 }
                             });
                         }
