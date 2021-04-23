@@ -65,6 +65,7 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
     // Invite Sent Panel
     public GameObject inviteSentPanel;
     public Text playersInvited;
+    public Text playerInvitedHeader;
 
     private User user;
     private List<User> friends = new List<User>();
@@ -600,15 +601,34 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
         SendInvite(toInvite);
         inviteFriendsPanel.SetActive(false);
         inviteSentPanel.SetActive(true);
+        bool playerAlreadyInLobby = false;
 
-        playersInvited.GetComponent<Text>().text = "Successfully invited " + playerToInvite + "!";
+        var connectedPlayers = HostData.GetGame().GetAllPlayers();
+
+        foreach (PlayerInfo player in connectedPlayers)
+        {
+            if (player.photonPlayer.NickName == playerToInvite)
+            {
+                playerAlreadyInLobby = true;
+            }
+        }
+
+        if (playerAlreadyInLobby)
+        {
+            playerInvitedHeader.GetComponent<Text>().text = "Error";
+            playersInvited.GetComponent<Text>().text = playerToInvite + " is already in the lobby!";
+        }
+        else 
+        {
+            playerInvitedHeader.GetComponent<Text>().text = "Invite Sent!";
+            playersInvited.GetComponent<Text>().text = "Successfully invited " + playerToInvite + "!";
+        }
     }
 
     public void OnAllFriendsInvited()
     {
         user = HostData.UserProfile;
         int targetFriendCount = user.Friends.Count;
-
         List<string> toInvite = new List<string>();
 
         foreach (string friendName in user.Friends)
@@ -618,9 +638,39 @@ public class WaitingRoomScreenManager : MonoBehaviour, IChatClientListener
 
         SendInvite(toInvite);
 
+        var connectedPlayers = HostData.GetGame().GetAllPlayers();
+        int inviteCounter = 0;
+        bool allFriendInGame = false;
+
+        foreach (PlayerInfo player in connectedPlayers)
+        {
+            foreach (string friendName in user.Friends)
+            {
+                if (player.photonPlayer.NickName == friendName)
+                {
+                    inviteCounter++;
+                }
+            }
+        }
+
+        if (inviteCounter == targetFriendCount)
+        {
+            allFriendInGame = true;
+        }
+
         inviteFriendsPanel.SetActive(false);
         inviteSentPanel.SetActive(true);
-        playersInvited.GetComponent<Text>().text = "All of your friends were invited!";
+
+        if (allFriendInGame)
+        {
+            playerInvitedHeader.GetComponent<Text>().text = "Error";
+            playersInvited.GetComponent<Text>().text = "All of your friends are currently in the game!";
+        }
+        else
+        {
+            playerInvitedHeader.GetComponent<Text>().text = "Invite Sent";
+            playersInvited.GetComponent<Text>().text = "All of your friends were invited!";
+        }
     }
 
     public void CloseInviteSentPanel()
