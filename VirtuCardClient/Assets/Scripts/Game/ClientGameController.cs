@@ -125,6 +125,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     public AudioSource StartSound;
     public AudioSource DealCardSound;
     public AudioSource PlayCardSound;
+    public AudioSource VictorySound;
+    public AudioSource DrawCardSound;
 
     // Start is called before the first frame update
     void Start()
@@ -544,6 +546,10 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     {
         if (ClientData.isCurrentTurn())
         {
+            //playing sound effect
+            DrawCardSound.Play();
+            Debug.Log("Play Draw Card Sound");
+
             // send request for a new card
             int numOfCards = 1;
             object[] content = new object[] {PhotonNetwork.NickName, numOfCards};
@@ -887,8 +893,8 @@ public class ClientGameController : MonoBehaviourPunCallbacks
             {
                 winnerAnnounce.text = "You won!";
 
-                Debug.Log("Notificaton Sound Playing");
-                NotificationSound.Play();
+                Debug.Log("Victory Sound Playing");
+                VictorySound.Play();
 
                 ClientData.UserProfile.GamesWon += 1;
                 DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Incremented Games won."); });
