@@ -30,6 +30,8 @@ namespace GameScreen.ChatPanel
 
         public PlaylistController songController;
 
+        public AudioSource notificationSound;
+
         /// <summary>
         /// This class contains all the methods and fields that are within a single message.
         /// When the constructor is called, it creates a new message from the messageTemplate and places it into the messageParent
@@ -172,6 +174,8 @@ namespace GameScreen.ChatPanel
 
         public void OnPrivateMessage(string sender, object message, string channelName)
         {
+
+
             //Any private messages that come here are considered song requests currently.
             songController.SearchAndAddSongAsync(message.ToString(), sender);
         }
