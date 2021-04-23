@@ -83,12 +83,16 @@ public class searchFriendsHost : MonoBehaviour
         {
             addBtnObject.SetActive(false);
             stats.SetActive(false);
-            postSearchUser.GetComponent<Text>().text = usernamePlayer + " does not exist.";
         }
         else
         {
+            playerStat.GetComponent<Text>().text = "";
+            playerPlayed.GetComponent<Text>().text = "";
+            playerWon.GetComponent<Text>().text = "";
+            playerLost.GetComponent<Text>().text = "";
             addBtnObject.SetActive(false);
             stats.SetActive(false);
+            postSearchUser.GetComponent<Text>().text = usernamePlayer + " does not exist.";
         }
     }
 
@@ -145,6 +149,8 @@ public class searchFriendsHost : MonoBehaviour
 
     public void backBtnPressed()
     {
+        exist = false;
+        doesNotExist = false;
         username.text = "";
         searchList.SetActive(false);
         searchPanel.SetActive(false);
