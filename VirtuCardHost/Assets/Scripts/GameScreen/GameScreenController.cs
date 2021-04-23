@@ -746,8 +746,8 @@ public class GameScreenController : MonoBehaviour
         string toKick = kickPlayerDropdown.options[kickPlayerDropdown.value].text;
 
         // Update dropdown
-        kickPlayerDropdown.options.RemoveAt(0);
-        kickPlayerDropdown.value = 1;
+        kickPlayerDropdown.options.RemoveAt(kickPlayerDropdown.value);
+        kickPlayerDropdown.value = kickPlayerDropdown.value == 0 ? 1 : 0;
 
         object[] content = new object[] {toKick};
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions {Receivers = ReceiverGroup.All};
