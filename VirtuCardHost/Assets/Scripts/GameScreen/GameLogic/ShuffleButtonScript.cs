@@ -10,6 +10,8 @@ public class ShuffleButtonScript : MonoBehaviour
 
     private IEnumerator coroutine;
 
+    public AudioSource shuffleSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +30,8 @@ public class ShuffleButtonScript : MonoBehaviour
     public void ShuffleDeckClicked()
     {
         Debug.Log("Shuffle Deck Button Clicked");
+
+        shuffleSound.Play();
 
         //Setting the Shuffling... Panel to visible
         shufflingPanel.SetActive(true);
