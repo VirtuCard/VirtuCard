@@ -43,25 +43,28 @@ public class Freeplay : Game
         // Give out initial cards
         int initialCardCount = HostData.GetFreeplayNumOfStartCards();
 
-        List<PlayerInfo> players = GetAllPlayers();
-        List<CardDeck> playerDecks = new List<CardDeck>();
-        for (int x = 0; x < players.Count; x++)
+        if (initialCardCount > 0)
         {
-            playerDecks.Add(new CardDeck());
-        }
-
-        for (int deckIndex = 0; deckIndex < players.Count; deckIndex++)
-        {
-            // each deck receives 5 cards
-            for (int numOfCards = 0; numOfCards < initialCardCount; numOfCards++)
+            List<PlayerInfo> players = GetAllPlayers();
+            List<CardDeck> playerDecks = new List<CardDeck>();
+            for (int x = 0; x < players.Count; x++)
             {
-                playerDecks[deckIndex].AddCard(GetDeck(DeckChoices.UNDEALT).PopCard());
+                playerDecks.Add(new CardDeck());
             }
-        }
-        // send the cards to the players
-        for (int x = 0; x < players.Count; x++)
-        {
-            PhotonScripts.NetworkController.SendCardsToPlayer(players[x].username, playerDecks[x].GetAllCards(), true, false);
+
+            for (int deckIndex = 0; deckIndex < players.Count; deckIndex++)
+            {
+                // each deck receives 5 cards
+                for (int numOfCards = 0; numOfCards < initialCardCount; numOfCards++)
+                {
+                    playerDecks[deckIndex].AddCard(GetDeck(DeckChoices.UNDEALT).PopCard());
+                }
+            }
+            // send the cards to the players
+            for (int x = 0; x < players.Count; x++)
+            {
+                PhotonScripts.NetworkController.SendCardsToPlayer(players[x].username, playerDecks[x].GetAllCards(), true, false);
+            }
         }
 
         AdvanceTurn(true);
