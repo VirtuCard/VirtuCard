@@ -290,6 +290,9 @@ public class GameScreenController : MonoBehaviour
         catch (Exception ex)
         {
             Debug.LogError("GameScreenController.cs error: " + ex.Message);
+            // This is my hacky solution to the problem when a player leaves a game early
+            HostData.resetGame();
+            SceneManager.LoadScene(SceneNames.WaitingRoomScreen);
         }
 
         if (hasInitializedGame == false && startTime + secondsBeforeInitialization <= Time.time)
