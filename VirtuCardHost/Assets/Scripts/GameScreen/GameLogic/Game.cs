@@ -150,6 +150,7 @@ public abstract class Game
     public void SendOutPlayerTurnIndex()
     {
         PlayerInfo currentPlayer = GetPlayerOfCurrentTurn();
+        if (currentPlayer == null) return;
         Debug.Log("Setting current turn to " + currentPlayer.photonPlayer.NickName + "'s turn");
         didSkipTurn = true;
         object[] content = new object[] {currentPlayer.photonPlayer.NickName};
@@ -310,10 +311,15 @@ public abstract class Game
     /// <returns></returns>
     public PlayerInfo GetPlayerOfCurrentTurn()
     {
-        if (players.Count == 0 || players.Count < playerTurnIndex)
+        if (players.Count == 0)
         {
-            Debug.LogError("Accessing name outside of bounds in GetPlayerOfCurrentTurn");
             return null;
+        }
+        else if (players.Count <= playerTurnIndex)
+        {
+            Debug.Log("Accessing name outside of bounds in GetPlayerOfCurrentTurn");
+            AdvanceTurn(true);
+            return GetPlayerOfCurrentTurn();
         }
 
         return players[playerTurnIndex];
