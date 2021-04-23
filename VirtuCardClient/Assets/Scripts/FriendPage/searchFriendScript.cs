@@ -36,7 +36,9 @@ public class searchFriendScript : MonoBehaviour
     void Start()
     {
         searchPanel.SetActive(false);
-        searchIcon.onClick.AddListener(delegate { searchPanel.SetActive(true); });
+        searchIcon.onClick.AddListener(delegate {
+            searchPanel.SetActive(true); 
+            });
         backSearch.onClick.AddListener(delegate { backBtnPressed(); });
         searchBtn.onClick.AddListener(delegate
         {
@@ -75,6 +77,10 @@ public class searchFriendScript : MonoBehaviour
         }
         else
         {
+            playerStat.GetComponent<Text>().text = "";
+            playerPlayed.GetComponent<Text>().text = "";
+            playerWon.GetComponent<Text>().text = "";
+            playerLost.GetComponent<Text>().text = "";
             addBtnObject.SetActive(false);
             stats.SetActive(false);
         }
@@ -133,6 +139,8 @@ public class searchFriendScript : MonoBehaviour
 
     public void backBtnPressed()
     {
+        exist = false;
+        doesNotExist = false;
         username.text = "";
         searchList.SetActive(false);
         searchPanel.SetActive(false);
