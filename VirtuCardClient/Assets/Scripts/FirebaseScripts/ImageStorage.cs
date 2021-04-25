@@ -22,7 +22,7 @@ namespace FirebaseScripts
         public static void getImage(string imageName, Action<byte[]> imageCallback)
         {
             StorageReference imageRef = storageRef.Child(imageName);
-            imageRef.GetBytesAsync(1024 * 1024).ContinueWith(task =>
+            imageRef.GetBytesAsync(30 * 1024 * 1024).ContinueWith(task =>
             {
                 if (task.IsCompleted)
                 {
@@ -39,7 +39,7 @@ namespace FirebaseScripts
         public static void getAvatarImage(string imageName, Action<bool> imageCallback)
         {
             StorageReference imageRef = storageRef.Child(imageName);
-            imageRef.GetBytesAsync(1024 * 1024).ContinueWith(task =>
+            imageRef.GetBytesAsync(30 * 1024 * 1024).ContinueWith(task =>
             {
                 if (task.IsCompleted)
                 {

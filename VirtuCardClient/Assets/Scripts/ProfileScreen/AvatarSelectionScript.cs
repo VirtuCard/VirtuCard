@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using UnityEngine.UI;
 using FirebaseScripts;
+using WebSocketSharp;
 
 public class AvatarSelectionScript : MonoBehaviour
 {
@@ -36,15 +37,15 @@ public class AvatarSelectionScript : MonoBehaviour
     public int numAvatars = 6;
 
     //Custom Avatar Fields
-    [Header("Custom Avatar Fields")]
-    string filePath;
+    [Header("Custom Avatar Fields")] string filePath;
     private CardMenu cardMenu;
 
     [Header("AvatarButton for Disabling")]
     //AvatarButton
     public Button EditAvatarButton;
+
     public GameObject errorPanel;
-    
+
     /* private struct AvatarsToAssignTexture
     {
         public string texturePath;
@@ -55,7 +56,7 @@ public class AvatarSelectionScript : MonoBehaviour
     void Start()
     {
         errorPanel.SetActive(false);
-           
+
         if (ClientData.ImageData != null)
         {
             Texture2D t = new Texture2D(2, 2);
@@ -63,6 +64,14 @@ public class AvatarSelectionScript : MonoBehaviour
             t.Apply();
             playerAvatar.gameObject.GetComponent<RawImage>().texture = t;
             Debug.Log("Height:" + t.height);
+        }
+        else if (!string.IsNullOrEmpty(ClientData.UserProfile.Avatar))
+        {
+            ImageStorage.getAvatarImage(ClientData.UserProfile.Avatar, b =>
+            {
+                success = 1;
+                Debug.Log("Image loaded " + b);
+            });
         }
 
         avatarPanel.SetActive(false);
@@ -73,6 +82,22 @@ public class AvatarSelectionScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!string.IsNullOrEmpty(filePath))
+        {
+            UpdateAvatarImage();
+            filePath = null;
+        }
+
+        if (success == 1)
+        {
+            Texture2D t = new Texture2D(2, 2);
+            t.LoadImage(ClientData.ImageData);
+            t.Apply();
+            playerAvatar.gameObject.GetComponent<RawImage>().texture = t;
+            Debug.Log("Height:" + t.height);
+            success = 0;
+        }
+
         lerpTimer += Time.deltaTime;
 
         if (lerpTimer < 0.333f)
@@ -265,7 +290,6 @@ public class AvatarSelectionScript : MonoBehaviour
     {
         if (ClientData.UserProfile.IsAnonymous)
         {
-            
             errorPanel.SetActive(true);
         }
         else
@@ -306,14 +330,13 @@ public class AvatarSelectionScript : MonoBehaviour
         filePath = "";
 
         Debug.Log(filePath);
-    
+
         NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((path) =>
         {
             Debug.Log("Image path: " + path);
             if (path != null)
             {
                 filePath = path;
-                UpdateAvatarImage();
             }
         }, "Select a custom Avatar image", "image/*");
         Debug.Log("Permission result: " + permission);
@@ -324,17 +347,24 @@ public class AvatarSelectionScript : MonoBehaviour
     /// </summary>
     private void UpdateAvatarImage()
     {
+        if (filePath == null)
+        {
+            return;
+        }
+
         if (filePath.Length != 0)
         {
             Texture2D tex = null;
             byte[] fileData;
-            if (File.Exists(filePath))
+            if (!File.Exists(filePath))
             {
-                fileData = File.ReadAllBytes(filePath);
-                
-                tex = new Texture2D(2, 2);
-                tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
+                return;
             }
+
+            fileData = File.ReadAllBytes(filePath);
+
+            tex = new Texture2D(2, 2);
+            tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
 
             //Loading in image File
             playerAvatar.gameObject.GetComponent<RawImage>().texture = tex;
@@ -346,7 +376,8 @@ public class AvatarSelectionScript : MonoBehaviour
             ClientData.UserProfile.Avatar = ClientData.UserProfile.Username;
             DatabaseUtils.updateUser(ClientData.UserProfile, b => { Debug.Log("Updated image info"); });
 
-            ImageStorage.uploadImage(ClientData.UserProfile.Username, imageBytes, b => { Debug.Log("Uploaded with " + b); });
+            ImageStorage.uploadImage(ClientData.UserProfile.Username, imageBytes,
+                b => { Debug.Log("Uploaded with " + b); });
 
             //Deactivating panel
             avatarPanel.SetActive(false);
@@ -360,6 +391,4 @@ public class AvatarSelectionScript : MonoBehaviour
     {
         avatarPanel.SetActive(false);
     }
-
-   
 }

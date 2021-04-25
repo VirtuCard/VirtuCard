@@ -65,12 +65,12 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
         {
             Debug.Log(json);
             ClientData.UserProfile = new User(json);
-            if (!ClientData.UserProfile.Avatar.IsNullOrEmpty())
+            if (!string.IsNullOrEmpty(ClientData.UserProfile.Avatar))
             {
                 ImageStorage.getAvatarImage(ClientData.UserProfile.Avatar, b => Debug.Log("Image loaded " + b));
             }
-            Debug.Log("User " + ClientData.UserProfile.ToString());
 
+            Debug.Log("User " + ClientData.UserProfile.ToString());
         });
 
         PhotonNetwork.ConnectUsingSettings();
@@ -260,7 +260,7 @@ public class JoinGameMethod : MonoBehaviourPunCallbacks, IChatClientListener
             bool timerEnabled = (bool) data[0];
             int timerSeconds = (int) data[1];
             int timerMinutes = (int) data[2];
-            bool isProfanityAllowed = (bool)data[3];
+            bool isProfanityAllowed = (bool) data[3];
             ClientData.SetProfanityAllowed(isProfanityAllowed);
 
             ClientData.SetIsTimerEnabled(timerEnabled);

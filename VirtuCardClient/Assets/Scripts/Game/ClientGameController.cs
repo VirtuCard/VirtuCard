@@ -546,9 +546,9 @@ public class ClientGameController : MonoBehaviourPunCallbacks
     {
         if (ClientData.isCurrentTurn())
         {
-            //playing sound effect
-            DrawCardSound.Play();
-            Debug.Log("Play Draw Card Sound");
+            // //playing sound effect
+             DrawCardSound.Play();
+             Debug.Log("Play Draw Card Sound");
 
             // send request for a new card
             int numOfCards = 1;

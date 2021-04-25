@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using FirebaseScripts;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,11 +13,16 @@ public class PlayerUITemplate : MonoBehaviour
     public Text cardCount;
     public Text playerName;
     public Text scoreText;
+    private static Mutex locked;
 
     private byte[] image;
 
     private void Start()
     {
+        if (locked == null)
+        {
+            locked = new Mutex();
+        }
     }
 
     private void Update()
@@ -51,6 +57,11 @@ public class PlayerUITemplate : MonoBehaviour
     {
         playerName.text = value;
 
+        if (locked == null)
+        {
+            locked = new Mutex();
+        }
+        locked.WaitOne();
         FirebaseInit.InitializeFirebase(res =>
         {
             DatabaseUtils.GetUserFromName(value, user =>
@@ -63,6 +74,7 @@ public class PlayerUITemplate : MonoBehaviour
                 });
             });
         });
+        locked.ReleaseMutex();
     }
 
     public int GetScore()
