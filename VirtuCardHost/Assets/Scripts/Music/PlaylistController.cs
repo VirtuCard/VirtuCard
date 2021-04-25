@@ -58,10 +58,33 @@ namespace Music
             mediaPlayer.Control.SetVolume(initialVolumeLevel);
 
             // delete all songs in the folder
-            System.IO.DirectoryInfo di = new DirectoryInfo(MusicDownloader.MUSIC_FOLDER);
-            foreach (FileInfo file in di.GetFiles())
+            try
             {
-                file.Delete();
+                var info = MusicDownloader.MUSIC_FOLDER;
+                var fileInfo = Directory.GetFiles(info);
+                foreach (var file in fileInfo)
+                {
+                    FileInfo fileinfo = new FileInfo(MusicDownloader.MUSIC_FOLDER + file);
+                    fileinfo.Delete();
+                }
+            }
+            catch (DirectoryNotFoundException ex)
+            {
+                Directory.CreateDirectory(MusicDownloader.MUSIC_FOLDER);
+                try
+                {
+                    var info = MusicDownloader.MUSIC_FOLDER;
+                    var fileInfo = Directory.GetFiles(info);
+                    foreach (var file in fileInfo)
+                    {
+                        FileInfo fileinfo = new FileInfo(MusicDownloader.MUSIC_FOLDER + file);
+                        fileinfo.Delete();
+                    }
+                }
+                catch
+                {
+
+                }
             }
         }
 
