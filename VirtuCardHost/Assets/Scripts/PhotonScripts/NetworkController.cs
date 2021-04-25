@@ -26,7 +26,6 @@ namespace PhotonScripts
 
         //Field to store the name of the file
         // that holds the RoomCode for testing purposes
-        private string RoomCodeFileName = "RoomCode.txt";
 
         public static bool isShuffling;
 
@@ -181,7 +180,8 @@ namespace PhotonScripts
         /// Function used to write the Room Code to a File
         static void WriteRoomCodeToFile(string RoomCode)
         {
-            File.WriteAllText("RoomCode.txt", RoomCode);
+            StreamWriter writer = new StreamWriter("RoomCode.txt", false);
+            writer.Write(RoomCode);
         }
 
         // Function that returns a list of all the players in a room
